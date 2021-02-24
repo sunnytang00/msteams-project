@@ -18,13 +18,13 @@ def auth_register_v1(email, password, name_first, name_last):
         raise InputError('Invalid email')
 
     # input is valid and ready to be added
-    data['users'] = {
+    data['users'].append({ 
         'id': user_id,
         'email': email,
         'password': password,
         'name_first': name_first,
         'name_last': name_last
-    }
+    })
     return {
         'auth_user_id': user_id,
     }
