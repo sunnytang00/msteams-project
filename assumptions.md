@@ -1,2 +1,2 @@
-#List of assumptions
-#Nothing is removed from data.py
+# List of assumptions
+* No dictionary in the users list will removed inside src/data.py
