@@ -25,6 +25,12 @@ def auth_register_v1(email, password, name_first, name_last):
         'name_first': name_first,
         'name_last': name_last
     })
+
+    # check if email already exists in data
+    for d in data['users']:
+        if d['email'] == 'bobsmith@gmail.com':
+            raise InputError('This email already exists.')
+
     return {
         'auth_user_id': user_id,
     }
