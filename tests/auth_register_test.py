@@ -14,6 +14,23 @@ def test_valid_input():
 def test_echo_except():
     with pytest.raises(InputError):
         auth_register_v1(email='this_is_not_an_email',
-            password='f3Fs$1l2z/A',
-            name_first='Steve',
-            name_last='Harvey')
+                        password='f3Fs$1l2z/A',
+                        name_first='Steve',
+                        name_last='Harvey')
+
+def test_email_duplicate():
+    """
+    Register one user with an email, then try
+    register a second user with the same email.
+    """
+    email = 'bobsmith@gmail.com'
+
+    with pytest.raises(InputError):
+        auth_register_v1(email=email,
+                        password='K0zvR0xopjfv',
+                        name_first='Bob',
+                        name_last='Smith')
+        auth_register_v1(email=email,
+                        password='ohIT8j2BB37s',
+                        name_first='Bob',
+                        name_last='Smith')
