@@ -25,11 +25,11 @@ def test_duplicate_email():
     """
     email = 'bobsmith@gmail.com'
 
+    auth_register_v1(email=email,
+                    password='K0zvR0xopjfv',
+                    name_first='Bob',
+                    name_last='Smith')
     with pytest.raises(InputError) as e:
-        auth_register_v1(email=email,
-                        password='K0zvR0xopjfv',
-                        name_first='Bob',
-                        name_last='Smith')
         auth_register_v1(email=email,
                         password='ohIT8j2BB37s',
                         name_first='Bob',
