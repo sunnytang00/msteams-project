@@ -2,10 +2,27 @@ from src.data import data
 from src.error import InputError
 import re
 
+regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
 def auth_login_v1(email, password):
-    return {
-        'auth_user_id': 1,
-    }
+
+    user_id = len(data) + 1
+    
+    for i in data['users']:
+        if not(re.search(regex, email)):  
+            raise InputError('Email is not valid')
+        if email == i['email']:
+            if password == i['password']:
+                return {'auth_user_id': user_id}
+            else:
+                raise InputError('Password is not correct.')
+        else:
+            raise InputError('Email does not belong to a user.')
+        
+
+            
+  
+    
 
 def auth_register_v1(email, password, name_first, name_last):
     """
@@ -16,7 +33,6 @@ def auth_register_v1(email, password, name_first, name_last):
     user_id = len(data) + 1
 
     # check if email is valid
-    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if not(re.search(regex, email)):  
         raise InputError('Invalid email')
 
