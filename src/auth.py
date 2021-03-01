@@ -48,6 +48,11 @@ def auth_register_v1(email, password, name_first, name_last):
     if not(len(name_last) in range(1,50)):
         raise InputError('Last name is too long.')
 
+    # check if email already exists in data
+    for d in data['users']:
+        if d['email'] == 'bobsmith@gmail.com':
+            raise InputError('This email already exists.')
+
     # input is valid and ready to be added
     data['users'].append({ 
         'id': user_id,
@@ -56,11 +61,6 @@ def auth_register_v1(email, password, name_first, name_last):
         'name_first': name_first,
         'name_last': name_last
     })
-
-    # check if email already exists in data
-    for d in data['users']:
-        if d['email'] == 'bobsmith@gmail.com':
-            raise InputError('This email already exists.')
 
     return {
         'auth_user_id': user_id,
