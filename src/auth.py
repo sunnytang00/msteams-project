@@ -39,7 +39,7 @@ def auth_register_v1(email, password, name_first, name_last):
         dict: The newly created users user id.
     """
     global data
-    user_id = len(data) + 1
+    user_id = len(data['users']) + 1
 
     # check if email is valid
     if not(re.search(regex, email)):  
@@ -59,7 +59,7 @@ def auth_register_v1(email, password, name_first, name_last):
 
     # check if email already exists in data
     for d in data['users']:
-        if d['email'] == 'bobsmith@gmail.com':
+        if d['email'] == email:
             raise InputError('This email already exists.')
 
     # input is valid and ready to be added
