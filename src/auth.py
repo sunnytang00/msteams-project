@@ -8,27 +8,25 @@ import re
 This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
 """
 
-regex = '^[a-zA-Z0-9]+[\\._]?[a-zA-Z0-9]+[@]\\w+[.]\\w{2,3}$'
-
 def auth_login_v1(email, password):
     """ TODO: add docstring
     """
 
-    user_id = len(data['users']) + 1
-    
+    if not valid_email:
+        raise InputError('Email entered is not a valid email.')
+
     for user in data['users']:
-        if not(re.search(regex, email)):  
-            raise InputError('Email is not valid')
         if email == user['email']:
             if password == user['password']:
-                return {'auth_user_id': user_id}
+                return {'auth_user_id': user['id']}
             else:
                 raise InputError('Password is not correct.')
-        else:
-            raise InputError('Email does not belong to a user.')
+            
+    # email did not match any user
+    raise InputError('Email does not belong to a user.')
 
 def auth_register_v1(email, password, name_first, name_last):
-    """ Given a user's first and last name, email address, and password, create a new account by appending to data.
+    """Register a new user by appending to data
 
     Arguments:
         email (str) - The users email address.
