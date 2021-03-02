@@ -13,13 +13,13 @@ regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 def auth_login_v1(email, password):
 
-    user_id = len(data) + 1
+    user_id = len(data['users']) + 1
     
-    for i in data['users']:
+    for user in data['users']:
         if not(re.search(regex, email)):  
             raise InputError('Email is not valid')
-        if email == i['email']:
-            if password == i['password']:
+        if email == user['email']:
+            if password == user['password']:
                 return {'auth_user_id': user_id}
             else:
                 raise InputError('Password is not correct.')
@@ -58,8 +58,8 @@ def auth_register_v1(email, password, name_first, name_last):
         raise InputError('Last name is too long.')
 
     # check if email already exists in data
-    for d in data['users']:
-        if d['email'] == email:
+    for user in data['users']:
+        if user['email'] == email:
             raise InputError('This email already exists.')
 
     # input is valid and ready to be added
