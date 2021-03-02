@@ -2,21 +2,53 @@ from src.data import data
 from src.error import InputError
 import re
 
+
+""" Register and login authentication.
+
+This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
+"""
+
+regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
+
 def auth_login_v1(email, password):
-    return {
-        'auth_user_id': 1,
-    }
+
+    user_id = len(data['users']) + 1
+    
+    for user in data['users']:
+        if not(re.search(regex, email)):  
+            raise InputError('Email is not valid')
+        if email == user['email']:
+            if password == user['password']:
+                return {'auth_user_id': user_id}
+            else:
+                raise InputError('Password is not correct.')
+        else:
+            raise InputError('Email does not belong to a user.')
 
 def auth_register_v1(email, password, name_first, name_last):
-    """
-    Registers the user by appending them into the user list inside data.
-    Takes in 4 parameters, returns the user's newly created id.
+    """ Given a user's first and last name, email address, and password, create a new account by appending to data.
+
+    Arguments:
+        email (str) - The users email address.
+        password (str) - The users password.
+        name_first (str) - The users first name.
+        name_last (str) - The users last name.
+    
+    Exceptions:
+        InputError - Occurs when email entered is not a valid email as according to project specification.
+        InputError - Occurs when email address is already being used by another user.
+        InputError - Occurs when password entered is less than 6 characters long.
+        InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length.
+        InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length.
+
+    Return Value:
+        Returns auth_user_id (dict) on newly created user.
     """
     global data
-    user_id = len(data) + 1
+    user_id = len(data['users']) + 1
 
     # check if email is valid
-    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if not(re.search(regex, email)):  
         raise InputError('Invalid email')
 
@@ -32,6 +64,11 @@ def auth_register_v1(email, password, name_first, name_last):
     if not(len(name_last) in range(1,50)):
         raise InputError('Last name is too long.')
 
+    # check if email already exists in data
+    for user in data['users']:
+        if user['email'] == email:
+            raise InputError('This email already exists.')
+
     # input is valid and ready to be added
     data['users'].append({ 
         'id': user_id,
@@ -40,11 +77,6 @@ def auth_register_v1(email, password, name_first, name_last):
         'name_first': name_first,
         'name_last': name_last
     })
-
-    # check if email already exists in data
-    for d in data['users']:
-        if d['email'] == 'bobsmith@gmail.com':
-            raise InputError('This email already exists.')
 
     return {
         'auth_user_id': user_id,

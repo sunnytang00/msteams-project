@@ -4,9 +4,8 @@ from src.data import data
 from src.error import InputError
 
 def test_valid_input():
-    data_len = len(data)
-    user_id = data_len + 1
-    assert auth_register_v1(email='harrypotter@gmail.com',
+    user_id = len(data['users']) + 1
+    assert auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter') == {'auth_user_id': user_id}
@@ -25,11 +24,11 @@ def test_duplicate_email():
     """
     email = 'bobsmith@gmail.com'
 
+    auth_register_v1(email=email,
+                    password='K0zvR0xopjfv',
+                    name_first='Bob',
+                    name_last='Smith')
     with pytest.raises(InputError) as e:
-        auth_register_v1(email=email,
-                        password='K0zvR0xopjfv',
-                        name_first='Bob',
-                        name_last='Smith')
         auth_register_v1(email=email,
                         password='ohIT8j2BB37s',
                         name_first='Bob',
@@ -63,3 +62,4 @@ def test_last_name_length():
                         name_first='Hubert',
                         name_last='Wolfeschlegelsteinhausenbergerdorffrste­erdemensch­der­raumschiff­')
         assert 'Last name is too long.' in str(e)
+
