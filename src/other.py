@@ -1,5 +1,12 @@
+from src.data import data
+
 def clear_v1():
-    pass
+    # reset data
+    global data
+    data.clear()
+    data['users'] = []
+    data['channels'] = []
+
 
 def search_v1(auth_user_id, query_str):
     return {
