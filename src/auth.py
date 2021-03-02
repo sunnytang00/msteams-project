@@ -13,13 +13,13 @@ regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 def auth_login_v1(email, password):
 
-    user_id = len(data) + 1
+    user_id = len(data['users']) + 1
     
-    for i in data['users']:
+    for user in data['users']:
         if not(re.search(regex, email)):  
             raise InputError('Email is not valid')
-        if email == i['email']:
-            if password == i['password']:
+        if email == user['email']:
+            if password == user['password']:
                 return {'auth_user_id': user_id}
             else:
                 raise InputError('Password is not correct.')
@@ -27,19 +27,26 @@ def auth_login_v1(email, password):
             raise InputError('Email does not belong to a user.')
 
 def auth_register_v1(email, password, name_first, name_last):
-    """ Registers the user by appending them into the user list inside data.
+    """ Given a user's first and last name, email address, and password, create a new account by appending to data.
 
-    Args:
-        email (str): The users email address.
-        password (str): The users password.
-        name_first (str): The users first name.
-        name_last (str): The users last name.
+    Arguments:
+        email (str) - The users email address.
+        password (str) - The users password.
+        name_first (str) - The users first name.
+        name_last (str) - The users last name.
+    
+    Exceptions:
+        InputError - Occurs when email entered is not a valid email as according to project specification.
+        InputError - Occurs when email address is already being used by another user.
+        InputError - Occurs when password entered is less than 6 characters long.
+        InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length.
+        InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length.
 
-    Returns:
-        dict: The newly created users user id.
+    Return Value:
+        Returns auth_user_id (dict) on newly created user.
     """
     global data
-    user_id = len(data) + 1
+    user_id = len(data['users']) + 1
 
     # check if email is valid
     if not(re.search(regex, email)):  
@@ -58,8 +65,8 @@ def auth_register_v1(email, password, name_first, name_last):
         raise InputError('Last name is too long.')
 
     # check if email already exists in data
-    for d in data['users']:
-        if d['email'] == 'bobsmith@gmail.com':
+    for user in data['users']:
+        if user['email'] == email:
             raise InputError('This email already exists.')
 
     # input is valid and ready to be added

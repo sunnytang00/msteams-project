@@ -4,9 +4,8 @@ from src.data import data
 from src.error import InputError
 
 def test_valid_input():
-    data_len = len(data)
-    user_id = data_len + 1
-    assert auth_register_v1(email='harrypotter@gmail.com',
+    user_id = len(data['users']) + 1
+    assert auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter') == {'auth_user_id': user_id}
