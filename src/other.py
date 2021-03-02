@@ -3,7 +3,6 @@ from src.data import data
 def clear_v1():
     # reset data
     global data
-    data.clear()
     data['users'] = []
     data['channels'] = []
 

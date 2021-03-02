@@ -2,6 +2,8 @@ from src.data import data
 from src.error import InputError,AccessError
 
 def channels_list_v1(auth_user_id):
+    """ TODO: add docstring
+    """
     if (type(auth_user_id) != int or auth_user_id < 0):
         raise AccessError('User ID is invaild')
 
@@ -16,6 +18,8 @@ def channels_list_v1(auth_user_id):
     return channels_of_user
 
 def channels_listall_v1(auth_user_id):
+    """ TODO: add docstring
+    """
     if (type(auth_user_id) != int or auth_user_id < 0):
         raise AccessError('User ID is invaild')
 
@@ -23,6 +27,8 @@ def channels_listall_v1(auth_user_id):
     return data['channels']
 
 def channels_create_v1(auth_user_id, name, is_public):
+    """ TODO: add docstring
+    """
     #check if the name of channels is too long
     global data
 

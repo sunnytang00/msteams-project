@@ -1,17 +1,18 @@
 from src.data import data
 from src.error import InputError
+from src.helper import valid_email
 import re
-
 
 """ Register and login authentication.
 
 This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
 """
 
-regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-
+regex = '^[a-zA-Z0-9]+[\\._]?[a-zA-Z0-9]+[@]\\w+[.]\\w{2,3}$'
 
 def auth_login_v1(email, password):
+    """ TODO: add docstring
+    """
 
     user_id = len(data['users']) + 1
     
@@ -49,7 +50,7 @@ def auth_register_v1(email, password, name_first, name_last):
     user_id = len(data['users']) + 1
 
     # check if email is valid
-    if not(re.search(regex, email)):  
+    if not valid_email(email):
         raise InputError('Invalid email')
 
     # check password too short
@@ -58,11 +59,11 @@ def auth_register_v1(email, password, name_first, name_last):
 
     # check first name length is in [1, 50]
     if not(len(name_first) in range(1,50)):
-        raise InputError('First name is too long.')
+        raise InputError('First name invalid length.')
 
     # check last name length is in [1, 50]
     if not(len(name_last) in range(1,50)):
-        raise InputError('Last name is too long.')
+        raise InputError('Last name invalid length.')
 
     # check if email already exists in data
     for user in data['users']:
