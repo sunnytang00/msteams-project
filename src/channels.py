@@ -1,5 +1,5 @@
 from src.data import data
-from src.error import InputError
+from src.error import InputError,AccessError
 
 def channels_list_v1(auth_user_id):
     return {
@@ -12,18 +12,19 @@ def channels_list_v1(auth_user_id):
     }
 
 def channels_listall_v1(auth_user_id):
-    return {
-        'channels': [
-        	{
-        		'channel_id': 1,
-        		'name': 'My Channel',
-        	}
-        ],
-    }
+    if (type(auth_user_id) != int or auth_user_id < 0):
+        raise AccessError('User ID is invaild')
+
+
+    return data['channels']
 
 def channels_create_v1(auth_user_id, name, is_public):
     #check if the name of channels is too long
     global data
+
+    if(type(auth_user_id) != int or auth_user_id < 0):
+        raise AccessError('User ID is invaild')
+
     if len(name) > 20:
         raise InputError('Name is too long')
 
