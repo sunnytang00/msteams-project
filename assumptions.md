@@ -1,5 +1,7 @@
 # List of assumptions
-* No dictionary in the users list will removed inside src/data.py
-* Name of channels should be distinct
-* User ID starts at 1 
-
+* The name of channels should be distinct.
+* User ID starts at 1 and increments by one for each subsequent user.
+* Every user should be uniquely identifiable by a unique ID.
+* Every channel should be uniquely identifiable by a unique ID.
+* Every message should be uniquely identifiable by a unique ID.
+* Users won't be removed once added in.
