@@ -1,58 +1,62 @@
 import pytest
 from src.auth import auth_login_v1, auth_register_v1
-from src.data import data
+from src.other import clear_v1
 from src.error import InputError
 
 def test_valid_input():
-    #Testing for a valid login, first register the user and then login, expected return is user_id
-    auth_register_v1(email='harrypotter@gmail.com',
+    """Testing for a valid login, first register the user and then login, expected return is user_id."""
+    clear_v1()
+    result = auth_register_v1(email='harrypotter@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user_id = len(data['users']) + 1
 
     assert auth_login_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99') == {'auth_user_id': user_id}
+                            password='qw3rtyAppl3s@99') == result
                           
-def test_invalid_email():
-    #Testing for an invalid email at login
-    with pytest.raises(InputError) as e:
+def test_many_users():
+    """Register three users and try log middle one in."""
+    clear_v1()
+    auth_register_v1(email='harrypotter@gmail.com',
+                        password='qw3rtyAppl3s@99',
+                        name_first='Harry',
+                        name_last='Potter')
 
-        auth_register_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
+    result = auth_register_v1(email='bob_smith@gmail.com',
+                        password='jfs2@$sjxzvkl',
+                        name_first='Bob',
+                        name_last='Smith')
 
-        auth_login_v1(email='this_is_not_an_email',
-                                password='qw3rtyAppl3s@99') 
+    auth_register_v1(email='fiza_good777@gmail.com',
+                        password='qfjklj42w39',
+                        name_first='Fiza',
+                        name_last='Good')
 
-        assert 'Email is not valid.' in str(e)
+    assert auth_login_v1(email='bob_smith@gmail.com',
+                            password='jfs2@$sjxzvkl') == result
 
 def test_unknown_email():
-    #Testing a non-registered email
-    with pytest.raises(InputError):
-
-        auth_register_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
-
+    """Testing a non-registered email."""
+    clear_v1()
+    auth_register_v1(email='harrypotter@gmail.com',
+                        password='qw3rtyAppl3s@99',
+                        name_first='Harry',
+                        name_last='Potter')
+    with pytest.raises(InputError) as e:
         auth_login_v1(email='fake_email@gmail.com',
                             password='qw3rtyAppl3s@99')
         
         assert 'Email does not belong to a user.' in str(e)
      
 def test_invalid_password():
-    #Testing an invalid password
-    with pytest.raises(InputError):
+    """Testing an invalid password."""
+    clear_v1()
+    auth_register_v1(email='harrypotter@gmail.com',
+                        password='qw3rtyAppl3s@99',
+                        name_first='Harry',
+                        name_last='Potter')
 
-        auth_register_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
-
+    with pytest.raises(InputError) as e:
         auth_login_v1(email='harrypotter@gmail.com',
                         password='ffffffffF')  
-        
         assert 'Password is not correct.' in str(e)
-
