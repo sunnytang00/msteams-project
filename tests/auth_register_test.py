@@ -62,3 +62,4 @@ def test_last_name_length():
                         name_first='Hubert',
                         name_last='Wolfeschlegelsteinhausenbergerdorffrste­erdemensch­der­raumschiff­')
         assert 'Last name is too long.' in str(e)
+
