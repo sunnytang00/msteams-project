@@ -7,7 +7,6 @@ def clear_v1():
     data['users'] = []
     data['channels'] = []
 
-
 def search_v1(auth_user_id, query_str):
     return {
         'messages': [
