@@ -2,14 +2,18 @@ from src.data import data
 from src.error import InputError,AccessError
 
 def channels_list_v1(auth_user_id):
-    return {
-        'channels': [
-        	{
-        		'channel_id': 1,
-        		'name': 'My Channel',
-        	}
-        ],
-    }
+    if (type(auth_user_id) != int or auth_user_id < 0):
+        raise AccessError('User ID is invaild')
+
+    if len(data['channels']) == 0:
+        return {}
+
+    channels_of_user = []
+    for channels in data['channels']:
+        if channels['uesr_id'] == auth_user_id:
+            channels_of_user.append(channels)
+    
+    return channels_of_user
 
 def channels_listall_v1(auth_user_id):
     if (type(auth_user_id) != int or auth_user_id < 0):
