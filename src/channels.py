@@ -24,7 +24,7 @@ def channels_list_v1(auth_user_id):
         raise AccessError('User ID is invaild')
 
     if len(data['channels']) == 0:
-        return {}
+        return []
 
     channels_of_user = []
     for channels in data['channels']:
@@ -65,7 +65,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         InputError - Occurs when the length of name is too long
         InputError - Occurs when the user with auth_user_id is not registered
         InputError - Occurs when the channel with specified name already exists
-        
+
     Return Value:
         data['channels'] (list) - A list contains all the channels stored in the storage
     """
