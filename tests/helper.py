@@ -70,22 +70,22 @@ class Helper:
         'channels': [
             {
                 'auth_user_id': 1,
-                'name': 'A very good channel name',
+                'name': 'Good Name',
                 'is_public': True
             },
             {
                 'auth_user_id': 2,
-                'name': 'A very good channel name',
+                'name': 'Fan Society',
                 'is_public': True
             },
             {
                 'auth_user_id': 3,
-                'name': 'Spaceships are cool',
+                'name': 'Spaceships',
                 'is_public': False
             },
             {
                 'auth_user_id': 4,
-                'name': 'Green or red apples?',
+                'name': 'Green apples?',
                 'is_public': True
             },
             {
@@ -105,12 +105,12 @@ class Helper:
             },
             {
                 'auth_user_id': 8,
-                'name': 'Chicken Nuggets Channel',
+                'name': 'Chicken',
                 'is_public': True
             },
             {
                 'auth_user_id': 9,
-                'name': 'Hungry Jacks Fan Club',
+                'name': 'Fan Club',
                 'is_public': True
             },
             {
@@ -154,12 +154,12 @@ class Helper:
             Returns None
         """
         for count, channel in enumerate(Helper.test_data['channels']):
-            if quantity == count + 1:
+            if quantity == count: 
                 break
 
             channels_create_v1(auth_user_id=channel['auth_user_id'],
                                 name=channel['name'],
-                                is_public=channel['is_publc']
+                                is_public=channel['is_public']
                                 )
         return
 
