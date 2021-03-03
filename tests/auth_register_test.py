@@ -2,15 +2,18 @@ import pytest
 from src.auth import auth_register_v1
 from src.other import clear_v1
 from src.error import InputError
+from .helper import helper
 
-def test_valid_input():
+def test_valid_input(helper):
     clear_v1()
-    user_id = 1 
+    helper.register_users(quantity=2)
+
+    user_id = 3 
     result = auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    assert result == { 'auth_user_id': user_id}
+    assert result == { 'auth_user_id': user_id }
 
 def test_invalid_email():
     clear_v1()
