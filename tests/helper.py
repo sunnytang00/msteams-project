@@ -159,7 +159,7 @@ class Helper:
 
             channels_create_v1(auth_user_id=channel['auth_user_id'],
                                 name=channel['name'],
-                                is_public=channel['is_publc']
+                                is_public=channel['is_public']
                                 )
         return
 
