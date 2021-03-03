@@ -1,8 +1,12 @@
 def channel_invite_v1(auth_user_id, channel_id, u_id):
+    """ TODO: add docstring
+    """
     return {
     }
 
 def channel_details_v1(auth_user_id, channel_id):
+    """ TODO: add docstring
+    """
     return {
         'name': 'Hayden',
         'owner_members': [
@@ -22,6 +26,8 @@ def channel_details_v1(auth_user_id, channel_id):
     }
 
 def channel_messages_v1(auth_user_id, channel_id, start):
+    """ TODO: add docstring
+    """
     return {
         'messages': [
             {
@@ -40,6 +46,8 @@ def channel_leave_v1(auth_user_id, channel_id):
     }
 
 def channel_join_v1(auth_user_id, channel_id):
+    """ TODO: add docstring
+    """
     return {
     }
 
