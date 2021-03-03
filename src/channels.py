@@ -56,6 +56,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         'id': new_channel_id,
         'name': name,
         'user_id': auth_user_id,
+        'member' : [auth_user_id],
         'is_public': is_public
     })
 
