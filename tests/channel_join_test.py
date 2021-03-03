@@ -10,21 +10,6 @@ def test_invalid_userID():
     with pytest.raises(AccessError) as e: 
         channel_join_v1("invaild id here", 0)
         assert 'User ID is invalid' in str(e)
-'''
-def test_vaild_input():
-    clear_v1()
-    user_id = auth_register_v1(email='bobsmith1@gmail.com',
-                                password='12345678',
-                                name_first='bob',
-                                name_last='smith')
-    user_id2 = auth_register_v1(email='bobsmith1@gmail.com',
-                                password='12345678',
-                                name_first='bob',
-                                name_last='smith')
-    channel_id = channels_create_v1(user_id['auth_user_id'], "channel1", True)
-    channel_join_v1(user_id2['auth_user_id'], channel_id['channel_id'])
-        assert 
-'''
 
 def test_invalid_ChannelID():
     clear_v1()
