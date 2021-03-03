@@ -154,7 +154,7 @@ class Helper:
             Returns None
         """
         for count, channel in enumerate(Helper.test_data['channels']):
-            if quantity == count + 1:
+            if quantity == count: 
                 break
 
             channels_create_v1(auth_user_id=channel['auth_user_id'],
