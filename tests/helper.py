@@ -29,6 +29,42 @@ class Helper:
                 'password': 'K0z423xopjfv',
                 'name_first': 'Rhydian',
                 'name_last': 'Warren'
+            },
+            {
+                'email': 'yunus24234@gmail.com',
+                'password': 'qw3rtyAppl3s@99',
+                'name_first': 'Yunus',
+                'name_last': 'Stafford'
+            },
+            {
+                'email': 'joyce.h2@gmail.com',
+                'password': 'qw3rtyAppl3s@99',
+                'name_first': 'Joyce',
+                'name_last': 'Hodson'
+            },
+            {
+                'email': 'devonte2222@gmail.com',
+                'password': 'qw3rtyAppl3s@99',
+                'name_first': 'Devonte',
+                'name_last': 'Mcneill'
+            },
+            {
+                'email': 'rocharocha@gmail.com',
+                'password': 'qw3rtyAppl3s@99',
+                'name_first': 'Fraser',
+                'name_last': 'Rocha'
+            },
+            {
+                'email': 'g_s100008@gmail.com',
+                'password': 'qw3rtyAppl3s@99',
+                'name_first': 'Grainger',
+                'name_last': 'Siobhan'
+            },
+            {
+                'email': 'bull9949@gmail.com',
+                'password': 'qw3rtyAppl3s@99',
+                'name_first': 'Simran',
+                'name_last': 'Bull'
             }
         ],
         'channels': [
@@ -49,8 +85,38 @@ class Helper:
             },
             {
                 'auth_user_id': 4,
-                'name': 'Wine Connoisseur\'s',
+                'name': 'Green or red apples?',
                 'is_public': True
+            },
+            {
+                'auth_user_id': 5,
+                'name': 'Channel one',
+                'is_public': True
+            },
+            {
+                'auth_user_id': 6,
+                'name': 'Watermelons',
+                'is_public': True
+            },
+            {
+                'auth_user_id': 7,
+                'name': 'UNSW Chat',
+                'is_public': True
+            },
+            {
+                'auth_user_id': 8,
+                'name': 'Chicken Nuggets Channel',
+                'is_public': True
+            },
+            {
+                'auth_user_id': 9,
+                'name': 'Hungry Jacks Fan Club',
+                'is_public': True
+            },
+            {
+                'auth_user_id': 10,
+                'name': 'Chicken Lovers',
+                'is_public': False
             },
 
         ],
