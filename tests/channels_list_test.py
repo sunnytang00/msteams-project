@@ -36,4 +36,4 @@ def test_multiple_user_exists(helper):
 def test_no_channel_exists(helper):
     clear_v1()
     auth_user_id = 10
-    assert channels_list_v1(auth_user_id) == {}
+    assert channels_list_v1(auth_user_id) == []
