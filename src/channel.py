@@ -2,8 +2,20 @@ from src.data import data
 from src.error import InputError, AccessError
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
-    """ TODO: add docstring
-    """
+    """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
+
+    Args:
+        auth_user_id (int): ID of authorised user
+        channel_id (int): The channel id
+        u_id (int): The user id
+
+    Exceptions:
+        InputError: Occurs when channel_id does not refer to a valid channel
+        InputError: Occurs when u_id does not refer to a valid user
+
+    Returns:
+        {}:
+    """    
 
     # TODO: AccessError expection
     global data
@@ -29,8 +41,16 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     raise InputError('Channel with ID does not exist')
 
 def channel_details_v1(auth_user_id, channel_id):
-    """ TODO: add docstring
-    """
+    """Given a Channel with ID channel_id that the authorised user is part of, provide basic details about the channel
+
+    Args:
+        auth_user_id (integer): ID of authorised user
+
+        channel_id (integer): The channel ID
+
+    Returns:
+        { name, owner_members, all_members }: [description]
+    """    
     return {
         'name': 'Hayden',
         'owner_members': [
@@ -50,8 +70,19 @@ def channel_details_v1(auth_user_id, channel_id):
     }
 
 def channel_messages_v1(auth_user_id, channel_id, start):
-    """ TODO: add docstring
-    """
+    """Given a Channel ID that the authorised user is part of, return up to 50 messages starting from most recent.
+    It returns a new index "end" which is the value of "start + 50". If this function has returned hte least recent messages in the channel, returns -1 in "end" to indicate
+    There are no more messages
+    I
+    Args:
+        auth_user_id (int): ID of authorised user
+
+        channel_id (int): Channel ID
+        start (int): An index for the chronological order of messages
+
+    Returns:
+        { messages, start, end }: [description]
+    """    
     return {
         'messages': [
             {
@@ -66,6 +97,15 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     }
 
 def channel_leave_v1(auth_user_id, channel_id):
+    """[summary]
+
+    Args:
+        auth_user_id ([type]): [description]
+        channel_id ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """    
     return {
     }
 
@@ -116,9 +156,29 @@ def channel_join_v1(auth_user_id, channel_id):
     }
 
 def channel_addowner_v1(auth_user_id, channel_id, u_id):
+    """[summary]
+
+    Args:
+        auth_user_id ([type]): [description]
+        channel_id ([type]): [description]
+        u_id ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """    
     return {
     }
 
 def channel_removeowner_v1(auth_user_id, channel_id, u_id):
+    """[summary]
+
+    Args:
+        auth_user_id ([type]): [description]
+        channel_id ([type]): [description]
+        u_id ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """    
     return {
     }
