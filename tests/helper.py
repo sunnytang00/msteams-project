@@ -2,128 +2,11 @@ import pytest
 from src.channels import channels_create_v1
 from src.auth import auth_register_v1
 from src.other import clear_v1
+from .testing_data import testing_data
 
 class Helper:
-    test_data = {
-        'users': [
-            {
-                'email': 'harrypotter@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Harry',
-                'name_last': 'Potter'
-            },
-            {
-                'email': 'bobsmith7@gmail.com',
-                'password': 'K0zR0xopjfv',
-                'name_first': 'Bob',
-                'name_last': 'Smith'
-            },
-            {
-                'email': 'gw9999@gmail.com',
-                'password': 'K0zvR0xopjfv',
-                'name_first': 'Wiktoria',
-                'name_last': 'Guerrero'
-            },
-            {
-                'email': 'w3rren444@gmail.com',
-                'password': 'K0z423xopjfv',
-                'name_first': 'Rhydian',
-                'name_last': 'Warren'
-            },
-            {
-                'email': 'yunus24234@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Yunus',
-                'name_last': 'Stafford'
-            },
-            {
-                'email': 'joyce.h2@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Joyce',
-                'name_last': 'Hodson'
-            },
-            {
-                'email': 'devonte2222@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Devonte',
-                'name_last': 'Mcneill'
-            },
-            {
-                'email': 'rocharocha@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Fraser',
-                'name_last': 'Rocha'
-            },
-            {
-                'email': 'g_s100008@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Grainger',
-                'name_last': 'Siobhan'
-            },
-            {
-                'email': 'bull9949@gmail.com',
-                'password': 'qw3rtyAppl3s@99',
-                'name_first': 'Simran',
-                'name_last': 'Bull'
-            }
-        ],
-        'channels': [
-            {
-                'auth_user_id': 1,
-                'name': 'Good Name',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 2,
-                'name': 'Fan Society',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 3,
-                'name': 'Spaceships',
-                'is_public': False
-            },
-            {
-                'auth_user_id': 4,
-                'name': 'Green apples?',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 5,
-                'name': 'Channel one',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 6,
-                'name': 'Watermelons',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 7,
-                'name': 'UNSW Chat',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 8,
-                'name': 'Chicken',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 9,
-                'name': 'Fan Club',
-                'is_public': True
-            },
-            {
-                'auth_user_id': 10,
-                'name': 'Chicken Lovers',
-                'is_public': False
-            },
-
-        ],
-    }
-
     @staticmethod
-    def register_users(quantity: int):
+    def register_users(quantity: int) -> None:
         """Register one to many new users for testing purposes 
 
         Arguments:
@@ -132,7 +15,7 @@ class Helper:
         Return Value:
             Returns None
         """
-        for count, user in enumerate(Helper.test_data['users']):
+        for count, user in enumerate(testing_data['users']):
             if quantity == count:
                 break
 
@@ -144,7 +27,11 @@ class Helper:
         return
 
     @staticmethod
-    def create_channels(quantity: int):
+    def get_users_count() -> int:
+        return len(testing_data['users'])
+
+    @staticmethod
+    def create_channels(quantity: int) -> None:
         """Register one to many channels testing purposes 
 
         Arguments:
@@ -153,7 +40,7 @@ class Helper:
         Return Value:
             Returns None
         """
-        for count, channel in enumerate(Helper.test_data['channels']):
+        for count, channel in enumerate(testing_data['channels']):
             if quantity == count: 
                 break
 
