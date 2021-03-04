@@ -12,19 +12,23 @@ def test_invaild_userID():
 
 def test_vaild_input():
     clear_v1()
-    user_id = auth_register_v1(email='bobsmith2@gmail.com',
+    user = auth_register_v1(email='bobsmith2@gmail.com',
                                 password='12345678',
                                 name_first='bob',
                                 name_last='smith')
+    user_id = user['auth_user_id']        
+        
     channel_id = 1
-    result = channels_create_v1(user_id['auth_user_id'], "correct", True)
+    result = channels_create_v1(user_id, "correct", True)
     assert result == {'channel_id': channel_id} 
 
 def test_name_length():
     clear_v1()
-    user_id = auth_register_v1('bobsmith2@gmail.com','12345678','bob','smith')
+    user = auth_register_v1('bobsmith2@gmail.com','12345678','bob','smith')
+    user_id = user['auth_user_id']
+
     with pytest.raises(InputError) as e: 
-        channels_create_v1(user_id['auth_user_id'], "first channel" * 10, True)
+        channels_create_v1(user_id, "first channel" * 10, True)
         assert 'Name is too long' in str(e)
 
 def test_userID_not_exist():
@@ -36,9 +40,11 @@ def test_userID_not_exist():
 
 def test_duplicate_channel_name():
     clear_v1()
-    user_id = auth_register_v1('bobsmith3@gmail.com','12345678','bob2','smith2')
+    user = auth_register_v1('bobsmith3@gmail.com','12345678','bob2','smith2')
+    user_id = user['auth_user_id']
+
     channel_name = "new channel2"
-    channels_create_v1(user_id['auth_user_id'], channel_name, True)
+    channels_create_v1(user_id, channel_name, True)
     with pytest.raises(InputError) as e: 
-        channels_create_v1(user_id['auth_user_id'], channel_name, True)
+        channels_create_v1(user_id, channel_name, True)
         assert f'Channel with name {channel_name} already exists' in str(e)
