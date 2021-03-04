@@ -1,12 +1,32 @@
 from src.data import data
 from src.error import InputError, AccessError
 
-
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """ TODO: add docstring
     """
-    return {
-    }
+
+    # TODO: AccessError expection
+    global data
+    users = data['users']
+
+    found_auth_user_id = False
+    found_u_id = False
+    for user in users:
+        if user['id'] == auth_user_id:
+            found_auth_user_id = True
+        if user['id'] == u_id:
+            found_u_id = True
+    
+    if not found_auth_user_id or not found_u_id:
+        raise InputError('User with ID does not exist')
+    
+    channels = data['channels']
+    for channel in channels:
+        if channel['id'] == channel_id:
+            channel['all_members'].append(u_id)
+            return {}
+
+    raise InputError('Channel with ID does not exist')
 
 def channel_details_v1(auth_user_id, channel_id):
     """ TODO: add docstring
@@ -83,17 +103,15 @@ def channel_join_v1(auth_user_id, channel_id):
             found_channel = True
             if not channel['is_public']: 
                 raise AccessError('Cannot access the private channel')
-            if channel['member'].count(auth_user_id) > 0:
+            if channel['all_members'].count(auth_user_id) > 0:
                 raise InputError('The user is already in the channel')
             
-            channel['member'].append(auth_user_id)
+            channel['all_members'].append(auth_user_id)
             break
 
     if not found_channel:
         raise InputError('Channel with ID {channel_id} does not exist')
     
-    
-
     return {
     }
 
