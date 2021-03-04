@@ -20,3 +20,17 @@ def test_valid_input():
     result = channel_details_v1(auth_user_id=user_id, channel_id=channel_id)
     
     assert result == {'name': 'Cat Society', 'owner_members': [user_id], 'all_members': [user_id]}
+
+def test_invalid_channel_id():
+    clear_v1()
+    user = auth_register_v1(email='bobsmith@gmail.com',
+                                password='FVn4HTWEsz8k6Msf',
+                                name_first='Bob',
+                                name_last='Smith')
+    user_id = user['auth_user_id']
+
+    invalid_channel_id = 9
+
+    with pytest.raises(InputError) as e: 
+        channel_details_v1(auth_user_id=user_id, channel_id=invalid_channel_id)
+        assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e)
