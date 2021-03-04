@@ -36,6 +36,7 @@ def get_user_data(auth_user_id: int) -> dict:
                 'name_last': user['name_last']
             }
     return None
+<<<<<<< HEAD
 
 def get_channel_data(channel_id: int) -> bool:
     for channel in data['channels']:
