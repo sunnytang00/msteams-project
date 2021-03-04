@@ -34,3 +34,5 @@ def test_invalid_channel_id():
     with pytest.raises(InputError) as e: 
         channel_details_v1(auth_user_id=user_id, channel_id=invalid_channel_id)
         assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e)
+
+# TODO: AccessError exception test
