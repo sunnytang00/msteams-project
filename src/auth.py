@@ -9,7 +9,7 @@ This module demonstrates user registration and login authentication as specified
 """
 
 def auth_login_v1(email, password):
-    """ Takes in an email and password, if password matches a valid and registered email, return the auth_user_id value, else return an InputError depending on the error
+    """ Given a registered users' email and password and returns their `auth_user_id` value
 
     Arguments:
         email (str) - The users email address.
