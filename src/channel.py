@@ -1,3 +1,4 @@
+import time
 from src.data import data
 from src.error import InputError, AccessError
 
@@ -82,19 +83,35 @@ def channel_messages_v1(auth_user_id, channel_id, start):
 
     Returns:
         { messages, start, end }: [description]
-    """    
-    return {
-        'messages': [
-            {
-                'message_id': 1,
-                'u_id': 1,
-                'message': 'Hello world',
-                'time_created': 1582426789,
+    """ 
+    limit = 50
+
+    channels = data['channels']
+    for channel in channels:
+        if channel['id'] == channel_id:
+            # check if start is valid
+            messages = channel['messages']
+            if start > len(messages):
+                raise InputError(f'Start {start} is greater than the total number of messages in the channel.')
+            end = start + limit
+            if end > len(messages):
+                end = -1
+            time_created = int(time.time())
+
+            return {
+                'messages': [
+                    {
+                        'message_id': 1,
+                        'u_id': 1,
+                        'message': 'Hello world',
+                        'time_created': time_created,
+                    }
+                ],
+                'start': start,
+                'end': end,
             }
-        ],
-        'start': 0,
-        'end': 50,
-    }
+
+    raise InputError(f'Channel with ID does not exist')
 
 def channel_leave_v1(auth_user_id, channel_id):
     """[summary]
