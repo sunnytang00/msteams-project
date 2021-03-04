@@ -60,21 +60,9 @@ def channel_details_v1(auth_user_id, channel_id):
             owner_members = channel['owner_members']
             all_members = channel['all_members']
             return {
-                'name': 'Hayden',
-                'owner_members': [
-                    {
-                        'u_id': 1,
-                        'name_first': 'Hayden',
-                        'name_last': 'Jacobs',
-                    }
-                ],
-                'all_members': [
-                    {
-                        'u_id': 1,
-                        'name_first': 'Hayden',
-                        'name_last': 'Jacobs',
-                    }
-                ],
+                'name': name,
+                'owner_members': owner_members,
+                'all_members': all_members,
             }
 
     raise InputError(f'Channel ID {channel_id} is not a valid channel.')   
