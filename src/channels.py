@@ -28,7 +28,7 @@ def channels_list_v1(auth_user_id):
 
     channels_of_user = []
     for channels in data['channels']:
-        if channels['member'].count(auth_user_id) > 0:
+        if channels['all_members'].count(auth_user_id) > 0:
             channels_of_user.append(channels)
     
     return channels_of_user
@@ -97,7 +97,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         'id': new_channel_id,
         'name': name,
         'user_id': auth_user_id,
-        'member' : [auth_user_id],
+        'all_members' : [auth_user_id],
         'is_public': is_public
     })
 
