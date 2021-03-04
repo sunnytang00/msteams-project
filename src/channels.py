@@ -81,6 +81,8 @@ def channels_create_v1(auth_user_id, name, is_public):
     found_user = False
     for user in data['users']:
         if user['id'] == auth_user_id:
+            name_first = user['name_first']
+            name_last = user['name_last']
             found_user = True
             break
 
@@ -97,8 +99,20 @@ def channels_create_v1(auth_user_id, name, is_public):
         'id': new_channel_id,
         'name': name,
         'user_id': auth_user_id,
-        'owner_members' : [auth_user_id],
-        'all_members' : [auth_user_id],
+        'owner_members': [
+            {
+                'u_id': 1,
+                'name_first': name_first,
+                'name_last': name_last,
+            }
+        ],
+        'all_members': [
+            {
+                'u_id': 1,
+                'name_first': name_first,
+                'name_last': name_last,
+            }
+        ],
         'messages': [],
         'is_public': is_public
     })
