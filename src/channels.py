@@ -20,16 +20,23 @@ def channels_list_v1(auth_user_id):
     Return Value:
         channels_of_user (list) - a list contains channels that the user is part of 
     """
+    # TODO: exception checking
     if type(auth_user_id) != int or auth_user_id < 0:
         raise AccessError('User ID is invaild')
 
     if len(data['channels']) == 0:
         return []
 
-    channels_of_user = []
-    for channels in data['channels']:
-        if channels['all_members'].count(auth_user_id) > 0:
-            channels_of_user.append(channels)
+    channels_of_user = {
+                    'channels': [
+
+                    ]
+                }
+
+    for channel in data['channels']:
+        for members in channel['all_members']:
+            if members['u_id'] == auth_user_id:
+                channels_of_user['channels'].append(channel)
     
     return channels_of_user
 
@@ -78,9 +85,12 @@ def channels_create_v1(auth_user_id, name, is_public):
     if len(name) > 20:
         raise InputError('Name is too long')
 
+    # TODO: put this in helper function
     found_user = False
     for user in data['users']:
         if user['id'] == auth_user_id:
+            name_first = user['name_first']
+            name_last = user['name_last']
             found_user = True
             break
 
@@ -93,11 +103,25 @@ def channels_create_v1(auth_user_id, name, is_public):
 
     new_channel_id = len(data['channels']) + 1
 
+    # TODO: REMOVE hard coded u_id
     data['channels'].append({
         'id': new_channel_id,
         'name': name,
         'user_id': auth_user_id,
-        'all_members' : [auth_user_id],
+        'owner_members': [
+            {
+                'u_id': 1,
+                'name_first': name_first,
+                'name_last': name_last,
+            }
+        ],
+        'all_members': [
+            {
+                'u_id': 1,
+                'name_first': name_first,
+                'name_last': name_last,
+            }
+        ],
         'messages': [],
         'is_public': is_public
     })
