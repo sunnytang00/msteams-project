@@ -63,6 +63,7 @@ def get_user_data(auth_user_id: int) -> dict:
                 'name_last': user['name_last']
             }
     return None
+<<<<<<< HEAD
 
 def get_channel_data(channel_id: int) -> bool:
     """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
