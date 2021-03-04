@@ -42,11 +42,35 @@ def test_pagination():
     
     assert result_start == 0 and result_end == -1
 
-"""
-def test_invalid_auth_user_id():
+def test_invalid_channel_id():
     clear_v1()
 
+    user = auth_register_v1(email='bobsmith@gmail.com',
+                                password='42flshjfzhh8',
+                                name_first='Bob',
+                                name_last='Smith')
+    user_id = user['auth_user_id']
+
+    invalid_channel_id = 40
+
     with pytest.raises(InputError) as e: 
-        channel_invite_v1(auth_user_id=invalid_invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
-        assert 'User ID does not refer to a valid user.' in str(e)
-"""
+        channel_messages_v1(auth_user_id=user_id, channel_id=invalid_channel_id, start=0)
+        assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e)
+
+def test_invalid_start():
+    clear_v1()
+
+    user = auth_register_v1(email='bobsmith@gmail.com',
+                                password='42flshjfzhh8',
+                                name_first='Bob',
+                                name_last='Smith')
+    user_id = user['auth_user_id']
+
+    channel = channels_create_v1(user_id, "Cat Society", True)
+    channel_id = channel['channel_id']
+
+    invalid_start = 100
+
+    with pytest.raises(InputError) as e: 
+        channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=invalid_start)
+        assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e)
