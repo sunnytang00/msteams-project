@@ -67,7 +67,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         InputError - Occurs when the channel with specified name already exists
 
     Return Value:
-        data['channels'] (list) - A list contains all the channels stored in the storage
+        ｛'channel_id'｝ (dict) - A dictonary that contains the ID of channel created
     """
     global data
 
