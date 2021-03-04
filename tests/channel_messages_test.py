@@ -74,3 +74,6 @@ def test_invalid_start():
     with pytest.raises(InputError) as e: 
         channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=invalid_start)
         assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e)
+
+# TODO: AccessError
+      
