@@ -6,13 +6,15 @@ from .helper import helper
 
 def test_valid_input(helper):
     clear_v1()
-    helper.register_users(quantity=2)
+    users_count = helper.get_users_count()
+    helper.register_users(quantity=users_count)
 
-    user_id = 3 
+    user_id = users_count + 1
     result = auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter')
+
     assert result == { 'auth_user_id': user_id }
 
 def test_invalid_email():
