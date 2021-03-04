@@ -52,23 +52,21 @@ def channel_details_v1(auth_user_id, channel_id):
     Returns:
         { name, owner_members, all_members }: [description]
     """    
-    return {
-        'name': 'Hayden',
-        'owner_members': [
-            {
-                'u_id': 1,
-                'name_first': 'Hayden',
-                'name_last': 'Jacobs',
+    
+    channels = data['channels']
+    for channel in channels:
+        if channel['id'] == channel_id:
+            name = channel['name']
+            owner_members = channel['owner_members']
+            all_members = channel['all_members']
+            return {
+                'name': name,
+                'owner_members': owner_members,
+                'all_members': all_members,
             }
-        ],
-        'all_members': [
-            {
-                'u_id': 1,
-                'name_first': 'Hayden',
-                'name_last': 'Jacobs',
-            }
-        ],
-    }
+
+    raise InputError(f'Channel ID {channel_id} is not a valid channel.')   
+
 
 def channel_messages_v1(auth_user_id, channel_id, start):
     """Given a Channel ID that the authorised user is part of, return up to 50 messages starting from most recent.
@@ -111,7 +109,7 @@ def channel_messages_v1(auth_user_id, channel_id, start):
                 'end': end,
             }
 
-    raise InputError(f'Channel with ID does not exist')
+    raise InputError(f'Channel ID {channel_id} is not a valid channel.')   
 
 def channel_leave_v1(auth_user_id, channel_id):
     """[summary]
@@ -152,18 +150,31 @@ def channel_join_v1(auth_user_id, channel_id):
     if type(channel_id) != int or channel_id < 0:
         raise InputError('Channel ID is invaild')
 
+    for user in data['users']:
+        if user['id'] == auth_user_id:
+            name_first = user['name_first']
+            name_last = user['name_last']
+            break
+    
+    user_dict = {
+        'u_id': auth_user_id,
+        'name_first': name_first,
+        'name_last': name_last,
+    }
+
     found_channel = False
     channels = data['channels']
-
     for channel in channels:
         if channel['id'] == channel_id:
             found_channel = True
             if not channel['is_public']: 
                 raise AccessError('Cannot access the private channel')
-            if channel['all_members'].count(auth_user_id) > 0:
-                raise InputError('The user is already in the channel')
+
+            for member in channel['all_members']:
+                if member['u_id'] == auth_user_id:
+                    raise InputError('The user is already in the channel')
             
-            channel['all_members'].append(auth_user_id)
+            channel['all_members'].append(user_dict)
             break
 
     if not found_channel:
