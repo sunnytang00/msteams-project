@@ -55,7 +55,7 @@ def test_invalid_channel_id():
 
     with pytest.raises(InputError) as e: 
         channel_messages_v1(auth_user_id=user_id, channel_id=invalid_channel_id, start=0)
-        assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e)
+        assert f'Channel ID {invalid_channel_id} is not a valid channel' in str(e)
 
 def test_invalid_start():
     clear_v1()
