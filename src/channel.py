@@ -39,7 +39,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
                                             'name_last' : name_last})
             return {}
 
-    raise InputError('Channel with ID does not exist')
+    raise InputError(f'channel_id {channel_id} does not refer to a valid channel.')
 
 def channel_details_v1(auth_user_id, channel_id):
     """Given a Channel with ID channel_id that the authorised user is part of, provide basic details about the channel
