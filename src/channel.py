@@ -83,13 +83,12 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     """ 
     limit = 50
 
-    channels = data['channels']
-    for channel in channels:
+    for channel in data['channels']:
         if channel['id'] == channel_id:
             # check if start is valid
             messages = channel['messages']
             if start > len(messages):
-                raise InputError(f'Start {start} is greater than the total number of messages in the channel.')
+                raise InputError(f'Start {start} is greater than the total number of messages in the channel')
             end = start + limit
             if end > len(messages):
                 end = -1
@@ -108,7 +107,7 @@ def channel_messages_v1(auth_user_id, channel_id, start):
                 'end': end,
             }
 
-    raise InputError(f'Channel ID {channel_id} is not a valid channel.')   
+    raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
 def channel_leave_v1(auth_user_id, channel_id):
     """[summary]
