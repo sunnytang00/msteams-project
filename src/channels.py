@@ -1,5 +1,7 @@
-from src.data import data
-from src.error import InputError, AccessError
+from .data import data
+from .error import InputError, AccessError
+from .helper import user_exists, get_user_data
+
 """
 Create and show the list of channels
 
@@ -85,23 +87,18 @@ def channels_create_v1(auth_user_id, name, is_public):
     if len(name) > 20:
         raise InputError('Name is too long')
 
-    # TODO: put this in helper function
-    found_user = False
-    for user in data['users']:
-        if user['id'] == auth_user_id:
-            name_first = user['name_first']
-            name_last = user['name_last']
-            found_user = True
-            break
-
-    if not found_user:
+    user = get_user_data(auth_user_id)
+    if not user:
        raise InputError(f'User with id {auth_user_id} does not exist')  
-    
+
     for channel in data['channels']:
         if channel['name'] == name:
             raise InputError(f'Channel with name {name} already exists')  
 
     new_channel_id = len(data['channels']) + 1
+
+    name_first = user['name_first']
+    name_last = user['name_last']
 
     # TODO: REMOVE hard coded u_id
     data['channels'].append({

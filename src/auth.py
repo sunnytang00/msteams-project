@@ -26,7 +26,7 @@ def auth_login_v1(email, password):
 
     """
 
-    if not valid_email:
+    if not valid_email(email):
         raise InputError('Email entered is not a valid email.')
 
     for user in data['users']:
