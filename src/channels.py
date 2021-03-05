@@ -88,7 +88,6 @@ def channels_create_v1(auth_user_id, name, is_public):
     user = get_user_data(auth_user_id) 
 
     new_channel_id = len(data['channels']) + 1
-    user_name_first = (data['users']).
 
     name_first = user['name_first']
     name_last = user['name_last']
