@@ -1,6 +1,6 @@
 from src.data import data
 from src.error import InputError
-from src.helper import valid_email
+from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists
 import re
 
 """ Register and login authentication.
@@ -66,22 +66,17 @@ def auth_register_v1(email, password, name_first, name_last):
     if not valid_email(email):
         raise InputError('Invalid email')
 
-    # check password too short
-    if len(password) <= 6:
+    if not valid_password(password):
         raise InputError('Password is too short.')
 
-    # check first name length is in [1, 50]
-    if not(len(name_first) in range(1,50)):
+    if not valid_first_name(name_first):
         raise InputError('First name invalid length.')
 
-    # check last name length is in [1, 50]
-    if not(len(name_last) in range(1,50)):
+    if not valid_last_name(name_last):
         raise InputError('Last name invalid length.')
 
-    # check if email already exists in data
-    for user in data['users']:
-        if user['email'] == email:
-            raise InputError('This email already exists.')
+    if email_exists(email):
+        raise InputError('This email already exists.')
 
     # input is valid and ready to be added
     data['users'].append({ 
