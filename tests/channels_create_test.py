@@ -7,7 +7,11 @@ from src.other import clear_v1
 def test_invaild_userID():
     clear_v1()
     with pytest.raises(AccessError) as e: 
-        channels_create_v1("invaild id here", "first channel" * 10, True)
+        channels_create_v1(-1, "first channel" * 10, True)
+        assert 'User ID is invaild' in str(e)
+
+    with pytest.raises(AccessError) as e: 
+        channels_create_v1(2, "first channel" * 10, True)
         assert 'User ID is invaild' in str(e)
 
 def test_vaild_input():
@@ -29,14 +33,7 @@ def test_name_length():
 
     with pytest.raises(InputError) as e: 
         channels_create_v1(user_id, "first channel" * 10, True)
-        assert 'Name is too long' in str(e)
-
-def test_userID_not_exist():
-    clear_v1()
-    invalid_id = 10
-    with pytest.raises(InputError) as e: 
-        channels_create_v1(invalid_id, "second channel", True)
-        assert f'User with id {invalid_id} does not exist' in str(e)
+        assert 'Name is more than 20 characters long' in str(e)
 
 def test_duplicate_channel_name():
     clear_v1()

@@ -1,7 +1,7 @@
 import time
-from src.data import data
-from src.error import InputError, AccessError
-
+from .data import data
+from .error import InputError, AccessError
+from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
 
@@ -36,7 +36,12 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     channels = data['channels']
     for channel in channels:
         if channel['id'] == channel_id:
-            channel['all_members'].append(u_id)
+            user_data = get_user_data(u_id)
+            name_first = user_data['name_first']
+            name_last = user_data['name_last']
+            channel['all_members'].append({'u_id' : u_id,
+                                            'name_first' : name_first,
+                                            'name_last' : name_last})
             return {}
 
     raise InputError('Channel with ID does not exist')
@@ -125,8 +130,7 @@ def channel_leave_v1(auth_user_id, channel_id):
     }
 
 def channel_join_v1(auth_user_id, channel_id):
-    """ 
-    Add user as the member of channel with specified ID
+    """ Add user as the member of channel with specified ID
 
     Arguments: 
         auth_user_id (int) - ID of authorised user
@@ -144,10 +148,10 @@ def channel_join_v1(auth_user_id, channel_id):
     """
     global data
 
-    if type(auth_user_id) != int or auth_user_id < 0:
+    if auth_user_id < 0 or not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
-    if type(channel_id) != int or channel_id < 0:
+    if channel_id < 0:
         raise InputError('Channel ID is invaild')
 
     for user in data['users']:
@@ -161,7 +165,18 @@ def channel_join_v1(auth_user_id, channel_id):
         'name_first': name_first,
         'name_last': name_last,
     }
+    if channel_exists(channel_id):
+        channel_data = get_channel_data(channel_id)
 
+        if not channel_data['is_public']:
+            raise AccessError('Cannot access the private channel')
+        if user_is_member(channel_data, auth_user_id):
+            raise InputError('The user is already in the channel')
+
+        channel_data['all_members'].append(user_dict)
+    else:
+        raise InputError('Channel with ID {channel_id} does not exist')
+    ''' the original code
     found_channel = False
     channels = data['channels']
     for channel in channels:
@@ -176,10 +191,10 @@ def channel_join_v1(auth_user_id, channel_id):
             
             channel['all_members'].append(user_dict)
             break
-
+    
     if not found_channel:
         raise InputError('Channel with ID {channel_id} does not exist')
-    
+    '''
     return {
     }
 

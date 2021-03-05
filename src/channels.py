@@ -1,6 +1,6 @@
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data
+from .helper import user_exists, get_user_data, get_channel_data, user_is_member
 
 """
 Create and show the list of channels
@@ -10,8 +10,7 @@ as specified by the COMP1531 Major Project specification.
 """
 
 def channels_list_v1(auth_user_id):
-    """ 
-    Shows the list of channels and the associated details that authorised user is part of
+    """ Shows the list of channels and the associated details that authorised user is part of
 
     Arguments: 
         auth_user_id (int) - ID of authorised user
@@ -23,7 +22,8 @@ def channels_list_v1(auth_user_id):
         channels_of_user (list) - a list contains channels that the user is part of 
     """
     # TODO: exception checking
-    if type(auth_user_id) != int or auth_user_id < 0:
+
+    if auth_user_id < 0 or not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
     if len(data['channels']) == 0:
@@ -36,15 +36,13 @@ def channels_list_v1(auth_user_id):
                 }
 
     for channel in data['channels']:
-        for members in channel['all_members']:
-            if members['u_id'] == auth_user_id:
-                channels_of_user['channels'].append(channel)
+        if user_is_member(channel, auth_user_id):
+            channels_of_user['channels'].append(channel)
     
     return channels_of_user
 
 def channels_listall_v1(auth_user_id):
-    """ 
-    Shows all the channels on the list and their details
+    """ Shows all the channels on the list and their details
     
     Arguments: 
         auth_user_id (int) - ID of authorised user
@@ -53,16 +51,19 @@ def channels_listall_v1(auth_user_id):
         AccessError - Occurs when the auth_user_id is invalid 
 
     Return Value:
-        data['channels'] (list) - A list contains all the channels stored in the storage
+        data['channels'] (list) - A list contains all the public channels stored in the storage
     """
-    if type(auth_user_id) != int or auth_user_id < 0:
+    if auth_user_id < 0 or not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
-    return data['channels']
+    public_channels = []
+    for channel in data['channels']:
+        if user_is_member(channel, auth_user_id) or channel['is_public']:
+            public_channels.append(channel)
+    return public_channels
 
 def channels_create_v1(auth_user_id, name, is_public):
-    """ 
-    Create a public/private channel with specified name and owned by user with specified ID
+    """ Create a public/private channel with specified name and owned by user with specified ID
         
     Arguments: 
         auth_user_id (int) - ID of authorised user
@@ -72,7 +73,6 @@ def channels_create_v1(auth_user_id, name, is_public):
     Exceptions:
         AccessError - Occurs when the auth_user_id is invalid 
         InputError - Occurs when the length of name is too long
-        InputError - Occurs when the user with auth_user_id is not registered
         InputError - Occurs when the channel with specified name already exists
 
     Return Value:
@@ -80,16 +80,14 @@ def channels_create_v1(auth_user_id, name, is_public):
     """
     global data
 
-    if type(auth_user_id) != int or auth_user_id < 0:
+    if auth_user_id < 0 or not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
     # check if the name of channels is too long
     if len(name) > 20:
-        raise InputError('Name is too long')
+        raise InputError('Name is more than 20 characters long')
 
-    user = get_user_data(auth_user_id)
-    if not user:
-       raise InputError(f'User with id {auth_user_id} does not exist')  
+    user = get_user_data(auth_user_id) 
 
     for channel in data['channels']:
         if channel['name'] == name:
@@ -107,14 +105,14 @@ def channels_create_v1(auth_user_id, name, is_public):
         'user_id': auth_user_id,
         'owner_members': [
             {
-                'u_id': 1,
+                'u_id': auth_user_id,
                 'name_first': name_first,
                 'name_last': name_last,
             }
         ],
         'all_members': [
             {
-                'u_id': 1,
+                'u_id': auth_user_id,
                 'name_first': name_first,
                 'name_last': name_last,
             }
