@@ -27,17 +27,17 @@ def auth_login_v1(email, password):
     """
 
     if not valid_email(email):
-        raise InputError('Email entered is not a valid email.')
+        raise InputError(f'Email {email} entered is not a valid email.')
 
     for user in data['users']:
         if email == user['email']:
             if password == user['password']:
                 return {'auth_user_id': user['id']}
             else:
-                raise InputError('Password is not correct.')
+                raise InputError(f'Password {password} is not correct.')
             
     # email did not match any user
-    raise InputError('Email does not belong to a user.')
+    raise InputError(f'Email {email} entered does not belong to a user.')
 
 def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
