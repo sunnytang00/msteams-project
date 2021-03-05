@@ -63,7 +63,6 @@ def auth_register_v1(email, password, name_first, name_last):
     global data
     user_id = len(data['users']) + 1
 
-    # check if email is valid
     if not valid_email(email):
         raise InputError('Invalid email')
 
