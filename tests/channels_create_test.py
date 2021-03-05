@@ -35,3 +35,10 @@ def test_name_length():
         channels_create_v1(user_id, "first channel" * 10, True)
         assert 'Name is more than 20 characters long' in str(e)
 
+def test_userID_not_exist():
+    clear_v1()
+    invalid_id = 10
+    with pytest.raises(InputError) as e: 
+        channels_create_v1(invalid_id, "second channel", True)
+        assert f'User with id {invalid_id} does not exist' in str(e)
+
