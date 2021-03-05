@@ -51,6 +51,7 @@ def channel_details_v1(auth_user_id, channel_id):
     Returns:
         { name, owner_members, all_members }: [description]
     """    
+    # TODO: AccessError exceptoin
     
     for channel in data['channels']:
         if channel['id'] == channel_id:
