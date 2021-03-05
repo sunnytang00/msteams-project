@@ -2,6 +2,7 @@ import time
 from .data import data
 from .error import InputError, AccessError
 from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
+
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
 
@@ -20,18 +21,12 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
 
     # TODO: AccessError expection
     global data
-    users = data['users']
 
-    found_auth_user_id = False
-    found_u_id = False
-    for user in users:
-        if user['id'] == auth_user_id:
-            found_auth_user_id = True
-        if user['id'] == u_id:
-            found_u_id = True
-    
-    if not found_auth_user_id or not found_u_id:
-        raise InputError('User with ID does not exist')
+    if not user_exists(auth_user_id):
+        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+
+    if not user_exists(u_id):
+        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
     
     channels = data['channels']
     for channel in channels:
