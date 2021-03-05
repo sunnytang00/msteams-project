@@ -28,8 +28,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not user_exists(u_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
     
-    channels = data['channels']
-    for channel in channels:
+    for channel in data['channels']:
         if channel['id'] == channel_id:
             user_data = get_user_data(u_id)
             name_first = user_data['name_first']
@@ -53,8 +52,7 @@ def channel_details_v1(auth_user_id, channel_id):
         { name, owner_members, all_members }: [description]
     """    
     
-    channels = data['channels']
-    for channel in channels:
+    for channel in data['channels']:
         if channel['id'] == channel_id:
             name = channel['name']
             owner_members = channel['owner_members']
@@ -65,7 +63,7 @@ def channel_details_v1(auth_user_id, channel_id):
                 'all_members': all_members,
             }
 
-    raise InputError(f'Channel ID {channel_id} is not a valid channel.')   
+    raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
 
 def channel_messages_v1(auth_user_id, channel_id, start):
