@@ -57,3 +57,27 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         if members['u_id'] == auth_user_id:
             return True
     return False
+
+def valid_password(password: str) -> bool:
+    if len(password) >= 6:
+        return True
+    return False
+
+def valid_first_name(name_first: str) -> bool:
+    # check first name length is in [1, 50]
+    if len(name_first) in range(1, 50):
+        return True
+    return False
+
+def valid_last_name(name_last: str) -> bool:
+    # check last name length is in [1, 50]
+    if len(name_last) in range(1, 50):
+        return True
+    return False
+
+def email_exists(email: str) -> bool:
+    # check if email already exists in data
+    for user in data['users']:
+        if user['email'] == email:
+            return True
+    return False
