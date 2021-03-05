@@ -27,7 +27,7 @@ def auth_login_v1(email, password):
     """
 
     if not valid_email(email):
-        raise InputError(f'Email {email} entered is not a valid email.')
+        raise InputError(f'Email {email} entered is not a valid email')
 
     for user in data['users']:
         # check user exists
@@ -36,10 +36,10 @@ def auth_login_v1(email, password):
             if password == user['password']:
                 return {'auth_user_id': user['id']}
             else:
-                raise InputError(f'Password {password} is not correct.')
+                raise InputError(f'Password {password} is not correct')
           
     # email did not match any user
-    raise InputError(f'Email {email} entered does not belong to a user.')
+    raise InputError(f'Email {email} entered does not belong to a user')
 
 def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
@@ -64,21 +64,21 @@ def auth_register_v1(email, password, name_first, name_last):
     user_id = len(data['users']) + 1
 
     if not valid_email(email):
-        raise InputError('Invalid email')
+        raise InputError(f'Email {email} is not a valid email')
 
     if not valid_password(password):
-        raise InputError('Password is too short.')
+        raise InputError(f'Password {password} is less than 6 characters long')
 
     if not valid_first_name(name_first):
-        raise InputError('First name invalid length.')
+        raise InputError(f'name_first {name_first} is not between 1 and 50 characters inclusively in length')
 
     if not valid_last_name(name_last):
-        raise InputError('Last name invalid length.')
+        raise InputError(f'name_last {name_last} is not between 1 and 50 characters inclusively in length')
 
     if email_exists(email):
-        raise InputError('This email already exists.')
+        raise InputError(f'Email address {email} is already being used by another user')
 
-    # input is valid and ready to be added
+    # register user
     data['users'].append({ 
         'id': user_id,
         'email': email,
