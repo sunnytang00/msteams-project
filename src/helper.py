@@ -36,7 +36,6 @@ def get_user_data(auth_user_id: int) -> dict:
                 'name_last': user['name_last']
             }
     return None
-<<<<<<< HEAD
 
 def get_channel_data(channel_id: int) -> dict:
     for channel in data['channels']:
@@ -92,3 +91,4 @@ def valid_channel_name(name: str) -> bool:
     if len(name) > 20:
         return True
     return False
+
