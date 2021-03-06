@@ -26,7 +26,7 @@ def channels_list_v1(auth_user_id):
         raise AccessError('User ID is invaild')
 
     if len(data['channels']) == 0:
-        return []
+        return {}
 
     channels_of_user = {
                     'channels': [
