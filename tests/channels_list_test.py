@@ -57,4 +57,4 @@ def test_no_channel_exists(helper):
                                 name_first='bob',
                                 name_last='smith')
     user_id = user['auth_user_id']
-    assert channels_list_v1(user_id) == []
+    assert channels_list_v1(user_id) == {}
