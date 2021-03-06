@@ -1,6 +1,6 @@
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, user_is_member
+from .helper import user_exists, get_user_data, get_channel_data, user_is_member, valid_channel_name
 
 """
 Create and show the list of channels
@@ -82,9 +82,8 @@ def channels_create_v1(auth_user_id, name, is_public):
     if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
-    # check if the name of channels is too long
-    if len(name) > 20:
-        raise InputError('Name is more than 20 characters long')
+    if valid_channel_name(name):
+        raise InputError(f'Name {name} is more than 20 characters long')
 
     user = get_user_data(auth_user_id) 
 
@@ -97,7 +96,6 @@ def channels_create_v1(auth_user_id, name, is_public):
     name_first = user['name_first']
     name_last = user['name_last']
 
-    # TODO: REMOVE hard coded u_id
     data['channels'].append({
         'id': new_channel_id,
         'name': name,
