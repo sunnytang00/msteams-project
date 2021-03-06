@@ -1,6 +1,6 @@
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, user_is_member
+from .helper import user_exists, get_user_data, get_channel_data, user_is_member, valid_channel_name
 
 """
 Create and show the list of channels
@@ -22,12 +22,11 @@ def channels_list_v1(auth_user_id):
         channels_of_user (list) - a list contains channels that the user is part of 
     """
     # TODO: exception checking
-
-    if auth_user_id < 0 or not user_exists(auth_user_id):
+    if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
     if len(data['channels']) == 0:
-        return []
+        return {}
 
     channels_of_user = {
                     'channels': [
@@ -53,7 +52,7 @@ def channels_listall_v1(auth_user_id):
     Return Value:
         data['channels'] (list) - A list contains all the public channels stored in the storage
     """
-    if auth_user_id < 0 or not user_exists(auth_user_id):
+    if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
     public_channels = []
@@ -80,12 +79,11 @@ def channels_create_v1(auth_user_id, name, is_public):
     """
     global data
 
-    if auth_user_id < 0 or not user_exists(auth_user_id):
+    if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
-    # check if the name of channels is too long
-    if len(name) > 20:
-        raise InputError('Name is more than 20 characters long')
+    if valid_channel_name(name):
+        raise InputError(f'Name {name} is more than 20 characters long')
 
     user = get_user_data(auth_user_id) 
 
@@ -98,7 +96,6 @@ def channels_create_v1(auth_user_id, name, is_public):
     name_first = user['name_first']
     name_last = user['name_last']
 
-    # TODO: REMOVE hard coded u_id
     data['channels'].append({
         'id': new_channel_id,
         'name': name,

@@ -1,6 +1,6 @@
 from src.data import data
 from src.error import InputError
-from src.helper import valid_email
+from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists
 import re
 
 """ Register and login authentication.
@@ -27,17 +27,19 @@ def auth_login_v1(email, password):
     """
 
     if not valid_email(email):
-        raise InputError('Email entered is not a valid email.')
+        raise InputError(f'Email {email} entered is not a valid email')
 
     for user in data['users']:
+        # check user exists
         if email == user['email']:
+            # check corret password
             if password == user['password']:
                 return {'auth_user_id': user['id']}
             else:
-                raise InputError('Password is not correct.')
-            
+                raise InputError(f'Password {password} is not correct')
+          
     # email did not match any user
-    raise InputError('Email does not belong to a user.')
+    raise InputError(f'Email {email} entered does not belong to a user')
 
 def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
@@ -61,28 +63,22 @@ def auth_register_v1(email, password, name_first, name_last):
     global data
     user_id = len(data['users']) + 1
 
-    # check if email is valid
     if not valid_email(email):
-        raise InputError('Invalid email')
+        raise InputError(f'Email {email} is not a valid email')
 
-    # check password too short
-    if len(password) <= 6:
-        raise InputError('Password is too short.')
+    if not valid_password(password):
+        raise InputError(f'Password {password} is less than 6 characters long')
 
-    # check first name length is in [1, 50]
-    if not(len(name_first) in range(1,50)):
-        raise InputError('First name invalid length.')
+    if not valid_first_name(name_first):
+        raise InputError(f'name_first {name_first} is not between 1 and 50 characters inclusively in length')
 
-    # check last name length is in [1, 50]
-    if not(len(name_last) in range(1,50)):
-        raise InputError('Last name invalid length.')
+    if not valid_last_name(name_last):
+        raise InputError(f'name_last {name_last} is not between 1 and 50 characters inclusively in length')
 
-    # check if email already exists in data
-    for user in data['users']:
-        if user['email'] == email:
-            raise InputError('This email already exists.')
+    if email_exists(email):
+        raise InputError(f'Email address {email} is already being used by another user')
 
-    # input is valid and ready to be added
+    # register user
     data['users'].append({ 
         'id': user_id,
         'email': email,
