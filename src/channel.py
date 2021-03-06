@@ -141,6 +141,7 @@ def channel_join_v1(auth_user_id, channel_id):
     """
     global data
 
+    # TODO: does this need to be here?
     if auth_user_id < 0 or not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
