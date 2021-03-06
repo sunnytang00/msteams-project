@@ -52,7 +52,7 @@ def channels_listall_v1(auth_user_id):
     Return Value:
         data['channels'] (list) - A list contains all the public channels stored in the storage
     """
-    if auth_user_id < 0 or not user_exists(auth_user_id):
+    if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
     public_channels = []
@@ -79,7 +79,7 @@ def channels_create_v1(auth_user_id, name, is_public):
     """
     global data
 
-    if auth_user_id < 0 or not user_exists(auth_user_id):
+    if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
     # check if the name of channels is too long
