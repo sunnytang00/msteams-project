@@ -81,3 +81,8 @@ def email_exists(email: str) -> bool:
         if user['email'] == email:
             return True
     return False
+
+def valid_channel_name(name: str) -> bool:
+    if len(name) > 20:
+        return True
+    return False
