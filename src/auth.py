@@ -78,7 +78,9 @@ def auth_register_v1(email, password, name_first, name_last):
     if email_exists(email):
         raise InputError(f'Email address {email} is already being used by another user')
 
+    # TODO: only base implemented
     handle_str = get_handle_str(name_first, name_last)
+
     # register user
     data['users'].append({ 
         'u_id': user_id,
