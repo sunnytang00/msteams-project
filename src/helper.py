@@ -37,7 +37,7 @@ def get_user_data(auth_user_id: int) -> dict:
             }
     return None
 
-def get_channel_data(channel_id: int) -> bool:
+def get_channel_data(channel_id: int) -> dict:
     for channel in data['channels']:
         if channel['id'] == channel_id:
             return {
@@ -52,9 +52,14 @@ def get_channel_data(channel_id: int) -> bool:
     return None
 
 def user_is_member(channel: dict, auth_user_id: int) -> bool:
-    for members in channel['all_members']:
-        print(members)
-        if members['u_id'] == auth_user_id:
+    for member in channel['all_members']:
+        if member['u_id'] == auth_user_id:
+            return True
+    return False
+
+def user_is_owner(channel: dict, auth_user_id: int) -> bool:
+    for owner in channel['owner_members']:
+        if owner['u_id'] == auth_user_id:
             return True
     return False
 
