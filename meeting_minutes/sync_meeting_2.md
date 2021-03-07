@@ -26,18 +26,18 @@ Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your
 ## Discussion Items
 Item | Who | Notes |
 ---- | ---- | ---- |
-standup | Amin | • Completed auth_regsiter_v1<br> Nothing<br> Planning to pickup tasks in channel.py |
-standup | Wang | • Completed chnalles_create_v1 tests<br> Nothing<br> Working on implementation |
-standup | Sunny | • wrting tests for auth_login_v1<br> Problems running pytest most of week occupied with that<br> Will work on implemenation|
-standup | Siddh | • Read project spec<br> Problems with Git, working with lab tutor to resolve <br> Learn how to use Git |
+standup | Amin | • Completed auth_regsiter_v1<br>• Nothing<br>• Planning to pickup tasks in channel.py |
+standup | Wang | • Completed chnalles_create_v1 tests<br>• Nothing<br>• Working on implementation |
+standup | Sunny | • wrting tests for auth_login_v1<br>• Problems running pytest most of week occupied with that<br>• Will work on implemenation|
+standup | Siddh | • Read project spec<br>• Problems with Git, working with lab tutor to resolve <br>• Learn how to use Git |
 
 ## Action Items
 item | responsible | due date |
 | ---- | ---- | ---- |
-Write tests and implementation for channel_invite_v1, channel_details_v1 and channel_messages_v1 | Amin | 07/03/21 ||
-Add helper function and modularise code | Amin | 07/03/21 ||
-Complete functions in channels.py | Wang | 07/03/21 ||
-Add docstrings to functions | Sunny | 07/03/21 ||
+• Write tests and implementation for channel_invite_v1, channel_details_v1 and channel_messages_v1 | Amin | 07/03/21 ||
+• Add helper function and modularise code | Amin | 07/03/21 ||
+• Complete functions in channels.py | Wang | 07/03/21 ||
+• Add docstrings to functions | Sunny | 07/03/21 ||
 
 ## Other Notes & Information
 N/A
