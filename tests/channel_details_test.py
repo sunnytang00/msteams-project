@@ -53,6 +53,6 @@ def test_user_not_authorised():
     channel = channels_create_v1(channel_owner_user_id, 'Cat Society', True)
     channel_id = channel['channel_id']
 
-    with pytest.raises(InputError) as e: 
+    with pytest.raises(AccessError) as e: 
         channel_details_v1(auth_user_id=user_id, channel_id=channel_id)
-        assert f'Authorised user {user_id} is not a member of channel with channel_id' in str(e)
+        assert f'Authorised user {user_id} is not a member of channel with channel_id {channel_id}' in str(e)
