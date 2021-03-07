@@ -30,7 +30,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     channel = get_channel_data(channel_id)
 
     if not channel:
-        raise InputError(f'channel_id {channel_id} does not refer to a valid channel.')
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
     
     if not user_is_member(channel, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
@@ -56,19 +56,19 @@ def channel_details_v1(auth_user_id, channel_id):
     """    
     # TODO: AccessError exceptoin
     
-    for channel in data['channels']:
-        if channel['id'] == channel_id:
-            name = channel['name']
-            owner_members = channel['owner_members']
-            all_members = channel['all_members']
-            return {
-                'name': name,
-                'owner_members': owner_members,
-                'all_members': all_members,
-            }
+    channel = get_channel_data(channel_id)
 
-    raise InputError(f'Channel ID {channel_id} is not a valid channel')   
+    if not channel:
+        raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
+    name = channel['name']
+    owner_members = channel['owner_members']
+    all_members = channel['all_members']
+    return {
+        'name': name,
+        'owner_members': owner_members,
+        'all_members': all_members,
+    }
 
 def channel_messages_v1(auth_user_id, channel_id, start):
     """Given a Channel ID that the authorised user is part of, return up to 50 messages starting from most recent.
