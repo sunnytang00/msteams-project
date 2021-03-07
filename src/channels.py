@@ -18,7 +18,7 @@ def channels_list_v1(auth_user_id):
         AccessError - Occurs when the auth_user_id is invalid 
 
     Return Value:
-        channels_of_user (list) - a list contains channels that the user is part of 
+        Returns channels_of_user (list) on valid authenticated user
     """
     
     if not user_exists(auth_user_id):
@@ -49,7 +49,7 @@ def channels_listall_v1(auth_user_id):
         AccessError - Occurs when the auth_user_id is invalid 
 
     Return Value:
-        data['channels'] (list) - A list contains all the public channels stored in the storage
+        Returns data['channels'] (list) on valid authenticated user
     """
     if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
@@ -74,7 +74,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         InputError - Occurs when the channel with specified name already exists
 
     Return Value:
-        ｛'channel_id'｝ (dict) - A dictonary that contains the ID of channel created
+        Returns ｛'channel_id'｝ (dict) on valid authenticated user and valid name
     """
     global data
 

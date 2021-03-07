@@ -135,7 +135,7 @@ def valid_password(password: str) -> bool:
 def valid_first_name(name_first: str) -> bool:
     """A function that when passed the first name, will check whether it is between and including 1 and 50 characters
 
-    Args:
+    Arguements:
         name_first (str): The first name of the user
 
     Returns:
@@ -150,7 +150,7 @@ def valid_first_name(name_first: str) -> bool:
 def valid_last_name(name_last: str) -> bool:
     """A function that when passed the last name, will check whether it is between and including 1 and 50 characters
 
-    Args:
+    Arguements:
         name_last (str): Last name of the user
 
     Returns:
@@ -165,7 +165,7 @@ def valid_last_name(name_last: str) -> bool:
 def email_exists(email: str) -> bool:
     """A function that when passed an email, will check if it already exists
 
-    Args:
+    Arguements:
         email (str): Email of the user
 
     Returns:
@@ -181,7 +181,7 @@ def email_exists(email: str) -> bool:
 def valid_channel_name(name: str) -> bool:
     """A function that when passed name, will check whether the channel name is over 20 characters
 
-    Args:
+    Arguements:
         name (str): Name of channel
 
     Returns:
@@ -193,12 +193,30 @@ def valid_channel_name(name: str) -> bool:
     return False
 
 def handle_str_exists(handle_str: str) -> bool:
+    """A function that when passed name, will check whether the channel name is over 20 characters
+
+    Arguements:
+        name (str): Name of channel
+
+    Returns:
+        True: if exists
+        False: if not exists
+    """   
     for user in data['users']:
         if user['handle_str'] == handle_str:
             return True
     return False
 
 def get_handle_str(name_first: str, name_last: str) -> str:
+    """Generates a handle_str
+
+    Arguements:
+        name_first (str): First name of user
+        name_last (str): Last name of user
+
+    Returns:
+        Returns handle_str
+    """   
     handle_str = (name_first + name_last).replace(' ', '').replace('@', '').lower()[:20]
     count = 0
     while handle_str_exists(handle_str):

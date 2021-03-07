@@ -51,13 +51,16 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
 def channel_details_v1(auth_user_id, channel_id):
     """Given a Channel with ID channel_id that the authorised user is part of, provide basic details about the channel
 
-    Args:
-        auth_user_id (integer): ID of authorised user
+    Arguments:
+        auth_user_id (integer) - ID of authorised user
+        channel_id (integer) - The channel ID
 
-        channel_id (integer): The channel ID
+    Exceptions:
+        InputError - Channel ID is not a valid channel
+        AccessError - Authorised user is not a member of channel with channel_id
 
-    Returns:
-        { name, owner_members, all_members }: [description]
+    Return Value:
+        Returns { name, owner_members, all_members } (dict) on valid channel_id and auth_user_id
     """    
     channel = get_channel_data(channel_id)
 
@@ -81,14 +84,18 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     It returns a new index "end" which is the value of "start + 50". If this function has returned hte least recent messages in the channel, returns -1 in "end" to indicate
     There are no more messages
     I
-    Args:
-        auth_user_id (int): ID of authorised user
+    Arguments:
+        auth_user_id (int) - ID of authorised user
+        channel_id (int) - Channel ID
+        start (int) - An index for the chronological order of messages
 
-        channel_id (int): Channel ID
-        start (int): An index for the chronological order of messages
+    Exceptions:
+        InputError - Channel ID is not a valid channel
+        InputError - start is greater than the total number of messages in the channel
+        AcessError - Authorised user is not a member of channel with channel_id
 
-    Returns:
-        { messages, start, end }: [description]
+    Return Value:
+        Returns { messages, start, end } (dict): [description]
     """ 
     limit = 50
 
@@ -146,7 +153,7 @@ def channel_join_v1(auth_user_id, channel_id):
         InputError - Occurs when the channel is private and the user is not owner of it
 
     Return Value:
-        Return nothing
+        Returns {} (dict) on success
     """
     global data
 

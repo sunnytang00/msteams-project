@@ -1,7 +1,11 @@
 from src.data import data
 
 def clear_v1():
-    # reset data
+    """ Resets the internal data of the application to it's initial state
+        
+    Return Value:
+        Returns ｛｝ (dict)
+    """
     global data
     data['users'] = []
     data['channels'] = []
