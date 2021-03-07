@@ -177,7 +177,3 @@ def valid_channel_name(name: str) -> bool:
     if len(name) > 20:
         return True
     return False
-<<<<<<< HEAD
-=======
-
->>>>>>> master
