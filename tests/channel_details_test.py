@@ -35,7 +35,6 @@ def test_invalid_channel_id():
         channel_details_v1(auth_user_id=user_id, channel_id=invalid_channel_id)
         assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e)
 
-# TODO: AccessError exception test
 def test_user_not_authorised():
     """Authorised user is not a member of channel with channel_id"""
     clear_v1()
