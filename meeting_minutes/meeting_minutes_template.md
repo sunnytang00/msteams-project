@@ -32,7 +32,10 @@ standup | Siddh | • |
 ## Action Items
 item | responsible | due date |
 | ---- | ---- | ---- |
-item | who | due_date ||
+item | Amin | due_date ||
+item | Wang | due_date ||
+item | Sunny | due_date ||
+item | Siddh | due_date ||
 
 ## Other Notes & Information
 N/A
