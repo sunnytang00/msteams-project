@@ -19,7 +19,7 @@ People who attended:
 
 Item | Description
 ---- | ----
-Agenda Item 1 | 1. What did you do this week?<br>2. What (if anything) is blocking your progress?<br>3. What will you do this following week?
+Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your progress?<br>3. What will you do this following week?
 
 ## Discussion Items
 Item | Who | Notes |
