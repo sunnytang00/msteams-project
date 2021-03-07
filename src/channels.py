@@ -22,7 +22,7 @@ def channels_list_v1(auth_user_id):
     """
     
     if not user_exists(auth_user_id):
-        raise AccessError('User ID is invaild')
+        raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if len(data['channels']) == 0:
         return {}
@@ -52,7 +52,7 @@ def channels_listall_v1(auth_user_id):
         Returns data['channels'] (list) on valid authenticated user
     """
     if not user_exists(auth_user_id):
-        raise AccessError('User ID is invaild')
+        raise AccessError(f'User ID {auth_user_id} is invaild')
 
     public_channels = []
     for channel in data['channels']:
@@ -79,7 +79,7 @@ def channels_create_v1(auth_user_id, name, is_public):
     global data
 
     if not user_exists(auth_user_id):
-        raise AccessError('User ID is invaild')
+        raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if valid_channel_name(name):
         raise InputError(f'Name {name} is more than 20 characters long')
