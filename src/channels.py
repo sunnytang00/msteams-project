@@ -85,14 +85,7 @@ def channels_create_v1(auth_user_id, name, is_public):
     if valid_channel_name(name):
         raise InputError(f'Name {name} is more than 20 characters long')
 
-    user = get_user_data(auth_user_id) 
-
     channel_id = len(data['channels']) + 1
-
-    email = user['email']
-    name_first = user['name_first']
-    name_last = user['name_last']
-    handle_str = user['handle_str']
 
     data['channels'].append({
         'channel_id': channel_id,
