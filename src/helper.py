@@ -7,7 +7,7 @@ def valid_email(email: str) -> bool:
     Arguments:
         email (str) - The users email address.
 
-    Return Value:
+    Return Values:
         Returns bool on regexp evalutaion
     """
 
@@ -15,18 +15,45 @@ def valid_email(email: str) -> bool:
     return re.search(regex, email)
 
 def user_exists(auth_user_id: int) -> bool:
+    """Function that when passed auth_user_id, will check if the user already exists
+
+    Arguments:
+        auth_user_id (int): ID of authorised user
+
+    Return Values:
+       True: if user exists
+       False: if user does not exist
+    """    
     for user in data['users']:
         if user['id'] == auth_user_id:
             return True
     return False
 
 def channel_exists(channel_id: int) -> bool:
+    """Function that when passed channel id, check if it exists
+
+    Arguments:
+        channel_id (int): The unique id of the channel
+
+    Return Values:
+        True: if channel exists
+        False: if channel does not exist
+    """    
     for channel in data['channels']:
         if channel['id'] == channel_id:
             return True
     return False
 
 def get_user_data(auth_user_id: int) -> dict:
+    """A function that when passed an authenticated user id, will return their email, password, first name and last name
+
+    Arguments:
+        auth_user_id (int): ID of authorised user
+
+    Return Values:
+        dict: A dictionary of their email, password, first name and last name
+        None: if nothing is found
+    """    
     for user in data['users']:
         if user['id'] == auth_user_id:
             return {
@@ -37,7 +64,16 @@ def get_user_data(auth_user_id: int) -> dict:
             }
     return None
 
-def get_channel_data(channel_id: int) -> dict:
+def get_channel_data(channel_id: int) -> bool:
+    """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
+
+    Arguments:
+        channel_id (int): ID of the channel
+
+    Return Values:
+        dict: A dict of the id, name, user_id, owners, all members, messages and whether it is public of the channel if it is found
+        None: if the id does not match a channel
+    """    
     for channel in data['channels']:
         if channel['id'] == channel_id:
             return {
@@ -52,35 +88,76 @@ def get_channel_data(channel_id: int) -> dict:
     return None
 
 def user_is_member(channel: dict, auth_user_id: int) -> bool:
-    for member in channel['all_members']:
-        if member['u_id'] == auth_user_id:
-            return True
-    return False
+    """A function that when passed a channel and an ID of an authenticated user, will check if it is a member of the channel
 
-def user_is_owner(channel: dict, auth_user_id: int) -> bool:
-    for owner in channel['owner_members']:
-        if owner['u_id'] == auth_user_id:
+    Arguments:
+        channel (dict): A dictionary of the channel data
+        auth_user_id (int): ID of authenticated user
+
+    Return Values:
+        True: if the ID of the user is a member of the channel
+        False: if the user is not a member of the channel
+    """    
+    for members in channel['all_members']:
+        print(members)
+        if members['u_id'] == auth_user_id:
             return True
     return False
 
 def valid_password(password: str) -> bool:
+    """A function that when passed password, will check if the length is greater than 6
+
+    Arguments:
+        password (str): [description]
+
+    Return Values:
+        True: if the password length is greater than 6
+        False: if the password is shorter than 6 characters
+    """    
     if len(password) >= 6:
         return True
     return False
 
 def valid_first_name(name_first: str) -> bool:
+    """A function that when passed the first name, will check whether it is between and including 1 and 50 characters
+
+    Args:
+        name_first (str): The first name of the user
+
+    Returns:
+        True: if it is a valid first name
+        False: if the first name is longer than 50 characters or shorter than 1 character
+    """    
     # check first name length is in [1, 50]
     if len(name_first) in range(1, 50):
         return True
     return False
 
 def valid_last_name(name_last: str) -> bool:
+    """A function that when passed the last name, will check whether it is between and including 1 and 50 characters
+
+    Args:
+        name_last (str): Last name of the user
+
+    Returns:
+        True: if the last name is valid
+        False: if the last name is longer than 50 characters or shorter than 1 character
+    """    
     # check last name length is in [1, 50]
     if len(name_last) in range(1, 50):
         return True
     return False
 
 def email_exists(email: str) -> bool:
+    """A function that when passed an email, will check if it already exists
+
+    Args:
+        email (str): Email of the user
+
+    Returns:
+        True: if the email exists
+        False: if the email does not already exist
+    """    
     # check if email already exists in data
     for user in data['users']:
         if user['email'] == email:
@@ -88,6 +165,15 @@ def email_exists(email: str) -> bool:
     return False
 
 def valid_channel_name(name: str) -> bool:
+    """A function that when passed name, will check whether the channel name is over 20 characters
+
+    Args:
+        name (str): Name of channel
+
+    Returns:
+        True: if the name is valid
+        False: if the name is under 20 characters
+    """    
     if len(name) > 20:
         return True
     return False
