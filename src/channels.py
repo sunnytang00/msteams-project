@@ -89,8 +89,10 @@ def channels_create_v1(auth_user_id, name, is_public):
 
     new_channel_id = len(data['channels']) + 1
 
+    email = user['email']
     name_first = user['name_first']
     name_last = user['name_last']
+    handle_str = user['handle_str']
 
     data['channels'].append({
         'id': new_channel_id,
@@ -99,15 +101,19 @@ def channels_create_v1(auth_user_id, name, is_public):
         'owner_members': [
             {
                 'u_id': auth_user_id,
+                'email': email,
                 'name_first': name_first,
                 'name_last': name_last,
+                'handle_str': handle_str,
             }
         ],
         'all_members': [
             {
                 'u_id': auth_user_id,
+                'email': email,
                 'name_first': name_first,
                 'name_last': name_last,
+                'handle_str': handle_str,
             }
         ],
         'messages': [],

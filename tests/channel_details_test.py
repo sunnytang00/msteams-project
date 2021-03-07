@@ -8,6 +8,8 @@ from tests.helper import helper
 
 def test_valid_input():
     clear_v1()
+    email = 'bobsmith@gmail.com'
+
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
@@ -19,7 +21,9 @@ def test_valid_input():
 
     result = channel_details_v1(auth_user_id=user_id, channel_id=channel_id)
     
-    assert result == {'name': 'Cat Society', 'owner_members': [{'name_first': 'Bob', 'name_last': 'Smith', 'u_id': 1}], 'all_members': [{'name_first': 'Bob', 'name_last': 'Smith', 'u_id': 1}]}
+    expected = {'name': 'Cat Society', 'owner_members': [{'u_id': 1, 'email': email, 'name_first': 'Bob', 'name_last': 'Smith', 'handle_str': 'bobsmith'}], 'all_members': [{'u_id': 1, 'email': email, 'name_first': 'Bob', 'name_last': 'Smith', 'handle_str': 'bobsmith'}]}
+
+    assert result == expected
 
 def test_invalid_channel_id():
     clear_v1()
