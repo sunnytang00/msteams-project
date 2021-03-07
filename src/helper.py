@@ -80,7 +80,6 @@ def get_channel_data(channel_id: int) -> dict:
             return {
                 'channel_id': channel['channel_id'],
                 'name': channel['name'],
-                'user_id': channel['user_id'],
                 'owner_members': channel['owner_members'],
                 'all_members' : channel['all_members'],
                 'messages' : channel['messages'],
