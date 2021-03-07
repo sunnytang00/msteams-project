@@ -10,14 +10,14 @@ def test_valid_input():
     clear_v1()
     invitor_user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
-                                name_first='bob',
-                                name_last='smith')
+                                name_first='Bob',
+                                name_last='Smith')
     invitor_user_id = invitor_user['auth_user_id']
 
     invitee_user = auth_register_v1(email='batman777@gmail.com',
                                 password='12as548',
-                                name_first='bat',
-                                name_last='man')
+                                name_first='Bat',
+                                name_last='Man')
     invitee_user_id = invitee_user['auth_user_id']
 
     channel = channels_create_v1(invitor_user_id, "Cat Society", True)
@@ -32,14 +32,14 @@ def test_invalid_channel_id():
     clear_v1()
     invitor_user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
-                                name_first='bob',
-                                name_last='smith')
+                                name_first='Bob',
+                                name_last='Smith')
     invitor_user_id = invitor_user['auth_user_id']
 
     invitee_user = auth_register_v1(email='batman777@gmail.com',
                                 password='12as548',
-                                name_first='bat',
-                                name_last='man')
+                                name_first='Bat',
+                                name_last='Man')
     invitee_user_id = invitee_user['auth_user_id']
 
     invalid_channel_id = 4 
@@ -53,9 +53,9 @@ def test_invalid_auth_user_id():
     invalid_invitor_user_id = 5
 
     invitee_user = auth_register_v1(email='batman777@gmail.com',
-                                password='12as548',
-                                name_first='bat',
-                                name_last='man')
+                                password='12a548',
+                                name_first='Bat',
+                                name_last='Man')
     invitee_user_id = invitee_user['auth_user_id']
 
     # TODO: change harded value from 1
@@ -69,8 +69,8 @@ def test_invalid_u_id():
     clear_v1()
     invitor_user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
-                                name_first='bob',
-                                name_last='smith')
+                                name_first='Bob',
+                                name_last='Smith')
     invitor_user_id = invitor_user['auth_user_id']
 
     invalid_invitee_user_id = 14 
@@ -83,3 +83,30 @@ def test_invalid_u_id():
         assert 'User ID does not refer to a valid user.' in str(e)
 
 # TODO: AccessError expection test
+def test_user_not_authorised():
+    """the authorised user is not already a member of the channel"""
+    clear_v1()
+    invitor_user = auth_register_v1(email='bobsmith@gmail.com',
+                                password='42flshjfzhh8',
+                                name_first='Bob',
+                                name_last='Smith')
+    invitor_user_id = invitor_user['auth_user_id']
+
+    invitee_user = auth_register_v1(email='batman777@gmail.com',
+                                password='12a548',
+                                name_first='Bat',
+                                name_last='Man')
+    invitee_user_id = invitee_user['auth_user_id']
+
+    channel_owner_user = auth_register_v1(email='harrypotter7@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter')
+    channel_owner_user_id = channel_owner_user['auth_user_id']            
+
+    channel = channels_create_v1(channel_owner_user_id, "Cat Society", True)
+    channel_id = channel['channel_id']
+
+    with pytest.raises(AccessError) as e: 
+        channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
+        assert 'the authorised user is not already a member of the channel' in str(e)
