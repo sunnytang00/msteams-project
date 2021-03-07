@@ -26,7 +26,9 @@ def test_valid_input():
     channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
 
     channels = channels_listall_v1(2)
-    assert channels[-1]['channel_id'] == 1
+    output = channels[0]['channel_id']
+    expected = 1
+    assert output == expected
 
 def test_invalid_channel_id():
     clear_v1()
@@ -45,7 +47,7 @@ def test_invalid_channel_id():
     invalid_channel_id = 4 
     with pytest.raises(InputError) as e: 
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=invalid_channel_id, u_id=invitee_user_id)
-        assert 'Channel id does not exist.' in str(e)
+        assert f'Channel ID {invalid_channel_id} does not exist.' in str(e)
 
 
 def test_invalid_auth_user_id():
@@ -58,12 +60,11 @@ def test_invalid_auth_user_id():
                                 name_last='Man')
     invitee_user_id = invitee_user['auth_user_id']
 
-    # TODO: change harded value from 1
-    channel = channels_create_v1(1, "Cat Society", True)
+    channel = channels_create_v1(invitee_user_id, "Cat Society", True)
     channel_id = channel['channel_id']
     with pytest.raises(InputError) as e: 
         channel_invite_v1(auth_user_id=invalid_invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
-        assert 'User ID does not refer to a valid user.' in str(e)
+        assert f'User ID {invalid_invitor_user_id} does not refer to a valid user.' in str(e)
 
 def test_invalid_u_id():
     clear_v1()
@@ -80,7 +81,7 @@ def test_invalid_u_id():
 
     with pytest.raises(InputError) as e: 
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invalid_invitee_user_id)
-        assert 'User ID does not refer to a valid user.' in str(e)
+        assert f'User ID {invalid_invitee_user_id} does not refer to a valid user.' in str(e)
 
 def test_user_not_authorised():
     """the authorised user is not already a member of the channel"""
@@ -108,4 +109,4 @@ def test_user_not_authorised():
 
     with pytest.raises(AccessError) as e: 
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
-        assert 'the authorised user is not already a member of the channel' in str(e)
+        assert f'the authorised user {invitor_user_id} is not already a member of the channel' in str(e)
