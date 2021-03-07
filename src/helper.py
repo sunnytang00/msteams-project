@@ -192,6 +192,18 @@ def valid_channel_name(name: str) -> bool:
         return True
     return False
 
+def handle_str_exists(handle_str: str) -> bool:
+    for user in data['users']:
+        if user['handle_str'] == handle_str:
+            return True
+    return False
+
 def get_handle_str(name_first: str, name_last: str) -> str:
-    handle_str = (name_first + name_last).replace(' ', '').lower()
+    handle_str = (name_first + name_last).replace(' ', '').replace('@', '').lower()[:20]
+    count = 0
+    while handle_str_exists(handle_str):
+        handle_str = (name_first + name_last).replace(' ', '').replace('@', '').lower()[:20]
+        handle_str += str(count)
+        count += 1
+
     return handle_str
