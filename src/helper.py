@@ -192,3 +192,7 @@ def valid_channel_name(name: str) -> bool:
     if len(name) > 20:
         return True
     return False
+
+def get_handle_str(name_first: str, name_last: str) -> str:
+    handle_str = (name_first + name_last).replace(' ', '').lower()
+    return handle_str
