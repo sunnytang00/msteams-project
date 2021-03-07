@@ -24,7 +24,10 @@ Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your
 ## Discussion Items
 Item | Who | Notes |
 ---- | ---- | ---- |
-item | who | notes |
+standup | Amin | • |
+standup | Wang | • |
+standup | Sunny | • |
+standup | Siddh | • |
 
 ## Action Items
 item | responsible | due date |
