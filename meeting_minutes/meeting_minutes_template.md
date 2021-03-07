@@ -2,7 +2,7 @@
 # Meeting Minutes
 ## Meeting Information
 **Meeting Date/Time:** meeting_date, meeting_time  
-**Meeting Purpose:** meeting_purpose  
+**Meeting Purpose:** weekly standup
 **Meeting Location:** Microsoft Teams
 **Meeting Type:** asynchronous or synchronous
 **Note Taker:** note_taker  
