@@ -36,6 +36,7 @@ Style and format assumptions.md with markdown | Amin | 08/03/21 ||
 Finish off AccessError exceptions for channel.py | Amin | 08/03/21 ||
 Add meeting minutes sessions | Amin | 08/03/21 ||
 Fill in missing keys as according to 6.1.1 | Amin | 08/03/21 ||
+Go through whole project and refine and improve code | Amin | 08/03/21 ||
 Writing test for and wrap up everything in channels.py | Wang | 08/03/21 ||
 Add more helper functions | Wang | 08/03/21 ||
 Complete all function docstrings for iteration-1 | Sunny | 08/03/21 ||

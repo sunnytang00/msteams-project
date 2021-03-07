@@ -36,6 +36,8 @@ Complete auth_register_v1 | Amin | 28/02/21 ||
 Complete clear_v1 | Amin | 28/02/21 ||
 Write tests for channels_create_v1 | Wang | 28/02/21 ||
 Add data.py file | Sunny | 28/02/21 ||
+Add assumptions.md | Sunny | 28/02/21 ||
+Remove sample user and channel data | Sunny | 28/02/21 ||
 Get well versed with git and project spec | Everyone | 28/02/21 ||
 
 ## Other Notes & Information

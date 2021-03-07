@@ -36,9 +36,11 @@ Write tests and implementation for channel_invite_v1, channel_details_v1 and cha
 Add module docstring to auth.py | Amin | 07/03/21 ||
 Add helper function and modularise code | Amin | 07/03/21 ||
 Write tests for handle_str | Amin | 07/03/21 ||
+Fix up auth_register_tests | Amin | 07/03/21 ||
 Complete functions in channels.py | Wang | 07/03/21 ||
 Complete channels_listall_v1 | Wang | 07/03/21 ||
 Complete channels_list_v1 | Wang | 07/03/21 ||
+Complete module docstring for channels | Wang | 07/03/21 ||
 Add docstrings to functions | Sunny | 07/03/21 ||
 Implement basic functionality to auth_login_v1 | Sunny | 07/03/21 ||
 
