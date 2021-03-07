@@ -24,10 +24,10 @@ Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your
 ## Discussion Items
 Item | Who | Notes |
 ---- | ---- | ---- |
-standup | Amin | • Add helper functions, assumptions and improve code over the whole project.<br> Nothing <br> Finish off the project|
-standup | Wang | • Fixed erros in channel.py and channels.py <br> Nothing <br> Add more tests|
-standup | Sunny | • Wrote tests for auth_login_v1 and completed funciton docstrings<br> Nothing <br> Add more tests and perfect docstrings|
-standup | Siddh | • Learnt Git<br> Problems with Python <br> Add tests to auth_register_v1 |
+standup | Amin | • Add helper functions, assumptions and improve code over the whole project.<br> • Nothing <br> • Finish off the project|
+standup | Wang | • Fixed erros in channel.py and channels.py <br> • Nothing <br> • Add more tests|
+standup | Sunny | • Wrote tests for auth_login_v1 and completed funciton docstrings<br> • Nothing <br> • Add more tests and perfect docstrings|
+standup | Siddh | • Learnt Git<br> • Problems with Python <br> • Add tests to auth_register_v1 |
 
 ## Action Items
 item | responsible | due date |
