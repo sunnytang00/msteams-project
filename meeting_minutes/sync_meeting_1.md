@@ -24,10 +24,10 @@ Agenda | familiarise ourselves with group members
 ## Discussion Items
 Item | Who | Notes |
 ---- | ---- | ---- |
-General | Amin | • We should introduce ourselves to each other<br> • Go over how to add and remove data from storage (global variable) |
-standup | Wang | • Demontrates how to work with Git branches |
-standup | Sunny | • Dicusses about Pytest |
-standup | Siddh | • Help me and others learn how to understand and use Git |
+general | Amin | • We should introduce ourselves to each other<br> • Go over how to add and remove data from storage (global variable) |
+general | Wang | • Demontrates how to work with Git branches |
+general | Sunny | • Dicusses about Pytest |
+general | Siddh | • Help me and others learn how to understand and use Git |
 
 ## Action Items
 item | responsible | due date |
