@@ -88,7 +88,7 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     limit = 50
 
     for channel in data['channels']:
-        if channel['id'] == channel_id:
+        if channel['channel_id'] == channel_id:
             # check if start is valid
             messages = channel['messages']
             if start > len(messages):

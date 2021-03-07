@@ -95,7 +95,7 @@ def channels_create_v1(auth_user_id, name, is_public):
     handle_str = user['handle_str']
 
     data['channels'].append({
-        'id': new_channel_id,
+        'channel_id': new_channel_id,
         'name': name,
         'user_id': auth_user_id,
         'owner_members': [

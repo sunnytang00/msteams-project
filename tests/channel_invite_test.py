@@ -26,7 +26,7 @@ def test_valid_input():
     channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
 
     channels = channels_listall_v1(2)
-    assert channels[-1]['id'] == 1
+    assert channels[-1]['channel_id'] == 1
 
 def test_invalid_channel_id():
     clear_v1()

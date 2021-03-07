@@ -40,7 +40,7 @@ def channel_exists(channel_id: int) -> bool:
         False: if channel does not exist
     """    
     for channel in data['channels']:
-        if channel['id'] == channel_id:
+        if channel['channel_id'] == channel_id:
             return True
     return False
 
@@ -76,9 +76,9 @@ def get_channel_data(channel_id: int) -> dict:
         None: if the id does not match a channel
     """    
     for channel in data['channels']:
-        if channel['id'] == channel_id:
+        if channel['channel_id'] == channel_id:
             return {
-                'id': channel['id'],
+                'channel_id': channel['channel_id'],
                 'name': channel['name'],
                 'user_id': channel['user_id'],
                 'owner_members': channel['owner_members'],
