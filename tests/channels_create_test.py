@@ -35,14 +35,3 @@ def test_name_length():
         channels_create_v1(user_id, "first channel" * 10, True)
         assert 'Name is more than 20 characters long' in str(e)
 
-# TODO: new assumption duplicate channel names can exist
-def test_duplicate_channel_name():
-    clear_v1()
-    user = auth_register_v1('bobsmith3@gmail.com','12345678','bob2','smith2')
-    user_id = user['auth_user_id']
-
-    channel_name = "new channel2"
-    channels_create_v1(user_id, channel_name, True)
-    with pytest.raises(InputError) as e: 
-        channels_create_v1(user_id, channel_name, True)
-        assert f'Channel with name {channel_name} already exists' in str(e)

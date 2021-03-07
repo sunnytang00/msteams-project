@@ -21,7 +21,7 @@ def channels_list_v1(auth_user_id):
     Return Value:
         channels_of_user (list) - a list contains channels that the user is part of 
     """
-    # TODO: exception checking
+    
     if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
@@ -86,10 +86,6 @@ def channels_create_v1(auth_user_id, name, is_public):
         raise InputError(f'Name {name} is more than 20 characters long')
 
     user = get_user_data(auth_user_id) 
-
-    for channel in data['channels']:
-        if channel['name'] == name:
-            raise InputError(f'Channel with name {name} already exists')  
 
     new_channel_id = len(data['channels']) + 1
 
