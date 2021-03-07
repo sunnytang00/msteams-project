@@ -98,13 +98,12 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
-    for members in channel['all_members']:
-        if members['u_id'] == auth_user_id:
+    for member in channel['all_members']:
+        if member['u_id'] == auth_user_id:
             return True
     return False
 
 def user_is_owner(channel: dict, auth_user_id: int) -> bool:
-    for owner in channel['owner_members']:
     """A function when passed a channel and authenticated user ID, checks if they are the owner
 
     Arguments: 
@@ -115,10 +114,10 @@ def user_is_owner(channel: dict, auth_user_id: int) -> bool:
         True: if the user is an owner of the channel
         False: if the user is not an owner of the channel
     """        
+    for owner in channel['owner_members']:
         if owner['u_id'] == auth_user_id:
             return True
     return False
-
 
 def valid_password(password: str) -> bool:
     """A function that when passed password, will check if the length is greater than 6
