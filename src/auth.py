@@ -1,6 +1,6 @@
 from src.data import data
 from src.error import InputError
-from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists
+from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
 import re
 
 """ Register and login authentication.
@@ -78,12 +78,14 @@ def auth_register_v1(email, password, name_first, name_last):
     if email_exists(email):
         raise InputError(f'Email address {email} is already being used by another user')
 
+    handle_str = get_handle_str(name_first, name_last)
     # register user
     data['users'].append({ 
         'u_id': user_id,
         'email': email,
         'name_first': name_first,
         'name_last': name_last,
+        'handle_str': handle_str,
         'password': password
     })
 
