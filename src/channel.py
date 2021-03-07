@@ -8,12 +8,12 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
 
     Arguments:
         auth_user_id (int) - The ID of authorised user (invitor).
-        channel_id (int): The channel ID of the channel.
-        u_id (int): The user ID of the invitee.
+        channel_id (int) - The channel ID of the channel.
+        u_id (int) - The user ID of the invitee.
 
     Exceptions:
-        InputError: Occurs when channel_id does not refer to a valid channel
-        InputError: Occurs when u_id does not refer to a valid user
+        InputError - Occurs when channel_id does not refer to a valid channel
+        InputError - Occurs when u_id does not refer to a valid user
 
     Return Value:
         Returns {} (dict) on invited user.
@@ -21,6 +21,8 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
 
     # TODO: AccessError expection
     global data
+
+
 
     if not user_exists(auth_user_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
