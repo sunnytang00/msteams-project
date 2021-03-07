@@ -61,6 +61,9 @@ def channel_details_v1(auth_user_id, channel_id):
     if not channel:
         raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
+    if not user_is_member(channel, auth_user_id):
+        raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
+
     name = channel['name']
     owner_members = channel['owner_members']
     all_members = channel['all_members']
