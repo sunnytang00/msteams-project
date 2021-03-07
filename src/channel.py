@@ -1,7 +1,7 @@
 import time
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member, user_is_owner
+from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member#, user_is_owner
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -145,7 +145,6 @@ def channel_join_v1(auth_user_id, channel_id):
     """
     global data
 
-    # TODO: does this need to be here?
     if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
