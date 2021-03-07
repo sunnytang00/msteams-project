@@ -97,15 +97,7 @@ def channels_create_v1(auth_user_id, name, is_public):
     data['channels'].append({
         'channel_id': channel_id,
         'name': name,
-        'owner_members': [
-            {
-                'u_id': auth_user_id,
-                'email': email,
-                'name_first': name_first,
-                'name_last': name_last,
-                'handle_str': handle_str,
-            }
-        ],
+        'owner_members': [auth_user_id],
         'all_members': [
             {
                 'u_id': auth_user_id,
