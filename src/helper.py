@@ -98,8 +98,7 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
-    for member in channel['all_members']:
-        if member['u_id'] == auth_user_id:
+    if auth_user_id in channel['all_members']:
             return True
     return False
 

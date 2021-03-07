@@ -157,12 +157,6 @@ def channel_join_v1(auth_user_id, channel_id):
             name_last = user['name_last']
             break
     
-    user_dict = {
-        'u_id': auth_user_id,
-        'name_first': name_first,
-        'name_last': name_last,
-    }
-
     channel_data = get_channel_data(channel_id)
 
     if not channel_data['is_public']:
@@ -170,7 +164,7 @@ def channel_join_v1(auth_user_id, channel_id):
     if user_is_member(channel_data, auth_user_id):
         raise InputError('The user is already in the channel')
 
-    channel_data['all_members'].append(user_dict)
+    channel_data['all_members'].append(auth_user_id)
 
     return {}
 

@@ -21,7 +21,7 @@ def test_valid_input():
 
     result = channel_details_v1(auth_user_id=user_id, channel_id=channel_id)
     
-    expected = {'name': 'Cat Society', 'owner_members': [user_id], 'all_members': [{'u_id': 1, 'email': email, 'name_first': 'Bob', 'name_last': 'Smith', 'handle_str': 'bobsmith'}]}
+    expected = {'name': 'Cat Society', 'owner_members': [user_id], 'all_members': [user_id]}
 
     assert result == expected
 
