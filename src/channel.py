@@ -172,25 +172,6 @@ def channel_join_v1(auth_user_id, channel_id):
 
     channel_data['all_members'].append(user_dict)
 
-    ''' the original code
-    found_channel = False
-    channels = data['channels']
-    for channel in channels:
-        if channel['id'] == channel_id:
-            found_channel = True
-            if not channel['is_public']: 
-                raise AccessError('Cannot access the private channel')
-
-            for member in channel['all_members']:
-                if member['u_id'] == auth_user_id:
-                    raise InputError('The user is already in the channel')
-            
-            channel['all_members'].append(user_dict)
-            break
-    
-    if not found_channel:
-        raise InputError('Channel with ID {channel_id} does not exist')
-    '''
     return {}
 
 def channel_addowner_v1(auth_user_id, channel_id, u_id):
