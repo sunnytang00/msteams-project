@@ -28,17 +28,18 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not user_exists(u_id):
         raise InputError(f'u_id {u_id} does not refer to a valid user')
     
-    for channel in data['channels']:
-        if channel['id'] == channel_id:
-            user_data = get_user_data(u_id)
-            name_first = user_data['name_first']
-            name_last = user_data['name_last']
-            channel['all_members'].append({'u_id' : u_id,
-                                            'name_first' : name_first,
-                                            'name_last' : name_last})
-            return {}
+    channel = get_channel_data(channel_id)
 
-    raise InputError(f'channel_id {channel_id} does not refer to a valid channel.')
+    if not channel:
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel.')
+
+    user_data = get_user_data(u_id)
+    name_first = user_data['name_first']
+    name_last = user_data['name_last']
+    channel['all_members'].append({'u_id' : u_id,
+                                    'name_first' : name_first,
+                                    'name_last' : name_last})
+    return {}
 
 def channel_details_v1(auth_user_id, channel_id):
     """Given a Channel with ID channel_id that the authorised user is part of, provide basic details about the channel
