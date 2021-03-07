@@ -1,3 +1,8 @@
+""" Invite, list and join channels.
+
+This module demonstrates the inviting, listing and joining of a channel as specified by the COMP1531 Major Project specification.
+"""
+
 import time
 from .data import data
 from .error import InputError, AccessError
