@@ -1,10 +1,10 @@
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time/Duration:** meeting_date, meeting_time, duration 
+**Meeting Date/Time/Duration:** 07/03/21, 3:00pm, 44 minutes
 **Meeting Purpose:** weekly standup
 **Meeting Location:** Microsoft Teams
 **Meeting Type:** synchronous
-**Note Taker:** note_taker  
+**Note Taker:** Amin Ghasembeigi
 
 ## Attendees
 People who attended:
@@ -12,10 +12,11 @@ People who attended:
 - Wang Zhang
 - Sunny Tang
 - Siddh Rawal
+
+Absent:
 - Areej Ahmed
 
 ## Agenda Items
-
 Item | Description
 ---- | ----
 Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your progress?<br>3. What will you do this following week?

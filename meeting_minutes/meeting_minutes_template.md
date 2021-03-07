@@ -1,7 +1,7 @@
 *source: https://github.com/gong-sh/minutes-of-meeting-markdown/blob/master/minutes.md*
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time:** meeting_date, meeting_time  
+**Meeting Date/Time/Duration:** meeting_date, meeting_time, duration 
 **Meeting Purpose:** weekly standup
 **Meeting Location:** Microsoft Teams
 **Meeting Type:** asynchronous or synchronous
@@ -15,8 +15,10 @@ People who attended:
 - Siddh Rawal
 - Areej Ahmed
 
-## Agenda Items
+Absent:
+- None
 
+## Agenda Items
 Item | Description
 ---- | ----
 Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your progress?<br>3. What will you do this following week?

@@ -1,7 +1,6 @@
-*source: https://github.com/gong-sh/minutes-of-meeting-markdown/blob/master/minutes.md*
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time:** 28/02/21, 3:00pm
+**Meeting Date/Time/Duration:** 28/02/21, 3:00pm, 22 minutes
 **Meeting Purpose:** weekly standup
 **Meeting Location:** Microsoft Teams
 **Meeting Type:** synchronous
@@ -14,7 +13,7 @@ People who attended:
 - Sunny Tang
 - Siddh Rawal
 
-Absent
+Absent:
 - Areej Ahmed
 
 ## Agenda Items
