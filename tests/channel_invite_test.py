@@ -4,7 +4,7 @@ from src.channels import channels_create_v1, channels_listall_v1 ,channels_list_
 from src.error import InputError, AccessError
 from src.auth import auth_register_v1
 from src.other import clear_v1
-from tests.helper import helper
+from .helper import helper
 
 def test_valid_input():
     clear_v1()
@@ -82,7 +82,6 @@ def test_invalid_u_id():
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invalid_invitee_user_id)
         assert 'User ID does not refer to a valid user.' in str(e)
 
-# TODO: AccessError expection test
 def test_user_not_authorised():
     """the authorised user is not already a member of the channel"""
     clear_v1()
