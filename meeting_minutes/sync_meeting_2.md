@@ -35,6 +35,7 @@ standup | Siddh | • Read project spec<br> Problems with Git, working with lab 
 item | responsible | due date |
 | ---- | ---- | ---- |
 Write tests and implementation for channel_invite_v1, channel_details_v1 and channel_messages_v1 | Amin | 07/03/21 ||
+Add helper function and modularise code | Amin | 07/03/21 ||
 Complete functions in channels.py | Wang | 07/03/21 ||
 Add docstrings to functions | Sunny | 07/03/21 ||
 
