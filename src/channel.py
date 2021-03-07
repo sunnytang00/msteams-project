@@ -1,44 +1,47 @@
 import time
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
+from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member, user_is_owner
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
 
-    Args:
-        auth_user_id (int): ID of authorised user
-        channel_id (int): The channel id
-        u_id (int): The user id
+    Arguments:
+        auth_user_id (int) - The ID of authorised user (invitor).
+        channel_id (int) - The channel ID of the channel.
+        u_id (int) - The user ID of the invitee.
 
     Exceptions:
-        InputError: Occurs when channel_id does not refer to a valid channel
-        InputError: Occurs when u_id does not refer to a valid user
+        InputError - Occurs when channel_id does not refer to a valid channel
+        InputError - Occurs when u_id does not refer to a valid user
 
-    Returns:
-        {}:
+    Return Value:
+        Returns {} (dict) on invited user.
     """    
 
-    # TODO: AccessError expection
     global data
 
     if not user_exists(auth_user_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
 
     if not user_exists(u_id):
-        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
-    
-    for channel in data['channels']:
-        if channel['id'] == channel_id:
-            user_data = get_user_data(u_id)
-            name_first = user_data['name_first']
-            name_last = user_data['name_last']
-            channel['all_members'].append({'u_id' : u_id,
-                                            'name_first' : name_first,
-                                            'name_last' : name_last})
-            return {}
+        raise InputError(f'u_id {u_id} does not refer to a valid user')
 
-    raise InputError(f'channel_id {channel_id} does not refer to a valid channel.')
+    channel = get_channel_data(channel_id)
+
+    if not channel:
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
+    
+    if not user_is_member(channel, auth_user_id):
+        raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
+
+    user_data = get_user_data(u_id)
+    name_first = user_data['name_first']
+    name_last = user_data['name_last']
+    channel['all_members'].append({'u_id' : u_id,
+                                    'name_first' : name_first,
+                                    'name_last' : name_last})
+    return {}
 
 def channel_details_v1(auth_user_id, channel_id):
     """Given a Channel with ID channel_id that the authorised user is part of, provide basic details about the channel
@@ -51,21 +54,22 @@ def channel_details_v1(auth_user_id, channel_id):
     Returns:
         { name, owner_members, all_members }: [description]
     """    
-    # TODO: AccessError exceptoin
-    
-    for channel in data['channels']:
-        if channel['id'] == channel_id:
-            name = channel['name']
-            owner_members = channel['owner_members']
-            all_members = channel['all_members']
-            return {
-                'name': name,
-                'owner_members': owner_members,
-                'all_members': all_members,
-            }
+    channel = get_channel_data(channel_id)
 
-    raise InputError(f'Channel ID {channel_id} is not a valid channel')   
+    if not channel:
+        raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
+    if not user_is_member(channel, auth_user_id):
+        raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
+
+    name = channel['name']
+    owner_members = channel['owner_members']
+    all_members = channel['all_members']
+    return {
+        'name': name,
+        'owner_members': owner_members,
+        'all_members': all_members,
+    }
 
 def channel_messages_v1(auth_user_id, channel_id, start):
     """Given a Channel ID that the authorised user is part of, return up to 50 messages starting from most recent.
@@ -169,25 +173,6 @@ def channel_join_v1(auth_user_id, channel_id):
 
     channel_data['all_members'].append(user_dict)
 
-    ''' the original code
-    found_channel = False
-    channels = data['channels']
-    for channel in channels:
-        if channel['id'] == channel_id:
-            found_channel = True
-            if not channel['is_public']: 
-                raise AccessError('Cannot access the private channel')
-
-            for member in channel['all_members']:
-                if member['u_id'] == auth_user_id:
-                    raise InputError('The user is already in the channel')
-            
-            channel['all_members'].append(user_dict)
-            break
-    
-    if not found_channel:
-        raise InputError('Channel with ID {channel_id} does not exist')
-    '''
     return {}
 
 def channel_addowner_v1(auth_user_id, channel_id, u_id):
