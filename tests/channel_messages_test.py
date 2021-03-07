@@ -5,7 +5,7 @@ from src.channels import channels_create_v1
 from src.error import InputError, AccessError
 from src.auth import auth_register_v1
 from src.other import clear_v1
-from tests.helper import helper
+from .helper import helper
 
 def test_time_created():
     clear_v1()
@@ -75,5 +75,19 @@ def test_invalid_start():
         channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=invalid_start)
         assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e)
 
-# TODO: AccessError
-      
+def test_user_not_member(helper):
+    clear_v1()
+    helper.register_users(10)
+
+    user = auth_register_v1(email='bobsmith@gmail.com',
+                                password='42flshjfzhh8',
+                                name_first='Bob',
+                                name_last='Smith')
+    user_id = user['auth_user_id']
+
+    channel = channels_create_v1(10, "Cat Society", True)
+    channel_id = channel['channel_id']
+
+    with pytest.raises(AccessError) as e: 
+        channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=0)
+        assert f'Authorised user {user_id} is not a member of channel with channel_id {channel_id}' in str(e)

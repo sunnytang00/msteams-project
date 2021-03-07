@@ -9,6 +9,7 @@
 
 ## channels.py
 ### `channels_list_v1`
+1. The user will only see public channels and channels that the user is a member of.
 ### `channels_listall_v1`
 1. The user will only see public channels and channels that the user is a member of.
 ### `channels_create_v1`
@@ -26,6 +27,7 @@
 1. The members of a channel are stored in all_members, chronologically ordered.
 2. The owners of a channel are stored in all_owners, chronologically ordered.
 ### `channel_messages_v1`
+1. Messages are stored inside a list, where each element is a message.
 ### `channel_join_v1`
 1. A user can be apart of 0 or more channels.
 

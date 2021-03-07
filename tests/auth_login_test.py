@@ -4,17 +4,32 @@ from src.other import clear_v1
 from src.error import InputError
 from .helper import helper
 
-def test_valid_input():
+def test_valid_input(helper):
     """Testing for a valid login, first register the user and then login, expected return is user_id."""
     clear_v1()
-    result = auth_register_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
+    output = auth_register_v1(email='harrypotter@gmail.com',
+                                password='qw3rtyAppl3s@99',
+                                name_first='Harry',
+                                name_last='Potter')
 
-    assert auth_login_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99') == result
-                          
+    expected = auth_login_v1(email='harrypotter@gmail.com',
+                                password='qw3rtyAppl3s@99')
+    assert output == expected
+
+    # testing registering a large amount of users, then logging in with one
+    clear_v1()
+
+    helper.register_users(15)
+
+    output = auth_register_v1(email='harrypotter3@gmail.com',
+                                password='qw3rtyAppl3s@04',
+                                name_first='Harrrrry',
+                                name_last='Pottttter')
+    
+    expected = auth_login_v1(email='harrypotter3@gmail.com',
+                            password='qw3rtyAppl3s@04')
+
+    assert output == expected
 
 def test_many_users():
     """Register three users and try log middle one in."""
@@ -24,7 +39,7 @@ def test_many_users():
                         name_first='Harry',
                         name_last='Potter')
 
-    result = auth_register_v1(email='bob_smith@gmail.com',
+    output = auth_register_v1(email='bob_smith@gmail.com',
                         password='jfs2@$sjxzvkl',
                         name_first='Bob',
                         name_last='Smith')
@@ -34,8 +49,10 @@ def test_many_users():
                         name_first='Fiza',
                         name_last='Good')
 
-    assert auth_login_v1(email='bob_smith@gmail.com',
-                            password='jfs2@$sjxzvkl') == result
+    expected = auth_login_v1(email='bob_smith@gmail.com',
+                                password='jfs2@$sjxzvkl')
+
+    assert output == expected
 
 def test_unknown_email():
     """Testing a non-registered email."""
@@ -44,11 +61,13 @@ def test_unknown_email():
                         password='qw3rtyAppl3s@99',
                         name_first='Harry',
                         name_last='Potter')
+
+    invalid_email = 'fake_email@gmail.com'
     with pytest.raises(InputError) as e:
-        auth_login_v1(email='fake_email@gmail.com',
-                            password='qw3rtyAppl3s@99')
+        auth_login_v1(email=invalid_email,
+                        password='qw3rtyAppl3s@99')
         
-        assert 'Email does not belong to a user.' in str(e)
+        assert f'Email {invalid_email} entered does not belong to a user' in str(e)
      
 def test_invalid_password():
     """Testing an invalid password."""
@@ -58,24 +77,12 @@ def test_invalid_password():
                         name_first='Harry',
                         name_last='Potter')
 
+    invalid_password = 'ffffffffF'
     with pytest.raises(InputError) as e:
         auth_login_v1(email='harrypotter@gmail.com',
-                        password='ffffffffF')  
-        assert 'Password is not correct.' in str(e)
+                        password=invalid_password)  
+        assert f'Password {invalid_password} is not correct.' in str(e)
 
-def test_manymore_users_success(helper):
-    """Testing registering a large amount of users, then logging in with one"""
-    clear_v1()
-
-    helper.register_users(10)
-
-    result = auth_register_v1(email='harrypotter3@gmail.com',
-                        password='qw3rtyAppl3s@04',
-                        name_first='Harrrrry',
-                        name_last='Pottttter')
-
-    assert auth_login_v1(email='harrypotter3@gmail.com',
-                            password='qw3rtyAppl3s@04') == result
 
 def test_many_logins(helper):
     """Testing registering a large amount of users, then logging in with one"""
@@ -83,65 +90,62 @@ def test_many_logins(helper):
 
     helper.register_users(10)
 
-    result1 = auth_register_v1(email='harrypotter3@gmail.com',
-                        password='qw3rtyAppl3s@04',
-                        name_first='Harrrrry',
-                        name_last='Pottttter')
+    output1 = auth_register_v1(email='harrypotter3@gmail.com',
+                                password='qw3rtyAppl3s@04',
+                                name_first='Harrrrry',
+                                name_last='Pottttter')
 
-    result2 = auth_register_v1(email='harrypotter5@gmail.com',
-                        password='qw3rtyAppl3s@06',
-                        name_first='Harrrrrrry',
-                        name_last='Pottttttter')
+    output2 = auth_register_v1(email='harrypotter5@gmail.com',
+                                password='qw3rtyAppl3s@06',
+                                name_first='Harrrrrrry',
+                                name_last='Pottttttter')
 
-    result3 = auth_register_v1(email='harrypotter10@gmail.com',
-                        password='qw3rtyAppl3s@11',
-                        name_first='Harrrrrrrrrrrry',
-                        name_last='Potttttttttttttttttter')
+    output3 = auth_register_v1(email='harrypotter10@gmail.com',
+                                password='qw3rtyAppl3s@11',
+                                name_first='Harrrrrrrrrrrry',
+                                name_last='Potttttttttttttttttter')
 
     assert auth_login_v1(email='harrypotter3@gmail.com',
-                            password='qw3rtyAppl3s@04') == result1 and auth_login_v1(email='harrypotter5@gmail.com',
-                            password='qw3rtyAppl3s@06') == result2 and auth_login_v1(email='harrypotter10@gmail.com',
-                            password='qw3rtyAppl3s@11') == result3
+                            password='qw3rtyAppl3s@04') == output1 and auth_login_v1(email='harrypotter5@gmail.com',
+                            password='qw3rtyAppl3s@06') == output2 and auth_login_v1(email='harrypotter10@gmail.com',
+                            password='qw3rtyAppl3s@11') == output3
 
 
-def test_manymore_users_fail(helper):
+def test_many_users_fail(helper):
     """Testing registering a large amount of users, then logging in with one"""
     clear_v1()
 
     helper.register_users(10)
 
+    invalid_email = 'harryswrongemail.com'
     with pytest.raises(InputError) as e:
-        auth_login_v1(email='harryswrongemail.com',
+        auth_login_v1(email=invalid_email,
                             password='verywrongpassword')
         
-        assert 'Email does not belong to a user.' in str(e)
+        assert f'Email {invalid_email} does not belong to a user.' in str(e)
 
-def test_login_with_no_details(helper):
+def test_no_details(helper):
+    clear_v1()
+    helper.register_users(15)
+    empty_str = ''
 
+    with pytest.raises(InputError) as e:
+        auth_login_v1(email=empty_str,
+                        password=empty_str)
+        
+        assert f'Email {empty_str} does not belong to a user.' in str(e)
+
+def test_max_characters(helper):
     clear_v1()
 
+    invalid_email = 'q'*1000
     auth_register_v1(email='harrypotter3@gmail.com',
                         password='qw3rtyAppl3s@04',
                         name_first='Harrrrry',
                         name_last='Pottttter')
 
     with pytest.raises(InputError) as e:
-        auth_login_v1(email='',
-                            password='')
+        auth_login_v1(email=invalid_email,
+                            password='fjk@40asj')
         
-        assert 'Email does not belong to a user.' in str(e)
-
-def test_login_with_max_characters(helper):
-
-    clear_v1()
-
-    auth_register_v1(email='harrypotter3@gmail.com',
-                        password='qw3rtyAppl3s@04',
-                        name_first='Harrrrry',
-                        name_last='Pottttter')
-
-    with pytest.raises(InputError) as e:
-        auth_login_v1(email='q'*10000,
-                            password='q'*10000)
-        
-        assert 'Email does not belong to a user.' in str(e)
+        assert f'Email {invalid_email} does not belong to a user.' in str(e)

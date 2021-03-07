@@ -1,7 +1,12 @@
+""" Invite, list and join channels.
+
+This module demonstrates the inviting, listing and joining of a channel as specified by the COMP1531 Major Project specification.
+"""
+
 import time
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member#, user_is_owner
+from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -35,24 +40,22 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not user_is_member(channel, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
 
-    user_data = get_user_data(u_id)
-    name_first = user_data['name_first']
-    name_last = user_data['name_last']
-    channel['all_members'].append({'u_id' : u_id,
-                                    'name_first' : name_first,
-                                    'name_last' : name_last})
+    channel['all_members'].append(u_id)
     return {}
 
 def channel_details_v1(auth_user_id, channel_id):
     """Given a Channel with ID channel_id that the authorised user is part of, provide basic details about the channel
 
-    Args:
-        auth_user_id (integer): ID of authorised user
+    Arguments:
+        auth_user_id (integer) - ID of authorised user
+        channel_id (integer) - The channel ID
 
-        channel_id (integer): The channel ID
+    Exceptions:
+        InputError - Channel ID is not a valid channel
+        AccessError - Authorised user is not a member of channel with channel_id
 
-    Returns:
-        { name, owner_members, all_members }: [description]
+    Return Value:
+        Returns { name, owner_members, all_members } (dict) on valid channel_id and auth_user_id
     """    
     channel = get_channel_data(channel_id)
 
@@ -76,42 +79,51 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     It returns a new index "end" which is the value of "start + 50". If this function has returned hte least recent messages in the channel, returns -1 in "end" to indicate
     There are no more messages
     I
-    Args:
-        auth_user_id (int): ID of authorised user
+    Arguments:
+        auth_user_id (int) - ID of authorised user
+        channel_id (int) - Channel ID
+        start (int) - An index for the chronological order of messages
 
-        channel_id (int): Channel ID
-        start (int): An index for the chronological order of messages
+    Exceptions:
+        InputError - Channel ID is not a valid channel
+        InputError - start is greater than the total number of messages in the channel
+        AcessError - Authorised user is not a member of channel with channel_id
 
-    Returns:
-        { messages, start, end }: [description]
+    Return Value:
+        Returns { messages, start, end } (dict): [description]
     """ 
     limit = 50
 
-    for channel in data['channels']:
-        if channel['channel_id'] == channel_id:
-            # check if start is valid
-            messages = channel['messages']
-            if start > len(messages):
-                raise InputError(f'Start {start} is greater than the total number of messages in the channel')
-            end = start + limit
-            if end > len(messages):
-                end = -1
-            time_created = int(time.time())
+    channel = get_channel_data(channel_id)
+    if not channel_exists(channel_id):
+        raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
-            return {
-                'messages': [
-                    {
-                        'message_id': 1,
-                        'u_id': 1,
-                        'message': 'Hello world',
-                        'time_created': time_created,
-                    }
-                ],
-                'start': start,
-                'end': end,
+    if not user_is_member(channel, auth_user_id):
+        raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
+
+    channel = get_channel_data(channel_id)
+    # check if start is valid
+    messages = channel['messages']
+    if start > len(messages):
+        raise InputError(f'Start {start} is greater than the total number of messages in the channel')
+    end = start + limit
+    if end > len(messages):
+        end = -1
+    time_created = int(time.time())
+
+    return {
+        'messages': [
+            {
+                'message_id': 1,
+                'u_id': 1,
+                'message': 'Hello world',
+                'time_created': time_created,
             }
+        ],
+        'start': start,
+        'end': end,
+    }
 
-    raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
 def channel_leave_v1(auth_user_id, channel_id):
     """[summary]
@@ -141,7 +153,7 @@ def channel_join_v1(auth_user_id, channel_id):
         InputError - Occurs when the channel is private and the user is not owner of it
 
     Return Value:
-        Return nothing
+        Returns {} (dict) on success
     """
     global data
 
@@ -151,12 +163,6 @@ def channel_join_v1(auth_user_id, channel_id):
     if not channel_exists(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')
 
-    for user in data['users']:
-        if user['u_id'] == auth_user_id:
-            name_first = user['name_first']
-            name_last = user['name_last']
-            break
-    
     channel_data = get_channel_data(channel_id)
 
     if not channel_data['is_public']:

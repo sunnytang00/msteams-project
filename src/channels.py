@@ -1,13 +1,12 @@
-from .data import data
-from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, user_is_member, valid_channel_name
-
-"""
-Create and show the list of channels
+""" Create and show the list of channels
 
 This module demonstrates creation of channels and ability of showing list of channels with associated details
 as specified by the COMP1531 Major Project specification.
 """
+
+from .data import data
+from .error import InputError, AccessError
+from .helper import user_exists, get_user_data, get_channel_data, user_is_member, valid_channel_name
 
 def channels_list_v1(auth_user_id):
     """ Shows the list of channels and the associated details that authorised user is part of
@@ -19,11 +18,11 @@ def channels_list_v1(auth_user_id):
         AccessError - Occurs when the auth_user_id is invalid 
 
     Return Value:
-        channels_of_user (list) - a list contains channels that the user is part of 
+        Returns channels_of_user (list) on valid authenticated user
     """
     
     if not user_exists(auth_user_id):
-        raise AccessError('User ID is invaild')
+        raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if len(data['channels']) == 0:
         return {}
@@ -50,10 +49,10 @@ def channels_listall_v1(auth_user_id):
         AccessError - Occurs when the auth_user_id is invalid 
 
     Return Value:
-        data['channels'] (list) - A list contains all the public channels stored in the storage
+        Returns data['channels'] (list) on valid authenticated user
     """
     if not user_exists(auth_user_id):
-        raise AccessError('User ID is invaild')
+        raise AccessError(f'User ID {auth_user_id} is invaild')
 
     public_channels = []
     for channel in data['channels']:
@@ -75,12 +74,12 @@ def channels_create_v1(auth_user_id, name, is_public):
         InputError - Occurs when the channel with specified name already exists
 
     Return Value:
-        ｛'channel_id'｝ (dict) - A dictonary that contains the ID of channel created
+        Returns ｛'channel_id'｝ (dict) on valid authenticated user and valid name
     """
     global data
 
     if not user_exists(auth_user_id):
-        raise AccessError('User ID is invaild')
+        raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if valid_channel_name(name):
         raise InputError(f'Name {name} is more than 20 characters long')

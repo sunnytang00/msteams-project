@@ -44,7 +44,7 @@ class Helper:
             if quantity == count: 
                 break
 
-            channels_create_v1(auth_user_id=channel['auth_user_id'],
+            channels_create_v1(auth_user_id=channel['channel_id'],
                                 name=channel['name'],
                                 is_public=channel['is_public']
                                 )
