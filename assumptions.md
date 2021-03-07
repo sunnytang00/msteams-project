@@ -1,5 +1,5 @@
 # Iteration-1 Project Assumptions
-## `auth.py`
+## auth.py
 ### `auth_login_v1`
 1. Every user will be uniquely identifiable by a unique ID.
 2. Initially, the total number of registered users will be 0.
@@ -7,10 +7,10 @@
 ### `auth_register_v1`
 1. Password lengh will be greater than 0.
 
-## `channels.py`
+## channels.py
 ### `channels_list_v1`
 ### `channels_listall_v1`
-1.. The user will only see public channels and channels that the user is a member of.
+1. The user will only see public channels and channels that the user is a member of.
 ### `channels_create_v1`
 1. Every channel will be uniquely identifiable by a unique ID.
 2. Initially, the total number of channels will be 0.
@@ -19,7 +19,7 @@
 5. The user who creates a channel will be the owner.
 6. Many channels can have the same name.
 
-## `channel.py`
+## channel.py
 ### `channel_invite_v1`
 1. Authorised users of a channel can invite other users to that channel.
 ### `channel_details_v1`
@@ -29,6 +29,6 @@
 ### `channel_join_v1`
 1. A user can be apart of 0 or more channels.
 
-## `other.py`
+## other.py
 ### `clear_v1`
 1. Will only clear data created by `auth_regsiter_v1` and `channels_create_v1`.
