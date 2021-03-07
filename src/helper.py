@@ -25,7 +25,7 @@ def user_exists(auth_user_id: int) -> bool:
        False: if user does not exist
     """    
     for user in data['users']:
-        if user['id'] == auth_user_id:
+        if user['u_id'] == auth_user_id:
             return True
     return False
 
@@ -40,7 +40,7 @@ def channel_exists(channel_id: int) -> bool:
         False: if channel does not exist
     """    
     for channel in data['channels']:
-        if channel['id'] == channel_id:
+        if channel['channel_id'] == channel_id:
             return True
     return False
 
@@ -55,12 +55,13 @@ def get_user_data(auth_user_id: int) -> dict:
         None: if nothing is found
     """    
     for user in data['users']:
-        if user['id'] == auth_user_id:
+        if user['u_id'] == auth_user_id:
             return {
                 'email': user['email'],
-                'password': user['password'],
                 'name_first': user['name_first'],
-                'name_last': user['name_last']
+                'name_last': user['name_last'],
+                'handle_str': user['handle_str'],
+                'password': user['password']
             }
     return None
 
@@ -75,11 +76,10 @@ def get_channel_data(channel_id: int) -> dict:
         None: if the id does not match a channel
     """    
     for channel in data['channels']:
-        if channel['id'] == channel_id:
+        if channel['channel_id'] == channel_id:
             return {
-                'id': channel['id'],
+                'channel_id': channel['channel_id'],
                 'name': channel['name'],
-                'user_id': channel['user_id'],
                 'owner_members': channel['owner_members'],
                 'all_members' : channel['all_members'],
                 'messages' : channel['messages'],
@@ -98,8 +98,7 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
-    for member in channel['all_members']:
-        if member['u_id'] == auth_user_id:
+    if auth_user_id in channel['all_members']:
             return True
     return False
 
@@ -192,3 +191,7 @@ def valid_channel_name(name: str) -> bool:
     if len(name) > 20:
         return True
     return False
+
+def get_handle_str(name_first: str, name_last: str) -> str:
+    handle_str = (name_first + name_last).replace(' ', '').lower()
+    return handle_str

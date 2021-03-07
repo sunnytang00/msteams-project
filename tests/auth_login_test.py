@@ -145,13 +145,3 @@ def test_login_with_max_characters(helper):
                             password='q'*10000)
         
         assert 'Email does not belong to a user.' in str(e)
-
-
-
-
-
-
-
-
-
-

@@ -2,6 +2,7 @@ import pytest
 from src.auth import auth_register_v1
 from src.other import clear_v1
 from src.error import InputError
+from src.helper import get_handle_str
 from .helper import helper
 
 def test_valid_input(helper):
@@ -101,3 +102,11 @@ def test_last_name_length():
                         name_first='Everett',
                         name_last='')
         assert 'Last name invalid length.' in str(e)
+
+def test_handle_str(helper):
+    name_first = 'Harry'
+    name_last = 'Potter'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'harrypotter'
+    assert expected == output

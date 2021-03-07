@@ -25,6 +25,8 @@ def test_valid_input():
     channel = channels_create_v1(user_id, "channel1", True)
     channel_join_v1(user_id_2, channel['channel_id'])
     result = channels_list_v1(user_id_2)['channels']
+    print(result)
+
     assert len(result) == 1
 
 def test_invalid_userid():
