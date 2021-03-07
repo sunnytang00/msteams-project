@@ -21,7 +21,7 @@ def channels_list_v1(auth_user_id):
     Return Value:
         channels_of_user (list) - a list contains channels that the user is part of 
     """
-    # TODO: exception checking
+    
     if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
 
