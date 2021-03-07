@@ -1,10 +1,10 @@
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time/Duration:** 22/02/21, 3:00pm, 59 minutes
-**Meeting Purpose:** familiarise ourselves with group members
-**Meeting Location:** Microsoft Teams
-**Meeting Type:** synchronous
-**Note Taker:** Amin Ghasembeigi
+**Meeting Date/Time/Duration:** 22/02/21, 3:00pm, 59 minutes  
+**Meeting Purpose:** familiarise ourselves with group members  
+**Meeting Location:** Microsoft Teams  
+**Meeting Type:** synchronous  
+**Note Taker:** Amin Ghasembeigi  
 
 ## Attendees
 People who attended:

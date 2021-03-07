@@ -1,10 +1,10 @@
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time/Duration:** 07/03/21, 3:00pm, 44 minutes
-**Meeting Purpose:** weekly standup
-**Meeting Location:** Microsoft Teams
-**Meeting Type:** synchronous
-**Note Taker:** Amin Ghasembeigi
+**Meeting Date/Time/Duration:** 07/03/21, 3:00pm, 44 minutes  
+**Meeting Purpose:** weekly standup  
+**Meeting Location:** Microsoft Teams  
+**Meeting Type:** synchronous  
+**Note Taker:** Amin Ghasembeigi  
 
 ## Attendees
 People who attended:

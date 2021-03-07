@@ -1,10 +1,10 @@
 *source: https://github.com/gong-sh/minutes-of-meeting-markdown/blob/master/minutes.md*
 # Meeting Minutes
 ## Meeting Information
-**Meeting Date/Time/Duration:** meeting_date, meeting_time, duration 
-**Meeting Purpose:** weekly standup
-**Meeting Location:** Microsoft Teams
-**Meeting Type:** asynchronous or synchronous
+**Meeting Date/Time/Duration:** meeting_date, meeting_time, duration   
+**Meeting Purpose:** weekly standup  
+**Meeting Location:** Microsoft Teams  
+**Meeting Type:** asynchronous or synchronous  
 **Note Taker:** note_taker  
 
 ## Attendees
