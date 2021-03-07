@@ -37,7 +37,7 @@ def get_user_data(auth_user_id: int) -> dict:
             }
     return None
 
-def get_channel_data(channel_id: int) -> bool:
+def get_channel_data(channel_id: int) -> dict:
     for channel in data['channels']:
         if channel['id'] == channel_id:
             return {
