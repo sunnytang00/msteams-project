@@ -57,6 +57,12 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
             return True
     return False
 
+def user_is_owner(channel: dict, auth_user_id: int) -> bool:
+    for owner in channel['owner_members']:
+        if owner['u_id'] == auth_user_id:
+            return True
+    return False
+
 def valid_password(password: str) -> bool:
     if len(password) >= 6:
         return True
