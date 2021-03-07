@@ -6,7 +6,7 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 import time
 from .data import data
 from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member#, user_is_owner
+from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -99,31 +99,36 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     """ 
     limit = 50
 
-    for channel in data['channels']:
-        if channel['channel_id'] == channel_id:
-            # check if start is valid
-            messages = channel['messages']
-            if start > len(messages):
-                raise InputError(f'Start {start} is greater than the total number of messages in the channel')
-            end = start + limit
-            if end > len(messages):
-                end = -1
-            time_created = int(time.time())
+    channel = get_channel_data(channel_id)
+    if not channel_exists(channel_id):
+        raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
-            return {
-                'messages': [
-                    {
-                        'message_id': 1,
-                        'u_id': 1,
-                        'message': 'Hello world',
-                        'time_created': time_created,
-                    }
-                ],
-                'start': start,
-                'end': end,
+    if not user_is_member(channel, auth_user_id):
+        raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
+
+    channel = get_channel_data(channel_id)
+    # check if start is valid
+    messages = channel['messages']
+    if start > len(messages):
+        raise InputError(f'Start {start} is greater than the total number of messages in the channel')
+    end = start + limit
+    if end > len(messages):
+        end = -1
+    time_created = int(time.time())
+
+    return {
+        'messages': [
+            {
+                'message_id': 1,
+                'u_id': 1,
+                'message': 'Hello world',
+                'time_created': time_created,
             }
+        ],
+        'start': start,
+        'end': end,
+    }
 
-    raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
 def channel_leave_v1(auth_user_id, channel_id):
     """[summary]
