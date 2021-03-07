@@ -19,7 +19,6 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
         Returns {} (dict) on invited user.
     """    
 
-    # TODO: AccessError expection
     global data
 
     if not user_exists(auth_user_id):
