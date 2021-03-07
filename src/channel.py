@@ -6,17 +6,17 @@ from .helper import user_exists, get_user_data, get_channel_data, channel_exists
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
 
-    Args:
-        auth_user_id (int): ID of authorised user
-        channel_id (int): The channel id
-        u_id (int): The user id
+    Arguments:
+        auth_user_id (int) - The ID of authorised user (invitor).
+        channel_id (int): The channel ID of the channel.
+        u_id (int): The user ID of the invitee.
 
     Exceptions:
         InputError: Occurs when channel_id does not refer to a valid channel
         InputError: Occurs when u_id does not refer to a valid user
 
-    Returns:
-        {}:
+    Return Value:
+        Returns {} (dict) on invited user.
     """    
 
     # TODO: AccessError expection
