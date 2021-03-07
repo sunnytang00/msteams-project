@@ -26,7 +26,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
 
     if not user_exists(u_id):
-        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+        raise InputError(f'u_id {u_id} does not refer to a valid user')
     
     for channel in data['channels']:
         if channel['id'] == channel_id:
