@@ -103,10 +103,79 @@ def test_last_name_length():
                         name_last='')
         assert 'Last name invalid length.' in str(e)
 
-def test_handle_str(helper):
+def test_regular_handle_str():
     name_first = 'Harry'
     name_last = 'Potter'
 
     output = get_handle_str(name_first, name_last)
     expected = 'harrypotter'
+    assert expected == output
+
+def test_uppercase_handle_str():
+    name_first = 'HARRY'
+    name_last = 'POTTER'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'harrypotter'
+    assert expected == output
+
+def test_long_handle_str():
+    name_first = 'a'*50
+    name_last = 'Potter'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'a'*20
+    assert expected == output
+
+def test_at_symbol_handle_str():
+    name_first = 'Harry@@@@@@@@@@@@'
+    name_last = 'Potter'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'harrypotter'
+    assert expected == output
+
+def test_mixed_handle_str():
+    name_first = '@ r'*20
+    name_last = 'Potter'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'r'*20
+    assert expected == output
+
+def test_already_taken_handle_str():
+    clear_v1()
+    auth_register_v1(email='harrypotter7@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter')
+
+    name_first = 'Harry'
+    name_last = 'Potter'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'harrypotter0'
+    assert expected == output
+
+# TODO: many taken at max char length
+def test_many_taken_handle_str():
+    clear_v1()
+    auth_register_v1(email='harrypotter1@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter')
+    auth_register_v1(email='harrypotter2@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter0')
+    auth_register_v1(email='harrypotter3@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter1')
+
+    name_first = 'Harry'
+    name_last = 'Potter'
+
+    output = get_handle_str(name_first, name_last)
+    expected = 'harrypotter2'
     assert expected == output
