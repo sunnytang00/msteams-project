@@ -25,7 +25,7 @@ def user_exists(auth_user_id: int) -> bool:
        False: if user does not exist
     """    
     for user in data['users']:
-        if user['id'] == auth_user_id:
+        if user['u_id'] == auth_user_id:
             return True
     return False
 
@@ -55,7 +55,7 @@ def get_user_data(auth_user_id: int) -> dict:
         None: if nothing is found
     """    
     for user in data['users']:
-        if user['id'] == auth_user_id:
+        if user['u_id'] == auth_user_id:
             return {
                 'email': user['email'],
                 'password': user['password'],

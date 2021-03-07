@@ -152,7 +152,7 @@ def channel_join_v1(auth_user_id, channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')
 
     for user in data['users']:
-        if user['id'] == auth_user_id:
+        if user['u_id'] == auth_user_id:
             name_first = user['name_first']
             name_last = user['name_last']
             break

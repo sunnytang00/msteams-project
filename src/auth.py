@@ -34,7 +34,7 @@ def auth_login_v1(email, password):
         if email == user['email']:
             # check corret password
             if password == user['password']:
-                return {'auth_user_id': user['id']}
+                return {'auth_user_id': user['u_id']}
             else:
                 raise InputError(f'Password {password} is not correct')
           
@@ -80,11 +80,11 @@ def auth_register_v1(email, password, name_first, name_last):
 
     # register user
     data['users'].append({ 
-        'id': user_id,
+        'u_id': user_id,
         'email': email,
-        'password': password,
         'name_first': name_first,
-        'name_last': name_last
+        'name_last': name_last,
+        'password': password
     })
 
     return {
