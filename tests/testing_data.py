@@ -75,53 +75,83 @@ testing_data = {
     ],
     'channels': [
         {
-            'auth_user_id': 1,
+            'channel_id': 1,
             'name': 'Good Name',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 2,
+            'channel_id': 2,
             'name': 'Fan Society',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 3,
+            'channel_id': 3,
             'name': 'Spaceships',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': False
         },
         {
-            'auth_user_id': 4,
+            'channel_id': 4,
             'name': 'Green apples?',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 5,
+            'channel_id': 5,
             'name': 'Channel one',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 6,
+            'channel_id': 6,
             'name': 'Watermelons',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 7,
+            'channel_id': 7,
             'name': 'UNSW Chat',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 8,
+            'channel_id': 8,
             'name': 'Chicken',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 9,
+            'channel_id': 9,
             'name': 'Fan Club',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': True
         },
         {
-            'auth_user_id': 10,
+            'channel_id': 10,
             'name': 'Chicken Lovers',
+            'owner_members': [1],
+            'all_members': [1, 2, 3, 4, 5],
+            'messages': [],
             'is_public': False
         },
 
