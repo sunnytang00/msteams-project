@@ -40,12 +40,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not user_is_member(channel, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
 
-    user_data = get_user_data(u_id)
-    name_first = user_data['name_first']
-    name_last = user_data['name_last']
-    channel['all_members'].append({'u_id' : u_id,
-                                    'name_first' : name_first,
-                                    'name_last' : name_last})
+    channel['all_members'].append(u_id)
     return {}
 
 def channel_details_v1(auth_user_id, channel_id):
@@ -168,12 +163,6 @@ def channel_join_v1(auth_user_id, channel_id):
     if not channel_exists(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')
 
-    for user in data['users']:
-        if user['u_id'] == auth_user_id:
-            name_first = user['name_first']
-            name_last = user['name_last']
-            break
-    
     channel_data = get_channel_data(channel_id)
 
     if not channel_data['is_public']:
