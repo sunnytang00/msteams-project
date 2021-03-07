@@ -15,10 +15,8 @@ People who attended:
 - Siddh Rawal
 - Areej Ahmed
 
-Absent:
-- None
-
 ## Agenda Items
+
 Item | Description
 ---- | ----
 Agenda Item 1 | 1. What did you do this week?<br>2. What (if anything) is blocking your progress?<br>3. What will you do this following week?
@@ -26,11 +24,12 @@ Agenda Item 1 | 1. What did you do this week?<br>2. What (if anything) is blocki
 ## Discussion Items
 Item | Who | Notes |
 ---- | ---- | ---- |
-standup | Amin | 1. <br>2. <br>3. |
-standup | Wang | 1. <br>2. <br>3. |
-standup | Sunny | 1. <br>2. <br>3. |
-standup | Siddh | 1. <br>2. <br>3. |
-standup | Areej | 1. <br>2. <br>3. |
+item | who | notes |
+
+## Action Items
+item | responsible | due date |
+| ---- | ---- | ---- |
+item | who | due_date ||
 
 ## Other Notes & Information
 N/A
