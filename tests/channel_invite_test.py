@@ -102,8 +102,9 @@ def test_user_not_authorised():
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter')
+    channel_owner_user_id = channel_owner_user['auth_user_id']            
 
-    channel = channels_create_v1(channel_owner_user, "Cat Society", True)
+    channel = channels_create_v1(channel_owner_user_id, "Cat Society", True)
     channel_id = channel['channel_id']
 
     with pytest.raises(AccessError) as e: 
