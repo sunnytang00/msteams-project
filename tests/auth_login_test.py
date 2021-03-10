@@ -2,7 +2,7 @@ import pytest
 from src.auth import auth_login_v1, auth_register_v1
 from src.other import clear_v1
 from src.error import InputError
-from .helper import helper
+from tests.helper import helper
 
 def test_valid_input(helper):
     """Testing for a valid login, first register the user and then login, expected return is user_id."""
