@@ -63,7 +63,7 @@ def test_access_to_private():
                                 name_last='smith2')
     user_id_2 = user_2['auth_user_id']
 
-    channel = channels_create_v1(user_id, "channel1", False)
+    channels_create_v1(user_id, "channel1", False)
     channel_2 = channels_create_v1(user_id, "channel2", False)
 
     channel_id_2 = channel_2['channel_id']

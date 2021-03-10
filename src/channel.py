@@ -4,9 +4,9 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 """
 
 import time
-from .data import data
-from .error import InputError, AccessError
-from .helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
+from src.data import data
+from src.error import InputError, AccessError
+from src.helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately

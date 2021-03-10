@@ -5,7 +5,7 @@ from src.channels import channels_create_v1
 from src.error import InputError, AccessError
 from src.auth import auth_register_v1
 from src.other import clear_v1
-from .helper import helper
+from tests.helper import helper
 
 def test_time_created():
     clear_v1()

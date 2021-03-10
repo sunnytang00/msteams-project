@@ -3,7 +3,7 @@ from src.auth import auth_register_v1
 from src.other import clear_v1
 from src.error import InputError
 from src.helper import get_handle_str
-from .helper import helper
+from tests.helper import helper
 
 def test_valid_input(helper):
     clear_v1()

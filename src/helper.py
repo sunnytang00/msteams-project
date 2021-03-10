@@ -1,4 +1,4 @@
-from .data import data
+from src.data import data
 import re
 
 def valid_email(email: str) -> bool:
