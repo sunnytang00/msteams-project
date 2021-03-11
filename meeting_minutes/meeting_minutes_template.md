@@ -13,7 +13,7 @@ People who attended:
 - Wang Zhang
 - Sunny Tang
 - Siddh Rawal
-- Areej Ahmed
+- Sarth Bishnoi
 
 Absent:
 - None
@@ -30,6 +30,7 @@ standup | Amin | • |
 standup | Wang | • |
 standup | Sunny | • |
 standup | Siddh | • |
+standup | Sarth | • |
 
 ## Action Items
 item | responsible | due date |
@@ -38,6 +39,7 @@ item | Amin | due_date ||
 item | Wang | due_date ||
 item | Sunny | due_date ||
 item | Siddh | due_date ||
+item | Sarth | due_date ||
 
 ## Other Notes & Information
 N/A
