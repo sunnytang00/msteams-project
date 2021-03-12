@@ -2,8 +2,8 @@ import sys
 from json import dumps
 from flask import Flask, request
 from flask_cors import CORS
-from src.base.error import InputError
-from src.base import config
+from src.error import InputError
+from src import config
 
 def defaultHandler(err):
     response = err.get_response()

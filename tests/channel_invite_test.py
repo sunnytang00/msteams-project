@@ -1,9 +1,9 @@
 import pytest
-from src.base.channel import channel_invite_v1
-from src.base.channels import channels_create_v1, channels_listall_v1 ,channels_list_v1
-from src.base.error import InputError, AccessError
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
+from src.channel import channel_invite_v1
+from src.channels import channels_create_v1, channels_listall_v1 ,channels_list_v1
+from src.error import InputError, AccessError
+from src.auth import auth_register_v1
+from src.other import clear_v1
 from tests.helper import helper
 
 def test_valid_input():
@@ -48,6 +48,13 @@ def test_invalid_channel_id():
     with pytest.raises(InputError) as e: 
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=invalid_channel_id, u_id=invitee_user_id)
         assert f'Channel ID {invalid_channel_id} does not exist.' in str(e)
+
+
+import pytest
+from src.channels import channels_create_v1
+from src.error import InputError, AccessError
+from src.auth import auth_register_v1
+from src.other import clear_v1
 
 def test_invaild_userID():
     clear_v1()
