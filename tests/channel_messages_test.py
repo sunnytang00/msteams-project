@@ -1,10 +1,10 @@
 import pytest
 import time
-from src.channel import channel_messages_v1
-from src.channels import channels_create_v1
-from src.error import InputError, AccessError
-from src.auth import auth_register_v1
-from src.other import clear_v1
+from src.base.channel import channel_messages_v1
+from src.base.channels import channels_create_v1
+from src.base.error import InputError, AccessError
+from src.base.auth import auth_register_v1
+from src.base.other import clear_v1
 from tests.helper import helper
 
 def test_time_created():
