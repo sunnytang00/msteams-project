@@ -1,7 +1,7 @@
 import pytest
-from src.auth import auth_login_v1, auth_register_v1
-from src.other import clear_v1
-from src.error import InputError
+from src.base.auth import auth_login_v1, auth_register_v1
+from src.base.other import clear_v1
+from src.base.error import InputError
 from tests.helper import helper
 
 def test_valid_input(helper):

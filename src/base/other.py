@@ -1,4 +1,4 @@
-from src.data import data
+from src.data.data import data
 
 def clear_v1():
     """ Resets the internal data of the application to it's initial state

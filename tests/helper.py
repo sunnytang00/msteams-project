@@ -1,7 +1,7 @@
 import pytest
-from src.channels import channels_create_v1
-from src.auth import auth_register_v1
-from src.other import clear_v1
+from src.base.channels import channels_create_v1
+from src.base.auth import auth_register_v1
+from src.base.other import clear_v1
 from tests.testing_data import testing_data
 
 class Helper:
@@ -53,3 +53,4 @@ class Helper:
 @pytest.fixture
 def helper():
     return Helper
+    
