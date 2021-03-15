@@ -7,6 +7,8 @@ from src.base import config
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 
+from src.routes.auth_http import auth_blueprint
+
 def defaultHandler(err):
     response = err.get_response()
     print('response', err, err.get_response())
@@ -19,6 +21,9 @@ def defaultHandler(err):
     return response
 
 APP = Flask(__name__)
+### Register routes
+APP.register_blueprint(auth_blueprint)
+###
 CORS(APP)
 
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
@@ -35,39 +40,7 @@ def echo():
     })
 
 
-@APP.route("/auth/register/v2", methods=['POST'])
-def register():
-    
-    data = request.get_json()
-    
-    email = data['email']
-    password = data['password']
-    name_first = data['name_first']
-    name_last = data['name_last']
-    
-
-    auth_user_id = auth_register_v1(email, password, name_first, name_last)
-
-    return dumps({
-        #not sure what to do with this'token': token,
-        'auth_user_id': auth_user_id,
-    }), 200
-
-
-@APP.route("/auth/login/v2", methods=['POST'])
-def login_http():
-    data = request.get_json()
-    email = data['email']
-    password = data['password']
-
-    auth_user_id = auth_login_v1(email, password)
-
-    return dumps({
-        #'token': token,
-        'auth_user_id': auth_user_id
-    }), 200
-
-#TODO ALL OF THE BELOW FUNCTIONS
+#TODO ALL OF THE BELOW FUNCTIONS (use blueprints)
 @APP.route("/auth/logout/v1", methods=['POST'])
 def logout():
     return dumps({
