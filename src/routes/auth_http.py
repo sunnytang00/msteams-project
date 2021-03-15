@@ -1,14 +1,11 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from flask_cors import CORS
-from src.base.error import InputError
 from src.base import config
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
- 
 
 @auth_blueprint.route("/auth/register/v2", methods=['POST'])
 def register_http():
