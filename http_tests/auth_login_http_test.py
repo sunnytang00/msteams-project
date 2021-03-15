@@ -11,6 +11,7 @@ def test_login_basic_http():
         'name_last' : 'potter1'
     })
 
+    status_code = response.status_code
     # reading data from response
     register_data = response.json()
 
@@ -22,4 +23,4 @@ def test_login_basic_http():
     expected = login_data.json()
 
     assert register_data == expected
-    
+    assert status_code == 200 

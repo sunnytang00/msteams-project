@@ -11,9 +11,11 @@ def test_register_basic():
         'name_last' : 'potter'
     })
 
+    status_code = response.status_code
+
     # reading data from response
     data = response.json()
-    print(data)
+    print('#'*5, status_code)
     auth_user_id = data.get('auth_user_id')
 
 
@@ -23,5 +25,5 @@ def test_register_basic():
     #auth user is 2 as pytest runs auth_login http test first, still need to implement
     #a reset function
     assert auth_user_id == 2
-    
+    assert status_code == 201
  
