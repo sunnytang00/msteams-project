@@ -21,9 +21,9 @@ def defaultHandler(err):
     return response
 
 APP = Flask(__name__)
-### Register routes
+### Register routes ###
 APP.register_blueprint(auth_blueprint)
-###
+#######################
 CORS(APP)
 
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
