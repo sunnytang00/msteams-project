@@ -15,7 +15,6 @@ def test_register_basic():
 
     # reading data from response
     data = response.json()
-    print('#'*5, status_code)
     auth_user_id = data.get('auth_user_id')
 
 
