@@ -1,31 +1,27 @@
-#from src.server import login
-from src.server import register
 import requests
 from json import loads
 from src.base.config import url
 
 
 def test_login_basic_http():
-    """
-
-    out = requests.post(url + 'auth/register/v2', json = {
-        'email' : 'harrypotter@gmail.com',
-        'password' : 'dumbledore',
-        'name_first' : 'harry',
-        'name_last' : 'potter'
+    
+    r = requests.post(url + 'auth/register/v2', json = {
+        'email' : 'harrypotter@gmail1.com',
+        'password' : 'dumbledore1',
+        'name_first' : 'harry1',
+        'name_last' : 'potter1'
     })
 
-    output = register_http()
-    out1 = output.json()
+    output = r.json()
 
-    r = requests.post(url + 'auth/login/v2', json = {
-        'email' : 'harrypotter@gmail.com',
-        'password' : 'dumbledore'
+    out = requests.post(url + 'auth/login/v2', json = {
+        'email' : 'harrypotter@gmail1.com',
+        'password' : 'dumbledore1'
     })
 
-    r1 = login_http()
-    r_output = r1.json()
+    expected = out.json()
 
-    assert r_output['auth_user_id'] == out1['auth_user_id']
-    """
-    pass
+    assert output['auth_user_id'] == expected['auth_user_id']
+    
+    
+    
