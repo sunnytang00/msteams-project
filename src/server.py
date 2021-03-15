@@ -5,6 +5,7 @@ from flask_cors import CORS
 from src.base.error import InputError
 from src.base import config
 from src.base.auth import auth_register_v1
+from src.base.auth import auth_login_v1
 
 def defaultHandler(err):
     response = err.get_response()
@@ -50,9 +51,9 @@ def register():
     return dumps({
         #not sure what to do with this'token': token,
         'auth_user_id': auth_user_id,
-    })
+    }), 200
 
-"""
+
 @APP.route("/auth/login/v2", methods=['POST'])
 def login_http():
     data = request.get_json()
@@ -62,11 +63,10 @@ def login_http():
     auth_user_id = auth_login_v1(email, password)
 
     return dumps({
-        'token': token,
+        #'token': token,
         'auth_user_id': auth_user_id
     }), 200
 
-"""
 #TODO ALL OF THE BELOW FUNCTIONS
 @APP.route("/auth/logout/v1", methods=['POST'])
 def logout():
