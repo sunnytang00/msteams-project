@@ -14,12 +14,11 @@ auth_blueprint = Blueprint('auth_blueprint', __name__)
 def register_http():
     
     data = request.get_json()
-    
 
-    email = data['email']
-    password = data['password']
-    name_first = data['name_first']
-    name_last = data['name_last']
+    email = data.get('email')
+    password = data.get('password')
+    name_first = data.get('name_first')
+    name_last = data.get('name_last')
 
     auth_user_id = auth_register_v1(email, password, name_first, name_last)
 
