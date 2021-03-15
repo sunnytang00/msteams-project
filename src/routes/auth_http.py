@@ -30,8 +30,8 @@ def register_http():
 @auth_blueprint.route("/auth/login/v2", methods=['POST'])
 def login_http():
     data = request.get_json()
-    email = data['email']
-    password = data['password']
+    email = data.get('email')
+    password = data.get('password')
 
     auth_user_id = auth_login_v1(email, password)
 
