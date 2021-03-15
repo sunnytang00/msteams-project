@@ -5,6 +5,8 @@ from src.base import config
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 
+from src.routes.helper import sha256_hash
+
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 @auth_blueprint.route("/auth/register/v2", methods=['POST'])
@@ -14,10 +16,11 @@ def register_http():
 
     email = data.get('email')
     password = data.get('password')
+    hashed_password = sha256_hash(password)
     name_first = data.get('name_first')
     name_last = data.get('name_last')
 
-    user = auth_register_v1(email, password, name_first, name_last)
+    user = auth_register_v1(email, hashed_password, name_first, name_last)
     auth_user_id = user.get('auth_user_id')
 
     return dumps({
@@ -30,8 +33,9 @@ def login_http():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
+    hashed_password = sha256_hash(password)
 
-    user = auth_login_v1(email, password)
+    user = auth_login_v1(email, hashed_password)
     auth_user_id = user.get('auth_user_id')
 
     return dumps({
