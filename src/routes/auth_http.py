@@ -39,3 +39,8 @@ def login_http():
         #'token': token,
         'auth_user_id': user 
     }), 200
+
+@auth_blueprint.route("/auth/logout/v1", methods=['POST'])
+def logout():
+    return dumps({
+    })
