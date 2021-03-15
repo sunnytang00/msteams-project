@@ -21,10 +21,11 @@ def register_http():
     name_last = data.get('name_last')
 
     user = auth_register_v1(email, password, name_first, name_last)
+    auth_user_id = user.get('auth_user_id')
 
     return dumps({
         #not sure what to do with this'token': token,
-        'auth_user_id': user
+        'auth_user_id': auth_user_id
     }), 201
 
 @auth_blueprint.route("/auth/login/v2", methods=['POST'])
@@ -34,10 +35,11 @@ def login_http():
     password = data.get('password')
 
     user = auth_login_v1(email, password)
+    auth_user_id = user.get('auth_user_id')
 
     return dumps({
         #'token': token,
-        'auth_user_id': user 
+        'auth_user_id': auth_user_id
     }), 200
 
 @auth_blueprint.route("/auth/logout/v1", methods=['POST'])
