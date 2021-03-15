@@ -7,6 +7,11 @@ from src.base import config
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 
+from src.routes.auth_http import auth_blueprint
+from src.routes.clear_http import clear_blueprint
+from src.routes.channels_http import channels_blueprint
+from src.routes.channel_http import channel_blueprint
+
 def defaultHandler(err):
     response = err.get_response()
     print('response', err, err.get_response())
@@ -19,6 +24,12 @@ def defaultHandler(err):
     return response
 
 APP = Flask(__name__)
+### Register routes ###
+APP.register_blueprint(auth_blueprint)
+APP.register_blueprint(clear_blueprint)
+APP.register_blueprint(channels_blueprint)
+APP.register_blueprint(channel_blueprint)
+#######################
 CORS(APP)
 
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
@@ -35,94 +46,7 @@ def echo():
     })
 
 
-@APP.route("/auth/register/v2", methods=['POST'])
-def register():
-    
-    data = request.get_json()
-    
-    email = data['email']
-    password = data['password']
-    name_first = data['name_first']
-    name_last = data['name_last']
-    
-
-    auth_user_id = auth_register_v1(email, password, name_first, name_last)
-
-    return dumps({
-        #not sure what to do with this'token': token,
-        'auth_user_id': auth_user_id,
-    }), 200
-
-
-@APP.route("/auth/login/v2", methods=['POST'])
-def login_http():
-    data = request.get_json()
-    email = data['email']
-    password = data['password']
-
-    auth_user_id = auth_login_v1(email, password)
-
-    return dumps({
-        #'token': token,
-        'auth_user_id': auth_user_id
-    }), 200
-
-#TODO ALL OF THE BELOW FUNCTIONS
-@APP.route("/auth/logout/v1", methods=['POST'])
-def logout():
-    return dumps({
-    })
-
-@APP.route("/channel/invite/v2", methods=['POST'])
-def channel_invite():
-    return dumps({
-    })
-
-@APP.route("/channel/details/v2", methods=['GET'])
-def channel_details():
-    return dumps({
-    })
-
-@APP.route("/channel/messages/v2", methods=['GET'])
-def channel_messages():
-    return dumps({
-    })
-
-@APP.route("/channel/join/v2", methods=['POST'])
-def channel_join():
-    return dumps({
-    })
-
-@APP.route("/channel/addowner/v1", methods=['POST'])
-def channel_add_owner():
-    return dumps({
-    })
-
-@APP.route("/channel/removeowner/v1", methods=['POST'])
-def channel_remove_owner():
-    return dumps({
-    })
-
-@APP.route("/channel/leave/v1", methods=['POST'])
-def channel_leave():
-    return dumps({
-    })
-
-@APP.route("/channels/list/v2", methods=['GET'])
-def channel_list():
-    return dumps({
-    })
-
-@APP.route("/channels/listall/v2", methods=['GET'])
-def channel_list_all():
-    return dumps({
-    })
-
-@APP.route("/channels/create/v2", methods=['POST'])
-def channel_create():
-    return dumps({
-    })
-
+#TODO ALL OF THE BELOW FUNCTIONS (use blueprints)
 @APP.route("/message/send/v2", methods=['POST'])
 def message_send():
     return dumps({
@@ -152,7 +76,6 @@ def dm_details():
 def dm_list():
     return dumps({
     })
-
 
 @APP.route("/dm/create/v1", methods=['POST'])
 def dm_create():
@@ -228,13 +151,6 @@ def admin_user_permission_change():
 def notification_get():
     return dumps({
     })
-
-@APP.route("/clear/v1", methods=['DELETE'])
-def clear():
-    return dumps({
-    })
-
-
 
 if __name__ == "__main__":
     APP.run(port=config.port) # Do not edit this port

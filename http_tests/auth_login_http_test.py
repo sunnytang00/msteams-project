@@ -4,24 +4,29 @@ from src.base.config import url
 
 
 def test_login_basic_http():
-    
-    r = requests.post(url + 'auth/register/v2', json = {
+    ### register
+    response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail1.com',
         'password' : 'dumbledore1',
         'name_first' : 'harry1',
         'name_last' : 'potter1'
     })
 
-    output = r.json()
+    status_code = response.status_code
+    assert status_code == 201
 
-    out = requests.post(url + 'auth/login/v2', json = {
+    register_data = response.json()
+    registered_auth_user_id = register_data.get('auth_user_id')
+
+    ### login user
+    response = requests.post(url + 'auth/login/v2', json = {
         'email' : 'harrypotter@gmail1.com',
         'password' : 'dumbledore1'
     })
+    status_code = response.status_code
+    assert status_code == 200 
 
-    expected = out.json()
+    login_data = response.json()
+    expected_auth_user_id = login_data.get('auth_user_id')
 
-    assert output['auth_user_id'] == expected['auth_user_id']
-    
-    
-    
+    assert registered_auth_user_id == expected_auth_user_id
