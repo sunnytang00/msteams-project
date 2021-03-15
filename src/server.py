@@ -47,11 +47,6 @@ def echo():
 
 
 #TODO ALL OF THE BELOW FUNCTIONS (use blueprints)
-
-
-
-
-
 @APP.route("/message/send/v2", methods=['POST'])
 def message_send():
     return dumps({
@@ -156,7 +151,6 @@ def admin_user_permission_change():
 def notification_get():
     return dumps({
     })
-
 
 if __name__ == "__main__":
     APP.run(port=config.port) # Do not edit this port

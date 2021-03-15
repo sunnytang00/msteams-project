@@ -23,5 +23,3 @@ def test_login_basic_http():
 
     assert output['auth_user_id'] == expected['auth_user_id']
     
-    
-    
