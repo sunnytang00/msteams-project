@@ -2,7 +2,7 @@ import requests
 from json import loads
 from src.base.config import url
 
-def test_channel_create_basic():
+def test_channels_create_basic():
     ##register a user first
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter2@gmail1.com',
