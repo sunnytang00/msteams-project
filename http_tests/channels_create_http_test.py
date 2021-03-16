@@ -5,10 +5,10 @@ from src.base.config import url
 def test_channel_create_basic():
     ##register a user first
     response = requests.post(url + 'auth/register/v2', json = {
-        'email' : 'harrypotter@gmail1.com',
-        'password' : 'dumbledore1',
-        'name_first' : 'harry1',
-        'name_last' : 'potter1'
+        'email' : 'harrypotter2@gmail1.com',
+        'password' : 'dumbledore2',
+        'name_first' : 'harry2',
+        'name_last' : 'potter2'
     })
     status_code = response.status_code
     assert status_code == 201
