@@ -17,5 +17,6 @@ def channel_list_all():
 
 @channels_blueprint.route("/channels/create/v2", methods=['POST'])
 def channel_create():
+    
     return dumps({
     })
