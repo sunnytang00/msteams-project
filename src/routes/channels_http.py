@@ -6,17 +6,17 @@ from src.base.channels import channels_create_v1
 channels_blueprint = Blueprint('channels_blueprint', __name__)
 
 @channels_blueprint.route("/channels/list/v2", methods=['GET'])
-def channel_list():
+def channels_list():
     return dumps({
     })
 
 @channels_blueprint.route("/channels/listall/v2", methods=['GET'])
-def channel_list_all():
+def channels_list_all():
     return dumps({
     })
 
 @channels_blueprint.route("/channels/create/v2", methods=['POST'])
-def channel_create():
+def channels_create():
     data = request.get_json()
     auth_user_id = data.get('auth_user_id')
     name = data.get('name')
