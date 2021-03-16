@@ -6,6 +6,7 @@ from src.base.error import InputError
 from src.base import config
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
+from src.base.channels import channels_create_v1
 
 from src.routes.auth_http import auth_blueprint
 from src.routes.clear_http import clear_blueprint
