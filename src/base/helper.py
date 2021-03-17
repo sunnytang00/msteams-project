@@ -1,4 +1,5 @@
 from src.data.data import data
+from json import dump
 import re
 
 def valid_email(email: str) -> bool:
@@ -225,3 +226,16 @@ def get_handle_str(name_first: str, name_last: str) -> str:
         count += 1
 
     return handle_str
+
+def get_data():
+    global data
+    return data
+
+def save_data(func):
+    """Save data to json file."""
+    def wrapper(*args, **kwargs):
+        func(*args, **kwargs)
+        # if no exceptions are raised
+        data = get_data()
+        dump(data, 'store.json')
+    return wrapper
