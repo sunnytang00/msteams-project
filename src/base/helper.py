@@ -235,7 +235,6 @@ def save_data(func):
     """Save data to json file."""
     def wrapper(*args, **kwargs):
         rv = func(*args, **kwargs)
-        print(rv)
         # if no exceptions are raised
         data = get_data()
         with open('store.json', 'w') as f:
