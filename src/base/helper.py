@@ -234,8 +234,11 @@ def get_data():
 def save_data(func):
     """Save data to json file."""
     def wrapper(*args, **kwargs):
-        func(*args, **kwargs)
+        rv = func(*args, **kwargs)
+        print(rv)
         # if no exceptions are raised
         data = get_data()
-        dump(data, 'store.json')
+        with open('store.json', 'w') as f:
+            dump(data, f)
+        return rv
     return wrapper
