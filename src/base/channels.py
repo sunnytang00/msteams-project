@@ -6,7 +6,7 @@ as specified by the COMP1531 Major Project specification.
 
 from src.data.data import data
 from src.base.error import InputError, AccessError
-from src.base.helper import user_exists, get_user_data, get_channel_data, user_is_member, valid_channel_name
+from src.base.helper import user_exists, get_user_data, get_channel_data, user_is_member, valid_channel_name, save_data, get_data
 
 def channels_list_v1(auth_user_id):
     """ Shows the list of channels and the associated details that authorised user is part of
@@ -60,6 +60,7 @@ def channels_listall_v1(auth_user_id):
             public_channels.append(channel)
     return public_channels
 
+@save_data
 def channels_create_v1(auth_user_id, name, is_public):
     """ Create a public/private channel with specified name and owned by user with specified ID
         
@@ -77,6 +78,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         Returns ｛'channel_id'｝ (dict) on valid authenticated user and valid name
     """
     global data
+
 
     if not user_exists(auth_user_id):
         raise AccessError(f'User ID {auth_user_id} is invaild')
