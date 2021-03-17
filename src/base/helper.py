@@ -226,18 +226,18 @@ def get_handle_str(name_first: str, name_last: str) -> str:
 
     return handle_str
 
-    def same_name_user_exist(name_first: str, name_last: str) -> str:
-        """Check if there is user with same name already exists on the database
-        
-        Arguments:
-            name_first (str): First name of user
-            name_last (str): Last name of user
+def same_name_user_exist(name_first: str, name_last: str) -> str:
+    """Check if there is user with same name already exists on the database
+    
+    Arguments:
+        name_first (str): First name of user
+        name_last (str): Last name of user
 
-        Returns:
-            True: if exists
-            False: if not exists
-        """
-        for user in data['users']:
-            if name_first == user['name_first'] and name_last == user['name_last']:
-                return True
-        return False
+    Returns:
+        True: if exists
+        False: if not exists
+    """
+    for user in data['users']:
+        if name_first == user['name_first'] and name_last == user['name_last']:
+            return True
+    return False
