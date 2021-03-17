@@ -2,7 +2,6 @@ import requests
 from json import loads
 from src.base.config import url
 
-
 def test_login_basic_http():
     ### register
     response = requests.post(url + 'auth/register/v2', json = {
