@@ -3,7 +3,7 @@
 **Meeting Date/Time/Duration:** 10/03/21, 10:30am, all day  
 **Meeting Purpose:** weekly standup  
 **Meeting Location:** Microsoft Teams  
-**Meeting Type:** asynchronous
+**Meeting Type:** asynchronous  
 **Note Taker:** Amin Ghasembeigi  
 
 ## Attendees
