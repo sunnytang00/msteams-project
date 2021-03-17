@@ -237,7 +237,7 @@ def save_data(func):
         rv = func(*args, **kwargs)
         # if no exceptions are raised
         data = get_data()
-        with open('store.json', 'w') as f:
+        with open('src/store.json', 'w') as f:
             dump(data, f)
         return rv
     return wrapper
