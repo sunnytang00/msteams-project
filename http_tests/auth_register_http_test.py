@@ -23,4 +23,4 @@ def test_register_basic():
     #auth user is 2 as pytest runs auth_login http test first, still need to implement
     #a reset function
     ############################### FIX THIS ASAP 
-    assert auth_user_id == 3
+    assert auth_user_id == 2
