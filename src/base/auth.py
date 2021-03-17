@@ -6,6 +6,7 @@ This module demonstrates user registration and login authentication as specified
 from src.data.data import data
 from src.base.error import InputError
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
+from json import dump, load
 import re
 
 def auth_login_v1(email, password):
