@@ -3,7 +3,7 @@
 **Meeting Date/Time/Duration:** 14/03/21, 3:00 PM  
 **Meeting Purpose:** Weekly Synchronous Meeting  
 **Meeting Location:** Microsoft Teams  
-**Meeting Type:** Synchronous
+**Meeting Type:** Synchronous  
 **Note Taker:** Sunny Tang  
 
 ## Attendees
