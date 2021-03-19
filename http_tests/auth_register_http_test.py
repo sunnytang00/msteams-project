@@ -1,7 +1,6 @@
 import requests
 from json import loads
 from src.config import url
-from src.base.other import clear_v1
 from http_tests.helper import clear
 
 @clear
