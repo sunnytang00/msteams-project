@@ -1,0 +1,626 @@
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.0, py-1.9.0, pluggy-0.13.1
+rootdir: /tmp_amd/ravel/export/ravel/1/hsmith/automark/tempstore, configfile: pytest.ini
+plugins: hypothesis-5.36.1
+collected 76 items
+
+tests/echo_test.py FF                                                    [  2%]
+tests/auth_tests/auth_login_test.py ...                                  [  6%]
+tests/auth_tests/auth_register_test.py .............................F..  [ 48%]
+tests/channel_tests/channel_details_test.py F...                         [ 53%]
+tests/channel_tests/channel_invite_test.py FFF..F                        [ 61%]
+tests/channel_tests/channel_join_test.py FF..                            [ 67%]
+tests/channel_tests/channel_messages_test.py F....                       [ 73%]
+tests/channels_tests/channels_create_test.py FF...                       [ 80%]
+tests/channels_tests/channels_list_test.py FFFFFFFFF.                    [ 93%]
+tests/channels_tests/channels_listall_test.py FFFF.                      [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_echo ___________________________________
+
+    def test_echo():
+>       assert echo.echo("1") == "1", "1 == 1"
+E       NameError: name 'echo' is not defined
+
+tests/echo_test.py:7: NameError
+_______________________________ test_echo_except _______________________________
+
+    def test_echo_except():
+        with pytest.raises(InputError):
+>           assert echo.echo("echo")
+E           NameError: name 'echo' is not defined
+
+tests/echo_test.py:14: NameError
+______________________ test_auth_register_pass_names_long ______________________
+
+    @util.resets_workspace
+    def test_auth_register_pass_names_long():
+>       assert is_valid(auth_register_v1(EMAIL, PASSWORD, "F" * 50, "L" * 50))
+
+tests/auth_tests/auth_register_test.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+email = 'valid.email@domain.com', password = 'aaaaaaaa'
+name_first = 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
+name_last = 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL'
+
+    def auth_register_v1(email, password, name_first, name_last):
+        """Register a new user by appending to data
+    
+        Arguments:
+            email (str) - The users email address.
+            password (str) - The users password.
+            name_first (str) - The users first name.
+            name_last (str) - The users last name.
+    
+        Exceptions:
+            InputError - Occurs when email entered is not a valid email as according to project specification.
+            InputError - Occurs when email address is already being used by another user.
+            InputError - Occurs when password entered is less than 6 characters long.
+            InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length.
+            InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length.
+    
+        Return Value:
+            Returns auth_user_id (dict) on newly created user.
+        """
+        global data
+        user_id = len(data['users']) + 1
+    
+        if not valid_email(email):
+            raise InputError(f'Email {email} is not a valid email')
+    
+        if not valid_password(password):
+            raise InputError(f'Password {password} is less than 6 characters long')
+    
+        if not valid_first_name(name_first):
+>           raise InputError(f'name_first {name_first} is not between 1 and 50 characters inclusively in length')
+E           src.error.InputError: name_first FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF is not between 1 and 50 characters inclusively in length
+
+src/auth.py:71: InputError
+____________________________ test_member_successful ____________________________
+
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[1], all_members=[])
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+user_buzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', name_first='buzz', name_last='lightyear', u_id=2, token=2)
+
+    @util.resets_workspace
+    def test_member_successful(woodys_public_toybox, user_woody, user_buzz):
+        channel_join_v1(user_buzz.token, woodys_public_toybox.channel_id)
+    
+        ch_deets_1 = channel_details_v1(user_woody.token, woodys_public_toybox.channel_id)
+        ch_deets_2 = channel_details_v1(user_buzz.token, woodys_public_toybox.channel_id)
+    
+        assert ch_deets_1['name'] == woodys_public_toybox.name
+        assert ch_deets_2['name'] == woodys_public_toybox.name
+    
+        # uncomment this when this datum is in the spec
+        # assert ch_deets_1['is_public'] == woodys_public_toybox.is_public
+        # assert ch_deets_2['is_public'] == woodys_public_toybox.is_public
+    
+>       assert user_woody.u_id in [k['u_id'] for k in ch_deets_1['all_members']]
+
+tests/channel_tests/channel_details_test.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7fc6e0ab7278>
+
+>   assert user_woody.u_id in [k['u_id'] for k in ch_deets_1['all_members']]
+E   TypeError: 'int' object is not subscriptable
+
+tests/channel_tests/channel_details_test.py:25: TypeError
+___________________________ test_invite_global_owner ___________________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+user_zerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', name_first='lord', name_last='zerg', u_id=2, token=2)
+zergs_private_lair = Channel(name='zergs lair', is_public=False, channel_id=1, owner_members=[2], all_members=[])
+
+    @util.resets_workspace
+    def test_invite_global_owner(user_woody, user_zerg, zergs_private_lair):
+        channel_invite_v1(user_zerg.token, zergs_private_lair.channel_id, user_woody.u_id)
+    
+        ch_deets = channel_details_v1(user_woody.token, zergs_private_lair.channel_id)
+    
+>       assert user_woody.u_id in [k['u_id'] for k in ch_deets['all_members']]
+
+tests/channel_tests/channel_invite_test.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7fc6e0a514e0>
+
+>   assert user_woody.u_id in [k['u_id'] for k in ch_deets['all_members']]
+E   TypeError: 'int' object is not subscriptable
+
+tests/channel_tests/channel_invite_test.py:25: TypeError
+__________________________ test_invite_global_member ___________________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+user_buzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', name_first='buzz', name_last='lightyear', u_id=2, token=2)
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[1], all_members=[])
+
+    @util.resets_workspace
+    def test_invite_global_member(user_woody, user_buzz, woodys_public_toybox):
+        channel_invite_v1(user_woody.token, woodys_public_toybox.channel_id, user_buzz.u_id)
+    
+        ch_deets = channel_details_v1(user_buzz.token, woodys_public_toybox.channel_id)
+    
+>       assert user_buzz.u_id in [k['u_id'] for k in ch_deets['all_members']]
+
+tests/channel_tests/channel_invite_test.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7fc6e0a51588>
+
+>   assert user_buzz.u_id in [k['u_id'] for k in ch_deets['all_members']]
+E   TypeError: 'int' object is not subscriptable
+
+tests/channel_tests/channel_invite_test.py:35: TypeError
+___________________ test_invitation_from_non_channel_member ____________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+user_buzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', name_first='buzz', name_last='lightyear', u_id=2, token=2)
+zergs_private_lair = Channel(name='zergs lair', is_public=False, channel_id=1, owner_members=[3], all_members=[])
+
+    @util.resets_workspace
+    def test_invitation_from_non_channel_member(user_woody, user_buzz, zergs_private_lair):
+        with pytest.raises(err.AccessError):
+>           channel_invite_v1(user_woody, zergs_private_lair.channel_id, user_buzz.u_id)
+
+tests/channel_tests/channel_invite_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+auth_user_id = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+channel_id = 1, u_id = 2
+
+    def channel_invite_v1(auth_user_id, channel_id, u_id):
+        """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
+    
+        Arguments:
+            auth_user_id (int) - The ID of authorised user (invitor).
+            channel_id (int) - The channel ID of the channel.
+            u_id (int) - The user ID of the invitee.
+    
+        Exceptions:
+            InputError - Occurs when channel_id does not refer to a valid channel
+            InputError - Occurs when u_id does not refer to a valid user
+    
+        Return Value:
+            Returns {} (dict) on invited user.
+        """
+    
+        global data
+    
+        if not user_exists(auth_user_id):
+>           raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+E           src.error.InputError: u_id User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1) does not refer to a valid user
+
+src/channel.py:30: InputError
+____________________________ test_invalidated_token ____________________________
+
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[1], all_members=[])
+user_buzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', name_first='buzz', name_last='lightyear', u_id=2, token=2)
+
+    @util.resets_workspace
+    def test_invalidated_token(woodys_public_toybox, user_buzz):
+        with pytest.raises(err.AccessError):
+>           channel_invite_v1(None, woodys_public_toybox.channel_id, user_buzz.u_id)
+
+tests/channel_tests/channel_invite_test.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+auth_user_id = None, channel_id = 1, u_id = 2
+
+    def channel_invite_v1(auth_user_id, channel_id, u_id):
+        """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
+    
+        Arguments:
+            auth_user_id (int) - The ID of authorised user (invitor).
+            channel_id (int) - The channel ID of the channel.
+            u_id (int) - The user ID of the invitee.
+    
+        Exceptions:
+            InputError - Occurs when channel_id does not refer to a valid channel
+            InputError - Occurs when u_id does not refer to a valid user
+    
+        Return Value:
+            Returns {} (dict) on invited user.
+        """
+    
+        global data
+    
+        if not user_exists(auth_user_id):
+>           raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+E           src.error.InputError: u_id None does not refer to a valid user
+
+src/channel.py:30: InputError
+____________________ test_global_owner_join_channel_private ____________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+zergs_private_lair = Channel(name='zergs lair', is_public=False, channel_id=1, owner_members=[2], all_members=[])
+
+    @util.resets_workspace
+    def test_global_owner_join_channel_private(user_woody, zergs_private_lair):
+>       channel_join_v1(user_woody.token, zergs_private_lair.channel_id)
+
+tests/channel_tests/channel_join_test.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+auth_user_id = 1, channel_id = 1
+
+    def channel_join_v1(auth_user_id, channel_id):
+        """ Add user as the member of channel with specified ID
+    
+        Arguments:
+            auth_user_id (int) - ID of authorised user
+            channel_id (int) - ID of the channel
+    
+        Exceptions:
+            AccessError - Occurs when the auth_user_id is invalid
+            AccessError - Occurs when the channel is private
+            InputError - Occurs when the channel_id is invalid
+            InputError - Occurs when the channel with id entered is not created
+            InputError - Occurs when the channel is private and the user is not owner of it
+    
+        Return Value:
+            Returns {} (dict) on success
+        """
+        global data
+    
+        if not user_exists(auth_user_id):
+            raise AccessError('User ID is invaild')
+    
+        if not channel_exists(channel_id):
+            raise InputError(f'Channel ID {channel_id} is not a valid channel')
+    
+        channel_data = get_channel_data(channel_id)
+    
+        if not channel_data['is_public']:
+>           raise AccessError(f'channel_id {channel_id} refers to a channel that is private')
+E           src.error.AccessError: channel_id 1 refers to a channel that is private
+
+src/channel.py:169: AccessError
+________________________ test_global_member_join_public ________________________
+
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[1], all_members=[])
+user_buzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', name_first='buzz', name_last='lightyear', u_id=2, token=2)
+
+    @util.resets_workspace
+    def test_global_member_join_public(woodys_public_toybox, user_buzz):
+        channel_join_v1(user_buzz.token, woodys_public_toybox.channel_id)
+    
+        ch_deets = channel_details_v1(user_buzz.token, woodys_public_toybox.channel_id)
+    
+>       assert user_buzz.u_id in [k['u_id'] for k in ch_deets['all_members']]
+
+tests/channel_tests/channel_join_test.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7fc6e0b343c8>
+
+>   assert user_buzz.u_id in [k['u_id'] for k in ch_deets['all_members']]
+E   TypeError: 'int' object is not subscriptable
+
+tests/channel_tests/channel_join_test.py:27: TypeError
+_______________________________ test_no_messages _______________________________
+
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[1], all_members=[])
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @util.resets_workspace
+    def test_no_messages(woodys_public_toybox, user_woody):
+        ch_msgs = channel_messages_v1(user_woody.token, woodys_public_toybox.channel_id, 0)
+    
+        assert ch_msgs['start'] == 0
+        assert ch_msgs['end'] == -1
+>       assert ch_msgs['messages'] == []
+E       AssertionError: assert [{'message': ...7, 'u_id': 1}] == []
+E         Left contains one more item: {'message': 'Hello world', 'message_id': 1, 'time_created': 1616161487, 'u_id': 1}
+E         Use -v to get the full diff
+
+tests/channel_tests/channel_messages_test.py:17: AssertionError
+_____________________ test_create_channel[True-andys room] _____________________
+
+name = 'andys room', is_public = True
+user_zerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', name_first='lord', name_last='zerg', u_id=1, token=1)
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=2, token=2)
+
+    @pytest.mark.parametrize('name', ['andys room'])
+    @pytest.mark.parametrize('is_public', [True, False])
+    @util.resets_workspace
+    def test_create_channel(name, is_public, user_zerg, user_woody):
+        ch_id = channels_create_v1(user_zerg.token, name, is_public)['channel_id']
+        deets = channel_details_v1(user_zerg.token, ch_id)
+    
+        assert deets['name'] == name
+>       assert user_zerg.u_id in [memb['u_id'] for memb in deets['owner_members']]
+
+tests/channels_tests/channels_create_test.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7fc6e0b34be0>
+
+>   assert user_zerg.u_id in [memb['u_id'] for memb in deets['owner_members']]
+E   TypeError: 'int' object is not subscriptable
+
+tests/channels_tests/channels_create_test.py:20: TypeError
+____________________ test_create_channel[False-andys room] _____________________
+
+name = 'andys room', is_public = False
+user_zerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', name_first='lord', name_last='zerg', u_id=1, token=1)
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=2, token=2)
+
+    @pytest.mark.parametrize('name', ['andys room'])
+    @pytest.mark.parametrize('is_public', [True, False])
+    @util.resets_workspace
+    def test_create_channel(name, is_public, user_zerg, user_woody):
+        ch_id = channels_create_v1(user_zerg.token, name, is_public)['channel_id']
+        deets = channel_details_v1(user_zerg.token, ch_id)
+    
+        assert deets['name'] == name
+>       assert user_zerg.u_id in [memb['u_id'] for memb in deets['owner_members']]
+
+tests/channels_tests/channels_create_test.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7fc6e0ad36d8>
+
+>   assert user_zerg.u_id in [memb['u_id'] for memb in deets['owner_members']]
+E   TypeError: 'int' object is not subscriptable
+
+tests/channels_tests/channels_create_test.py:20: TypeError
+______________________ test_when_member_is_in_no_channels ______________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @util.resets_workspace
+    def test_when_member_is_in_no_channels(user_woody):
+>       assert channels_list_v1(user_woody.token)['channels'] == []
+E       KeyError: 'channels'
+
+tests/channels_tests/channels_list_test.py:13: KeyError
+___________________ test_channel_owner_in_channel[True-andy] ___________________
+
+name = 'andy', is_public = True
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @pytest.mark.parametrize('name', ['andy'])
+    @pytest.mark.parametrize('is_public', [True, False])
+    @util.resets_workspace
+    def test_channel_owner_in_channel(name, is_public, user_woody):
+        ch = channels_create_v1(user_woody.token, name, is_public)['channel_id']
+    
+        deets = {'channel_id': ch, 'name': name}
+    
+>       assert deets in channels_list_v1(user_woody.token)['channels']
+E       AssertionError: assert {'channel_id': 1, 'name': 'andy'} in [{'all_members': [1], 'channel_id': 1, 'is_public': True, 'messages': [], ...}]
+
+tests/channels_tests/channels_list_test.py:24: AssertionError
+__________________ test_channel_owner_in_channel[False-andy] ___________________
+
+name = 'andy', is_public = False
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @pytest.mark.parametrize('name', ['andy'])
+    @pytest.mark.parametrize('is_public', [True, False])
+    @util.resets_workspace
+    def test_channel_owner_in_channel(name, is_public, user_woody):
+        ch = channels_create_v1(user_woody.token, name, is_public)['channel_id']
+    
+        deets = {'channel_id': ch, 'name': name}
+    
+>       assert deets in channels_list_v1(user_woody.token)['channels']
+E       AssertionError: assert {'channel_id': 1, 'name': 'andy'} in [{'all_members': [1], 'channel_id': 1, 'is_public': False, 'messages': [], ...}]
+
+tests/channels_tests/channels_list_test.py:24: AssertionError
+__________________ test_channel_member_in_channel[True-andy] ___________________
+
+name = 'andy', is_public = True
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+user_zerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', name_first='lord', name_last='zerg', u_id=2, token=2)
+
+    @pytest.mark.parametrize('name', ['andy'])
+    @pytest.mark.parametrize('is_public', [True, False])
+    @util.resets_workspace
+    def test_channel_member_in_channel(name, is_public, user_woody, user_zerg):
+        ch = channels_create_v1(user_woody.token, name, is_public)['channel_id']
+    
+        channel_invite_v1(user_woody.token, ch, user_zerg.u_id)
+    
+        channel_detail = {'channel_id': ch, 'name': name}
+    
+>       assert channel_detail in channels_list_v1(user_zerg.token)['channels']
+E       AssertionError: assert {'channel_id': 1, 'name': 'andy'} in [{'all_members': [1, 2], 'channel_id': 1, 'is_public': True, 'messages': [], ...}]
+
+tests/channels_tests/channels_list_test.py:37: AssertionError
+__________________ test_channel_member_in_channel[False-andy] __________________
+
+name = 'andy', is_public = False
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+user_zerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', name_first='lord', name_last='zerg', u_id=2, token=2)
+
+    @pytest.mark.parametrize('name', ['andy'])
+    @pytest.mark.parametrize('is_public', [True, False])
+    @util.resets_workspace
+    def test_channel_member_in_channel(name, is_public, user_woody, user_zerg):
+        ch = channels_create_v1(user_woody.token, name, is_public)['channel_id']
+    
+        channel_invite_v1(user_woody.token, ch, user_zerg.u_id)
+    
+        channel_detail = {'channel_id': ch, 'name': name}
+    
+>       assert channel_detail in channels_list_v1(user_zerg.token)['channels']
+E       AssertionError: assert {'channel_id': 1, 'name': 'andy'} in [{'all_members': [1, 2], 'channel_id': 1, 'is_public': False, 'messages': [], ...}]
+
+tests/channels_tests/channels_list_test.py:37: AssertionError
+_____________ test_user_in_multiple_channels[False-True-ZERG-andy] _____________
+
+name1 = 'andy', name2 = 'ZERG', is_public1 = True, is_public2 = False
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @pytest.mark.parametrize('name1', ['andy'])
+    @pytest.mark.parametrize('name2', ['ZERG'])
+    @pytest.mark.parametrize('is_public1', [True, False])
+    @pytest.mark.parametrize('is_public2', [False, True])
+    @util.resets_workspace
+    def test_user_in_multiple_channels(name1, name2, is_public1, is_public2, user_woody):
+        ch_1 = channels_create_v1(user_woody.token, name1, is_public1)['channel_id']
+        ch_2 = channels_create_v1(user_woody.token, name2, is_public2)['channel_id']
+    
+        expected_joined = [{'channel_id': ch_1, 'name': name1}, {'channel_id': ch_2, 'name': name2}]
+        joined = channels_list_v1(user_woody.token)['channels']
+    
+>       assert sorted(expected_joined, key=lambda d: d['channel_id']) == sorted(joined, key=lambda d: d['channel_id'])
+E       AssertionError: assert [{'channel_id...ame': 'ZERG'}] == [{'all_member...es': [], ...}]
+E         At index 0 diff: {'channel_id': 1, 'name': 'andy'} != {'channel_id': 1, 'name': 'andy', 'owner_members': [1], 'all_members': [1], 'messages': [], 'is_public': True}
+E         Use -v to get the full diff
+
+tests/channels_tests/channels_list_test.py:52: AssertionError
+____________ test_user_in_multiple_channels[False-False-ZERG-andy] _____________
+
+name1 = 'andy', name2 = 'ZERG', is_public1 = False, is_public2 = False
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @pytest.mark.parametrize('name1', ['andy'])
+    @pytest.mark.parametrize('name2', ['ZERG'])
+    @pytest.mark.parametrize('is_public1', [True, False])
+    @pytest.mark.parametrize('is_public2', [False, True])
+    @util.resets_workspace
+    def test_user_in_multiple_channels(name1, name2, is_public1, is_public2, user_woody):
+        ch_1 = channels_create_v1(user_woody.token, name1, is_public1)['channel_id']
+        ch_2 = channels_create_v1(user_woody.token, name2, is_public2)['channel_id']
+    
+        expected_joined = [{'channel_id': ch_1, 'name': name1}, {'channel_id': ch_2, 'name': name2}]
+        joined = channels_list_v1(user_woody.token)['channels']
+    
+>       assert sorted(expected_joined, key=lambda d: d['channel_id']) == sorted(joined, key=lambda d: d['channel_id'])
+E       AssertionError: assert [{'channel_id...ame': 'ZERG'}] == [{'all_member...es': [], ...}]
+E         At index 0 diff: {'channel_id': 1, 'name': 'andy'} != {'channel_id': 1, 'name': 'andy', 'owner_members': [1], 'all_members': [1], 'messages': [], 'is_public': False}
+E         Use -v to get the full diff
+
+tests/channels_tests/channels_list_test.py:52: AssertionError
+_____________ test_user_in_multiple_channels[True-True-ZERG-andy] ______________
+
+name1 = 'andy', name2 = 'ZERG', is_public1 = True, is_public2 = True
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @pytest.mark.parametrize('name1', ['andy'])
+    @pytest.mark.parametrize('name2', ['ZERG'])
+    @pytest.mark.parametrize('is_public1', [True, False])
+    @pytest.mark.parametrize('is_public2', [False, True])
+    @util.resets_workspace
+    def test_user_in_multiple_channels(name1, name2, is_public1, is_public2, user_woody):
+        ch_1 = channels_create_v1(user_woody.token, name1, is_public1)['channel_id']
+        ch_2 = channels_create_v1(user_woody.token, name2, is_public2)['channel_id']
+    
+        expected_joined = [{'channel_id': ch_1, 'name': name1}, {'channel_id': ch_2, 'name': name2}]
+        joined = channels_list_v1(user_woody.token)['channels']
+    
+>       assert sorted(expected_joined, key=lambda d: d['channel_id']) == sorted(joined, key=lambda d: d['channel_id'])
+E       AssertionError: assert [{'channel_id...ame': 'ZERG'}] == [{'all_member...es': [], ...}]
+E         At index 0 diff: {'channel_id': 1, 'name': 'andy'} != {'channel_id': 1, 'name': 'andy', 'owner_members': [1], 'all_members': [1], 'messages': [], 'is_public': True}
+E         Use -v to get the full diff
+
+tests/channels_tests/channels_list_test.py:52: AssertionError
+_____________ test_user_in_multiple_channels[True-False-ZERG-andy] _____________
+
+name1 = 'andy', name2 = 'ZERG', is_public1 = False, is_public2 = True
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @pytest.mark.parametrize('name1', ['andy'])
+    @pytest.mark.parametrize('name2', ['ZERG'])
+    @pytest.mark.parametrize('is_public1', [True, False])
+    @pytest.mark.parametrize('is_public2', [False, True])
+    @util.resets_workspace
+    def test_user_in_multiple_channels(name1, name2, is_public1, is_public2, user_woody):
+        ch_1 = channels_create_v1(user_woody.token, name1, is_public1)['channel_id']
+        ch_2 = channels_create_v1(user_woody.token, name2, is_public2)['channel_id']
+    
+        expected_joined = [{'channel_id': ch_1, 'name': name1}, {'channel_id': ch_2, 'name': name2}]
+        joined = channels_list_v1(user_woody.token)['channels']
+    
+>       assert sorted(expected_joined, key=lambda d: d['channel_id']) == sorted(joined, key=lambda d: d['channel_id'])
+E       AssertionError: assert [{'channel_id...ame': 'ZERG'}] == [{'all_member...es': [], ...}]
+E         At index 0 diff: {'channel_id': 1, 'name': 'andy'} != {'channel_id': 1, 'name': 'andy', 'owner_members': [1], 'all_members': [1], 'messages': [], 'is_public': False}
+E         Use -v to get the full diff
+
+tests/channels_tests/channels_list_test.py:52: AssertionError
+____________________________ test_when_no_channels _____________________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+
+    @util.resets_workspace
+    def test_when_no_channels(user_woody):
+>       assert channels_listall_v1(user_woody.token)['channels'] == []
+E       TypeError: list indices must be integers or slices, not str
+
+tests/channels_tests/channels_listall_test.py:12: TypeError
+_____________________ test_when_one_channel_exists_private _____________________
+
+user_woody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', name_first='sheriff', name_last='woody', u_id=1, token=1)
+zergs_private_lair = Channel(name='zergs lair', is_public=False, channel_id=1, owner_members=[2], all_members=[])
+
+    @util.resets_workspace
+    def test_when_one_channel_exists_private(user_woody, zergs_private_lair):
+        channel_detail = {'channel_id': zergs_private_lair.channel_id, 'name': zergs_private_lair.name}
+    
+>       assert channel_detail in channels_listall_v1(user_woody.token)['channels']
+E       TypeError: list indices must be integers or slices, not str
+
+tests/channels_tests/channels_listall_test.py:19: TypeError
+_____________________ test_when_one_channel_exists_public ______________________
+
+user_zerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', name_first='lord', name_last='zerg', u_id=1, token=1)
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[2], all_members=[])
+
+    @util.resets_workspace
+    def test_when_one_channel_exists_public(user_zerg, woodys_public_toybox):
+        channel_detail = {'channel_id': woodys_public_toybox.channel_id, 'name': woodys_public_toybox.name}
+    
+>       assert channel_detail in channels_listall_v1(user_zerg.token)['channels']
+E       TypeError: list indices must be integers or slices, not str
+
+tests/channels_tests/channels_listall_test.py:26: TypeError
+______________________ test_when_multiple_channels_exist _______________________
+
+woodys_public_toybox = Channel(name='woodys toybox', is_public=True, channel_id=1, owner_members=[1], all_members=[])
+zergs_private_lair = Channel(name='zergs lair', is_public=False, channel_id=2, owner_members=[2], all_members=[])
+user_buzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', name_first='buzz', name_last='lightyear', u_id=3, token=3)
+
+    @util.resets_workspace
+    def test_when_multiple_channels_exist(woodys_public_toybox, zergs_private_lair, user_buzz):
+        expected_chs = [
+            {'channel_id': woodys_public_toybox.channel_id, 'name': woodys_public_toybox.name},
+            {'channel_id': zergs_private_lair.channel_id, 'name': zergs_private_lair.name}
+        ]
+    
+>       chs = channels.channels_listall_v1(user_buzz.token)['channels']
+E       TypeError: list indices must be integers or slices, not str
+
+tests/channels_tests/channels_listall_test.py:36: TypeError
+=========================== short test summary info ============================
+FAILED tests/echo_test.py::test_echo - NameError: name 'echo' is not defined
+FAILED tests/echo_test.py::test_echo_except - NameError: name 'echo' is not d...
+FAILED tests/auth_tests/auth_register_test.py::test_auth_register_pass_names_long
+FAILED tests/channel_tests/channel_details_test.py::test_member_successful - ...
+FAILED tests/channel_tests/channel_invite_test.py::test_invite_global_owner
+FAILED tests/channel_tests/channel_invite_test.py::test_invite_global_member
+FAILED tests/channel_tests/channel_invite_test.py::test_invitation_from_non_channel_member
+FAILED tests/channel_tests/channel_invite_test.py::test_invalidated_token - s...
+FAILED tests/channel_tests/channel_join_test.py::test_global_owner_join_channel_private
+FAILED tests/channel_tests/channel_join_test.py::test_global_member_join_public
+FAILED tests/channel_tests/channel_messages_test.py::test_no_messages - Asser...
+FAILED tests/channels_tests/channels_create_test.py::test_create_channel[True-andys room]
+FAILED tests/channels_tests/channels_create_test.py::test_create_channel[False-andys room]
+FAILED tests/channels_tests/channels_list_test.py::test_when_member_is_in_no_channels
+FAILED tests/channels_tests/channels_list_test.py::test_channel_owner_in_channel[True-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_channel_owner_in_channel[False-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_channel_member_in_channel[True-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_channel_member_in_channel[False-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_user_in_multiple_channels[False-True-ZERG-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_user_in_multiple_channels[False-False-ZERG-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_user_in_multiple_channels[True-True-ZERG-andy]
+FAILED tests/channels_tests/channels_list_test.py::test_user_in_multiple_channels[True-False-ZERG-andy]
+FAILED tests/channels_tests/channels_listall_test.py::test_when_no_channels
+FAILED tests/channels_tests/channels_listall_test.py::test_when_one_channel_exists_private
+FAILED tests/channels_tests/channels_listall_test.py::test_when_one_channel_exists_public
+FAILED tests/channels_tests/channels_listall_test.py::test_when_multiple_channels_exist
+======================== 26 failed, 50 passed in 0.52s =========================
