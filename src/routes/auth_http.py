@@ -1,7 +1,6 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base import config
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 

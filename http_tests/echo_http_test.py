@@ -1,7 +1,7 @@
 import pytest
 import requests
 import json
-from src.base import config
+from src import config
 
 def test_echo():
     '''
