@@ -1,10 +1,10 @@
 import requests
 from json import loads
-from src.base.config import url
-from src.base.other import clear_v1
+from src.config import url
+from http_tests.helper import clear
 
+@clear
 def test_register_basic():
-    requests.delete(url + '/clear/v1', json={})
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
