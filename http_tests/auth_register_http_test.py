@@ -1,6 +1,6 @@
 import requests
 from json import loads
-from src.base.config import url
+from src.config import url
 from src.base.other import clear_v1
 
 def test_register_basic():

@@ -1,7 +1,6 @@
 import requests
 from json import loads
-from src.base.config import url
-
+from src.config import url
 
 def test_login_basic_http():
     ### register
