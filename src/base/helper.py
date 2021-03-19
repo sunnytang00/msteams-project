@@ -1,5 +1,8 @@
 from src.data.data import data
 import re
+import json
+
+data_path = '../data/data.json'
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -241,3 +244,89 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
         if name_first == user['name_first'] and name_last == user['name_last']:
             return True
     return False
+
+def get_user() -> list:
+    """Get list of user from data storage
+    
+    Arguments:
+        This function takes no argument
+
+    Returns:
+        users (list): List of users
+    """
+    with open(data_path, 'r') as f:
+        data = json.load(f)
+
+    users = data['users']
+
+    return users
+
+def get_channel() -> list:
+    """Get list of channel from data storage
+    
+    Arguments:
+        This function takes no argument
+
+    Returns:
+        channels (list): List of channels
+    """
+
+    with open(data_path, 'r') as f:
+        data = json.load(f)
+
+    channels = data['channels']
+    return channels
+
+def get_data() -> dict:
+    """Get data stored on data storage
+    
+    Arguments:
+        This function takes no argument
+
+    Returns:
+        data (dict): data stored on the data storage
+    """
+    with open(data_path, 'r') as f:
+        data = json.load(f)
+
+    return data
+
+def store_user(user: list) -> bool:
+    """Store the data of user on data storage
+    
+    Arguments:
+        user (list): List of users
+
+    Returns:
+        True if the user data stored successfully
+        False if fail to store user data
+    """
+    data = get_data()
+    data['users'] = user
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+    if get_user() == data['users']:
+        return True
+    else:
+        return False
+
+def store_channel(channel: list) -> bool:
+    """Store the data of channel on data storage
+    
+    Arguments:
+        channel (list): List of channel
+
+    Returns:
+        True if the channel data stored successfully
+        False if fail to store channel data
+    """
+    data = get_data()
+    data['channels'] = channel
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+    if get_channel() == data['channels']:
+        return True
+    else:
+        return False
