@@ -71,11 +71,10 @@ def test_invalid_lastname_change():
     assert auth_user_id == 1
 
     new_name_first = 'Albus'
-    new_name_last = 'a' * 50
+    new_name_last = 'a' * 51
 
     with pytest.raises(InputError) as e:
         user_profile_setname_v1(auth_user_id, new_name_first, new_name_last)
-        
         assert f'name_last {new_name_last} is not between 1 and 50 characters inclusively in length' in str(e)        
 
 
