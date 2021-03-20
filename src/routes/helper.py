@@ -1,6 +1,8 @@
 import hashlib
 import jwt
 
+SECRET = 'FRI09BECHO'
+
 def sha256_hash(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
@@ -8,8 +10,8 @@ def sha256_hash(password: str) -> str:
 def encode_jwt(firstname: str, lastname: str)  -> str:
 
     ret = firstname.lower() + lastname.lower()
-    return jwt.encode(ret, "FRI09BECHO", algorithm='HS256')
+    return jwt.encode(ret, SECRET, algorithm='HS256')
 
 #takes in a jwt and decodes it
 def decode_jwt(jwt: str) -> str:
-    return jwt.decode(jwt, "FRI09BECHO", algorithms='HS256')
+    return jwt.decode(jwt, SECRET, algorithms='HS256')
