@@ -14,14 +14,21 @@ def test_single_user():
     name_last='Potter'
     handle_str = 'harrypotter'
 
-    user = auth_register_v1(email='harrypotter@gmail.com',
-                            password='qw3rtyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
+    user = auth_register_v1(email=email,
+                            password=password,
+                            name_first=name_first,
+                            name_last=name_last)
     user_auth_id = user['auth_user_id']
     assert user_auth_id == 1
+    u_id = 1
 
-    expected = {email, password, name_first, name_last, handle_str}
+    expected = {'u_id': u_id, 
+                'email': email,
+                'name_first': name_first,
+                'name_last': name_last,
+                'handle_str': handle_str
+                }
+
     assert user_profile_v1(user_auth_id, user_auth_id).get('user') == expected
 
 # TODO: test valid if user is valid
