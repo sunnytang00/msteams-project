@@ -6,12 +6,12 @@ SECRET = 'FRI09BECHO'
 def sha256_hash(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
-#Takes in 2 strings, first name and last name, concatenates them and jwts it
 def encode_jwt(firstname: str, lastname: str)  -> str:
+    """Takes in 2 strings, first name and last name, concatenates them and jwts it"""
 
-    ret = firstname.lower() + lastname.lower()
-    return jwt.encode(ret, SECRET, algorithm='HS256')
+    payload = firstname.lower() + lastname.lower()
+    return jwt.encode(payload, SECRET, algorithm='HS256')
 
-#takes in a jwt and decodes it
-def decode_jwt(jwt: str) -> str:
-    return jwt.decode(jwt, SECRET, algorithms='HS256')
+def decode_jwt(payload: str) -> str:
+    """takes in a jwt and decodes it"""
+    return jwt.decode(payload, SECRET, algorithms='HS256')
