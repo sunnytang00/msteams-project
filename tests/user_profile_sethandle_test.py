@@ -42,8 +42,7 @@ def test_two_character_handle_string():
                             name_last=name_last)
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
-
+    
     new_handle = '22'
 
     with pytest.raises(InputError) as e:
@@ -66,7 +65,6 @@ def test_21_character_handle_string():
                             name_last=name_last)
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
 
     new_handle = '2' * 21
 
@@ -101,12 +99,9 @@ def test_handle_string_in_use():
 
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
 
     new_handle = 'severussnape'
 
     with pytest.raises(InputError) as e:
-
         user_profile_sethandle_v1(auth_user_id, new_handle)
-
-        assert f'Handle string {new_handle} is already in use' in str(e)
+        assert f'Handle string {new_handle} is already in use' in str(e)     

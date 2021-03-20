@@ -45,7 +45,6 @@ def test_invalid_firstname_change():
     
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
 
     new_name_first = 'a' * 51
     new_name_last = 'Dumbledore'
@@ -70,7 +69,6 @@ def test_invalid_lastname_change():
     
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
 
     new_name_first = 'Albus'
     new_name_last = 'a' * 50

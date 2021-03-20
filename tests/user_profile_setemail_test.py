@@ -45,7 +45,6 @@ def test_invalid_email():
     
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
 
     new_email = 'invalidemail!!!'
     
@@ -79,7 +78,6 @@ def test_email_in_use():
     
     auth_user_id = user['auth_user_id']
     assert auth_user_id == 1
-    u_id = 1
 
     new_email = 'severussnape@gmail.com'
     
