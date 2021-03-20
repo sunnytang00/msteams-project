@@ -1,11 +1,21 @@
+from src.base.helper import get_user_data
+
 def user_profile_v1(auth_user_id, u_id):
+    # TODO: add valid user checking
+    user = get_user_data(u_id)
+
+    email = user.get('email')
+    name_first = user.get('name_first')
+    name_last = user.get('name_last')
+    handle_str = user.get('handle_str')
+
     return {
         'user': {
-            'u_id': 1,
-            'email': 'cs1531@cse.unsw.edu.au',
-            'name_first': 'Hayden',
-            'name_last': 'Jacobs',
-            'handle_str': 'haydenjacobs',
+            'u_id': u_id,
+            'email': email,
+            'name_first': name_first,
+            'name_last': name_last,
+            'handle_str': handle_str,
         },
     }
 
