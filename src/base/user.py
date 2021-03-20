@@ -1,4 +1,5 @@
 from src.base.helper import get_user_data
+from src.data.data import data
 
 def user_profile_v1(auth_user_id, u_id):
     # TODO: add valid user checking
@@ -20,6 +21,11 @@ def user_profile_v1(auth_user_id, u_id):
     }
 
 def user_profile_setname_v1(auth_user_id, name_first, name_last):
+
+    for user in data['users']:
+        if user['u_id'] == auth_user_id:
+            user['name_first'] = name_first
+            user['name_last'] = name_last
     return {
     }
 
