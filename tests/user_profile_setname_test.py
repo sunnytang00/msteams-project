@@ -28,6 +28,7 @@ def test_single_user():
     user_profile_setname_v1(auth_user_id, new_name_first, new_name_last)
 
     assert user_profile_v1(auth_user_id, u_id).get('user').get('name_first') == new_name_first
+    assert user_profile_v1(auth_user_id, u_id).get('user').get('name_last') == new_name_last
 
 
 
