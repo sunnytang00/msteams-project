@@ -19,15 +19,17 @@ def register_http():
     name_first = data.get('name_first')
     name_last = data.get('name_last')
 
-    new_session_id = get_new_session_id
+    new_session_id = get_new_session_id()
 
     # TODO: add session_list key to users (?)
 
     user = auth_register_v1(email, hashed_password, name_first, name_last)
     auth_user_id = user.get('auth_user_id')
 
+    token = encode_token(new_session_id)
+
     return dumps({
-        'token': encode_token(new_session_id),
+        'token': token,
         'auth_user_id': auth_user_id
     }), 201
 
