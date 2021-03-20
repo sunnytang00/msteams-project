@@ -146,7 +146,7 @@ def valid_first_name(name_first: str) -> bool:
         False: if the first name is longer than 50 characters or shorter than 1 character
     """    
     # check first name length is in [1, 50]
-    if len(name_first) in range(1, 50):
+    if len(name_first) in range(1, 51):
         return True
     return False
 
@@ -161,7 +161,7 @@ def valid_last_name(name_last: str) -> bool:
         False: if the last name is longer than 50 characters or shorter than 1 character
     """    
     # check last name length is in [1, 50]
-    if len(name_last) in range(1, 50):
+    if len(name_last) in range(1, 51):
         return True
     return False
 
