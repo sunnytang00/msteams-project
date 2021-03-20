@@ -4,7 +4,7 @@ from flask import Flask, request, Blueprint
 from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 
-from src.routes.helper import sha256_hash, get_new_session_id, encode_jwt
+from src.routes.helper import sha256_hash, get_new_session_id, encode_token
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
