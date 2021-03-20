@@ -30,6 +30,11 @@ def user_profile_setname_v1(auth_user_id, name_first, name_last):
     }
 
 def user_profile_setemail_v1(auth_user_id, email):
+
+    for user in data['users']:
+        if user['u_id'] == auth_user_id:
+            user['email'] = email
+
     return {
     }
 
