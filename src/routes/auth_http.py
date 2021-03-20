@@ -27,7 +27,7 @@ def register_http():
     auth_user_id = user.get('auth_user_id')
 
     return dumps({
-        'token': encode_jwt(new_session_id),
+        'token': encode_token(new_session_id),
         'auth_user_id': auth_user_id
     }), 201
 
