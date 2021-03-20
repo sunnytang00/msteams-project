@@ -39,5 +39,10 @@ def user_profile_setemail_v1(auth_user_id, email):
     }
 
 def user_profile_sethandle_v1(auth_user_id, handle_str):
+
+    for user in data['users']:
+        if user['u_id'] == auth_user_id:
+            user['handle_str'] = handle_str
+            
     return {
     }
