@@ -16,5 +16,5 @@ def decode_token(payload: str) -> str:
     """takes in a jwt and decodes it"""
     return jwt.decode(payload, SECRET, algorithms='HS256')
 
-def get_new_session_id():
+def get_new_session_id() -> str:
     return str(uuid4())
