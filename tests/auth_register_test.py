@@ -71,7 +71,7 @@ def test_first_name_length():
 
     # test if first name is over 50 characters
     clear_v1()
-    invalid_first_name = 'a'*50
+    invalid_first_name = 'a'*51
     with pytest.raises(InputError) as e:
         auth_register_v1(email='aaaa_frazier@outlook.com',
                         password='mgQoU2YJpJyOTe4',
@@ -94,7 +94,7 @@ def test_last_name_length():
 
     # test if last name is over 50 characters
     clear_v1()
-    invalid_last_name = 'a'*50
+    invalid_last_name = 'a'*51
     with pytest.raises(InputError) as e:
         auth_register_v1(email='oakley55@outlook.com',
                         password='mgQoU2YJpJyOTe4',
