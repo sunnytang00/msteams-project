@@ -22,6 +22,6 @@ def test_single_user():
     assert user_auth_id == 1
 
     expected = {email, password, name_first, name_last, handle_str}
-    assert user_profile_v1(user_auth_id, user_auth_id) == expected
+    assert user_profile_v1(user_auth_id, user_auth_id).get('user') == expected
 
 # TODO: test valid if user is valid
