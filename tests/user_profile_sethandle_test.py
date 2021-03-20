@@ -14,7 +14,6 @@ def test_single_user():
     password = 'qw3rtyAppl3s@99'
     name_first = 'Harry'
     name_last = 'Potter'
-    handle_str = 'harrypotter'
 
     user = auth_register_v1(email=email,
                             password=password,
