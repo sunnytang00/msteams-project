@@ -196,11 +196,10 @@ def valid_channel_name(name: str) -> bool:
     return False
 
 def handle_str_exists(handle_str: str) -> bool:
-    """A function that when passed name, will check whether the channel name is over 20 characters
+    """A function that when passed name, will check whether the handle string name is over 20 characters
 
     Arguements:
-        name (str): Name of channel
-
+        name (str): Handle string
     Returns:
         True: if exists
         False: if not exists
