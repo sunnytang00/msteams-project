@@ -1,6 +1,6 @@
 import requests
 from json import loads
-from src.base.config import url
+from src.config import url
 
 def test_channels_create_basic():
     ##register a user first

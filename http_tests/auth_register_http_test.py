@@ -1,9 +1,12 @@
 import requests
 from json import loads
-from src.base.config import url
+from src.config import url
+from http_tests.helper import clear
 
+from src.routes.helper import decode_token
+
+@clear
 def test_register_basic():
-
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
@@ -12,17 +15,15 @@ def test_register_basic():
     })
 
     status_code = response.status_code
+    assert status_code == 201
 
-    # reading data from response
     data = response.json()
     auth_user_id = data.get('auth_user_id')
+    assert auth_user_id == 1
 
+    # TODO: when we store UUID we can compare here
+    token = data.get('token')
+    # expected = decode_token(token)
+    # assert uuid == decode_token(token)
 
-    #may need to assert what token is = to? apparently atm should be user_id
-    #but not sure
-    
-    #auth user is 2 as pytest runs auth_login http test first, still need to implement
-    #a reset function
-    assert auth_user_id == 2
-    assert status_code == 201
- 
+    assert token != None
