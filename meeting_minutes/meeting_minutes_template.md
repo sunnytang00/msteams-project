@@ -13,7 +13,7 @@ People who attended:
 - Wang Zhang
 - Sunny Tang
 - Siddh Rawal
-- Areej Ahmed
+- Sarth Bishnoi
 
 Absent:
 - None
@@ -26,10 +26,11 @@ Agenda | 1. What did you do this week?<br>2. What (if anything) is blocking your
 ## Discussion Items
 Item | Who | Notes |
 ---- | ---- | ---- |
-standup | Amin | • |
-standup | Wang | • |
-standup | Sunny | • |
-standup | Siddh | • |
+standup | Amin | 1. <br>2. <br>3. |
+standup | Wang | 1. <br>2. <br>3. |
+standup | Sunny | 1. <br>2. <br>3. |
+standup | Siddh | 1. <br>2. <br>3. |
+standup | Sarth | 1. <br>2. <br>3. |
 
 ## Action Items
 item | responsible | due date |
@@ -38,6 +39,7 @@ item | Amin | due_date ||
 item | Wang | due_date ||
 item | Sunny | due_date ||
 item | Siddh | due_date ||
+item | Sarth | due_date ||
 
 ## Other Notes & Information
 N/A

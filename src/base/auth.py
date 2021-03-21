@@ -3,9 +3,10 @@
 This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
 """
 
-from src.data import data
-from src.error import InputError
-from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
+from src.data.data import data
+from src.base.error import InputError
+from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
+from src.data.helper import save_data
 import re
 
 def auth_login_v1(email, password):
@@ -39,6 +40,7 @@ def auth_login_v1(email, password):
     # email did not match any user
     raise InputError(f'Email {email} entered does not belong to a user')
 
+@save_data
 def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
 

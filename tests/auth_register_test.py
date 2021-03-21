@@ -1,8 +1,8 @@
 import pytest
-from src.auth import auth_register_v1
-from src.other import clear_v1
-from src.error import InputError
-from src.helper import get_handle_str
+from src.base.auth import auth_register_v1
+from src.base.other import clear_v1
+from src.base.error import InputError
+from src.base.helper import get_handle_str
 from tests.helper import helper
 
 def test_valid_input(helper):
@@ -71,7 +71,7 @@ def test_first_name_length():
 
     # test if first name is over 50 characters
     clear_v1()
-    invalid_first_name = 'a'*50
+    invalid_first_name = 'a'*51
     with pytest.raises(InputError) as e:
         auth_register_v1(email='aaaa_frazier@outlook.com',
                         password='mgQoU2YJpJyOTe4',
@@ -94,7 +94,7 @@ def test_last_name_length():
 
     # test if last name is over 50 characters
     clear_v1()
-    invalid_last_name = 'a'*50
+    invalid_last_name = 'a'*51
     with pytest.raises(InputError) as e:
         auth_register_v1(email='oakley55@outlook.com',
                         password='mgQoU2YJpJyOTe4',
