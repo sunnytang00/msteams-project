@@ -6,7 +6,7 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 import time
 from src.base.error import InputError, AccessError
 from src.base.helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member,\
-     user_is_Dream_owner, user_is_owner, remove_from_owner_members
+     user_is_Dream_owner, user_is_owner, remove_from_owner_members, remove_from_all_members
 from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
@@ -140,8 +140,20 @@ def channel_leave_v1(auth_user_id, channel_id):
     Returns:
         Returns {} (dict) on success
     """   
-    return {
-    }
+    if not user_exists(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not channel_exists(channel_id):
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
+
+    channel = get_channel_data(channel_id)
+
+    if not user_is_member(channel, auth_user_id):
+        raise AccessError(f'user with {auth_user_id} is not member of channel')
+    
+    remove_from_owner_members(channel_id, auth_user_id)
+    remove_from_all_members(channel_id, auth_user_id)
+    return {}
 
 def channel_join_v1(auth_user_id, channel_id):
     """ Add user as the member of channel with specified ID
@@ -253,4 +265,4 @@ def channel_removeowner_v1(auth_user_id, channel_id, u_id):
 
     remove_from_owner_members(channel_id, u_id)
 
-    return { }
+    return {}

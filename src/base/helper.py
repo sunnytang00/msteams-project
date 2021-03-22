@@ -1,4 +1,4 @@
-from src.data.helper import get_users, get_channels, get_data,update_owner_members
+from src.data.helper import get_users, get_channels, get_data,update_owner_members,update_all_members
 import re
 
 def valid_email(email: str) -> bool:
@@ -266,4 +266,10 @@ def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     user = get_user_data(user_id)
     owner_member.remove(user)
     update_owner_members(channel_id, owner_member)
+
+def remove_from_all_members(channel_id : int, user_id: int) -> None:
+    all_member = get_channel_data(channel_id)['all_members']
+    user = get_user_data(user_id)
+    all_member.remove(user)
+    update_all_members(channel_id, all_member)
         

@@ -175,3 +175,11 @@ def update_owner_members(channel_id : int, owner_members: list) -> bool:
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
+
+def update_all_members(channel_id : int, all_members: list) -> bool:
+    data = get_data()
+
+    data["channels"][channel_id-1]["all_members"] = all_members 
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)

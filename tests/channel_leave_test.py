@@ -6,27 +6,6 @@ from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from tests.helper import helper
 
-def test_valid_input():
-    clear_v1()
-    #register
-    user = auth_register_v1(email='bobsmith@gmail.com',
-                                password='FVn4HTWEsz8k6Msf',
-                                name_first='Bob',
-                                name_last='Smith')
-    user_id = user['auth_user_id']
-
-    ch_name = "big fish"
-    #create channel
-    ch_id = channels_create_v1(user_id, ch_name, True)['channel_id']
-    #add user2 as owner of channel
-    channel_leave_v1(user_id, ch_id)
-    #check the details of channel
-    ch_details = channel_details_v1(user_id, ch_id)
-
-    assert user_id not in [user['u_id'] for user in ch_details['owner_members']] and (
-            user_id not in [user['u_id'] for user in ch_details['all_members']]
-    )
-
 def test_multiple_users():
     clear_v1()
     #register
@@ -105,7 +84,7 @@ def test_user_is_not_member():
 
     ch_id = channels_create_v1(user_id, ch_name, True)['channel_id']
 
-    with pytest.raises(InputError) as e: 
+    with pytest.raises(AccessError) as e: 
         channel_leave_v1(user_id2, ch_id)
         assert f'user with {user_id} is not member of channel' in str(e)
 
