@@ -36,17 +36,16 @@ def user_profile_setname():
 
 
 #NEED TO CHANGE TO TOKEN
-"""
+
 @user_blueprint.route("/user/profile/setemail/v2", methods=['PUT'])
 def user_profile_setemail():
 
     data = request.get_json()
 
+    auth_user_id = data.get('auth_user_id')
     email = data.get('email')
-    auth_user_id = data.get('u_id')
 
-    user_profile_setemail_v1(auth_user_id, email)
+    user_profile_setemail_v1(int(auth_user_id), email)
     
     return dumps({
     })
-"""
