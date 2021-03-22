@@ -207,6 +207,7 @@ def channel_addowner_v1(auth_user_id, channel_id, u_id):
 
     user = get_user_data(u_id)
     append_channel_owner_members(channel_id, user)
+    append_channel_all_members(channel_id, user)
 
     return {}
 
