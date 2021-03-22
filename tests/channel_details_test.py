@@ -19,10 +19,8 @@ def test_valid_input():
     channel_id = channel['channel_id']
 
     output = channel_details_v1(auth_user_id=user_id, channel_id=channel_id)
-    
-    expected = {'name': 'Cat Society', 'owner_members': [user_id], 'all_members': [user_id]}
 
-    assert output == expected
+    assert user_id in [users['u_id'] for users in output['all_members']]
 
 def test_invalid_channel_id():
     clear_v1()

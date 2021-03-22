@@ -25,7 +25,7 @@ def channels_list_v1(auth_user_id):
         raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if len(get_channels()) == 0:
-        return {}
+        return {'channels' : []}
 
     channels_of_user = {
                     'channels': [
@@ -35,7 +35,10 @@ def channels_list_v1(auth_user_id):
 
     for channel in get_channels():
         if user_is_member(channel, auth_user_id):
-            channels_of_user['channels'].append(channel)
+            channels = {}
+            channels['channel_id'] = channel['channel_id']
+            channels['name'] = channel['name']
+            channels_of_user['channels'].append(channels)
     
     return channels_of_user
 
@@ -54,10 +57,13 @@ def channels_listall_v1(auth_user_id):
     if not user_exists(auth_user_id):
         raise AccessError(f'User ID {auth_user_id} is invaild')
 
-    public_channels = []
+    public_channels = {'channels': []}
     for channel in get_channels():
         if user_is_member(channel, auth_user_id) or channel['is_public']:
-            public_channels.append(channel)
+            channels = {}
+            channels['channel_id'] = channel['channel_id']
+            channels['name'] = channel['name']
+            public_channels['channels'].append(channels)
     return public_channels
 
 def channels_create_v1(auth_user_id, name, is_public):
@@ -85,11 +91,13 @@ def channels_create_v1(auth_user_id, name, is_public):
 
     channel_id = len(get_channels()) + 1
 
+    user = get_user_data(auth_user_id)
+
     channel = {
         'channel_id': channel_id,
         'name': name,
-        'owner_members': [auth_user_id],
-        'all_members': [auth_user_id],
+        'owner_members': [user],
+        'all_members': [user],
         'messages': [],
         'is_public': is_public
     }

@@ -38,7 +38,8 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not user_is_member(channel, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
 
-    append_channel_all_members(channel_id, u_id)
+    user = get_user_data(u_id)
+    append_channel_all_members(channel_id, user)
     return {}
 
 def channel_details_v1(auth_user_id, channel_id):
@@ -166,8 +167,9 @@ def channel_join_v1(auth_user_id, channel_id):
         raise AccessError(f'channel_id {channel_id} refers to a channel that is private')
     if user_is_member(channel_data, auth_user_id):
         raise InputError('The user is already in the channel')
-
-    append_channel_all_members(channel_id, auth_user_id)
+    
+    user = get_user_data(auth_user_id)
+    append_channel_all_members(channel_id, user)
 
     return {}
 
