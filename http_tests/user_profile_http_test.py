@@ -5,7 +5,7 @@ from http_tests.helper import clear
 import urllib
 @clear
 
-def test_setname_basic():
+def test_setprofile_basic():
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
