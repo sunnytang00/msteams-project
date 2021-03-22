@@ -1,7 +1,6 @@
 from src.data.data import data
 from src.config import data_path
 import json
-from src.config import data_path
 
 '''
 def get_data():
