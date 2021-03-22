@@ -244,6 +244,7 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
             return True
     return False
 
+
 def get_user() -> list:
     """Get list of user from data storage
     
