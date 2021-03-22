@@ -1,4 +1,4 @@
-from src.data.helper import get_users, get_channels
+from src.data.helper import get_users, get_channels, get_data
 import re
 
 def valid_email(email: str) -> bool:
@@ -45,7 +45,7 @@ def channel_exists(channel_id: int) -> bool:
     return False
 
 def get_user_data(auth_user_id: int) -> dict:
-    """A function that when passed an authenticated user id, will return their email, password, first name and last name
+    """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
 
     Arguments:
         auth_user_id (int): ID of authorised user
@@ -57,6 +57,7 @@ def get_user_data(auth_user_id: int) -> dict:
     for user in get_users():
         if user['u_id'] == auth_user_id:
             return {
+                'u_id' : auth_user_id,
                 'email': user['email'],
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
@@ -98,7 +99,8 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
-    if auth_user_id in channel['all_members']:
+    for user in channel['all_members']:
+        if auth_user_id == user['u_id']:
             return True
     return False
 
@@ -240,93 +242,3 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
         if name_first == user['name_first'] and name_last == user['name_last']:
             return True
     return False
-<<<<<<< HEAD
-
-
-def get_user() -> list:
-    """Get list of user from data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        users (list): List of users
-    """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    users = data['users']
-
-    return users
-
-def get_channel() -> list:
-    """Get list of channel from data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        channels (list): List of channels
-    """
-
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    channels = data['channels']
-    return channels
-
-def get_data() -> dict:
-    """Get data stored on data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        data (dict): data stored on the data storage
-    """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    return data
-
-def store_user(user: list) -> bool:
-    """Store the data of user on data storage
-    
-    Arguments:
-        user (list): List of users
-
-    Returns:
-        True if the user data stored successfully
-        False if fail to store user data
-    """
-    data = get_data()
-    data['users'] = user
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-    if get_user() == data['users']:
-        return True
-    else:
-        return False
-
-def store_channel(channel: list) -> bool:
-    """Store the data of channel on data storage
-    
-    Arguments:
-        channel (list): List of channel
-
-    Returns:
-        True if the channel data stored successfully
-        False if fail to store channel data
-    """
-    data = get_data()
-    data['channels'] = channel
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-    if get_channel() == data['channels']:
-        return True
-    else:
-        return False
-=======
->>>>>>> master
