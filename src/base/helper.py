@@ -1,4 +1,4 @@
-from src.data.helper import get_users, get_channels
+from src.data.helper import get_users, get_channels, get_data
 import re
 
 def valid_email(email: str) -> bool:
@@ -45,7 +45,7 @@ def channel_exists(channel_id: int) -> bool:
     return False
 
 def get_user_data(auth_user_id: int) -> dict:
-    """A function that when passed an authenticated user id, will return their email, password, first name and last name
+    """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
 
     Arguments:
         auth_user_id (int): ID of authorised user
@@ -57,6 +57,7 @@ def get_user_data(auth_user_id: int) -> dict:
     for user in get_users():
         if user['u_id'] == auth_user_id:
             return {
+                'u_id' : auth_user_id,
                 'email': user['email'],
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
@@ -98,7 +99,8 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
-    if auth_user_id in channel['all_members']:
+    for user in channel['all_members']:
+        if auth_user_id == user['u_id']:
             return True
     return False
 
