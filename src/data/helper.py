@@ -99,7 +99,7 @@ def update_name_first(u_id: int, name_first: str) -> bool:
     """TODO"""
     data = get_data()
 
-    data["users"][u_id-1]['name_first'] = name_first
+    data["users"][u_id-1]["name_first"] = name_first
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -108,7 +108,25 @@ def update_name_last(u_id: int, name_last: str) -> bool:
     """TODO"""
     data = get_data()
 
-    data["users"][u_id-1]['name_last'] = name_last
+    data["users"][u_id-1]["name_last"] = name_last
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_email(u_id: int, email: str) -> bool:
+    """TODO"""
+    data = get_data()
+
+    data["users"][u_id-1]["email"] = email
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_handle_str(u_id: int, handle_str: str) -> bool:
+    """TODO"""
+    data = get_data()
+
+    data["users"][u_id-1]["handle_str"] = handle_str 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
