@@ -26,7 +26,7 @@ def test_valid_input():
     channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
 
     channels = channels_listall_v1(2)
-    output = channels[0]['channel_id']
+    output = channels['channels'][0]['channel_id']
     expected = 1
     assert output == expected
 

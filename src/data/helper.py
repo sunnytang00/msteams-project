@@ -151,11 +151,11 @@ def store_channel(channel: list) -> bool:
         return True
     return False
 
-def append_channel_all_members(channel_id: int, u_id: int) -> None:
+def append_channel_all_members(channel_id: int, user: dict) -> None:
     """TODO"""
     data = get_data()
 
-    data["channels"][channel_id-1]['all_members'].append(u_id)
+    data["channels"][channel_id-1]['all_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)

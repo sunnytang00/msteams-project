@@ -29,7 +29,7 @@ def test_vaild_input(helper):
     channels_create_v1(user_2_id, "correct4", True)
     channels_create_v1(user_2_id, "correct5", True)
 
-    assert len(channels_listall_v1(user_2_id)) == 3
+    assert len(channels_listall_v1(user_2_id)['channels']) == 3
 
 def test_private_channel_exists(helper):
     clear_v1()
@@ -45,10 +45,24 @@ def test_private_channel_exists(helper):
                                 name_last='Smith')
     user_2_id = user_2['auth_user_id']
 
-    channels_create_v1(user_id, "correct", False)
-    channels_create_v1(user_id, "correct2", False)
-    channels_create_v1(user_id, "correct3", False)
-    channels_create_v1(user_2_id, "correct4", True)
-    channels_create_v1(user_2_id, "correct5", True)
+    ch1 = channels_create_v1(user_2_id, "correct", False)['channel_id']
+    ch2 = channels_create_v1(user_id, "correct2", True)['channel_id']
+    expected1 = {'channel_id' : ch1, 'name' : 'correct'}
+    expected2 = {'channel_id' : ch2, 'name' : 'correct2'}
+    ch_lst = channels_listall_v1(user_id)['channels']
+    assert (expected1 not in ch_lst) and (expected2  in ch_lst)
 
-    assert len(channels_listall_v1(user_2_id)) == 2
+def test_check_content(helper):
+    clear_v1()
+    user = auth_register_v1(email='bobsmith2@gmail.com',
+                                password='12345678',
+                                name_first='bob',
+                                name_last='smith')
+    user_id = user['auth_user_id']
+
+
+    ch = channels_create_v1(user_id, "correct", True)['channel_id']
+
+    expected = {'channel_id' : ch, 'name': 'correct'}
+
+    assert  expected in channels_listall_v1(user_id)['channels']
