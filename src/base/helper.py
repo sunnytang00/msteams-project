@@ -1,4 +1,4 @@
-from src.data.helper import get_users, get_channels, get_data
+from src.data.helper import get_users, get_channels, get_data,update_owner_members
 import re
 
 def valid_email(email: str) -> bool:
@@ -260,3 +260,10 @@ def user_is_Dream_owner(u_id: int) -> bool:
         return True
     else:
         return False
+
+def remove_from_owner_members(channel_id : int, user_id: int) -> None:
+    owner_member = get_channel_data(channel_id)['owner_members']
+    user = get_user_data(user_id)
+    owner_member.remove(user)
+    update_owner_members(channel_id, owner_member)
+        

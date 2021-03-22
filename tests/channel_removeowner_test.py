@@ -77,6 +77,7 @@ def test_invalid_token():
         assert f'token {user_id} does not refer to a valid token' in str(e)
 
 def test_the_only_owner():
+    clear_v1()
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
@@ -90,6 +91,27 @@ def test_the_only_owner():
     with pytest.raises(InputError) as e: 
         channel_removeowner_v1(user_id, ch_id, user_id)
         assert f'user with {user_id} is the only owner of channel' in str(e)
+
+def test_user_is_not_owner():
+    clear_v1()
+    user = auth_register_v1(email='bobsmith@gmail.com',
+                                password='FVn4HTWEsz8k6Msf',
+                                name_first='Bob',
+                                name_last='Smith')
+    user_id = user['auth_user_id']
+    user2 = auth_register_v1(email='harrypotter7@gmail.com',
+                                    password='qw3rtyAppl3s@99',
+                                    name_first='Harry',
+                                    name_last='Potter')
+    user_id2 = user2['auth_user_id']
+
+    ch_name = "big fish"
+
+    ch_id = channels_create_v1(user_id, ch_name, True)['channel_id']
+
+    with pytest.raises(InputError) as e: 
+        channel_removeowner_v1(user_id, ch_id, user_id2)
+        assert f'user with {user_id} is not owner of channel' in str(e)
 
 def test_auth_user_has_no_access():
     clear_v1()
@@ -116,7 +138,7 @@ def test_auth_user_has_no_access():
 
     ch_id = channels_create_v1(user_id2, ch_name, True)['channel_id']
 
-    channel_addowner_v1(user_id2, ch_name, user_id)
+    channel_addowner_v1(user_id2, ch_id, user_id)
 
     with pytest.raises(AccessError) as e: 
         channel_removeowner_v1(user_id3, ch_id, user_id)
