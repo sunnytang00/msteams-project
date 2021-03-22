@@ -1,6 +1,4 @@
-from json import load, JSONDecodeError
-from src.config import data_path
-
+"""
 data = {
     'users': [
 
@@ -9,7 +7,9 @@ data = {
 
     ],
 }
+"""
 
+"""
 try:
     # update dict with stored data
     with open(data_path, 'r') as f:
@@ -23,3 +23,5 @@ except (FileNotFoundError, JSONDecodeError) as e:
     # initialise file
     with open(data_path, 'w') as f:
         pass
+
+"""

@@ -1,8 +1,5 @@
-from src.data.data import data
+from src.data.helper import get_users, get_channels
 import re
-import json
-
-data_path = '../data/data.json'
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -27,7 +24,7 @@ def user_exists(auth_user_id: int) -> bool:
        True: if user exists
        False: if user does not exist
     """    
-    for user in data['users']:
+    for user in get_users():
         if user['u_id'] == auth_user_id:
             return True
     return False
@@ -42,7 +39,7 @@ def channel_exists(channel_id: int) -> bool:
         True: if channel exists
         False: if channel does not exist
     """    
-    for channel in data['channels']:
+    for channel in get_channels():
         if channel['channel_id'] == channel_id:
             return True
     return False
@@ -57,7 +54,7 @@ def get_user_data(auth_user_id: int) -> dict:
         dict: A dictionary of their email, password, first name and last name
         None: if nothing is found
     """    
-    for user in data['users']:
+    for user in get_users():
         if user['u_id'] == auth_user_id:
             return {
                 'email': user['email'],
@@ -78,7 +75,7 @@ def get_channel_data(channel_id: int) -> dict:
         dict: A dict of the id, name, user_id, owners, all members, messages and whether it is public of the channel if it is found
         None: if the id does not match a channel
     """    
-    for channel in data['channels']:
+    for channel in get_channels():
         if channel['channel_id'] == channel_id:
             return {
                 'channel_id': channel['channel_id'],
@@ -176,8 +173,8 @@ def email_exists(email: str) -> bool:
         False: if the email does not already exist
     """    
     # check if email already exists in data
-    for user in data['users']:
-        if user['email'] == email:
+    for user in get_users():
+        if user.get('email') == email:
             return True
     return False
 
@@ -204,8 +201,8 @@ def handle_str_exists(handle_str: str) -> bool:
         True: if exists
         False: if not exists
     """   
-    for user in data['users']:
-        if user['handle_str'] == handle_str:
+    for user in get_users():
+        if user.get('handle_str') == handle_str:
             return True
     return False
 
@@ -239,93 +236,7 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
         True: if exists
         False: if not exists
     """
-    for user in data['users']:
+    for user in get_users():
         if name_first == user['name_first'] and name_last == user['name_last']:
             return True
     return False
-
-def get_user() -> list:
-    """Get list of user from data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        users (list): List of users
-    """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    users = data['users']
-
-    return users
-
-def get_channel() -> list:
-    """Get list of channel from data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        channels (list): List of channels
-    """
-
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    channels = data['channels']
-    return channels
-
-def get_data() -> dict:
-    """Get data stored on data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        data (dict): data stored on the data storage
-    """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    return data
-
-def store_user(user: list) -> bool:
-    """Store the data of user on data storage
-    
-    Arguments:
-        user (list): List of users
-
-    Returns:
-        True if the user data stored successfully
-        False if fail to store user data
-    """
-    data = get_data()
-    data['users'] = user
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-    if get_user() == data['users']:
-        return True
-    else:
-        return False
-
-def store_channel(channel: list) -> bool:
-    """Store the data of channel on data storage
-    
-    Arguments:
-        channel (list): List of channel
-
-    Returns:
-        True if the channel data stored successfully
-        False if fail to store channel data
-    """
-    data = get_data()
-    data['channels'] = channel
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-    if get_channel() == data['channels']:
-        return True
-    else:
-        return False

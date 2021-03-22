@@ -128,3 +128,6 @@ dmypy.json
 
 # storage file
 data.json
+
+# vscode
+.vscode
