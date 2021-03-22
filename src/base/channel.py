@@ -126,15 +126,20 @@ def channel_messages_v1(auth_user_id, channel_id, start):
 
 
 def channel_leave_v1(auth_user_id, channel_id):
-    """[summary]
+    """ Remove user with u_id from owner list of channel with channel_id
 
     Args:
-        auth_user_id ([type]): [description]
-        channel_id ([type]): [description]
+        auth_user_id (should be token): [description]
+        channel_id (int): id of channel
+
+    Exceptions:
+        AccessError - Occurs when the token is invalid
+        AccessError - Occurs when the auth_user is not member of channel
+        InputError - Occurs when the channel_id is invalid
 
     Returns:
-        [type]: [description]
-    """    
+        Returns {} (dict) on success
+    """   
     return {
     }
 
