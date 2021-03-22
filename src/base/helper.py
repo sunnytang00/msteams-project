@@ -1,4 +1,4 @@
-from src.data.helper import get_users, get_channels, get_data
+from src.data.helper import get_users, get_channels, get_data,update_owner_members,update_all_members
 import re
 
 def valid_email(email: str) -> bool:
@@ -242,3 +242,34 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
         if name_first == user['name_first'] and name_last == user['name_last']:
             return True
     return False
+
+def user_is_Dream_owner(u_id: int) -> bool:
+    #TODO owner of Dream should checked by permission id, may need to change stucture of user data?
+    #by default the very first user that registered is user of Dream
+    """Check if there is user with u_id is owner of Dream
+    
+    Arguments:
+        u_id (int): id of user
+
+    Returns:
+        True: if user with u_id is owner of Dream
+        False: if user with u_id is not owner of Dream
+    """
+    users = get_users()
+    if u_id == users[0]['u_id']:
+        return True
+    else:
+        return False
+
+def remove_from_owner_members(channel_id : int, user_id: int) -> None:
+    owner_member = get_channel_data(channel_id)['owner_members']
+    user = get_user_data(user_id)
+    owner_member.remove(user)
+    update_owner_members(channel_id, owner_member)
+
+def remove_from_all_members(channel_id : int, user_id: int) -> None:
+    all_member = get_channel_data(channel_id)['all_members']
+    user = get_user_data(user_id)
+    all_member.remove(user)
+    update_all_members(channel_id, all_member)
+        
