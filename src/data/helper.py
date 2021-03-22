@@ -19,7 +19,7 @@ def save_data(func):
     return wrapper
 '''
 
-def get_user() -> list:
+def get_users() -> list:
     """Get list of user from data storage
     
     Arguments:
@@ -35,7 +35,7 @@ def get_user() -> list:
 
     return users
 
-def get_channel() -> list:
+def get_channels() -> list:
     """Get list of channel from data storage
     
     Arguments:
@@ -82,7 +82,7 @@ def store_user(user: dict) -> bool:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-    if get_user() == data["users"]:
+    if get_users() == data["users"]:
         return True
     return False
 
@@ -103,6 +103,6 @@ def store_channel(channel: list) -> bool:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-    if get_channel() == data["channels"]:
+    if get_channels() == data["channels"]:
         return True
     return False
