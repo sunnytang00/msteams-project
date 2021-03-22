@@ -1,5 +1,5 @@
 from src.base.helper import get_user_data
-from src.data.helper import get_users, update_name, update_name_last, update_email, update_handle_str
+from src.data.helper import data
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, handle_str_exists
 from src.base.error import InputError
 
