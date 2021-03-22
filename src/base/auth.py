@@ -3,9 +3,9 @@
 This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
 """
 
-from src.data.data import data
 from src.base.error import InputError
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
+from src.data.helper import get_users, store_user 
 import re
 
 def auth_login_v1(email, password):
@@ -27,7 +27,7 @@ def auth_login_v1(email, password):
     if not valid_email(email):
         raise InputError(f'Email {email} entered is not a valid email')
 
-    for user in data['users']:
+    for user in get_users():
         # check user exists
         if email == user['email']:
             # check corret password
@@ -58,8 +58,7 @@ def auth_register_v1(email, password, name_first, name_last):
     Return Value:
         Returns auth_user_id (dict) on newly created user.
     """
-    global data
-    user_id = len(data['users']) + 1
+    user_id = len(get_users()) + 1
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -76,18 +75,19 @@ def auth_register_v1(email, password, name_first, name_last):
     if email_exists(email):
         raise InputError(f'Email address {email} is already being used by another user')
 
-    # TODO: only base implemented
     handle_str = get_handle_str(name_first, name_last)
 
-    # register user
-    data['users'].append({ 
+    user = { 
         'u_id': user_id,
         'email': email,
         'name_first': name_first,
         'name_last': name_last,
         'handle_str': handle_str,
         'password': password
-    })
+    }
+
+    # register user
+    store_user(user)
 
     return {
         'auth_user_id': user_id,

@@ -4,9 +4,9 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 """
 
 import time
-from src.data.data import data
 from src.base.error import InputError, AccessError
 from src.base.helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
+from src.data.helper import get_channels, append_channel_all_members
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -24,8 +24,6 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
         Returns {} (dict) on invited user.
     """    
 
-    global data
-
     if not user_exists(auth_user_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
 
@@ -40,7 +38,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not user_is_member(channel, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
 
-    channel['all_members'].append(u_id)
+    append_channel_all_members(channel_id, u_id)
     return {}
 
 def channel_details_v1(auth_user_id, channel_id):
@@ -155,7 +153,6 @@ def channel_join_v1(auth_user_id, channel_id):
     Return Value:
         Returns {} (dict) on success
     """
-    global data
 
     if not user_exists(auth_user_id):
         raise AccessError('User ID is invaild')
@@ -170,7 +167,7 @@ def channel_join_v1(auth_user_id, channel_id):
     if user_is_member(channel_data, auth_user_id):
         raise InputError('The user is already in the channel')
 
-    channel_data['all_members'].append(auth_user_id)
+    append_channel_all_members(channel_id, auth_user_id)
 
     return {}
 
