@@ -19,7 +19,7 @@ def test_setemail_basic():
 
     requests.put(url + 'user/profile/setemail/v2', json = {
         'auth_user_id' : auth_user_id,
-        'email' : 'harrypotter1@gmail.com'
+        'email' : 'albusdumbledore@gmail.com',
     })
 
     u_id = 1
@@ -31,4 +31,4 @@ def test_setemail_basic():
     user = requests.get(url + f'user/profile/v2?{queryString}')
 
     data = user.json()
-    assert data.get('user').get('user').get('email') == 'harrypotter1@gmail.com'
+    assert data.get('user').get('user').get('email') == 'albusdumbledore@gmail.com'
