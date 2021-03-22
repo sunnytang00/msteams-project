@@ -1,6 +1,4 @@
-from json import load, JSONDecodeError
-from src.config import data_path
-
+"""
 data = {
     'users': [
 
@@ -9,6 +7,7 @@ data = {
 
     ],
 }
+"""
 
 """
 try:
