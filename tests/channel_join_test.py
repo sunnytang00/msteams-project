@@ -1,6 +1,5 @@
 import pytest
 from src.base.channel import channel_join_v1
-from src.data.data import data
 from src.base.channels import channels_create_v1, channels_list_v1
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
