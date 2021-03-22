@@ -242,3 +242,21 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
         if name_first == user['name_first'] and name_last == user['name_last']:
             return True
     return False
+
+def user_is_Dream_owner(u_id: int) -> bool:
+    #TODO owner of Dream should checked by permission id, may need to change stucture of user data?
+    #by default the very first user that registered is user of Dream
+    """Check if there is user with u_id is owner of Dream
+    
+    Arguments:
+        u_id (int): id of user
+
+    Returns:
+        True: if user with u_id is owner of Dream
+        False: if user with u_id is not owner of Dream
+    """
+    users = get_users()
+    if u_id == users[0]['u_id']:
+        return True
+    else:
+        return False
