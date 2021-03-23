@@ -30,37 +30,37 @@ Dummy Data for Database
 data = {
     'users': [
         { 
-        'u_id': 0, #user_id,
-        'email': sample_0@something.com                         #email,
-        'name_first': first_sample_name_0                       #name_first,
-        'name_last': last_sample_name_0                         #name_last,
-        'handle_str': first_sample_name_0last_sample_name_0     #handle_str,
-        'password': password_0_1324&#!$                            #password
-        },
-        { 
-        'u_id': 1, #user_id,
+        'u_id': 1,                                              #user_id,
         'email': sample_1@something.com                         #email,
         'name_first': first_sample_name_1                       #name_first,
         'name_last': last_sample_name_1                         #name_last,
         'handle_str': first_sample_name_1last_sample_name_1     #handle_str,
-        'password': password_1_1324&#!$                            #password
+        'password': password_1_1324&#!$                         #password
+        },
+        { 
+        'u_id': 2,                                              #user_id,
+        'email': sample_2@something.com                         #email,
+        'name_first': first_sample_name_2                       #name_first,
+        'name_last': last_sample_name_2                         #name_last,
+        'handle_str': first_sample_name_2last_sample_name_2     #handle_str,
+        'password': password_2_1324&#!$                         #password
         },
     ],
     'channels': [           
         {
-        'channel_id': 0,
-        'name': Sample_channel_0,
+        'channel_id': 1,
+        'name': Sample_channel_1,
         'owner_members': [
-            0,
+            1,
         ],
         'all_members': [
-            0,
             1,
+            2,
         ],
         'messages': [
             {
-                'message_id': 0,
-                'u_id': 0,
+                'message_id': 1,
+                'u_id': 1,
                 'message': 'Hello world',
                 'time_created': 1582426789,
             }
