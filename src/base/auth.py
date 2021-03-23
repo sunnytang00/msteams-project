@@ -27,6 +27,7 @@ def auth_login_v1(email, password):
     if not valid_email(email):
         raise InputError(f'Email {email} entered is not a valid email')
 
+    # TODO: make helper function that returns user based on email
     for user in get_users():
         # check user exists
         if email == user['email']:
