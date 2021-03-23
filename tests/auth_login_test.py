@@ -2,11 +2,11 @@ import pytest
 from src.base.auth import auth_login_v1, auth_register_v1
 from src.base.other import clear_v1
 from src.base.error import InputError
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_valid_input(helper):
     """Testing for a valid login, first register the user and then login, expected return is user_id."""
-    clear_v1()
     output = auth_register_v1(email='harrypotter@gmail.com',
                                 password='qw3rtyAppl3s@99',
                                 name_first='Harry',
@@ -31,9 +31,9 @@ def test_valid_input(helper):
 
     assert output == expected
 
+@clear
 def test_many_users():
     """Register three users and try log middle one in."""
-    clear_v1()
     auth_register_v1(email='harrypotter@gmail.com',
                         password='qw3rtyAppl3s@99',
                         name_first='Harry',
@@ -54,9 +54,9 @@ def test_many_users():
 
     assert output == expected
 
+@clear
 def test_unknown_email():
     """Testing a non-registered email."""
-    clear_v1()
     auth_register_v1(email='harrypotter@gmail.com',
                         password='qw3rtyAppl3s@99',
                         name_first='Harry',
@@ -69,9 +69,9 @@ def test_unknown_email():
         
         assert f'Email {invalid_email} entered does not belong to a user' in str(e)
      
+@clear
 def test_invalid_password():
     """Testing an invalid password."""
-    clear_v1()
     auth_register_v1(email='harrypotter@gmail.com',
                         password='qw3rtyAppl3s@99',
                         name_first='Harry',
@@ -84,10 +84,9 @@ def test_invalid_password():
         assert f'Password {invalid_password} is not correct.' in str(e)
 
 
+@clear
 def test_many_logins(helper):
     """Testing registering a large amount of users, then logging in with one"""
-    clear_v1()
-
     helper.register_users(10)
 
     output1 = auth_register_v1(email='harrypotter3@gmail.com',
@@ -111,9 +110,9 @@ def test_many_logins(helper):
                             password='qw3rtyAppl3s@11') == output3
 
 
+@clear
 def test_many_users_fail(helper):
     """Testing registering a large amount of users, then logging in with one"""
-    clear_v1()
 
     helper.register_users(10)
 
@@ -124,8 +123,8 @@ def test_many_users_fail(helper):
         
         assert f'Email {invalid_email} does not belong to a user.' in str(e)
 
+@clear
 def test_no_details(helper):
-    clear_v1()
     helper.register_users(15)
     empty_str = ''
 
@@ -135,9 +134,8 @@ def test_no_details(helper):
         
         assert f'Email {empty_str} does not belong to a user.' in str(e)
 
+@clear
 def test_max_characters(helper):
-    clear_v1()
-
     invalid_email = 'q'*1000
     auth_register_v1(email='harrypotter3@gmail.com',
                         password='qw3rtyAppl3s@04',

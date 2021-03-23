@@ -4,10 +4,10 @@ from src.base.channels import channels_create_v1, channels_list_v1
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_valid_input():
-    clear_v1()
     user = auth_register_v1(email='bobsmith1@gmail.com',
                                 password='12345678',
                                 name_first='bob',
@@ -24,12 +24,11 @@ def test_valid_input():
     channel = channels_create_v1(user_id, "channel1", True)
     channel_join_v1(user_id_2, channel['channel_id'])
     result = channels_list_v1(user_id_2)['channels']
-    print(result)
 
     assert len(result) == 1
 
+@clear
 def test_invalid_userid():
-    clear_v1()
     with pytest.raises(AccessError) as e: 
         channel_join_v1(-1, 0)
         assert 'User ID is invalid' in str(e)
@@ -39,8 +38,8 @@ def test_invalid_userid():
         channel_join_v1(5, 0)
         assert 'User ID is invalid' in str(e)
     
+@clear
 def test_invalid_channelID(helper):
-    clear_v1()
     helper.register_users(1)
     helper.create_channels(1)
     invalid_id = 10
@@ -48,8 +47,8 @@ def test_invalid_channelID(helper):
         channel_join_v1(1, invalid_id)
         assert 'Channel ID is invalid' in str(e)
 
+@clear
 def test_access_to_private():
-    clear_v1()
     user = auth_register_v1(email='bobsmith1@gmail.com',
                                 password='12345678',
                                 name_first='bob',
@@ -71,16 +70,17 @@ def test_access_to_private():
         channel_join_v1(user_id_2, channel_id_2)
         assert 'Cannot access the private channel' in str(e)
 
+
+@clear
 def test_channel_not_exist(helper):
-    clear_v1()
     helper.register_users(1)
     channel_id = 1
     with pytest.raises(InputError) as e: 
         channel_join_v1(1, channel_id)
         assert f'Channel with ID {channel_id} does not exist' in str(e)
 
+@clear
 def test_already_member_of_channel():
-    clear_v1()
     user = auth_register_v1(email='bobsmith1@gmail.com',
                                 password='12345678',
                                 name_first='bob',

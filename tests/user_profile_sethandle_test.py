@@ -2,13 +2,12 @@ import pytest
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.error import InputError
-from tests.helper import helper
+from tests.helper import helper, clear
 from src.base.user import user_profile_v1, user_profile_sethandle_v1, user_profile_setname_v1
 from src.base.helper import get_handle_str
 
+@clear
 def test_single_user():
-    
-    clear_v1()
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first = 'Harry'
@@ -28,9 +27,8 @@ def test_single_user():
 
     assert user_profile_v1(auth_user_id, u_id).get('user').get('handle_str') == new_handle
 
+@clear
 def test_two_character_handle_string():
-    
-    clear_v1()
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first = 'Harry'
@@ -51,9 +49,8 @@ def test_two_character_handle_string():
 
         assert f'Handle string {new_handle} is not between 3 and 20 characters inclusive' in str(e)
 
+@clear
 def test_21_character_handle_string():
-    
-    clear_v1()
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first = 'Harry'
@@ -74,9 +71,8 @@ def test_21_character_handle_string():
 
         assert f'Handle string {new_handle} is not between 3 and 20 characters inclusive' in str(e)
 
+@clear
 def test_handle_string_in_use():
-    
-    clear_v1()
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first = 'Harry'
