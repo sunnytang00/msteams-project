@@ -130,9 +130,7 @@ def valid_password(password: str) -> bool:
         True: if the password length is greater than 6
         False: if the password is shorter than 6 characters
     """    
-    if len(password) >= 6:
-        return True
-    return False
+    return len(password) >= 6
 
 def valid_first_name(name_first: str) -> bool:
     """A function that when passed the first name, will check whether it is between and including 1 and 50 characters
@@ -144,10 +142,7 @@ def valid_first_name(name_first: str) -> bool:
         True: if it is a valid first name
         False: if the first name is longer than 50 characters or shorter than 1 character
     """    
-    # check first name length is in [1, 50]
-    if len(name_first) in range(1, 51):
-        return True
-    return False
+    return len(name_first) in range(1, 51)
 
 def valid_last_name(name_last: str) -> bool:
     """A function that when passed the last name, will check whether it is between and including 1 and 50 characters
@@ -160,9 +155,7 @@ def valid_last_name(name_last: str) -> bool:
         False: if the last name is longer than 50 characters or shorter than 1 character
     """    
     # check last name length is in [1, 50]
-    if len(name_last) in range(1, 51):
-        return True
-    return False
+    return len(name_last) in range(1, 51)
 
 def email_exists(email: str) -> bool:
     """A function that when passed an email, will check if it already exists
@@ -190,9 +183,7 @@ def valid_channel_name(name: str) -> bool:
         True: if the name is valid
         False: if the name is under 20 characters
     """    
-    if len(name) > 20:
-        return True
-    return False
+    return len(name) > 20
 
 def handle_str_exists(handle_str: str) -> bool:
     """A function that when passed name, will check whether the handle string name is over 20 characters
@@ -262,12 +253,14 @@ def user_is_Dream_owner(u_id: int) -> bool:
         return False
 
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
+    """TODO"""
     owner_member = get_channel_data(channel_id)['owner_members']
     user = get_user_data(user_id)
     owner_member.remove(user)
     update_owner_members(channel_id, owner_member)
 
 def remove_from_all_members(channel_id : int, user_id: int) -> None:
+    """TODO"""
     all_member = get_channel_data(channel_id)['all_members']
     user = get_user_data(user_id)
     all_member.remove(user)
