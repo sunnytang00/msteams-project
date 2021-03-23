@@ -2,12 +2,11 @@ import pytest
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.error import InputError
-from tests.helper import helper
+from tests.helper import helper, clear
 from src.base.user import user_profile_setname_v1, user_profile_setemail_v1, user_profile_v1
 
+@clear
 def test_single_user():
-    
-    clear_v1()
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first='Harry'
@@ -28,9 +27,8 @@ def test_single_user():
 
     assert user_profile_v1(auth_user_id, u_id).get('user').get('email') == new_email
 
+@clear
 def test_invalid_email():
-    
-    clear_v1()
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first='Harry'
@@ -50,10 +48,8 @@ def test_invalid_email():
         user_profile_setemail_v1(auth_user_id, new_email)
         assert f'Email {email} is not a valid email' in str(e)
 
+@clear
 def test_email_in_use():
-    
-    clear_v1()
-
     email = 'harrypotter@gmail.com'
     password = 'qw3rtyAppl3s@99'
     name_first='Harry'

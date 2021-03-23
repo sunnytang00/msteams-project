@@ -3,10 +3,10 @@ from src.base.channels import channels_create_v1
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_invaild_userID():
-    clear_v1()
     invalid_user_id = -1
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first channel" * 10, True)
@@ -16,8 +16,8 @@ def test_invaild_userID():
         channels_create_v1(2, "first channel" * 10, True)
         assert f'User ID {invalid_user_id} is invaild' in str(e)
 
+@clear
 def test_vaild_input():
-    clear_v1()
     user = auth_register_v1(email='bobsmith2@gmail.com',
                                 password='12345678',
                                 name_first='bob',
@@ -29,8 +29,8 @@ def test_vaild_input():
     expected = {'channel_id': channel_id} 
     assert output == expected
 
+@clear
 def test_many_vaild_input(helper):
-    clear_v1()
     helper.register_users(10)
 
     user = auth_register_v1(email='bobsmith2@gmail.com',
@@ -50,8 +50,8 @@ def test_many_vaild_input(helper):
     expected = {'channel_id': channel_id} 
     assert output == expected
 
+@clear
 def test_name_length():
-    clear_v1()
     user = auth_register_v1('bobsmith2@gmail.com','12345678','bob','smith')
     user_id = user['auth_user_id']
 

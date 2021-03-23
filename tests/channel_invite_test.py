@@ -4,10 +4,10 @@ from src.base.channels import channels_create_v1, channels_listall_v1 ,channels_
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_valid_input():
-    clear_v1()
     invitor_user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
                                 name_first='Bob',
@@ -30,8 +30,8 @@ def test_valid_input():
     expected = 1
     assert output == expected
 
+@clear
 def test_invalid_channel_id():
-    clear_v1()
     invitor_user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
                                 name_first='Bob',
@@ -49,8 +49,8 @@ def test_invalid_channel_id():
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=invalid_channel_id, u_id=invitee_user_id)
         assert f'Channel ID {invalid_channel_id} does not exist.' in str(e)
 
+@clear
 def test_invaild_userID():
-    clear_v1()
     invalid_user_id = -1
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first", True)
@@ -62,8 +62,8 @@ def test_invaild_userID():
         channels_create_v1(invalid_user_id, "first", True)
         assert f'User ID {invalid_user_id} is invaild' in str(e)
 
+@clear
 def test_vaild_input():
-    clear_v1()
     user = auth_register_v1(email='bobsmith2@gmail.com',
                                 password='12345678',
                                 name_first='bob',
@@ -75,8 +75,8 @@ def test_vaild_input():
     expected = {'channel_id': channel_id} 
     assert output == expected
 
+@clear
 def test_name_length():
-    clear_v1()
     user = auth_register_v1('bobsmith2@gmail.com','12345678','bob','smith')
     user_id = user['auth_user_id']
 
