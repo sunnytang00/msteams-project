@@ -1,9 +1,11 @@
+"""TODO"""
 from src.base.helper import get_user_data
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, handle_str_exists
 from src.base.error import InputError
 from src.data.helper import get_users, update_name_first, update_name_last, update_email, update_handle_str 
 
 def user_profile_v1(auth_user_id, u_id):
+    """TODO"""
     # TODO: add valid user checking
     user = get_user_data(u_id)
 
@@ -23,6 +25,7 @@ def user_profile_v1(auth_user_id, u_id):
     }
 
 def user_profile_setname_v1(auth_user_id, name_first, name_last):
+    """TODO"""
 
     if not valid_first_name(name_first):
         raise InputError(f'name_first {name_first} is not between 1 and 50 characters inclusively in length')
@@ -37,6 +40,7 @@ def user_profile_setname_v1(auth_user_id, name_first, name_last):
     return {}
 
 def user_profile_setemail_v1(auth_user_id, email):
+    """TODO"""
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -51,9 +55,10 @@ def user_profile_setemail_v1(auth_user_id, email):
     return {
     }
 
-#need to change to tokens eventually
 def user_profile_sethandle_v1(auth_user_id, handle_str):
+    """TODO"""
 
+    #need to change to tokens eventually
     if len(handle_str) not in range(3, 21):
         raise InputError(f'Handle string {handle_str} is not between 3 and 20 characters inclusive')
 
