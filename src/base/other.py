@@ -1,3 +1,5 @@
+"""TODO"""
+
 from src.data.helper import clear_data
 
 def clear_v1():
@@ -9,6 +11,7 @@ def clear_v1():
     clear_data()
 
 def search_v1(auth_user_id, query_str):
+    """TODO"""
     return {
         'messages': [
             {

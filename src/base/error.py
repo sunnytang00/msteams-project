@@ -1,3 +1,5 @@
+"""TODO"""
+
 from werkzeug.exceptions import HTTPException
 
 class AccessError(HTTPException):

@@ -12,11 +12,11 @@ def auth_login_v1(email, password):
     """ Given a registered users' email and password and returns their `auth_user_id` value
 
     Arguments:
-        email (str) - The users email address.
-        password (str) - The users password.
+        email (str) - The users email address
+        password (str) - The users password
 
     Exceptions:
-        InputError - Occurs when email entered is not a valid email as according to project specification.
+        InputError - Occurs when email entered is not a valid email as according to project specification
         InputError - Occurs when the email matches a registered email, but the password is incorrect
         InputError - Occurs when the email entered does not match any registered system
 
@@ -27,6 +27,7 @@ def auth_login_v1(email, password):
     if not valid_email(email):
         raise InputError(f'Email {email} entered is not a valid email')
 
+    # TODO: make helper function that returns user based on email
     for user in get_users():
         # check user exists
         if email == user['email']:
@@ -43,17 +44,17 @@ def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
 
     Arguments:
-        email (str) - The users email address.
-        password (str) - The users password.
-        name_first (str) - The users first name.
-        name_last (str) - The users last name.
+        email (str) - The user's email address
+        password (str) - The user's password
+        name_first (str) - The user's first name
+        name_last (str) - The user's last name
     
     Exceptions:
-        InputError - Occurs when email entered is not a valid email as according to project specification.
-        InputError - Occurs when email address is already being used by another user.
-        InputError - Occurs when password entered is less than 6 characters long.
-        InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length.
-        InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length.
+        InputError - Occurs when email entered is not a valid email as according to project specification
+        InputError - Occurs when email address is already being used by another user
+        InputError - Occurs when password entered is less than 6 characters long
+        InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length
+        InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length
 
     Return Value:
         Returns auth_user_id (dict) on newly created user.
