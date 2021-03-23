@@ -56,7 +56,7 @@ def helper():
     return Helper
     
 def clear(func):
-    """Resets the internal data of the application to it's initial state"""
+    """Resets the internal data of the application to it's initial state before running function"""
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         clear_v1()
