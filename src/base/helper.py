@@ -16,35 +16,6 @@ def valid_email(email: str) -> bool:
     regex = '^[a-zA-Z0-9]+[\\._]?[a-zA-Z0-9]+[@]\\w+[.]\\w{2,3}$'
     return re.search(regex, email)
 
-def user_exists(auth_user_id: int) -> bool:
-    """Function that when passed auth_user_id, will check if the user already exists
-
-    Arguments:
-        auth_user_id (int): ID of authorised user
-
-    Return Values:
-       True: if user exists
-       False: if user does not exist
-    """    
-    for user in get_users():
-        if user['u_id'] == auth_user_id:
-            return True
-    return False
-
-def channel_exists(channel_id: int) -> bool:
-    """Function that when passed channel id, check if it exists
-
-    Arguments:
-        channel_id (int): The unique id of the channel
-
-    Return Values:
-        True: if channel exists
-        False: if channel does not exist
-    """    
-    for channel in get_channels():
-        if channel['channel_id'] == channel_id:
-            return True
-    return False
 
 def get_user_data(auth_user_id: int) -> dict:
     """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
@@ -54,7 +25,7 @@ def get_user_data(auth_user_id: int) -> dict:
 
     Return Values:
         dict: A dictionary of their email, password, first name and last name
-        None: if nothing is found
+        empty dict if user isn't found
     """    
     for user in get_users():
         if user['u_id'] == auth_user_id:
@@ -65,7 +36,7 @@ def get_user_data(auth_user_id: int) -> dict:
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
             }
-    return None
+    return {}
 
 def get_channel_data(channel_id: int) -> dict:
     """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
@@ -75,7 +46,7 @@ def get_channel_data(channel_id: int) -> dict:
 
     Return Values:
         dict: A dict of the id, name, user_id, owners, all members, messages and whether it is public of the channel if it is found
-        None: if the id does not match a channel
+        empty dict if the id does not match a channel
     """    
     for channel in get_channels():
         if channel['channel_id'] == channel_id:
@@ -87,7 +58,7 @@ def get_channel_data(channel_id: int) -> dict:
                 'messages' : channel['messages'],
                 'is_public' : channel['is_public']
             }
-    return None
+    return {}
 
 def user_is_member(channel: dict, auth_user_id: int) -> bool:
     """A function that when passed a channel and an ID of an authenticated user, will check if it is a member of the channel
