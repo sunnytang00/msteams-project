@@ -57,12 +57,7 @@ def get_users() -> list:
     Return Value:
         users (list): List of users
     """
-    # TODO: make getters one liners.
-    data = get_data()
-
-    users = data.get('users')
-
-    return users
+    return get_data().get("users")
 
 def get_channels() -> list:
     """Get list of channel from data storage
@@ -73,10 +68,7 @@ def get_channels() -> list:
     Return Value:
         channels (list): List of channels
     """
-    data = get_data()
-
-    channels = data.get("channels")
-    return channels
+    return get_data().get("channels")
 
 
 def store_user(user: dict) -> bool:
@@ -91,7 +83,7 @@ def store_user(user: dict) -> bool:
     """
     data = get_data()
     
-    data["users"].append(user)
+    data.get("users").append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -210,7 +202,7 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_owner_members(channel_id : int, owner_members: list) -> Nonek:
+def update_owner_members(channel_id : int, owner_members: list) -> None:
     """TODO"""
     data = get_data()
 
