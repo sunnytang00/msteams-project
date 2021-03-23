@@ -1,4 +1,6 @@
 from src.config import data_path
+#import src.base.helper as helper
+    # Not using from import to avoid circular import erros
 import json
 
 '''
@@ -104,7 +106,8 @@ def update_name_first(u_id: int, name_first: str) -> None:
     """
 
     data = get_data()
-
+    
+    # TODO: bad to index here (u_id-1) should loop ofer users data
     data["users"][u_id-1]["name_first"] = name_first
 
     with open(data_path, 'w') as f:
@@ -215,6 +218,7 @@ def update_all_members(channel_id : int, all_members: list) -> None:
     """TODO"""
     data = get_data()
 
+    # TODO: bad to index here (channel_id-1) should loop ofer users data
     data["channels"][channel_id-1]["all_members"] = all_members 
 
     with open(data_path, 'w') as f:
