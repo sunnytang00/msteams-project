@@ -1,4 +1,5 @@
 import pytest
+import functools
 from src.base.channels import channels_create_v1
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
@@ -54,3 +55,11 @@ class Helper:
 def helper():
     return Helper
     
+def clear(func):
+    """Resets the internal data of the application to it's initial state"""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        clear_v1()
+        rv = func(*args, **kwargs)
+        return rv
+    return wrapper
