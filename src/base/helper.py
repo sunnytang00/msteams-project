@@ -64,7 +64,6 @@ def get_user_data(auth_user_id: int) -> dict:
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
-                'password': user['password']
             }
     return None
 
