@@ -4,10 +4,10 @@ from src.base.channel import channel_details_v1, channel_addowner_v1, channel_re
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_valid_input():
-    clear_v1()
     #register
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -31,8 +31,8 @@ def test_valid_input():
 
     assert user_id2 not in [user['u_id'] for user in ch_details['owner_members']]
 
+@clear
 def test_invalid_channel_id():
-    clear_v1()
     #register
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -53,8 +53,8 @@ def test_invalid_channel_id():
         channel_removeowner_v1(user_id, ch_id, user_id2)
         assert f'channel_id {ch_id} does not refer to a valid channel' in str(e)
 
+@clear
 def test_invalid_token():
-    clear_v1()
     #register
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -76,8 +76,8 @@ def test_invalid_token():
         channel_removeowner_v1(user_id + 10, ch_id, user_id2)
         assert f'token {user_id} does not refer to a valid token' in str(e)
 
+@clear
 def test_the_only_owner():
-    clear_v1()
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
@@ -92,8 +92,8 @@ def test_the_only_owner():
         channel_removeowner_v1(user_id, ch_id, user_id)
         assert f'user with {user_id} is the only owner of channel' in str(e)
 
+@clear
 def test_user_is_not_owner():
-    clear_v1()
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
@@ -113,8 +113,8 @@ def test_user_is_not_owner():
         channel_removeowner_v1(user_id, ch_id, user_id2)
         assert f'user with {user_id} is not owner of channel' in str(e)
 
+@clear
 def test_auth_user_has_no_access():
-    clear_v1()
     #register the owner of Dreams
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -145,8 +145,8 @@ def test_auth_user_has_no_access():
         assert f'Auth_user with id {user_id} is not owner of channel or owner of dreams' in str(e)
 
 
+@clear
 def test_auth_user_is_owner_of_Dream():
-    clear_v1()
     #register the owner of Dreams
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',

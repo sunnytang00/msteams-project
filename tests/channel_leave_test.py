@@ -4,10 +4,10 @@ from src.base.channel import channel_details_v1, channel_addowner_v1, channel_re
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_multiple_users():
-    clear_v1()
     #register
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -34,8 +34,8 @@ def test_multiple_users():
             user_id2 not in [user['u_id'] for user in ch_details['all_members']]
     )
 
+@clear
 def test_invalid_channel_id():
-    clear_v1()
     #register
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -50,8 +50,8 @@ def test_invalid_channel_id():
         channel_leave_v1(user_id, ch_id)
         assert f'channel_id {ch_id} does not refer to a valid channel' in str(e)
 
+@clear
 def test_invalid_token():
-    clear_v1()
     #register
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -67,8 +67,8 @@ def test_invalid_token():
         assert f'token {user_id} does not refer to a valid token' in str(e)
 
 
+@clear
 def test_user_is_not_member():
-    clear_v1()
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
@@ -87,5 +87,3 @@ def test_user_is_not_member():
     with pytest.raises(AccessError) as e: 
         channel_leave_v1(user_id2, ch_id)
         assert f'user with {user_id} is not member of channel' in str(e)
-
-
