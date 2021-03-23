@@ -1,4 +1,6 @@
 from src.config import data_path
+#import src.base.helper as helper
+    # Not using from import to avoid circular import erros
 import json
 
 '''
@@ -19,6 +21,12 @@ def save_data(func):
 '''
 
 def clear_data() -> None:
+    """ Resets the internal data of the application to it's initial state
+    
+    Return Value:
+        Return Value None on clearing of data
+    """
+
     cleared_data = {
         "users": [],
         "channels": []
@@ -33,7 +41,7 @@ def get_data() -> dict:
     Arguments:
         This function takes no argument
 
-    Returns:
+    Return Value:
         data (dict): data stored on the data storage
     """
     with open(data_path, 'r') as f:
@@ -48,15 +56,10 @@ def get_users() -> list:
     Arguments:
         This function takes no argument
 
-    Returns:
+    Return Value:
         users (list): List of users
     """
-    # TODO: make getters one liners.
-    data = get_data()
-
-    users = data.get('users')
-
-    return users
+    return get_data().get("users")
 
 def get_channels() -> list:
     """Get list of channel from data storage
@@ -64,13 +67,10 @@ def get_channels() -> list:
     Arguments:
         This function takes no argument
 
-    Returns:
+    Return Value:
         channels (list): List of channels
     """
-    data = get_data()
-
-    channels = data.get("channels")
-    return channels
+    return get_data().get("channels")
 
 
 def store_user(user: dict) -> bool:
@@ -85,7 +85,7 @@ def store_user(user: dict) -> bool:
     """
     data = get_data()
     
-    data["users"].append(user)
+    data.get("users").append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -94,17 +94,36 @@ def store_user(user: dict) -> bool:
         return True
     return False
 
-def update_name_first(u_id: int, name_first: str) -> bool:
-    """TODO"""
-    data = get_data()
+def update_name_first(u_id: int, name_first: str) -> None:
+    """Update the user's first name
+    
+    Arguments:
+        u_id (int) - The user's id
+        name_first (str) - The user's last name
 
+    Return Value:
+        Returns None if updated user's first name successfully
+    """
+
+    data = get_data()
+    
+    # TODO: bad to index here (u_id-1) should loop ofer users data
     data["users"][u_id-1]["name_first"] = name_first
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_name_last(u_id: int, name_last: str) -> bool:
-    """TODO"""
+def update_name_last(u_id: int, name_last: str) -> None:
+    """Update the user's last name
+    
+    Arguments:
+        u_id (int) - The user's id
+        name_last (str) - The user's last name
+
+    Return Value:
+        Returns None if updated user's last name successfully
+    """
+
     data = get_data()
 
     data["users"][u_id-1]["name_last"] = name_last
@@ -112,8 +131,17 @@ def update_name_last(u_id: int, name_last: str) -> bool:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_email(u_id: int, email: str) -> bool:
-    """TODO"""
+def update_email(u_id: int, email: str) -> None:
+    """Update the user's email
+    
+    Arguments:
+        u_id (int) - The user's id
+        email (str) - The user's handle
+
+    Return Value:
+        Returns None if updated user's email successfully
+    """
+
     data = get_data()
 
     data["users"][u_id-1]["email"] = email
@@ -121,8 +149,16 @@ def update_email(u_id: int, email: str) -> bool:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_handle_str(u_id: int, handle_str: str) -> bool:
-    """TODO"""
+def update_handle_str(u_id: int, handle_str: str) -> None:
+    """Update the user's handle (i.e. display name)
+    
+    Arguments:
+        u_id (int) - The user's id
+        handle_str (str) - The user's handle
+
+    Return Value:
+        Returns None if updated user's handle_str successfully
+    """
     data = get_data()
 
     data["users"][u_id-1]["handle_str"] = handle_str 
@@ -136,7 +172,7 @@ def store_channel(channel: list) -> bool:
     Arguments:
         channel (list): List of channel
 
-    Returns:
+    Return Value:
         True if the channel data stored successfully
         False if fail to store channel data
     """
@@ -160,7 +196,8 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def append_channel_owner_members(channel_id: int, user: dict) ->None:
+def append_channel_owner_members(channel_id: int, user: dict) -> None:
+    """TODO"""
     data = get_data()
     
     data["channels"][channel_id-1]['owner_members'].append(user)
@@ -168,7 +205,8 @@ def append_channel_owner_members(channel_id: int, user: dict) ->None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_owner_members(channel_id : int, owner_members: list) -> bool:
+def update_owner_members(channel_id : int, owner_members: list) -> None:
+    """TODO"""
     data = get_data()
 
     data["channels"][channel_id-1]["owner_members"] = owner_members 
@@ -176,9 +214,11 @@ def update_owner_members(channel_id : int, owner_members: list) -> bool:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_all_members(channel_id : int, all_members: list) -> bool:
+def update_all_members(channel_id : int, all_members: list) -> None:
+    """TODO"""
     data = get_data()
 
+    # TODO: bad to index here (channel_id-1) should loop ofer users data
     data["channels"][channel_id-1]["all_members"] = all_members 
 
     with open(data_path, 'w') as f:
