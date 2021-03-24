@@ -24,7 +24,8 @@ except (FileNotFoundError, JSONDecodeError) as e:
     with open(data_path, 'w') as f:
         pass
 
-''' 
+"""
+""" 
 Dummy Data for Database
 
 data = {
@@ -59,8 +60,8 @@ data = {
         ],
         'messages': [
             {
-                'message_id': 1,
-                'u_id': 1,
+                'message_id': 0,
+                'u_id': 0,
                 'message': 'Hello world',
                 'time_created': 1582426789,
             }
@@ -69,4 +70,5 @@ data = {
         }
     ],
 }
-'''
+
+"""
