@@ -60,8 +60,8 @@ data = {
         ],
         'messages': [
             {
-                'message_id': 0,
-                'u_id': 0,
+                'message_id': 1,
+                'u_id': 1,
                 'message': 'Hello world',
                 'time_created': 1582426789,
             }
