@@ -6,8 +6,9 @@ from src.data.helper import get_users, update_name_first, update_name_last, upda
 
 def user_profile_v1(auth_user_id, u_id):
     """TODO"""
-    # TODO: add valid user checking
     user = get_user_data(u_id)
+    if not bool(user):
+        raise InputError(f'User with u_id {u_id} is not a valid user')
 
     email = user.get('email')
     name_first = user.get('name_first')
