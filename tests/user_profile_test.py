@@ -18,8 +18,8 @@ def test_single_user():
                             password=password,
                             name_first=name_first,
                             name_last=name_last)
-    user_auth_id = user['auth_user_id']
-    assert user_auth_id == 1
+    auth_user_id = user['auth_user_id']
+    assert auth_user_id == 1
     u_id = 1
 
     expected = {'u_id': u_id, 
@@ -29,6 +29,23 @@ def test_single_user():
                 'handle_str': handle_str
                 }
 
-    assert user_profile_v1(user_auth_id, user_auth_id).get('user') == expected
+    assert user_profile_v1(auth_user_id, u_id).get('user') == expected
 
 # TODO: test valid if user is valid
+@clear
+def test_fail_user():
+    email = 'harrypotter@gmail.com'
+    password = 'qw3rtyAppl3s@99'
+    name_first='Harry'
+    name_last='Potter'
+
+    user = auth_register_v1(email=email,
+                            password=password,
+                            name_first=name_first,
+                            name_last=name_last)
+    auth_user_id = user['auth_user_id']
+    assert auth_user_id == 1
+    u_id = 2
+    with pytest.raises(InputError) as e:
+        user_profile_v1(auth_user_id, u_id).get('user')
+        assert f'User with u_id {u_id} is not a valid user' in str(e)
