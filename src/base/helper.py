@@ -1,8 +1,7 @@
-from src.data.data import data
-import re
-import json
+"""TODO"""
 
-data_path = '../data/data.json'
+from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members
+import re
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -17,56 +16,27 @@ def valid_email(email: str) -> bool:
     regex = '^[a-zA-Z0-9]+[\\._]?[a-zA-Z0-9]+[@]\\w+[.]\\w{2,3}$'
     return re.search(regex, email)
 
-def user_exists(auth_user_id: int) -> bool:
-    """Function that when passed auth_user_id, will check if the user already exists
-
-    Arguments:
-        auth_user_id (int): ID of authorised user
-
-    Return Values:
-       True: if user exists
-       False: if user does not exist
-    """    
-    for user in data['users']:
-        if user['u_id'] == auth_user_id:
-            return True
-    return False
-
-def channel_exists(channel_id: int) -> bool:
-    """Function that when passed channel id, check if it exists
-
-    Arguments:
-        channel_id (int): The unique id of the channel
-
-    Return Values:
-        True: if channel exists
-        False: if channel does not exist
-    """    
-    for channel in data['channels']:
-        if channel['channel_id'] == channel_id:
-            return True
-    return False
 
 def get_user_data(auth_user_id: int) -> dict:
-    """A function that when passed an authenticated user id, will return their email, password, first name and last name
+    """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
 
     Arguments:
         auth_user_id (int): ID of authorised user
 
     Return Values:
         dict: A dictionary of their email, password, first name and last name
-        None: if nothing is found
+        empty dict if user isn't found
     """    
-    for user in data['users']:
+    for user in get_users():
         if user['u_id'] == auth_user_id:
             return {
+                'u_id' : auth_user_id,
                 'email': user['email'],
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
-                'password': user['password']
             }
-    return None
+    return {}
 
 def get_channel_data(channel_id: int) -> dict:
     """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
@@ -76,9 +46,9 @@ def get_channel_data(channel_id: int) -> dict:
 
     Return Values:
         dict: A dict of the id, name, user_id, owners, all members, messages and whether it is public of the channel if it is found
-        None: if the id does not match a channel
+        empty dict if the id does not match a channel
     """    
-    for channel in data['channels']:
+    for channel in get_channels():
         if channel['channel_id'] == channel_id:
             return {
                 'channel_id': channel['channel_id'],
@@ -88,7 +58,7 @@ def get_channel_data(channel_id: int) -> dict:
                 'messages' : channel['messages'],
                 'is_public' : channel['is_public']
             }
-    return None
+    return {}
 
 def user_is_member(channel: dict, auth_user_id: int) -> bool:
     """A function that when passed a channel and an ID of an authenticated user, will check if it is a member of the channel
@@ -101,7 +71,8 @@ def user_is_member(channel: dict, auth_user_id: int) -> bool:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
-    if auth_user_id in channel['all_members']:
+    for user in channel['all_members']:
+        if auth_user_id == user['u_id']:
             return True
     return False
 
@@ -131,9 +102,7 @@ def valid_password(password: str) -> bool:
         True: if the password length is greater than 6
         False: if the password is shorter than 6 characters
     """    
-    if len(password) >= 6:
-        return True
-    return False
+    return len(password) >= 6
 
 def valid_first_name(name_first: str) -> bool:
     """A function that when passed the first name, will check whether it is between and including 1 and 50 characters
@@ -145,10 +114,7 @@ def valid_first_name(name_first: str) -> bool:
         True: if it is a valid first name
         False: if the first name is longer than 50 characters or shorter than 1 character
     """    
-    # check first name length is in [1, 50]
-    if len(name_first) in range(1, 50):
-        return True
-    return False
+    return len(name_first) in range(1, 51)
 
 def valid_last_name(name_last: str) -> bool:
     """A function that when passed the last name, will check whether it is between and including 1 and 50 characters
@@ -161,9 +127,7 @@ def valid_last_name(name_last: str) -> bool:
         False: if the last name is longer than 50 characters or shorter than 1 character
     """    
     # check last name length is in [1, 50]
-    if len(name_last) in range(1, 50):
-        return True
-    return False
+    return len(name_last) in range(1, 51)
 
 def email_exists(email: str) -> bool:
     """A function that when passed an email, will check if it already exists
@@ -176,8 +140,8 @@ def email_exists(email: str) -> bool:
         False: if the email does not already exist
     """    
     # check if email already exists in data
-    for user in data['users']:
-        if user['email'] == email:
+    for user in get_users():
+        if user.get('email') == email:
             return True
     return False
 
@@ -191,22 +155,19 @@ def valid_channel_name(name: str) -> bool:
         True: if the name is valid
         False: if the name is under 20 characters
     """    
-    if len(name) > 20:
-        return True
-    return False
+    return len(name) > 20
 
 def handle_str_exists(handle_str: str) -> bool:
-    """A function that when passed name, will check whether the channel name is over 20 characters
+    """A function that when passed name, will check whether the handle string name is over 20 characters
 
     Arguements:
-        name (str): Name of channel
-
+        name (str): Handle string
     Returns:
         True: if exists
         False: if not exists
     """   
-    for user in data['users']:
-        if user['handle_str'] == handle_str:
+    for user in get_users():
+        if user.get('handle_str') == handle_str:
             return True
     return False
 
@@ -240,93 +201,40 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
         True: if exists
         False: if not exists
     """
-    for user in data['users']:
+    for user in get_users():
         if name_first == user['name_first'] and name_last == user['name_last']:
             return True
     return False
 
-def get_user() -> list:
-    """Get list of user from data storage
+def user_is_Dream_owner(u_id: int) -> bool:
+    #TODO owner of Dream should checked by permission id, may need to change stucture of user data?
+    #by default the very first user that registered is user of Dream
+    """Check if there is user with u_id is owner of Dream
     
     Arguments:
-        This function takes no argument
+        u_id (int): id of user
 
     Returns:
-        users (list): List of users
+        True: if user with u_id is owner of Dream
+        False: if user with u_id is not owner of Dream
     """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    users = data['users']
-
-    return users
-
-def get_channel() -> list:
-    """Get list of channel from data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        channels (list): List of channels
-    """
-
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    channels = data['channels']
-    return channels
-
-def get_data() -> dict:
-    """Get data stored on data storage
-    
-    Arguments:
-        This function takes no argument
-
-    Returns:
-        data (dict): data stored on the data storage
-    """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    return data
-
-def store_user(user: list) -> bool:
-    """Store the data of user on data storage
-    
-    Arguments:
-        user (list): List of users
-
-    Returns:
-        True if the user data stored successfully
-        False if fail to store user data
-    """
-    data = get_data()
-    data['users'] = user
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-    if get_user() == data['users']:
+    users = get_users()
+    if u_id == users[0]['u_id']:
         return True
     else:
         return False
 
-def store_channel(channel: list) -> bool:
-    """Store the data of channel on data storage
-    
-    Arguments:
-        channel (list): List of channel
+def remove_from_owner_members(channel_id : int, user_id: int) -> None:
+    """TODO"""
+    owner_member = get_channel_data(channel_id)['owner_members']
+    user = get_user_data(user_id)
+    owner_member.remove(user)
+    update_owner_members(channel_id, owner_member)
 
-    Returns:
-        True if the channel data stored successfully
-        False if fail to store channel data
-    """
-    data = get_data()
-    data['channels'] = channel
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-    if get_channel() == data['channels']:
-        return True
-    else:
-        return False
+def remove_from_all_members(channel_id : int, user_id: int) -> None:
+    """TODO"""
+    all_member = get_channel_data(channel_id)['all_members']
+    user = get_user_data(user_id)
+    all_member.remove(user)
+    update_all_members(channel_id, all_member)
+        

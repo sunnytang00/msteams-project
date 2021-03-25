@@ -3,10 +3,10 @@ from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.error import InputError
 from src.base.helper import get_handle_str
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_valid_input(helper):
-    clear_v1()
     users_count = helper.get_users_count()
     helper.register_users(quantity=users_count)
 
@@ -19,8 +19,8 @@ def test_valid_input(helper):
     expected = { 'auth_user_id': user_id }
     assert expected == output
 
+@clear
 def test_invalid_email():
-    clear_v1()
     invalid_email = 'this_is_not_an_email'
     with pytest.raises(InputError) as e:
         auth_register_v1(email=invalid_email,
@@ -29,9 +29,9 @@ def test_invalid_email():
                         name_last='Harvey')
         assert f'Email {invalid_email} entered is not a valid email' in str(e)
 
+@clear
 def test_duplicate_email():
     """Register one user with an email, then try register a second user with the same email."""
-    clear_v1()
     email = 'bobsmith@gmail.com'
 
     auth_register_v1(email=email,
@@ -46,9 +46,9 @@ def test_duplicate_email():
                         name_last='Smith')
         assert f'Email address {email} is already being used by another user' in str(e)
 
+@clear
 def test_short_password():
     """Test if user's password length is greater or equal to than 6."""
-    clear_v1()
     invalid_password = 'a'*5
     with pytest.raises(InputError) as e:
         auth_register_v1(email='dragonslayer_44@gmail.com',
@@ -66,12 +66,12 @@ def test_short_password():
                         name_last='Singleton')
         assert f'Password {invalid_password} entered is less than 6 characters long' in str(e)
 
+@clear
 def test_first_name_length():
     """Test if user's first name is NOT in [1, 50]."""
 
     # test if first name is over 50 characters
-    clear_v1()
-    invalid_first_name = 'a'*50
+    invalid_first_name = 'a'*51
     with pytest.raises(InputError) as e:
         auth_register_v1(email='aaaa_frazier@outlook.com',
                         password='mgQoU2YJpJyOTe4',
@@ -89,12 +89,12 @@ def test_first_name_length():
                         name_last='Everett')
         assert f'name_first {invalid_first_name} is not between 1 and 50 characters inclusively in length' in str(e)
 
+@clear
 def test_last_name_length():
     """Test if user's last name is NOT in [1, 50]."""
 
     # test if last name is over 50 characters
-    clear_v1()
-    invalid_last_name = 'a'*50
+    invalid_last_name = 'a'*51
     with pytest.raises(InputError) as e:
         auth_register_v1(email='oakley55@outlook.com',
                         password='mgQoU2YJpJyOTe4',
@@ -152,8 +152,8 @@ def test_mixed_handle_str():
     expected = 'r'*20
     assert expected == output
 
+@clear
 def test_already_taken_handle_str():
-    clear_v1()
     auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
@@ -166,8 +166,8 @@ def test_already_taken_handle_str():
     expected = 'harrypotter0'
     assert expected == output
 
+@clear
 def test_many_taken_handle_str():
-    clear_v1()
     auth_register_v1(email='harrypotter1@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
@@ -188,8 +188,8 @@ def test_many_taken_handle_str():
     expected = 'harrypotter2'
     assert expected == output
 
+@clear
 def test_taken_max_handle_str():
-    clear_v1()
     auth_register_v1(email='harrypotter1@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='a'*20,

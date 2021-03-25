@@ -5,10 +5,10 @@ from src.base.channels import channels_create_v1
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_time_created():
-    clear_v1()
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
                                 name_first='Bob',
@@ -25,8 +25,8 @@ def test_time_created():
     
     assert unix_timestamp == result_unix_timestamp
 
+@clear
 def test_pagination():
-    clear_v1()
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
                                 name_first='Bob',
@@ -42,9 +42,8 @@ def test_pagination():
     
     assert result_start == 0 and result_end == -1
 
+@clear
 def test_invalid_channel_id():
-    clear_v1()
-
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
                                 name_first='Bob',
@@ -57,9 +56,8 @@ def test_invalid_channel_id():
         channel_messages_v1(auth_user_id=user_id, channel_id=invalid_channel_id, start=0)
         assert f'Channel ID {invalid_channel_id} is not a valid channel' in str(e)
 
+@clear
 def test_invalid_start():
-    clear_v1()
-
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='42flshjfzhh8',
                                 name_first='Bob',
@@ -75,8 +73,8 @@ def test_invalid_start():
         channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=invalid_start)
         assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e)
 
+@clear
 def test_user_not_member(helper):
-    clear_v1()
     helper.register_users(10)
 
     user = auth_register_v1(email='bobsmith@gmail.com',
