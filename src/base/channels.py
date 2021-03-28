@@ -5,7 +5,7 @@ as specified by the COMP1531 Major Project specification.
 """
 
 from src.base.error import InputError, AccessError
-from src.base.helper import get_user, get_channel_data, user_is_member, valid_channel_name
+from src.base.helper import get_user, get_channel, user_is_member, valid_channel_name
 from src.data.helper import get_channels, store_channel
 
 def channels_list_v1(auth_user_id):
