@@ -1,5 +1,5 @@
 from src.config import data_path
-import src.base.helper as base_helper #Not using from import to avoid circular import erros
+import src.base.helper as base_helper # not using from import to avoid circular import errors
 import json
 
 '''
