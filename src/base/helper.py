@@ -17,7 +17,7 @@ def valid_email(email: str) -> bool:
     return re.search(regex, email)
 
 
-def get_user_data(auth_user_id: int) -> dict:
+def get_user(auth_user_id: int) -> dict:
     """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
 
     Arguments:
@@ -227,14 +227,14 @@ def user_is_Dream_owner(u_id: int) -> bool:
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     """TODO"""
     owner_member = get_channel_data(channel_id)['owner_members']
-    user = get_user_data(user_id)
+    user = get_user(user_id)
     owner_member.remove(user)
     update_owner_members(channel_id, owner_member)
 
 def remove_from_all_members(channel_id : int, user_id: int) -> None:
     """TODO"""
     all_member = get_channel_data(channel_id)['all_members']
-    user = get_user_data(user_id)
+    user = get_user(user_id)
     all_member.remove(user)
     update_all_members(channel_id, all_member)
         

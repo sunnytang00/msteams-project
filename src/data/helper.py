@@ -85,6 +85,8 @@ def update_name_first(u_id: int, name_first: str) -> None:
     data = get_data()
     
     # TODO: bad to index here (u_id-1) should loop ofer users data
+    #data['users'][u_id-1]['name_first'] = name_first
+    users = base_helper.get_user
     data['users'][u_id-1]['name_first'] = name_first
 
     with open(data_path, 'w') as f:
