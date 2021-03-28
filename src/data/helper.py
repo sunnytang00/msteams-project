@@ -2,23 +2,6 @@ from src.config import data_path
 import src.base.helper as base_helper # not using from import to avoid circular import errors
 import json
 
-'''
-def get_data():
-    global data
-    return data
-
-def save_data(func):
-    """Save data to json file."""
-    def wrapper(*args, **kwargs):
-        rv = func(*args, **kwargs)
-        # if no exceptions are raised
-        data = get_data()
-        with open(data_path, 'w') as f:
-            json.dump(data, f)
-        return rv
-    return wrapper
-'''
-
 def clear_data() -> None:
     """ Resets the internal data of the application to it's initial state
     
