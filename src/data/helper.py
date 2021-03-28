@@ -1,6 +1,5 @@
 from src.config import data_path
-#import src.base.helper as helper
-    # Not using from import to avoid circular import erros
+import src.base.helper as helper #Not using from import to avoid circular import erros
 import json
 
 '''
@@ -28,8 +27,8 @@ def clear_data() -> None:
     """
 
     cleared_data = {
-        "users": [],
-        "channels": []
+        'users': [],
+        'channels': []
     }
 
     with open(data_path, 'w') as f:
@@ -59,7 +58,7 @@ def get_users() -> list:
     Return Value:
         users (list): List of users
     """
-    return get_data().get("users")
+    return get_data().get('users')
 
 def get_channels() -> list:
     """Get list of channel from data storage
@@ -70,7 +69,7 @@ def get_channels() -> list:
     Return Value:
         channels (list): List of channels
     """
-    return get_data().get("channels")
+    return get_data().get('channels')
 
 
 def store_user(user: dict) -> bool:
@@ -85,12 +84,12 @@ def store_user(user: dict) -> bool:
     """
     data = get_data()
     
-    data.get("users").append(user)
+    data.get('users').append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-    if get_users() == data["users"]:
+    if get_users() == data['users']:
         return True
     return False
 
@@ -108,7 +107,7 @@ def update_name_first(u_id: int, name_first: str) -> None:
     data = get_data()
     
     # TODO: bad to index here (u_id-1) should loop ofer users data
-    data["users"][u_id-1]["name_first"] = name_first
+    data['users'][u_id-1]['name_first'] = name_first
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -126,7 +125,7 @@ def update_name_last(u_id: int, name_last: str) -> None:
 
     data = get_data()
 
-    data["users"][u_id-1]["name_last"] = name_last
+    data['users'][u_id-1]['name_last'] = name_last
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -144,7 +143,7 @@ def update_email(u_id: int, email: str) -> None:
 
     data = get_data()
 
-    data["users"][u_id-1]["email"] = email
+    data['users'][u_id-1]['email'] = email
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -161,7 +160,7 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
     """
     data = get_data()
 
-    data["users"][u_id-1]["handle_str"] = handle_str 
+    data['users'][u_id-1]['handle_str'] = handle_str 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -178,7 +177,7 @@ def store_channel(channel: list) -> bool:
     """
     data = get_data()
 
-    data["channels"].append(channel)
+    data['channels'].append(channel)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -191,7 +190,7 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
     """TODO"""
     data = get_data()
 
-    data["channels"][channel_id-1]['all_members'].append(user)
+    data['channels'][channel_id-1]['all_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -200,7 +199,7 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
     """TODO"""
     data = get_data()
     
-    data["channels"][channel_id-1]['owner_members'].append(user)
+    data['channels'][channel_id-1]['owner_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -209,7 +208,7 @@ def update_owner_members(channel_id : int, owner_members: list) -> None:
     """TODO"""
     data = get_data()
 
-    data["channels"][channel_id-1]["owner_members"] = owner_members 
+    data['channels'][channel_id-1]['owner_members'] = owner_members 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -219,7 +218,7 @@ def update_all_members(channel_id : int, all_members: list) -> None:
     data = get_data()
 
     # TODO: bad to index here (channel_id-1) should loop ofer users data
-    data["channels"][channel_id-1]["all_members"] = all_members 
+    data['channels'][channel_id-1]['all_members'] = all_members 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
