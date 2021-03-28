@@ -1,5 +1,5 @@
 from src.config import data_path
-import src.base.helper as helper #Not using from import to avoid circular import erros
+import src.base.helper as base_helper #Not using from import to avoid circular import erros
 import json
 
 '''
@@ -72,15 +72,14 @@ def get_channels() -> list:
     return get_data().get('channels')
 
 
-def store_user(user: dict) -> bool:
+def store_user(user: dict) -> None:
     """store the data of user on data storage
     
-    arguments:
+    Arguments:
         user (list): list of users
 
-    returns:
-        true if the user data stored successfully
-        false if fail to store user data
+    Return Value:
+        Returns None
     """
     data = get_data()
     
@@ -88,10 +87,6 @@ def store_user(user: dict) -> bool:
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
-
-    if get_users() == data['users']:
-        return True
-    return False
 
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
