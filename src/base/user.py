@@ -33,7 +33,8 @@ def user_profile_setname_v1(auth_user_id, name_first, name_last):
 
     if not valid_last_name(name_last):
         raise InputError(f'name_last {name_last} is not between 1 and 50 characters inclusively in length')
-        
+
+    # TODO: repalce with helper    
     for user in get_users():
         if user['u_id'] == auth_user_id:
             update_name_first(auth_user_id, name_first)
