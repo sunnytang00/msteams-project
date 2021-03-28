@@ -68,9 +68,9 @@ data = {
             'is_public': TRUE
         }
     ],
-    'user_count'        : 2
-    'message_count'     : 1
-    'channel_count'     : 1
+    'user_count'        : 2,
+    'message_count'     : 1,
+    'channel_count'     : 1,
 }
 
 """
