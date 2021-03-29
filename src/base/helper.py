@@ -226,12 +226,7 @@ def user_is_Dream_owner(u_id: int) -> bool:
             else:
                 break
     return False
-    '''
-    if u_id == users[0]['u_id']:
-        return True
-    else:
-        return False
-    '''
+
 def new_message_id(channel_id: int) -> int:
     #To correctly use, must create message then store the message. If you do not
     #Store the message this count WILL NOT change
