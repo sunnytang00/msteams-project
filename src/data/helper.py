@@ -1,8 +1,6 @@
 from src.config import data_path
 import json
 
-def get_user_index(u_id):
-    return 3
 
 
 def clear_data() -> None:
@@ -34,6 +32,13 @@ def get_data() -> dict:
 
     return data
 
+def get_user_index(u_id: int) -> int:
+    """TODO"""
+    data = get_data()
+    for idx in range(len(data)-1):
+        if data['users'][idx]['u_id'] == u_id:
+            return idx
+    return -1
 
 def get_users() -> list:
     """Get list of user from data storage
@@ -85,14 +90,9 @@ def update_name_first(u_id: int, name_first: str) -> None:
     """
 
     data = get_data()
-    
-    # TODO: bad to index here (u_id-1) should loop ofer users data
+    idx = get_user_index(u_id)
 
-    # data['users'][u_id-1]['name_first'] = name_first
-
-    for user in data.get('users'):
-        if user.get(u_id) == u_id:
-            user['name_first'] ='bog' 
+    data['users'][idx]['name_first'] = name_first
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -109,8 +109,9 @@ def update_name_last(u_id: int, name_last: str) -> None:
     """
 
     data = get_data()
+    idx = get_user_index(u_id)
 
-    data['users'][u_id-1]['name_last'] = name_last
+    data['users'][idx]['name_last'] = name_last
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -127,8 +128,9 @@ def update_email(u_id: int, email: str) -> None:
     """
 
     data = get_data()
+    idx = get_user_index(u_id)
 
-    data['users'][u_id-1]['email'] = email
+    data['users'][idx]['email'] = email
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -144,15 +146,16 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
         Returns None if updated user's handle_str successfully
     """
     data = get_data()
+    idx = get_user_index(u_id)
 
-    data['users'][u_id-1]['handle_str'] = handle_str 
+    data['users'][idx]['handle_str'] = handle_str 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
 def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
-    
+
     Arguments:
         channel (list): List of channel
 
