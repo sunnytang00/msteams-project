@@ -224,6 +224,30 @@ def user_is_Dream_owner(u_id: int) -> bool:
     else:
         return False
 
+#TODO: ADD DOCSTRINGS
+def add_message(channel_id: int, message: dict) -> None:
+    message_list = get_channel(channel_id).get('messages')
+    message_list.append(message)
+
+def new_message_id(channel_id: int) -> int:
+    #TODO
+    #CHANGE TO NAMED TUPLE
+    message_id = len(get_channel(channel_id).get('messages')) + 1
+    msg_id = int(str(channel_id)+str(message_id))
+    return msg_id
+
+def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
+    timenow = datetime.utcnow()
+    timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+
+    return {
+        'message_id' : new_message_id(channel_id)
+        'channel_id' : channel_id,
+        'u_id' : auth_user_id,
+        'message' : message,
+        'time_created' : timestamp
+    }
+
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     """TODO"""
     owner_member = get_channel_data(channel_id)['owner_members']
