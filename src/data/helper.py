@@ -72,6 +72,20 @@ def get_channels() -> list:
     """
     return get_data().get('channels')
 
+def get_message_count() -> int:
+    return get_data().get('message_count')
+
+def store_message(message: dict, channel_id: int) -> None:
+    data = get_data()
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['messages'].append(message)
+
+    data['message_count'] += 1
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
 
 def store_user(user: dict) -> None:
     """store the data of user on data storage
