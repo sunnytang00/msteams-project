@@ -229,8 +229,7 @@ def user_is_Dream_owner(u_id: int) -> bool:
 def new_message_id(channel_id: int) -> int:
     #TODO
     #CHANGE TO NAMED TUPLE
-    message_id = get_message_count
-    return message_id
+    return get_message_count() + 1
 
 def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
     timenow = datetime.utcnow()
@@ -243,6 +242,7 @@ def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
         'message' : message,
         'time_created' : timestamp
     }
+
 
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     """TODO"""

@@ -73,7 +73,7 @@ def get_channels() -> list:
     return get_data().get('channels')
 
 def get_message_count() -> int:
-    return get_data().get('message_count') + 1
+    return get_data().get('message_count')
 
 def store_message(message: dict, channel_id: int) -> None:
     data = get_data()
