@@ -227,8 +227,10 @@ def user_is_Dream_owner(u_id: int) -> bool:
         return False
 
 def new_message_id(channel_id: int) -> int:
-    #TODO
-    #CHANGE TO NAMED TUPLE
+    #To correctly use, must create message then store the message. If you do not
+    #Store the message this count WILL NOT change
+    #E.g, when first started, this will return int 1, then when called again
+    #After message is stored this will return 2 etc etc
     return get_message_count() + 1
 
 def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
