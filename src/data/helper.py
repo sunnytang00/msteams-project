@@ -1,6 +1,9 @@
 from src.config import data_path
-import src.base.helper as base_helper # not using from import to avoid circular import errors
 import json
+
+def get_user_index(u_id):
+    return 3
+
 
 def clear_data() -> None:
     """ Resets the internal data of the application to it's initial state
@@ -59,13 +62,12 @@ def store_user(user: dict) -> None:
     """store the data of user on data storage
     
     Arguments:
-        user (list): list of users
+        user (dict): a user
 
     Return Value:
         Returns None
     """
     data = get_data()
-    
     data.get('users').append(user)
 
     with open(data_path, 'w') as f:
@@ -85,9 +87,12 @@ def update_name_first(u_id: int, name_first: str) -> None:
     data = get_data()
     
     # TODO: bad to index here (u_id-1) should loop ofer users data
-    #data['users'][u_id-1]['name_first'] = name_first
-    users = base_helper.get_user
-    data['users'][u_id-1]['name_first'] = name_first
+
+    # data['users'][u_id-1]['name_first'] = name_first
+
+    for user in data.get('users'):
+        if user.get(u_id) == u_id:
+            user['name_first'] ='bog' 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -145,7 +150,7 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def store_channel(channel: list) -> bool:
+def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
     
     Arguments:
