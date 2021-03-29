@@ -1,7 +1,9 @@
 """TODO"""
 
-from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members
+from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count
 import re
+from datetime import timezone, datetime
+import time
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -223,6 +225,26 @@ def user_is_Dream_owner(u_id: int) -> bool:
         return True
     else:
         return False
+
+def new_message_id(channel_id: int) -> int:
+    #To correctly use, must create message then store the message. If you do not
+    #Store the message this count WILL NOT change
+    #E.g, when first started, this will return int 1, then when called again
+    #After message is stored this will return 2 etc etc
+    return get_message_count() + 1
+
+def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
+    timenow = datetime.utcnow()
+    timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+
+    return {
+        'message_id' : new_message_id,
+        'channel_id' : channel_id,
+        'u_id' : auth_user_id,
+        'message' : message,
+        'time_created' : timestamp
+    }
+
 
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     """TODO"""
