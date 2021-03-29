@@ -8,9 +8,13 @@ def clear_data() -> None:
         Returns None on clearing of data
     """
 
+    # initialise keys in data
     cleared_data = {
         'users': [],
-        'channels': []
+        'channels': [],
+        'user_count': 0,
+        'channel_count': 0,
+        'message_count': 0,
     }
 
     with open(data_path, 'w') as f:
