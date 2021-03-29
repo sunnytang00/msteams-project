@@ -5,7 +5,7 @@ def clear_data() -> None:
     """ Resets the internal data of the application to it's initial state
     
     Return Value:
-        Return Value None on clearing of data
+        Returns None on clearing of data
     """
 
     cleared_data = {
@@ -18,12 +18,9 @@ def clear_data() -> None:
 
 def get_data() -> dict:
     """Get data stored on data storage
-    
-    Arguments:
-        This function takes no argument
 
     Return Value:
-        data (dict): data stored on the data storage
+        Returns data (dict): data stored on the data storage
     """
     with open(data_path, 'r') as f:
         data = json.load(f)
@@ -31,7 +28,11 @@ def get_data() -> dict:
     return data
 
 def get_user_index(u_id: int) -> int:
-    """TODO"""
+    """Get the index of the user in users list
+
+    Return Value:
+        Returns index on all conditions
+    """
     data = get_data()
     for idx in range(len(data)-1):
         if data['users'][idx]['u_id'] == u_id:
@@ -39,7 +40,12 @@ def get_user_index(u_id: int) -> int:
     return -1
 
 def get_channel_index(channel_id: int) -> int:
-    """TODO"""
+    """Get the index of the channel in channels list
+
+    Return Value:
+        Returns index on all conditions
+    """
+
     data = get_data()
     for idx in range(len(data)-1):
         if data['channels'][idx]['channel_id'] == channel_id:
@@ -47,24 +53,18 @@ def get_channel_index(channel_id: int) -> int:
     return -1
 
 def get_users() -> list:
-    """Get list of user from data storage
+    """Get list of users from data storage
     
-    Arguments:
-        This function takes no argument
-
     Return Value:
-        users (list): List of users
+        Returns list of users on all conditions
     """
     return get_data().get('users')
 
 def get_channels() -> list:
     """Get list of channel from data storage
     
-    Arguments:
-        This function takes no argument
-
     Return Value:
-        channels (list): List of channels
+        Returns list of channels on all conditions
     """
     return get_data().get('channels')
 
@@ -73,10 +73,10 @@ def store_user(user: dict) -> None:
     """store the data of user on data storage
     
     Arguments:
-        user (dict): a user
+        user (dict) - a user
 
     Return Value:
-        Returns None
+        Returns None on all conditions
     """
     data = get_data()
     data.get('users').append(user)
@@ -92,7 +92,7 @@ def update_name_first(u_id: int, name_first: str) -> None:
         name_first (str) - The user's last name
 
     Return Value:
-        Returns None if updated user's first name successfully
+        Returns None on all conditions
     """
 
     data = get_data()
@@ -111,7 +111,7 @@ def update_name_last(u_id: int, name_last: str) -> None:
         name_last (str) - The user's last name
 
     Return Value:
-        Returns None if updated user's last name successfully
+        Returns None on all conditions
     """
 
     data = get_data()
@@ -130,7 +130,7 @@ def update_email(u_id: int, email: str) -> None:
         email (str) - The user's handle
 
     Return Value:
-        Returns None if updated user's email successfully
+        Returns None on all conditions
     """
 
     data = get_data()
@@ -181,7 +181,16 @@ def store_channel(channel: dict) -> bool:
     return False
 
 def append_channel_all_members(channel_id: int, user: dict) -> None:
-    """TODO"""
+    """Append a user to channel all members
+
+    Arguments:
+        channel_id (int) - id of channel
+        user (dict) - the user's data
+
+    Return Value:
+        Returns None on all conditions
+    """
+
     data = get_data()
     idx = get_channel_index(channel_id)
 
@@ -191,7 +200,16 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
         json.dump(data, f)
 
 def append_channel_owner_members(channel_id: int, user: dict) -> None:
-    """TODO"""
+    """Append a user to channel owner members
+
+    Arguments:
+        channel_id (int) - id of channel
+        user (dict) - the user's data
+
+    Return Value:
+        Returns None on all conditions
+    """
+
     data = get_data()
     idx = get_channel_index(channel_id)
 
@@ -200,8 +218,17 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_owner_members(channel_id : int, owner_members: list) -> None:
-    """TODO"""
+def update_owner_members(channel_id: int, owner_members: list) -> None:
+    """Update the owners users of a channel
+
+    Arguments:
+        channel_id (int) - id of channel
+        owner_members (list) - the users that are owners of a channel
+
+    Return Value:
+        Returns None on all conditions
+    """
+
     data = get_data()
     idx = get_channel_index(channel_id)
 
@@ -211,7 +238,15 @@ def update_owner_members(channel_id : int, owner_members: list) -> None:
         json.dump(data, f)
 
 def update_all_members(channel_id : int, all_members: list) -> None:
-    """TODO"""
+    """Update the member users of a channel
+
+    Arguments:
+        channel_id (int) - id of channel
+        all_members (list) - the users that are members of a channel
+
+    Return Value:
+        Returns None on all conditions
+    """
     data = get_data()
     # TODO: bad to index here (channel_id-1) should loop ofer users data
     idx = get_channel_index(channel_id)
