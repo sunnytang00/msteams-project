@@ -8,6 +8,7 @@ def clear_data() -> None:
         Returns None on clearing of data
     """
 
+    # initialise keys in data
     cleared_data = {
         'users': [],
         'channels': [],
