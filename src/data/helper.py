@@ -248,7 +248,6 @@ def update_all_members(channel_id : int, all_members: list) -> None:
         Returns None on all conditions
     """
     data = get_data()
-    # TODO: bad to index here (channel_id-1) should loop ofer users data
     idx = get_channel_index(channel_id)
 
     data['channels'][idx]['all_members'] = all_members 
