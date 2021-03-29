@@ -10,7 +10,10 @@ def clear_data() -> None:
 
     cleared_data = {
         'users': [],
-        'channels': []
+        'channels': [],
+        'user_count': 0,
+        'channel_count': 0,
+        'message_count': 0,
     }
 
     with open(data_path, 'w') as f:
