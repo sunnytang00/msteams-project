@@ -46,7 +46,7 @@ def test_invalid_token():
     user_id = u_id + 10
     with pytest.raises(AccessError) as e:
         admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
-        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
+        assert f'token {user_id} does not refer to a valid token' in str(e)
 
 @clear
 def test_invalid_user():
