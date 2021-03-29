@@ -1,8 +1,6 @@
 from src.config import data_path
 import json
 
-
-
 def clear_data() -> None:
     """ Resets the internal data of the application to it's initial state
     
@@ -37,6 +35,14 @@ def get_user_index(u_id: int) -> int:
     data = get_data()
     for idx in range(len(data)-1):
         if data['users'][idx]['u_id'] == u_id:
+            return idx
+    return -1
+
+def get_channel_index(channel_id: int) -> int:
+    """TODO"""
+    data = get_data()
+    for idx in range(len(data)-1):
+        if data['channels'][idx]['channel_id'] == channel_id:
             return idx
     return -1
 
@@ -177,8 +183,9 @@ def store_channel(channel: dict) -> bool:
 def append_channel_all_members(channel_id: int, user: dict) -> None:
     """TODO"""
     data = get_data()
+    idx = get_channel_index(channel_id)
 
-    data['channels'][channel_id-1]['all_members'].append(user)
+    data['channels'][idx]['all_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -186,8 +193,9 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
 def append_channel_owner_members(channel_id: int, user: dict) -> None:
     """TODO"""
     data = get_data()
-    
-    data['channels'][channel_id-1]['owner_members'].append(user)
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['owner_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -195,8 +203,9 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
 def update_owner_members(channel_id : int, owner_members: list) -> None:
     """TODO"""
     data = get_data()
+    idx = get_channel_index(channel_id)
 
-    data['channels'][channel_id-1]['owner_members'] = owner_members 
+    data['channels'][idx]['owner_members'] = owner_members 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -204,9 +213,10 @@ def update_owner_members(channel_id : int, owner_members: list) -> None:
 def update_all_members(channel_id : int, all_members: list) -> None:
     """TODO"""
     data = get_data()
-
     # TODO: bad to index here (channel_id-1) should loop ofer users data
-    data['channels'][channel_id-1]['all_members'] = all_members 
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['all_members'] = all_members 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
