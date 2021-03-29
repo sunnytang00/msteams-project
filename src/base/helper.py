@@ -2,6 +2,8 @@
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members
 import re
+from datetime import timezone, datetime
+import time
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -223,6 +225,24 @@ def user_is_Dream_owner(u_id: int) -> bool:
         return True
     else:
         return False
+
+def new_message_id(channel_id: int) -> int:
+    #TODO
+    #CHANGE TO NAMED TUPLE
+    message_id = get_message_count
+    return message_id
+
+def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
+    timenow = datetime.utcnow()
+    timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+
+    return {
+        'message_id' : new_message_id,
+        'channel_id' : channel_id,
+        'u_id' : auth_user_id,
+        'message' : message,
+        'time_created' : timestamp
+    }
 
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     """TODO"""
