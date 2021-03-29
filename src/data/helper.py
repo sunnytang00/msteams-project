@@ -82,8 +82,7 @@ def store_message(message: dict, channel_id: int) -> None:
     data['channels'][idx]['messages'].append(message)
 
     data['message_count'] += 1
-
-    with open(data_path, 'w') as f:
+    with open(data_path, 'w', encoding='utf-8') as f:
         json.dump(data, f)
 
 
