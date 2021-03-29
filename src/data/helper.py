@@ -1,35 +1,16 @@
 from src.config import data_path
-#import src.base.helper as helper
-    # Not using from import to avoid circular import erros
 import json
-
-'''
-def get_data():
-    global data
-    return data
-
-def save_data(func):
-    """Save data to json file."""
-    def wrapper(*args, **kwargs):
-        rv = func(*args, **kwargs)
-        # if no exceptions are raised
-        data = get_data()
-        with open(data_path, 'w') as f:
-            json.dump(data, f)
-        return rv
-    return wrapper
-'''
 
 def clear_data() -> None:
     """ Resets the internal data of the application to it's initial state
     
     Return Value:
-        Return Value None on clearing of data
+        Returns None on clearing of data
     """
 
     cleared_data = {
-        "users": [],
-        "channels": []
+        'users': [],
+        'channels': []
     }
 
     with open(data_path, 'w') as f:
@@ -37,62 +18,71 @@ def clear_data() -> None:
 
 def get_data() -> dict:
     """Get data stored on data storage
-    
-    Arguments:
-        This function takes no argument
 
     Return Value:
-        data (dict): data stored on the data storage
+        Returns data (dict): data stored on the data storage
     """
     with open(data_path, 'r') as f:
         data = json.load(f)
 
     return data
 
-
-def get_users() -> list:
-    """Get list of user from data storage
-    
-    Arguments:
-        This function takes no argument
+def get_user_index(u_id: int) -> int:
+    """Get the index of the user in users list
 
     Return Value:
-        users (list): List of users
+        Returns index on all conditions
     """
-    return get_data().get("users")
+    data = get_data()
+    for idx in range(len(data)-1):
+        if data['users'][idx]['u_id'] == u_id:
+            return idx
+    return -1
+
+def get_channel_index(channel_id: int) -> int:
+    """Get the index of the channel in channels list
+
+    Return Value:
+        Returns index on all conditions
+    """
+
+    data = get_data()
+    for idx in range(len(data)-1):
+        if data['channels'][idx]['channel_id'] == channel_id:
+            return idx
+    return -1
+
+def get_users() -> list:
+    """Get list of users from data storage
+    
+    Return Value:
+        Returns list of users on all conditions
+    """
+    return get_data().get('users')
 
 def get_channels() -> list:
     """Get list of channel from data storage
     
-    Arguments:
-        This function takes no argument
-
     Return Value:
-        channels (list): List of channels
+        Returns list of channels on all conditions
     """
-    return get_data().get("channels")
+    return get_data().get('channels')
 
 
-def store_user(user: dict) -> bool:
+def store_user(user: dict) -> None:
     """store the data of user on data storage
     
-    arguments:
-        user (list): list of users
+    Arguments:
+        user (dict) - a user
 
-    returns:
-        true if the user data stored successfully
-        false if fail to store user data
+    Return Value:
+        Returns None on all conditions
     """
     data = get_data()
-    
-    data.get("users").append(user)
+    data.get('users').append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
-
-    if get_users() == data["users"]:
-        return True
-    return False
 
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
@@ -102,13 +92,13 @@ def update_name_first(u_id: int, name_first: str) -> None:
         name_first (str) - The user's last name
 
     Return Value:
-        Returns None if updated user's first name successfully
+        Returns None on all conditions
     """
 
     data = get_data()
-    
-    # TODO: bad to index here (u_id-1) should loop ofer users data
-    data["users"][u_id-1]["name_first"] = name_first
+    idx = get_user_index(u_id)
+
+    data['users'][idx]['name_first'] = name_first
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -121,12 +111,13 @@ def update_name_last(u_id: int, name_last: str) -> None:
         name_last (str) - The user's last name
 
     Return Value:
-        Returns None if updated user's last name successfully
+        Returns None on all conditions
     """
 
     data = get_data()
+    idx = get_user_index(u_id)
 
-    data["users"][u_id-1]["name_last"] = name_last
+    data['users'][idx]['name_last'] = name_last
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -139,12 +130,13 @@ def update_email(u_id: int, email: str) -> None:
         email (str) - The user's handle
 
     Return Value:
-        Returns None if updated user's email successfully
+        Returns None on all conditions
     """
 
     data = get_data()
+    idx = get_user_index(u_id)
 
-    data["users"][u_id-1]["email"] = email
+    data['users'][idx]['email'] = email
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -160,15 +152,16 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
         Returns None if updated user's handle_str successfully
     """
     data = get_data()
+    idx = get_user_index(u_id)
 
-    data["users"][u_id-1]["handle_str"] = handle_str 
+    data['users'][idx]['handle_str'] = handle_str 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def store_channel(channel: list) -> bool:
+def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
-    
+
     Arguments:
         channel (list): List of channel
 
@@ -178,7 +171,7 @@ def store_channel(channel: list) -> bool:
     """
     data = get_data()
 
-    data["channels"].append(channel)
+    data['channels'].append(channel)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -188,38 +181,76 @@ def store_channel(channel: list) -> bool:
     return False
 
 def append_channel_all_members(channel_id: int, user: dict) -> None:
-    """TODO"""
-    data = get_data()
+    """Append a user to channel all members
 
-    data["channels"][channel_id-1]['all_members'].append(user)
+    Arguments:
+        channel_id (int) - id of channel
+        user (dict) - the user's data
+
+    Return Value:
+        Returns None on all conditions
+    """
+
+    data = get_data()
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['all_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
 def append_channel_owner_members(channel_id: int, user: dict) -> None:
-    """TODO"""
+    """Append a user to channel owner members
+
+    Arguments:
+        channel_id (int) - id of channel
+        user (dict) - the user's data
+
+    Return Value:
+        Returns None on all conditions
+    """
+
     data = get_data()
-    
-    data["channels"][channel_id-1]['owner_members'].append(user)
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['owner_members'].append(user)
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_owner_members(channel_id : int, owner_members: list) -> None:
-    """TODO"""
-    data = get_data()
+def update_owner_members(channel_id: int, owner_members: list) -> None:
+    """Update the owners users of a channel
 
-    data["channels"][channel_id-1]["owner_members"] = owner_members 
+    Arguments:
+        channel_id (int) - id of channel
+        owner_members (list) - the users that are owners of a channel
+
+    Return Value:
+        Returns None on all conditions
+    """
+
+    data = get_data()
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['owner_members'] = owner_members 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
 def update_all_members(channel_id : int, all_members: list) -> None:
-    """TODO"""
-    data = get_data()
+    """Update the member users of a channel
 
-    # TODO: bad to index here (channel_id-1) should loop ofer users data
-    data["channels"][channel_id-1]["all_members"] = all_members 
+    Arguments:
+        channel_id (int) - id of channel
+        all_members (list) - the users that are members of a channel
+
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['all_members'] = all_members 
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
