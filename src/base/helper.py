@@ -241,7 +241,7 @@ def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
     timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
 
     return {
-        'message_id' : new_message_id(channel_id)
+        'message_id' : new_message_id(channel_id),
         'channel_id' : channel_id,
         'u_id' : auth_user_id,
         'message' : message,
