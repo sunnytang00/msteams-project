@@ -80,7 +80,7 @@ def auth_register_v1(email, password, name_first, name_last):
 
     '''
     ====================
-    the code following is added by Wang, if they are not suitble please just remove them
+    the codes following are added by Wang, if they are not suitble please just remove them
     or if they are fine please remove the message here
     '''
     permission_id = 0
@@ -95,7 +95,7 @@ def auth_register_v1(email, password, name_first, name_last):
         'name_first': name_first,
         'name_last': name_last,
         'handle_str': handle_str,
-        'password': password
+        'password': password,
         'permission_id': permission_id 
     }
 

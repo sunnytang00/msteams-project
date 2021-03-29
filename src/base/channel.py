@@ -224,7 +224,7 @@ def channel_addowner_v1(auth_user_id, channel_id, u_id):
 
     user = get_user(u_id)
     append_channel_owner_members(channel_id, user)
-    if not user_is_member(u_id):
+    if not user_is_member(channel, u_id):
         append_channel_all_members(channel_id, user)
 
     return {}

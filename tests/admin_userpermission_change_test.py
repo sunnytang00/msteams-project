@@ -30,11 +30,11 @@ def test_valid_input():
     # user2 added himself as owner of channel
     channel_addowner_v1(u_id, ch_id, u_id)
     #check if user2 becomes the owner of channel
-    channel = channel_details_v1(user2, ch_id)
+    channel = channel_details_v1(u_id, ch_id)
     assert u_id in [user['u_id'] for user in channel['owner_members']]
 
 @clear
-def invalid_token():
+def test_invalid_token():
     #register a user
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -46,7 +46,7 @@ def invalid_token():
     user_id = u_id + 10
     with pytest.raises(AccessError) as e:
         admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
-        assert f'auth_user_id {u_id} is invalid' in str(e)
+        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
 
 @clear
 def test_invalid_user():
@@ -62,7 +62,7 @@ def test_invalid_user():
     u_id = user_id + 10
     with pytest.raises(InputError) as e:
         admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
-        assert f'u_id {u_id} is invalid' in str(e)
+        assert f'u_id {u_id} does not refer to a valid user id' in str(e)
 
 @clear
 def test_invalid_permission_id():
@@ -78,11 +78,12 @@ def test_invalid_permission_id():
                                     name_last='Potter')
     u_id = user2['auth_user_id']
 
+    permission_id = 4
     with pytest.raises(InputError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id = 4)
-        assert f'permission_id is invalid' in str(e)
+        admin_userpermission_change_v1(user_id, u_id, permission_id)
+        assert f'permission_id {permission_id} does not refer to a valid permisison id' in str(e)
 
-@claer
+@clear
 def test_not_owner():
     #register users
     user = auth_register_v1(email='bobsmith@gmail.com',
@@ -96,7 +97,7 @@ def test_not_owner():
                                     name_last='Potter')
     u_id = user2['auth_user_id']
 
-   with pytest.raises(InputError) as e:
+    with pytest.raises(AccessError) as e:
         admin_userpermission_change_v1(u_id, user_id, permission_id = 2)
-        assert f'u_id {u_id} is not owner of Dreams' in str(e)
+        assert f'user id {u_id} is not owner of Dreams' in str(e)
 

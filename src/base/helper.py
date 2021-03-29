@@ -37,6 +37,7 @@ def get_user(auth_user_id: int) -> dict:
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
+                'permission_id' : user['permission_id']
             }
     return {}
 
@@ -209,8 +210,6 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
     return False
 
 def user_is_Dream_owner(u_id: int) -> bool:
-    #TODO owner of Dream should checked by permission id, may need to change stucture of user data?
-    #by default the very first user that registered is user of Dream
     """Check if there is user with u_id is owner of Dream
     
     Arguments:
@@ -220,12 +219,19 @@ def user_is_Dream_owner(u_id: int) -> bool:
         True: if user with u_id is owner of Dream
         False: if user with u_id is not owner of Dream
     """
-    users = get_users()
+    for user in get_users():
+        if u_id == user['u_id']:
+            if user['permission_id'] == 1:
+                return True
+            else:
+                break
+    return False
+    '''
     if u_id == users[0]['u_id']:
         return True
     else:
         return False
-
+    '''
 def new_message_id(channel_id: int) -> int:
     #To correctly use, must create message then store the message. If you do not
     #Store the message this count WILL NOT change
