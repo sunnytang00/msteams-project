@@ -261,3 +261,16 @@ def remove_from_all_members(channel_id : int, user_id: int) -> None:
     all_member.remove(user)
     update_all_members(channel_id, all_member)
         
+def get_dm_name(u_ids: list) -> str:
+    """TODO"""
+    handle_strs = []
+
+    for u_id in u_ids:
+        user = get_user(u_id)
+        handle_str = user.get('handle_str')
+        handle_strs.append(handle_str)
+
+    handle_strs.sort()
+    output = ', '.join(handle_strs)
+    
+    return output

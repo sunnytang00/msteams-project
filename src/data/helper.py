@@ -90,9 +90,6 @@ def get_channels() -> list:
     """
     return get_data().get('channels')
 
-def get_message_count() -> int:
-    return get_data().get('message_count')
-
 def store_message(message: dict, channel_id: int) -> None:
     data = get_data()
     idx = get_channel_index(channel_id)
@@ -308,3 +305,18 @@ def update_permission_id(user_id : int, permission_id: int) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
+def store_dm(dm: dict) -> None:
+    """store the dm in storage
+    
+    Arguments:
+        dm (dict) - a dm
+
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    data.get('dms').append(dm)
+
+    data['dm_count'] += 1
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
