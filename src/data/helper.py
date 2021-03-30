@@ -34,7 +34,20 @@ def get_data() -> dict:
     return data
 
 def get_user_count() -> int:
+    """TODO"""
     return get_data().get('user_count')
+
+def get_channel_count() -> int:
+    """TODO"""
+    return get_data().get('channel_count')
+
+def get_message_count() -> int:
+    """TODO"""
+    return get_data().get('message_count')
+
+def get_dm_count() -> int:
+    """TODO"""
+    return get_data().get('dm_count')
 
 def get_user_index(u_id: int) -> int:
     """Get the index of the user in users list
