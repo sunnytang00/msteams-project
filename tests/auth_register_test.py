@@ -8,6 +8,7 @@ from tests.helper import helper, clear
 @clear
 def test_valid_input(helper):
     users_count = helper.get_users_count()
+    # TODO: remove users_count makes code less clear
     helper.register_users(quantity=users_count)
 
     user_id = users_count + 1
