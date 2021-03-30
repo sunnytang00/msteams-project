@@ -18,6 +18,43 @@ def valid_email(email: str) -> bool:
     regex = '^[a-zA-Z0-9]+[\\._]?[a-zA-Z0-9]+[@]\\w+[.]\\w{2,3}$'
     return re.search(regex, email)
 
+def get_current_users() -> list:
+    """ function that returned list of user that was not removed 
+
+    Returns:
+        current_user (list): user in user list that was not removed
+    """
+
+    current_user = []
+    users = get_users()
+    for user in users:
+        if not user['removed']:
+            current_user.append(user)
+    return current_user
+
+def get_current_user(auth_user_id: int) -> list:
+    """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
+       if the user is not removed from the Dream
+
+    Arguments:
+        auth_user_id (int): ID of authorised user
+
+    Return Values:
+        dict: A dictionary of their email, password, first name and last name
+        empty dict if user isn't found
+    """    
+    for user in get_current_users():
+        if user['u_id'] == auth_user_id:
+            return {
+                'u_id' : auth_user_id,
+                'email': user['email'],
+                'name_first': user['name_first'],
+                'name_last': user['name_last'],
+                'handle_str': user['handle_str'],
+                'permission_id' : user['permission_id']
+            }
+    return {}
+
 
 def get_user(auth_user_id: int) -> dict:
     """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
@@ -269,3 +306,25 @@ def get_dm_name(u_ids: list) -> str:
     output = ', '.join(handle_strs)
     
     return output
+
+def remove_user(u_id: int) -> None:
+    """
+    TODO:   when a user being removed, all member list should remove the user out 
+            and functions that return users stuff should not have those users
+    should keep this function update if there is new type of list of user 
+
+    member list that needs to change:
+        channels:
+            owner_member
+            all_member
+        
+    """
+    channels = get_channels()
+    for channel in channels:
+        if user_is_owner(channel, u_id):
+            remove_from_owner_members(channel['channel_id'], u_id) # remove user from owner_member
+        if user_is_member(channel, u_id):
+            remove_from_all_members(channel['channel_id'], u_id)  # remove user from all member
+    
+        
+            
