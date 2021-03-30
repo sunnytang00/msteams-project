@@ -84,7 +84,7 @@ def auth_register_v1(email, password, name_first, name_last):
     or if they are fine please remove the message here
     '''
     permission_id = 0
-    if len(get_users()) == 0: #if there is no user already registered
+    if get_users(): #if there is no user already registered
         permission_id = 1
     else:
         permission_id = 2
