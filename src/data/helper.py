@@ -16,7 +16,8 @@ def clear_data() -> None:
         'user_count': 0,
         'channel_count': 0,
         'message_count': 0,
-        'dm_count': 0
+        'dm_count': 0,
+        'owner_count' : 0
     }
 
     with open(data_path, 'w') as f:
@@ -48,6 +49,10 @@ def get_message_count() -> int:
 def get_dm_count() -> int:
     """TODO"""
     return get_data().get('dm_count')
+
+def get_owner_count() -> int:
+    """TODO"""
+    return get_data().get('owner_count')
 
 def get_user_index(u_id: int) -> int:
     """Get the index of the user in users list
@@ -319,5 +324,47 @@ def store_dm(dm: dict) -> None:
     data.get('dms').append(dm)
 
     data['dm_count'] += 1
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_owner_count(owner_count : int) -> None:
+    """ update the count of owner 
+
+    Arguments:
+        owner_count (int) - new count for owner
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    data['owner_count'] = owner_count
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_user_count(user_count: int) -> None:
+    """ update the count of user 
+
+    Arguments:
+        user_count (int) - new count for user
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    data['owner_count'] = user_count
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_removed_flag(user_id : int, flag: bool) -> None:
+    """ update the removed flag of user 
+
+    Arguments:
+        user_id (int) - id of user
+        flag (bool) - True if user being removed, False if not
+    Return Value:
+        Returns None on all conditions
+    """
+
+    data = get_data()
+    idx = get_user_index(user_id)
+    data['users'][idx]['removed'] = flag
     with open(data_path, 'w') as f:
         json.dump(data, f)
