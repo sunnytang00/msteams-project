@@ -5,19 +5,19 @@ data = {
     'users': [
         { 
             'u_id': 1,                                              
-            'email': sample_1@something.com,                         
-            'name_first': first_sample_name_1,                       
-            'name_last': last_sample_name_1,                         
-            'handle_str': first_sample_name_1last_sample_name_1,     
+            'email': harrypotter@gmail.com,                         
+            'name_first': Harry,                       
+            'name_last': Potter,                         
+            'handle_str': harrypotter,     
             'password': password_1_1324&#!$,
             'is_global_permission': 1,                        
         },
         { 
             'u_id': 2,                                              
-            'email': sample_2@something.com,                         
-            'name_first': first_sample_name_2,                       
-            'name_last': last_sample_name_2,                         
-            'handle_str': first_sample_name_2last_sample_name_2,    
+            'email': bobsmith@gmail.com,                         
+            'name_first': Bob,                       
+            'name_last': Smith,                         
+            'handle_str': bobsmith,    
             'password': password_2_1324&#!$,
             'is_global_permission': 2,
         },
@@ -29,10 +29,10 @@ data = {
             'owner_members': [
                 { 
                     'u_id': 1,                                              
-                    'email': sample_1@something.com,                        
-                    'name_first': first_sample_name_1,                       
-                    'name_last': last_sample_name_1,                         
-                    'handle_str': first_sample_name_1last_sample_name_1,    
+                    'email': harrypotter@gmail.com,                        
+                    'name_first': Harry,                       
+                    'name_last': Potter,                         
+                    'handle_str': harrypotter,    
                     'password': password_1_1324&#!$,
                     'is_global_permission': 1,
                 },
@@ -40,19 +40,19 @@ data = {
             'all_members': [
                 { 
                     'u_id': 1,                                              
-                    'email': sample_1@something.com,                        
-                    'name_first': first_sample_name_1,                       
-                    'name_last': last_sample_name_1,                         
-                    'handle_str': first_sample_name_1last_sample_name_1,    
+                    'email': harrypotter@gmail.com,                        
+                    'name_first': Harry,                       
+                    'name_last': Potter,                         
+                    'handle_str': harrypotter,    
                     'password': password_1_1324&#!$,
                     'is_global_permission': 1,                        
                 },
                 { 
                     'u_id': 2,                                              
-                    'email': sample_2@something.com,                         
-                    'name_first': first_sample_name_2,                      
-                    'name_last': last_sample_name_2,                         
-                    'handle_str': first_sample_name_2last_sample_name_2,     
+                    'email': bobsmith@gmail.com,                         
+                    'name_first': Bob,                      
+                    'name_last': Smith,                         
+                    'handle_str': bobsmith,     
                     'password': password_2_1324&#!$,                         
                     'is_global_permission': 2,
                 },
@@ -66,11 +66,17 @@ data = {
                 }
             ],
             'is_public': TRUE,
+            'dms': [
+                {
+                    dm_id: 1,
+                    u_ids: [1, 2]
+                    name: "bobsmith, harrypotter",
+                }
+            ]
         }
     ],
     'user_count'        : 2,
     'message_count'     : 1,
     'channel_count'     : 1,
 }
-
 """
