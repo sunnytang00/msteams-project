@@ -78,11 +78,6 @@ def auth_register_v1(email, password, name_first, name_last):
 
     handle_str = get_handle_str(name_first, name_last)
 
-    '''
-    ====================
-    the codes following are added by Wang, if they are not suitble please just remove them
-    or if they are fine please remove the message here
-    '''
     permission_id = 0
     if get_users(): #if there is no user already registered
         permission_id = 1
@@ -97,6 +92,7 @@ def auth_register_v1(email, password, name_first, name_last):
         'handle_str': handle_str,
         'password': password,
         'permission_id': permission_id 
+        'removed' : False
     }
 
     # register user

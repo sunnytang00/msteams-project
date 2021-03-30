@@ -18,3 +18,12 @@ def admin_userpermission_change_v1(auth_user_id, u_id, permission_id):
     update_permission_id(u_id, permission_id)
 
     return {}
+
+def admin_user_remove_v1(auth_user_id, u_id):
+    if not get_user(auth_user_id):
+        raise AccessError(f"token {auth_user_id} does not refer to a valid token")
+    
+    if not get_user(u_id):
+        raise InputError(f"user_id {u_id} does not refer to a valid user")
+
+    if 

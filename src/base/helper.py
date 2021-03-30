@@ -261,3 +261,4 @@ def remove_from_all_members(channel_id : int, user_id: int) -> None:
     all_member.remove(user)
     update_all_members(channel_id, all_member)
         
+def 
