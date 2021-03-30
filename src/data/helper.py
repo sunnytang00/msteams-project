@@ -95,6 +95,14 @@ def get_channels() -> list:
     """
     return get_data().get('channels')
 
+def get_dms() -> list:
+    """ Get list of dms from data storage
+
+    Return Value:
+        Returns list of dms on all conditions
+    """
+    return get_data().get('dms')
+
 def store_message(message: dict, channel_id: int) -> None:
     data = get_data()
     idx = get_channel_index(channel_id)

@@ -1,8 +1,8 @@
 """TODO"""
 
-from src.base.error import InputError
-from src.base.helper import get_dm_name
-from src.data.helper import get_dm_count, store_dm
+from src.base.error import InputError, AccessError
+from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_member
+from src.data.helper import get_dm_count, store_dm, get_dms
 
 def dm_create(u_ids):
     """TODO"""
@@ -10,7 +10,7 @@ def dm_create(u_ids):
     dm_name = get_dm_name(u_ids)
     dm = {
         'dm_id': dm_id,
-        'dm_name:': dm_name,
+        'dm_name': dm_name,
         'u_ids': u_ids
     }
     store_dm(dm)
@@ -19,3 +19,15 @@ def dm_create(u_ids):
         'dm_id': 1,
         'dm_name': dm_name
     }
+
+def dm_list_v1(auth_user_id):
+    """TODO"""
+    if not get_current_user(auth_user_id):
+        raise AccessError(f"token {auth_user_id} does not refer to a valid user")
+    
+    dm_list = []
+    for dm in get_dms():
+        if user_is_dm_member(dm['dm_id'], auth_user_id):
+            dm_list.append(get_dm(dm['dm_id']))
+
+    return dm_list
