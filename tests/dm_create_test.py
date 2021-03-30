@@ -13,11 +13,13 @@ def test_dm_create_single():
                             name_first='Harry',
                             name_last='Potter')
     user_id = user.get('auth_user_id')
+    assert user_id == 1
+
     u_ids = [user_id]
 
     dm_id = 1
     dm_name = "harrypotter"
-    assert dm_create(u_ids) == {dm_id, dm_name}
+    assert dm_create(u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
 @clear
 def test_dm_create_many():
@@ -28,21 +30,24 @@ def test_dm_create_many():
                             name_first='Harry',
                             name_last='Potter')
     user1_id = user1.get('auth_user_id')
+    assert user1_id == 1
 
     user2 = auth_register_v1(email='bobsmith@gmail.com',
                             password='askdflj29',
                             name_first='Bob',
                             name_last='Smith')
     user2_id = user2.get('auth_user_id')
+    assert user2_id == 2
 
     user3 = auth_register_v1(email='bobsmith2@gmail.com',
                             password='jfaDdf2@99',
                             name_first='Bob',
                             name_last='Smith')
     user3_id = user3.get('auth_user_id')
+    assert user3_id == 3 
 
     u_ids = [user1_id, user2_id, user3_id]
 
     dm_id = 1
     dm_name = "bobsmith, bobsmith0, harrypotter"
-    assert dm_create(u_ids) == {dm_id, dm_name}
+    assert dm_create(u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
