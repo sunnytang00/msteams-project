@@ -95,8 +95,8 @@ def store_message(message: dict, channel_id: int) -> None:
     idx = get_channel_index(channel_id)
 
     data['channels'][idx]['messages'].append(message)
-
     data['message_count'] += 1
+    
     with open(data_path, 'w', encoding='utf-8') as f:
         json.dump(data, f)
 
@@ -112,8 +112,8 @@ def store_user(user: dict) -> None:
     """
     data = get_data()
     data.get('users').append(user)
-
     data['user_count'] += 1
+
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
@@ -205,6 +205,7 @@ def store_channel(channel: dict) -> bool:
     data = get_data()
 
     data['channels'].append(channel)
+    data['channel_count'] += 1
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
