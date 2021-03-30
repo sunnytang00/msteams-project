@@ -37,7 +37,7 @@ def test_not_member_of_any_dm():
                                     name_last='Potter')
     u_id = user2['auth_user_id']
 
-    dm = dm_create([user_id])
+    dm_create([user_id])
 
     #should replaced when dm_details() finished
     dms = dm_list_v1(u_id)
