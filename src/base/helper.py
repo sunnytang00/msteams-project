@@ -223,8 +223,6 @@ def user_is_Dream_owner(u_id: int) -> bool:
         if u_id == user['u_id']:
             if user['permission_id'] == 1:
                 return True
-            else:
-                break
     return False
 
 def new_message_id(channel_id: int) -> int:
@@ -263,13 +261,10 @@ def remove_from_all_members(channel_id : int, user_id: int) -> None:
         
 def get_dm_name(u_ids: list) -> str:
     """TODO"""
-    handle_strs = []
+    # iterate over all users and populate with respected handle_str
+    handle_strs = [get_user(u_id).get('handle_str') for u_id in u_ids]
 
-    for u_id in u_ids:
-        user = get_user(u_id)
-        handle_str = user.get('handle_str')
-        handle_strs.append(handle_str)
-
+    # sort to obtain correct order as per spec
     handle_strs.sort()
     output = ', '.join(handle_strs)
     
