@@ -10,7 +10,7 @@ data = {
             'name_last': last_sample_name_1,                         
             'handle_str': first_sample_name_1last_sample_name_1,     
             'password': password_1_1324&#!$,
-            'is_global_permission': true,                        
+            'is_global_permission': 1,                        
         },
         { 
             'u_id': 2,                                              
@@ -19,7 +19,7 @@ data = {
             'name_last': last_sample_name_2,                         
             'handle_str': first_sample_name_2last_sample_name_2,    
             'password': password_2_1324&#!$,
-            'is_global_permission': false,
+            'is_global_permission': 2,
         },
     ],
     'channels': [           
@@ -34,7 +34,7 @@ data = {
                     'name_last': last_sample_name_1,                         
                     'handle_str': first_sample_name_1last_sample_name_1,    
                     'password': password_1_1324&#!$,
-                    'is_global_permission': true,
+                    'is_global_permission': 1,
                 },
             ],
             'all_members': [
@@ -45,7 +45,7 @@ data = {
                     'name_last': last_sample_name_1,                         
                     'handle_str': first_sample_name_1last_sample_name_1,    
                     'password': password_1_1324&#!$,
-                    'is_global_permission': true,                        
+                    'is_global_permission': 1,                        
                 },
                 { 
                     'u_id': 2,                                              
@@ -54,7 +54,7 @@ data = {
                     'name_last': last_sample_name_2,                         
                     'handle_str': first_sample_name_2last_sample_name_2,     
                     'password': password_2_1324&#!$,                         
-                    'is_global_permission': false,
+                    'is_global_permission': 2,
                 },
             ],
             'messages': [
