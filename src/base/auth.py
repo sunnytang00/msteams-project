@@ -5,7 +5,7 @@ This module demonstrates user registration and login authentication as specified
 
 from src.base.error import InputError
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
-from src.data.helper import get_users, store_user, get_user_count
+from src.data.helper import get_users, store_user, get_user_count, get_owner_count, update_owner_count
 import re
 
 def auth_login_v1(email, password):
@@ -79,8 +79,10 @@ def auth_register_v1(email, password, name_first, name_last):
     handle_str = get_handle_str(name_first, name_last)
 
     permission_id = 0
-    if get_users(): #if there is no user already registered
+    if not get_users(): #if there is no user already registered
         permission_id = 1
+        owner_count = get_owner_count() + 1
+        update_owner_count(owner_count)
     else:
         permission_id = 2
 
@@ -91,8 +93,8 @@ def auth_register_v1(email, password, name_first, name_last):
         'name_last': name_last,
         'handle_str': handle_str,
         'password': password,
-        'permission_id': permission_id 
-        'removed' : False
+        'permission_id': permission_id,
+        'removed': False
     }
 
     # register user
