@@ -1,7 +1,9 @@
 """TODO"""
 
-from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members
+from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count
 import re
+from datetime import timezone, datetime
+import time
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -17,7 +19,7 @@ def valid_email(email: str) -> bool:
     return re.search(regex, email)
 
 
-def get_user_data(auth_user_id: int) -> dict:
+def get_user(auth_user_id: int) -> dict:
     """A function that when passed an authenticated user id, will return their user id, email, password, first name and last name
 
     Arguments:
@@ -35,10 +37,11 @@ def get_user_data(auth_user_id: int) -> dict:
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
+                'permission_id' : user['permission_id']
             }
     return {}
 
-def get_channel_data(channel_id: int) -> dict:
+def get_channel(channel_id: int) -> dict:
     """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
 
     Arguments:
@@ -207,8 +210,6 @@ def same_name_user_exist(name_first: str, name_last: str) -> str:
     return False
 
 def user_is_Dream_owner(u_id: int) -> bool:
-    #TODO owner of Dream should checked by permission id, may need to change stucture of user data?
-    #by default the very first user that registered is user of Dream
     """Check if there is user with u_id is owner of Dream
     
     Arguments:
@@ -218,23 +219,45 @@ def user_is_Dream_owner(u_id: int) -> bool:
         True: if user with u_id is owner of Dream
         False: if user with u_id is not owner of Dream
     """
-    users = get_users()
-    if u_id == users[0]['u_id']:
-        return True
-    else:
-        return False
+    for user in get_users():
+        if u_id == user['u_id']:
+            if user['permission_id'] == 1:
+                return True
+            else:
+                break
+    return False
+
+def new_message_id(channel_id: int) -> int:
+    #To correctly use, must create message then store the message. If you do not
+    #Store the message this count WILL NOT change
+    #E.g, when first started, this will return int 1, then when called again
+    #After message is stored this will return 2 etc etc
+    return get_message_count() + 1
+
+def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
+    timenow = datetime.utcnow()
+    timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+
+    return {
+        'message_id' : new_message_id(channel_id),
+        'channel_id' : channel_id,
+        'u_id' : auth_user_id,
+        'message' : message,
+        'time_created' : timestamp
+    }
+
 
 def remove_from_owner_members(channel_id : int, user_id: int) -> None:
     """TODO"""
-    owner_member = get_channel_data(channel_id)['owner_members']
-    user = get_user_data(user_id)
+    owner_member = get_channel(channel_id)['owner_members']
+    user = get_user(user_id)
     owner_member.remove(user)
     update_owner_members(channel_id, owner_member)
 
 def remove_from_all_members(channel_id : int, user_id: int) -> None:
     """TODO"""
-    all_member = get_channel_data(channel_id)['all_members']
-    user = get_user_data(user_id)
+    all_member = get_channel(channel_id)['all_members']
+    user = get_user(user_id)
     all_member.remove(user)
     update_all_members(channel_id, all_member)
         
