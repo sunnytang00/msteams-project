@@ -35,7 +35,7 @@ def test_dm_create_many():
                             name_last='Smith')
     user2_id = user2.get('auth_user_id')
 
-    user3 = auth_register_v1(email='bobsmith_the_second@gmail.com',
+    user3 = auth_register_v1(email='bobsmith2@gmail.com',
                             password='jfaDdf2@99',
                             name_first='Bob',
                             name_last='Smith')
