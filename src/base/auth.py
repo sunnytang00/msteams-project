@@ -5,7 +5,7 @@ This module demonstrates user registration and login authentication as specified
 
 from src.base.error import InputError
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
-from src.data.helper import get_users, store_user 
+from src.data.helper import get_users, store_user, get_user_count
 import re
 
 def auth_login_v1(email, password):
@@ -59,7 +59,7 @@ def auth_register_v1(email, password, name_first, name_last):
     Return Value:
         Returns auth_user_id (dict) on newly created user.
     """
-    user_id = len(get_users()) + 1
+    user_id = get_user_count() + 1
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')

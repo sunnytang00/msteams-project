@@ -12,9 +12,11 @@ def clear_data() -> None:
     cleared_data = {
         'users': [],
         'channels': [],
+        'dms': [],
         'user_count': 0,
         'channel_count': 0,
         'message_count': 0,
+        'dm_count': 0
     }
 
     with open(data_path, 'w') as f:
@@ -30,6 +32,22 @@ def get_data() -> dict:
         data = json.load(f)
 
     return data
+
+def get_user_count() -> int:
+    """TODO"""
+    return get_data().get('user_count')
+
+def get_channel_count() -> int:
+    """TODO"""
+    return get_data().get('channel_count')
+
+def get_message_count() -> int:
+    """TODO"""
+    return get_data().get('message_count')
+
+def get_dm_count() -> int:
+    """TODO"""
+    return get_data().get('dm_count')
 
 def get_user_index(u_id: int) -> int:
     """Get the index of the user in users list
@@ -72,16 +90,13 @@ def get_channels() -> list:
     """
     return get_data().get('channels')
 
-def get_message_count() -> int:
-    return get_data().get('message_count')
-
 def store_message(message: dict, channel_id: int) -> None:
     data = get_data()
     idx = get_channel_index(channel_id)
 
     data['channels'][idx]['messages'].append(message)
-
     data['message_count'] += 1
+    
     with open(data_path, 'w', encoding='utf-8') as f:
         json.dump(data, f)
 
@@ -97,6 +112,7 @@ def store_user(user: dict) -> None:
     """
     data = get_data()
     data.get('users').append(user)
+    data['user_count'] += 1
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -189,6 +205,7 @@ def store_channel(channel: dict) -> bool:
     data = get_data()
 
     data['channels'].append(channel)
+    data['channel_count'] += 1
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
@@ -289,3 +306,18 @@ def update_permission_id(user_id : int, permission_id: int) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
+def store_dm(dm: dict) -> None:
+    """store the dm in storage
+    
+    Arguments:
+        dm (dict) - a dm
+
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    data.get('dms').append(dm)
+
+    data['dm_count'] += 1
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
