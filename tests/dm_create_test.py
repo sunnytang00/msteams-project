@@ -44,5 +44,5 @@ def test_dm_create_many():
     u_ids = [user1_id, user2_id, user3_id]
 
     dm_id = 1
-    dm_name = "bobsmith, bobsmith1, harrypotter"
+    dm_name = "bobsmith, bobsmith0, harrypotter"
     assert dm_create(u_ids) == {dm_id, dm_name}
