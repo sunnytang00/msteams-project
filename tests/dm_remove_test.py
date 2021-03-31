@@ -69,7 +69,8 @@ def test_same_dm_owner_remove_one():
         'auth_user_id' : 1,
         'dm_id' : 2,
         'dm_name' : 'harrypotter, harrypotter0, harrypotter1',
-        'u_ids' : [1, 2, 3]
+        'u_ids' : [1, 2, 3],
+        'messages': []
     }]
 
 @clear
@@ -104,7 +105,8 @@ def test_create_two_dm_remove_one():
         'auth_user_id' : 1,
         'dm_id' : 1,
         'dm_name' : 'harrypotter, harrypotter0, harrypotter1',
-        'u_ids' : [1, 2, 3]
+        'u_ids' : [1, 2, 3],
+        'messages': []
     }]
 
 @clear
