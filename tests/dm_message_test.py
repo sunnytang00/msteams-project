@@ -107,4 +107,4 @@ def test_auth_user_not_member():
 
     with pytest.raises(AccessError) as e:
         dm_messages_v1(user2_id, dm_id, 0)
-        assert f"auth_user {user2} is not member of dm {dm['dm_id']}" in str(e)
+        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e)
