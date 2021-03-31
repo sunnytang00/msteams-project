@@ -82,7 +82,7 @@ def get_channel_index(channel_id: int) -> int:
 def get_dm_index(dm_id: int) -> int:
     """Get the index of the user in users list
 
-    Return Value:
+    Return Value:get
         Returns index on all conditions
     """
     data = get_data()
@@ -338,8 +338,9 @@ def update_dm_list(dms: list) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_dm_users(dm_users: list) -> None:
+def update_dm_users(dm_users: list, dm_id: int) -> None:
     data = get_data()
+    idx = get_dm_index(dm_id)
     data['dms'][idx]['u_ids'] = dm_users
 
     with open(data_path, 'w') as f:
