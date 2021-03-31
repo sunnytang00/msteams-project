@@ -12,14 +12,22 @@ def test_dm_create_single():
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter')
+
+    user1 = auth_register_v1(email='albusdumbledore@gmail.com',
+                            password='severus',
+                            name_first='Albus',
+                            name_last='Dumbledore')
+
     user_id = user.get('auth_user_id')
+    auth_user_id = user1.get('auth_user_id')
     assert user_id == 1
+    assert auth_user_id == 2
 
     u_ids = [user_id]
 
     dm_id = 1
     dm_name = "harrypotter"
-    assert dm_create(u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
+    assert dm_create(auth_user_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
 @clear
 def test_dm_create_many():
@@ -46,8 +54,16 @@ def test_dm_create_many():
     user3_id = user3.get('auth_user_id')
     assert user3_id == 3 
 
+    user4 = auth_register_v1(email='albusdumbledore@gmail.com',
+                            password='severus',
+                            name_first='Albus',
+                            name_last='Dumbledore')
+
+    auth_user_id = user4.get('auth_user_id')
+    assert auth_user_id == 4
+
     u_ids = [user1_id, user2_id, user3_id]
 
     dm_id = 1
     dm_name = "bobsmith, bobsmith0, harrypotter"
-    assert dm_create(u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
+    assert dm_create(auth_user_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
