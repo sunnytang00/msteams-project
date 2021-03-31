@@ -29,8 +29,6 @@ def test_valid_input():
     assert user_id in [user['u_id'] for user in details['members']] and (
             user2_id in [user['u_id'] for user in details['members']])
 
-    pass
-
 @clear
 def test_invalid_token():
     #register a user
