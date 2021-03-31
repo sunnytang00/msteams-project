@@ -319,6 +319,13 @@ def update_permission_id(user_id : int, permission_id: int) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
+def update_dm_list(dms: list) -> None:
+    data = get_data()
+    data['dms'] = dms
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
 def store_dm(dm: dict) -> None:
     """store the dm in storage
     
