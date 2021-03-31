@@ -129,8 +129,8 @@ def test_not_valid_dm_id():
 
     #create a dm
     dm = dm_create(user_id, [user_id, user2_id, user3_id])
-
-    assert dm.get('dm_id') == 1
+    dm_id = dm.get('dm_id')
+    assert dm_id == 1
     
     with pytest.raises(InputError) as e:
         dm_remove_v1(user_id, 2)
@@ -163,4 +163,4 @@ def test_not_creator_deleting_dm():
     
     with pytest.raises(AccessError) as e:
         dm_remove_v1(user2_id, 1)
-        assert f'auth_user_id with user_id {auth_user_id} is not creator' in str(e)
+        assert f'auth_user_id with user_id {user2_id} is not creator' in str(e)
