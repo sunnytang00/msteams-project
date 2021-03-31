@@ -41,5 +41,5 @@ def admin_user_remove_v1(auth_user_id, u_id):
         update_owner_count(owner_count)
 
     remove_user(u_id)
-
+    
     return {}
