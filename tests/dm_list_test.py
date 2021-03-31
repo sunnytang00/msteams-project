@@ -48,7 +48,7 @@ def test_not_member_of_any_dm():
     user4_id = user4['auth_user_id']
 
 
-    dm_create(user_id, [user_id])
+    dm_create(user_id, [user_id,user3_id, user4_id])
 
     #should replaced when dm_details() finished
     dms = dm_list_v1(user2_id)
@@ -74,11 +74,6 @@ def test_more_user_in_dm():
                                     name_first='Harry',
                                     name_last='Potter')
     user3_id = user3['auth_user_id']
-    user4 = auth_register_v1(email='harrypotter5@gmail.com',
-                                    password='qw3rtyAppl3s@99',
-                                    name_first='Harry',
-                                    name_last='Potter')
-    user4_id = user4['auth_user_id']
 
     dm = dm_create(user_id, [user_id, u_id, user3_id])
     dms = dm_list_v1(user_id)
