@@ -22,15 +22,10 @@ def test_valid_input():
                             password='qw3rtyApl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter222222@gmail.com',
-                            password='qw3rgyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
-    user4_id = user4.get('auth_user_id')
 
     #create a dm
     dm = dm_create(user_id, [user_id, user2_id, user3_id])
@@ -56,15 +51,10 @@ def test_same_dm_owner_remove_one():
                             password='qw3rtyApl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter222222@gmail.com',
-                            password='qw3rgyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
-    user4_id = user4.get('auth_user_id')
 
     #create a dm
     dm = dm_create(user_id, [user_id, user2_id, user3_id])
@@ -97,16 +87,10 @@ def test_create_two_dm_remove_one():
                             password='qw3rtyApl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter222222@gmail.com',
-                            password='qw3rgyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
-    user4_id = user4.get('auth_user_id')
-
     #create a dm
     dm = dm_create(user_id, [user_id, user2_id, user3_id])
     dm1 = dm_create(user2_id, [user_id, user2_id, user3_id])
@@ -138,15 +122,10 @@ def test_not_valid_dm_id():
                             password='qw3rtyApl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter222222@gmail.com',
-                            password='qw3rgyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
-    user4_id = user4.get('auth_user_id')
 
     #create a dm
     dm = dm_create(user_id, [user_id, user2_id, user3_id])
@@ -172,15 +151,10 @@ def test_not_creator_deleting_dm():
                             password='qw3rtyApl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter222222@gmail.com',
-                            password='qw3rgyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
-    user4_id = user4.get('auth_user_id')
 
     #create a dm
     dm = dm_create(user_id, [user_id, user2_id, user3_id])
