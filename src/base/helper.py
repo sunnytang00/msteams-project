@@ -133,8 +133,10 @@ def get_dm(dm_id: int) -> dict:
     for dm in get_dms():
         if dm['dm_id'] == dm_id:
             return {
+                'auth_user_id': dm['auth_user_id'],
                 'dm_id': dm['dm_id'],
-                'dm_name': dm['dm_name']
+                'dm_name': dm['dm_name'],
+                'u_ids': dm['u_ids']
             }
     return {}
 

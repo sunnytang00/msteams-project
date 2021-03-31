@@ -19,9 +19,9 @@ def test_valid_input():
 
     #should replaced when dm_details() finished
     dms = dm_list_v1(user_id)
-    expected = [dm]
+    dm_id = dm['dm_id']
 
-    assert expected == dms
+    assert dm_id in [dm['dm_id'] for dm in dms]
 
 @clear
 def test_not_member_of_any_dm():
@@ -77,9 +77,9 @@ def test_more_user_in_dm():
 
     dm = dm_create(user_id, [user_id, u_id, user3_id])
     dms = dm_list_v1(user_id)
-    expected = [dm]
+    dm_id = dm['dm_id']
 
-    assert expected == dms
+    assert dm_id in [dm['dm_id'] for dm in dms]
 
 @clear
 def test_invalid_token():
