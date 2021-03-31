@@ -2,8 +2,7 @@
 
 from src.base.error import InputError, AccessError
 from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_member, get_user
-from src.data.helper import get_dm_count, store_dm, get_dms
-
+from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list
 def dm_create(auth_user_id, u_ids):
     """TODO"""
     #using auth user in place of token
@@ -18,7 +17,7 @@ def dm_create(auth_user_id, u_ids):
     store_dm(dm)
 
     return {
-        'dm_id': 1,
+        'dm_id': dm_id,
         'dm_name': dm_name
     }
 
@@ -53,3 +52,20 @@ def dm_details_v1(auth_user_id, dm_id):
             members.append(user)
     
     return {'name': dm['dm_name'], 'members': members}
+
+#def dm_leave_v1(u_id, dm_id):
+
+#def dm_invite_v1(auth_user_id, dm_id, u_id):
+
+def dm_remove_v1(auth_user_id, dm_id):
+    if not get_dm(dm_id):
+        raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
+    
+    if get_dm(dm_id).get('auth_user_id') != auth_user_id:
+        raise AccessError(f'auth_user_id with user_id {auth_user_id} is not creator')
+
+    dm_list = get_dms()
+    dm = get_dm(dm_id)
+    dm_list.remove(dm)
+    update_dm_list(dm_list)
+
