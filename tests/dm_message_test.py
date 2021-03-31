@@ -27,7 +27,7 @@ def test_no_msg_in_dm():
 
     expected = {'messages': [], 'start': 0, 'end': -1}
 
-    msgs = dm_messages_v1(uesr_id, dm_id, start)
+    msgs = dm_messages_v1(user_id, dm_id, start)
 
     assert expected == msgs
 

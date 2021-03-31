@@ -136,7 +136,8 @@ def get_dm(dm_id: int) -> dict:
                 'auth_user_id': dm['auth_user_id'],
                 'dm_id': dm['dm_id'],
                 'dm_name': dm['dm_name'],
-                'u_ids': dm['u_ids']
+                'u_ids': dm['u_ids'],
+                'messages': dm['messages']
             }
     return {}
 

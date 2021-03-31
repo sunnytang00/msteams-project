@@ -13,7 +13,8 @@ def dm_create(auth_user_id, u_ids):
         'auth_user_id' : auth_user_id,
         'dm_id': dm_id,
         'dm_name': dm_name,
-        'u_ids': u_ids
+        'u_ids': u_ids,
+        'messages': []
     }
     store_dm(dm)
 
@@ -53,3 +54,36 @@ def dm_details_v1(auth_user_id, dm_id):
             members.append(user)
     
     return {'name': dm['dm_name'], 'members': members}
+
+def Func_for_sort_msg(msgs):
+    return msgs['message_id']
+
+def dm_messages_v1(auth_user_id, dm_id, start):
+    """TODO"""
+    if not get_current_user(auth_user_id):
+        raise AccessError(f"token {auth_user_id} does not refer to a valid user")
+
+    if not get_dm(dm_id):
+        raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
+
+    if not user_is_dm_member(dm_id, auth_user_id):
+        raise AccessError(f"auth_user {auth_user_id} is not member of dm {dm_id}")
+
+    msgs = get_dm(dm_id).get('messages').copy()
+
+    if start > len(msgs):
+        raise InputError(f"the message in dm is less than {start}")
+
+    msgs.sort(reverse = True, key = Func_for_sort_msg)
+
+    end = -1
+    if len(msgs) > (start + 50):
+        end = start + 50
+
+    messages  = msgs[start : end]
+
+    return {
+        'messages': messages,
+        'start': start,
+        'end': end
+    }
