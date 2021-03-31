@@ -53,7 +53,16 @@ def dm_details_v1(auth_user_id, dm_id):
     
     return {'name': dm['dm_name'], 'members': members}
 
-#def dm_leave_v1(u_id, dm_id):
+def dm_leave_v1(u_id, dm_id):
+    if not get_dm(dm_id):
+        raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
+    
+    if not user_is_dm_member(dm_id, u_id):
+        raise AccessError(f"auth_user {u_id} is not member of dm {dm_id}")
+
+    dm_users = get_dm(dm_id).get('u_ids')
+    dm_users.remove(u_id)
+    update_dm_users(dm_users, dm_id)
 
 def dm_invite_v1(auth_user_id, dm_id, u_id):
     if not get_dm(dm_id):
