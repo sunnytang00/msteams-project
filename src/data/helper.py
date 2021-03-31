@@ -79,6 +79,18 @@ def get_channel_index(channel_id: int) -> int:
             return idx
     return -1
 
+def get_dm_index(dm_id: int) -> int:
+    """Get the index of the user in users list
+
+    Return Value:get
+        Returns index on all conditions
+    """
+    data = get_data()
+    for idx in range(len(data)-1):
+        if data['dms'][idx]['dm_id'] == dm_id:
+            return idx
+    return -1
+
 def get_users() -> list:
     """Get list of users from data storage
     
@@ -315,6 +327,21 @@ def update_permission_id(user_id : int, permission_id: int) -> None:
     data = get_data()
     idx = get_user_index(user_id)
     data['users'][idx]['permission_id'] = permission_id
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_dm_list(dms: list) -> None:
+    data = get_data()
+    data['dms'] = dms
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_dm_users(dm_users: list, dm_id: int) -> None:
+    data = get_data()
+    idx = get_dm_index(dm_id)
+    data['dms'][idx]['u_ids'] = dm_users
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
