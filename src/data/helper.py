@@ -142,6 +142,27 @@ def store_user(user: dict) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
+def store_message_dm(message: dict, dm_id: int) ->None:
+    """store message sent to dm on the data storage
+
+    Arguments:
+        message (dict) : dictionary contains message and some information of it
+        dm_id (int) : id of dm
+
+    Return Value:
+        Returns None on all conditions
+
+    """
+    data = get_data()
+    idx = get_dm_index(dm_id)
+
+    data['dms'][idx]['messages'].append(message)
+    data['message_count'] += 1
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
     

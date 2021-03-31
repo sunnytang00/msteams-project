@@ -63,3 +63,11 @@ def clear(func):
         rv = func(*args, **kwargs)
         return rv
     return wrapper
+
+def useless_message(quantity: int) ->None:
+    i = 0
+    msgs = []
+    while i < quantity:
+        msgs.append("nothing")
+        i += 1
+    return msgs

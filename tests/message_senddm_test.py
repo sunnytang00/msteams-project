@@ -22,7 +22,7 @@ def test_valid_input():
 
     msgs = "test"
 
-    msg_id = message_senddm_v1(u_id, dm_id, msgs).get('message_id')
+    msg_id = message_senddm_v1(user_id, dm_id, msgs).get('message_id')
     assert msg_id == 1
 
 @clear
@@ -41,7 +41,7 @@ def test_msg_too_long():
     msgs = "test" * 1000
 
     with pytest.raises(InputError) as e:
-        message_senddm_v1(u_id, dm_id, msgs)
+        message_senddm_v1(user_id, dm_id, msgs)
         assert "message is too long" in str(e)
 
 @clear
