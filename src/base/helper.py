@@ -1,6 +1,7 @@
 """TODO"""
 
-from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count
+from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
+                            get_dms
 import re
 from datetime import timezone, datetime
 import time
@@ -97,6 +98,43 @@ def get_channel(channel_id: int) -> dict:
                 'all_members' : channel['all_members'],
                 'messages' : channel['messages'],
                 'is_public' : channel['is_public']
+            }
+    return {}
+
+def get_dm_data(dm_id : int) -> dict:
+    """Function that when a passed a dm id, will get the id, dm_name and u_ids that refers to member of dm
+
+    Arguments:
+        dm_id (int) : ID of the dm
+    
+    Returns Values:
+        dm_data (dict) : dictionary that contains dm_id, dm_name and u_ids, empty if dm with dm_id is not found
+    """
+
+    for dm in get_dms():
+        if dm['dm_id'] == dm_id:
+            return {
+                'dm_id': dm['dm_id'],
+                'dm_name': dm['dm_name'],
+                'u_ids': dm['u_ids']
+            }
+    return {}
+
+def get_dm(dm_id: int) -> dict:
+    """Function that when a passed a dm id, will get the id, dm_name and u_ids that refers to member of dm
+
+    Arguments:
+        dm_id (int) : ID of the dm
+    
+    Returns Values:
+        dm_data (dict) : dictionary that contains dm_id, dm_name and u_ids, empty if dm with dm_id is not found
+    """
+
+    for dm in get_dms():
+        if dm['dm_id'] == dm_id:
+            return {
+                'dm_id': dm['dm_id'],
+                'dm_name': dm['dm_name']
             }
     return {}
 
@@ -262,6 +300,22 @@ def user_is_Dream_owner(u_id: int) -> bool:
                 return True
     return False
 
+def user_is_dm_member(dm_id: int, u_id: int) -> bool:
+    """ Check if there is user with u_id is member of dm
+
+    Arguments:
+        dm_id (int) : id of dm
+        u_id (int)  : id of user
+    
+    Returns:
+        True: if user with u_id is member of dm
+        False: if user with u_id is not member of dm
+    """
+    dm = get_dm_data(dm_id)
+    if u_id in dm['u_ids']:
+        return True
+    return False
+
 def new_message_id(channel_id: int) -> int:
     #To correctly use, must create message then store the message. If you do not
     #Store the message this count WILL NOT change
@@ -326,5 +380,3 @@ def remove_user(u_id: int) -> None:
         if user_is_member(channel, u_id):
             remove_from_all_members(channel['channel_id'], u_id)  # remove user from all member
     
-        
-            
