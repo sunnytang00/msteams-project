@@ -89,10 +89,6 @@ def test_dm_not_exist():
                             password='qw3rtyApl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter2222@gmail.com',
-                            password='qw3rtyApl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
@@ -108,7 +104,7 @@ def test_dm_not_exist():
 
     with pytest.raises(InputError) as e:
         dm_invite_v1(user_id, fake_dm_id, user3_id)
-        assert f"dm_id {fake_dm_id} does not refer to a valid dm"
+        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e)
 
 @clear
 def test_u_id_not_valid():
@@ -121,14 +117,7 @@ def test_u_id_not_valid():
                             password='qw3rt2Appl3s@99',
                             name_first='Harry',
                             name_last='Potter')
-    user3 = auth_register_v1(email='harrypotter11111@gmail.com',
-                            password='qw3rtyApl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
-    user4 = auth_register_v1(email='harrypotter2222@gmail.com',
-                            password='qw3rtyApl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
+
 
     user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
@@ -142,7 +131,7 @@ def test_u_id_not_valid():
 
     with pytest.raises(InputError) as e:
         dm_invite_v1(user_id, dm_id, fake_u_id)
-        assert f"u_id {fake_u_id} does not refer to a valid user"
+        assert f"u_id {fake_u_id} does not refer to a valid user" in str(e)
 
 @clear
 def test_auth_not_member_of_dm():
@@ -177,5 +166,5 @@ def test_auth_not_member_of_dm():
 
     with pytest.raises(AccessError) as e:
         dm_invite_v1(user3_id, dm_id, user4_id)
-        assert f'user with user_id {user3_id} is not part of the dm'
+        assert f'user with user_id {user3_id} is not part of the dm' in str(e)
 
