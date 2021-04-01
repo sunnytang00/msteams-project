@@ -26,10 +26,10 @@ def test_vaild_input(helper):
 @clear
 def test_many_vaild_input(helper):
     auth_user_id = helper.register_user(1)
-    helper.register_channel(1, auth_user_id)
-    helper.register_channel(2, auth_user_id)
-    helper.register_channel(3, auth_user_id)
-    helper.register_channel(4, auth_user_id)
+    helper.create_channel(1, auth_user_id)
+    helper.create_channel(2, auth_user_id)
+    helper.create_channel(3, auth_user_id)
+    helper.create_channel(4, auth_user_id)
 
     assert channels_create_v1(auth_user_id, "correct", True).get('channel_id') == 5
 

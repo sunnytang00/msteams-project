@@ -96,7 +96,7 @@ class Helper:
         return
 
     @staticmethod
-    def register_channel(value: int, auth_user_id: int) -> int:
+    def create_channel(value: int, auth_user_id: int) -> int:
         """Register one channel 
         use when you want to register a channel but only care about the channel_id
 

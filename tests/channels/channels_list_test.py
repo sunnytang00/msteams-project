@@ -36,8 +36,8 @@ def test_vaild_input(helper):
 @clear
 def test_multiple_user_exists(helper):
     auth_user_id = helper.register_user(1)
-    helper.register_channel(1, auth_user_id)
-    helper.register_channel(2, auth_user_id)
+    helper.create_channel(1, auth_user_id)
+    helper.create_channel(2, auth_user_id)
 
     auth_user_id_2 = helper.register_user(2)
 
