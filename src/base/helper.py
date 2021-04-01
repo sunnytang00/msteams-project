@@ -1,7 +1,7 @@
 """TODO"""
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
-                            get_dms
+                            get_dms, update_user_all_channel_message, update_user_all_dm_message
 import re
 from datetime import timezone, datetime
 import time
@@ -382,4 +382,10 @@ def remove_user(u_id: int) -> None:
             remove_from_owner_members(channel['channel_id'], u_id) # remove user from owner_member
         if user_is_member(channel, u_id):
             remove_from_all_members(channel['channel_id'], u_id)  # remove user from all member
-    
+            update_user_all_channel_message(u_id, channel['channel_id'], 'Removed user')
+
+    dms = get_dms()
+    for dm in dms:
+        if user_is_dm_member(dm['dm_id'], u_id):
+            update_user_all_dm_message(u_id, dm['dm_id'], 'Removed user')
+

@@ -80,6 +80,8 @@ def dm_messages_v1(auth_user_id, dm_id, start):
         end = start + 50
 
     messages  = msgs[start : end]
+    if end == -1 and not len(msgs) == 0:
+        messages.append(msgs[-1])
 
     return {
         'messages': messages,

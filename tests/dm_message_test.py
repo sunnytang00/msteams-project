@@ -4,12 +4,8 @@ from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.dm import dm_create, dm_details_v1, dm_messages_v1
-from tests.helper import clear
-
-'''
-This function is to abstract the msgs on the dm, some tests need to send msg to dm and 
-therefore should add tests after messsage_senddm() finished
-'''
+from src.base.message import message_senddm_v1
+from tests.helper import clear, useless_message
 
 @clear
 def test_no_msg_in_dm():
@@ -31,6 +27,53 @@ def test_no_msg_in_dm():
 
     assert expected == msgs
 
+@clear
+def test_few_msg_in_dm():
+    user = auth_register_v1(email='harrypotter7@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter')
+
+    user_id = user.get('auth_user_id')
+
+    #create a dm
+    dm_id = dm_create(user_id, [user_id]).get('dm_id')
+
+    msgs = ['1', '2', '3', '4', '5']
+
+    start = 0
+
+    for msg in msgs:
+        message_senddm_v1(user_id, dm_id, msg)
+    messages = dm_messages_v1(user_id, dm_id, start)
+    assert messages['messages'][0]['message'] == '5' and messages['end'] == -1
+
+@clear
+def test_many_msg_in_dm():
+    user = auth_register_v1(email='harrypotter7@gmail.com',
+                            password='qw3rtyAppl3s@99',
+                            name_first='Harry',
+                            name_last='Potter')
+
+    user_id = user.get('auth_user_id')
+
+    #create a dm
+    dm_id = dm_create(user_id, [user_id]).get('dm_id')
+
+    msgs = []
+    msgs.append("orange")
+    msgs.extend(useless_message(50))
+    msgs.append("last")
+
+    start = 0
+
+    for msg in msgs:
+        message_senddm_v1(user_id, dm_id, msg)
+    
+    messages = dm_messages_v1(user_id, dm_id, start)
+    assert "last" in [msg['message'] for msg in messages['messages']] \
+            and "orange" not in [msg['message'] for msg in messages['messages']] \
+            and messages['end'] == 50
 @clear
 def test_invalid_token():
     #register a user
