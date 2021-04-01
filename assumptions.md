@@ -30,6 +30,7 @@
 2. The owners of a channel are stored in `owner_members`, chronologically ordered.
 ### `channel_messages`
 1. Messages are stored inside a list, where each element is a message.
+2. Messages that are deleted are entirely removed from storage.
 ### `channel_join`
 1. A user can be apart of 0 or more channels.
 ### `channel_leave`
@@ -40,13 +41,13 @@ If the user leaves and is:
 
 ## user.py
 1. The user should be authorised if they are accessing setemail, setname and sethandle functions.
-### user_profile
+### `user_profile`
 1. blah 
-### user_profile_setname
+### `user_profile_setname`
 1. The user will not set their first or last name to be the same as it was previously.
-### user_profile_setemail
+### `user_profile_setemail`
 1. The user will not set their email to be the same as it was previously.
-### user_profile_sethandle
+### `user_profile_sethandle`
 1. The user will not set their display handle to be the same as it was previously.
 
 ## other.py

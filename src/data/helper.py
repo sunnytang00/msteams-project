@@ -79,6 +79,18 @@ def get_channel_index(channel_id: int) -> int:
             return idx
     return -1
 
+def get_message_index(channel_idx: int, message_id: int) -> int:
+    """Get the index of the user in users list
+
+    Return Value:get
+        Returns index on all conditions
+    """
+    data = get_data()
+    for idx in range(len(data)-1):
+        if data['channels'][channel_idx]['messages'][idx].get('message_id') == message_id:
+            return idx
+    return -1
+
 def get_dm_index(dm_id: int) -> int:
     """Get the index of the user in users list
 
@@ -447,7 +459,7 @@ def update_user_all_channel_message(user_id : int, ch_id: dict, message: str) ->
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_user_all_dm_message(user_id : int, dm_id: dict, message: str) -> None:
+def update_user_all_dm_message(user_id: int, dm_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in dm
 
     Arguments:
@@ -466,5 +478,20 @@ def update_user_all_dm_message(user_id : int, dm_id: dict, message: str) -> None
             msgs[i]['message'] = message
         i += 1
     data['dms'][idx]['messages'] = msgs
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_message(message_id: int, channel_id: int, remove: bool) -> None:
+    """TODO"""
+    data = get_data()
+    channel_idx = get_channel_index(channel_id)
+    message_idx = get_message_index(channel_idx, message_id)
+
+    if remove:
+        del data['channels'][channel_idx]['messages'][message_idx]
+    else:
+        """TODO"""
+        pass
+
     with open(data_path, 'w') as f:
         json.dump(data, f)

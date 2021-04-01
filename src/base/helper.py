@@ -1,10 +1,11 @@
 """TODO"""
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
-                            get_dms, update_user_all_channel_message, update_user_all_dm_message
+                            get_dms, update_user_all_channel_message, update_user_all_dm_message, update_message
 import re
 from datetime import timezone, datetime
 import time
+from collections import namedtuple
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -389,3 +390,21 @@ def remove_user(u_id: int) -> None:
         if user_is_dm_member(dm['dm_id'], u_id):
             update_user_all_dm_message(u_id, dm['dm_id'], 'Removed user')
 
+def get_message_channel_id(message_id: int) -> int:
+    """TODO
+    """
+    channels = get_channels()
+    for channel in channels:
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                return channel.get('channel_id')
+    return None
+
+def remove_message(message_id: int) -> bool:
+    """TODO"""
+    channel_id = get_message_channel_id(message_id)
+    if not channel_id:
+        return False
+    else:
+        update_message(message_id, channel_id, remove=True)
+        return True
