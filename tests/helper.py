@@ -114,6 +114,10 @@ class Helper:
             {
                 'name': 'Dog soc',
                 'is_public': True
+            },
+            {
+                'name': 'Pancakes',
+                'is_public': True
             }
         ]
 
