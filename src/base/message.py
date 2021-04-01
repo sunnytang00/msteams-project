@@ -1,8 +1,8 @@
 """TODO"""
-
+import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel
-from src.data.helper import store_message
+from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member
+from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
 def message_send_v1(auth_user_id, channel_id, message):
@@ -30,4 +30,30 @@ def message_remove_v1(auth_user_id, message_id):
 def message_edit_v1(auth_user_id, message_id, message):
     """TODO"""
     return {
+    }
+
+def message_senddm_v1(auth_user_id, dm_id, message):
+    if not get_current_user(auth_user_id):
+        raise AccessError(f"token {auth_user_id} does not refer to a valid user")
+
+    if not user_is_dm_member(dm_id, auth_user_id):
+        raise AccessError(f"auth_user {auth_user_id} is not member of dm {dm_id}")
+
+    max_length = 1000
+
+    if len(message) > max_length:
+        raise InputError("message is too long")
+
+    msg_id = get_message_count() + 1
+    time_created = int(time.time())
+
+    msg = {'message_id' : msg_id,
+            'u_id' : auth_user_id,
+            'message': message,
+            'time_created' : time_created
+    }
+    store_message_dm(msg, dm_id)
+
+    return {
+        'message_id' : msg_id
     }

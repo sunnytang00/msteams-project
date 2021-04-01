@@ -6,6 +6,8 @@ from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.users import users_all_v1
+from src.base.message import message_senddm_v1
+from src.base.dm import dm_messages_v1, dm_create
 from tests.helper import helper, clear
 
 @clear
@@ -24,6 +26,34 @@ def test_valid_input():
     admin_user_remove_v1(user_id, u_id)
 
     assert u_id not in [user['u_id'] for user in users_all_v1()]
+
+@clear
+def test_removed_user_dm_msg():
+    #register users
+    user1 = auth_register_v1(email='bobsmith@gmail.com',
+                                password='FVn4HTWEsz8k6Msf',
+                                name_first='Bob',
+                                name_last='Smith')
+    user_id = user1['auth_user_id']
+    user2 = auth_register_v1(email='harrypotter7@gmail.com',
+                                    password='qw3rtyAppl3s@99',
+                                    name_first='Harry',
+                                    name_last='Potter')
+    u_id = user2['auth_user_id']
+
+    #create a dm
+    dm_id = dm_create(user_id, [user_id, u_id]).get('dm_id')
+
+    #sent msg in dm
+    message_senddm_v1(user_id, dm_id, "user1 here")
+    message_senddm_v1(u_id, dm_id, "user2 here")
+
+    #remove user2
+    admin_user_remove_v1(user_id, u_id)
+
+    messages = dm_messages_v1(user_id, dm_id, 0)
+
+    assert messages['messages'][0]['message'] == 'Removed user'
 
 @clear
 def test_invalid_token():

@@ -142,6 +142,27 @@ def store_user(user: dict) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
+def store_message_dm(message: dict, dm_id: int) ->None:
+    """store message sent to dm on the data storage
+
+    Arguments:
+        message (dict) : dictionary contains message and some information of it
+        dm_id (int) : id of dm
+
+    Return Value:
+        Returns None on all conditions
+
+    """
+    data = get_data()
+    idx = get_dm_index(dm_id)
+
+    data['dms'][idx]['messages'].append(message)
+    data['message_count'] += 1
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
     
@@ -401,5 +422,49 @@ def update_removed_flag(user_id : int, flag: bool) -> None:
     data = get_data()
     idx = get_user_index(user_id)
     data['users'][idx]['removed'] = flag
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_user_all_channel_message(user_id : int, ch_id: dict, message: str) -> None:
+    """ update the contents of msg sent by a user in channel
+
+    Arguments:
+        user_id (int) - id of user
+        ch_id (int) - id of channel
+        message (str) - new message 
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    idx = get_channel_index(ch_id)
+    msgs = data['channels'][idx]['messages']
+    i = 0
+    while i < len(msgs):
+        if msgs[i]['u_id'] == user_id:
+            msgs[i]['message'] = message
+        i += 1
+    data['channels'][idx]['messages'] = msgs
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+def update_user_all_dm_message(user_id : int, dm_id: dict, message: str) -> None:
+    """ update the contents of msg sent by a user in dm
+
+    Arguments:
+        user_id (int) - id of user
+        dm_id (int) - id of dm
+        message (str) - new message 
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    idx = get_dm_index(dm_id)
+    msgs = data['dms'][idx]['messages']
+    i = 0
+    while i < len(msgs):
+        if msgs[i]['u_id'] == user_id:
+            msgs[i]['message'] = message
+        i += 1
+    data['dms'][idx]['messages'] = msgs
     with open(data_path, 'w') as f:
         json.dump(data, f)
