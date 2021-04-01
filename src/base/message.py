@@ -1,7 +1,7 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member
+from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message
 from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
@@ -24,8 +24,12 @@ def message_send_v1(auth_user_id, channel_id, message):
 
 def message_remove_v1(auth_user_id, message_id):
     """TODO"""
-    return {
-    }
+
+    # TODO ACCESS ERRORS
+    if not remove_message(message_id):
+        raise InputError(f"Message {message_id} (based on ID) no longer exists")
+
+    return {}
 
 def message_edit_v1(auth_user_id, message_id, message):
     """TODO"""
