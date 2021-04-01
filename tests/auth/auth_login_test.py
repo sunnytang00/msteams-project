@@ -100,7 +100,6 @@ def test_many_logins(helper):
 @clear
 def test_many_users_fail(helper):
     """Testing registering a large amount of users, then logging in with one"""
-
     helper.register_users(10)
 
     invalid_email = 'harryswrongemail.com'
@@ -124,11 +123,6 @@ def test_no_details(helper):
 @clear
 def test_max_characters(helper):
     invalid_email = 'q'*1000
-    auth_register_v1(email='harrypotter3@gmail.com',
-                        password='qw3rtyAppl3s@04',
-                        name_first='Harrrrry',
-                        name_last='Pottttter')
-
     with pytest.raises(InputError) as e:
         auth_login_v1(email=invalid_email,
                             password='fjk@40asj')
