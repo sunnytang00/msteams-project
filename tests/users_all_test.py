@@ -17,7 +17,7 @@ def test_one_user(helper):
                                 'name_first': 'Harry', 
                                 'name_last': 'Potter', 'handle_str': 
                                 'harrypotter', 'password': 
-                                'qw3rtyAppl3s@99', 'permission_id': 1, 
+                                'qw3rtyAppl3s@99', 'global_permission': 1, 
                                 'removed' : False}]
 
 @clear
@@ -30,28 +30,28 @@ def test_multiple_user(helper):
                                 'name_first': 'Harry', 
                                 'name_last': 'Potter', 
                                 'handle_str': 'harrypotter', 
-                                'password': 'qw3rtyAppl3s@99', 'permission_id': 1,
+                                'password': 'qw3rtyAppl3s@99', 'global_permission': 1,
                                 'removed' : False}, 
                                 {'u_id': 2, 
                                 'email': 'bobsmith7@gmail.com', 
                                 'name_first': 'Bob', 
                                 'name_last': 'Smith', 
                                 'handle_str': 'bobsmith', 
-                                'password': 'K0zR0xopjfv', 'permission_id': 2,
+                                'password': 'K0zR0xopjfv', 'global_permission': 2,
                                 'removed' : False}, 
                                 {'u_id': 3, 
                                 'email': 'gw9999@gmail.com', 
                                 'name_first': 'Wiktoria', 
                                 'name_last': 'Guerrero', 
                                 'handle_str': 'wiktoriaguerrero', 
-                                'password': 'K0zvR0xopjfv', 'permission_id': 2,
+                                'password': 'K0zvR0xopjfv', 'global_permission': 2,
                                 'removed' : False},
                                 {'u_id': 4, 
                                 'email': 'w3rren444@gmail.com', 
                                 'name_first': 'Rhydian', 
                                 'name_last': 'Warren', 
                                 'handle_str': 'rhydianwarren', 
-                                'password': 'K0z423xopjfv', 'permission_id': 2,
+                                'password': 'K0z423xopjfv', 'global_permission': 2,
                                 'removed' : False}]
 
 @clear

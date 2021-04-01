@@ -10,7 +10,7 @@ data = {
             'name_last': Potter,                         
             'handle_str': harrypotter,     
             'password': password_1_1324&#!$,
-            'is_global_permission': 1,                        
+            'global_permission': 1,                        
         },
         { 
             'u_id': 2,                                              
@@ -19,7 +19,7 @@ data = {
             'name_last': Smith,                         
             'handle_str': bobsmith,    
             'password': password_2_1324&#!$,
-            'is_global_permission': 2,
+            'global_permission': 2,
         },
     ],
     'channels': [           
@@ -34,7 +34,7 @@ data = {
                     'name_last': Potter,                         
                     'handle_str': harrypotter,    
                     'password': password_1_1324&#!$,
-                    'is_global_permission': 1,
+                    'global_permission': 1,
                 },
             ],
             'all_members': [
@@ -45,7 +45,7 @@ data = {
                     'name_last': Potter,                         
                     'handle_str': harrypotter,    
                     'password': password_1_1324&#!$,
-                    'is_global_permission': 1,                        
+                    'global_permission': 1,                        
                 },
                 { 
                     'u_id': 2,                                              
@@ -54,7 +54,7 @@ data = {
                     'name_last': Smith,                         
                     'handle_str': bobsmith,     
                     'password': password_2_1324&#!$,                         
-                    'is_global_permission': 2,
+                    'global_permission': 2,
                 },
             ],
             'messages': [

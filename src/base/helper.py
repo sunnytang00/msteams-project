@@ -53,7 +53,7 @@ def get_current_user(auth_user_id: int) -> list:
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
-                'permission_id' : user['permission_id']
+                'global_permission' : user['global_permission']
             }
     return {}
 
@@ -76,7 +76,7 @@ def get_user(auth_user_id: int) -> dict:
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
-                'permission_id' : user['permission_id']
+                'global_permission' : user['global_permission']
             }
     return {}
 
@@ -300,7 +300,7 @@ def user_is_Dream_owner(u_id: int) -> bool:
     """
     for user in get_users():
         if u_id == user['u_id']:
-            if user['permission_id'] == 1:
+            if user['global_permission'] == 1:
                 return True
     return False
 

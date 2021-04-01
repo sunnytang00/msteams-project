@@ -78,13 +78,13 @@ def auth_register_v1(email, password, name_first, name_last):
 
     handle_str = get_handle_str(name_first, name_last)
 
-    permission_id = 0
+    global_permission = 0
     if not get_users(): #if there is no user already registered
-        permission_id = 1
+        global_permission = 1
         owner_count = get_owner_count() + 1
         update_owner_count(owner_count)
     else:
-        permission_id = 2
+        global_permission = 2
 
     user = { 
         'u_id': user_id,
@@ -93,7 +93,7 @@ def auth_register_v1(email, password, name_first, name_last):
         'name_last': name_last,
         'handle_str': handle_str,
         'password': password,
-        'permission_id': permission_id,
+        'global_permission': global_permission,
         'removed': False
     }
 

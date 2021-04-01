@@ -22,7 +22,7 @@ def test_valid_input():
     u_id = user2['auth_user_id']
 
     #change permission of user2 as owner
-    admin_userpermission_change_v1(user_id, u_id, permission_id = 1)
+    admin_userpermission_change_v1(user_id, u_id, global_permission = 1)
 
     #create a channel with user1
     ch_id = channels_create_v1(user_id, 'owner', True)['channel_id']
@@ -45,7 +45,7 @@ def test_invalid_token():
     #make a invalid token_id
     user_id = u_id + 10
     with pytest.raises(AccessError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
+        admin_userpermission_change_v1(user_id, u_id, global_permission = 2)
         assert f'token {user_id} does not refer to a valid token' in str(e)
 
 @clear
@@ -61,11 +61,11 @@ def test_invalid_user():
     #make a invalid id
     u_id = user_id + 10
     with pytest.raises(InputError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
+        admin_userpermission_change_v1(user_id, u_id, global_permission = 2)
         assert f'u_id {u_id} does not refer to a valid user id' in str(e)
 
 @clear
-def test_invalid_permission_id():
+def test_invalid_global_permission():
     #register users
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',
@@ -78,10 +78,10 @@ def test_invalid_permission_id():
                                     name_last='Potter')
     u_id = user2['auth_user_id']
 
-    permission_id = 4
+    global_permission = 4
     with pytest.raises(InputError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id)
-        assert f'permission_id {permission_id} does not refer to a valid permisison id' in str(e)
+        admin_userpermission_change_v1(user_id, u_id, global_permission)
+        assert f'global_permission {global_permission} does not refer to a valid permisison id' in str(e)
 
 @clear
 def test_not_owner():
@@ -98,6 +98,6 @@ def test_not_owner():
     u_id = user2['auth_user_id']
 
     with pytest.raises(AccessError) as e:
-        admin_userpermission_change_v1(u_id, user_id, permission_id = 2)
+        admin_userpermission_change_v1(u_id, user_id, global_permission = 2)
         assert f'user id {u_id} is not owner of Dreams' in str(e)
 

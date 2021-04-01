@@ -347,19 +347,19 @@ def update_all_members(channel_id : int, all_members: list) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_permission_id(user_id : int, permission_id: int) -> None:
+def update_global_permission(user_id : int, global_permission: int) -> None:
     """Update the permission id of a user
 
     Arguments:
         user_id (int) - id of user
-        permission_id (int) - new permission id assigned to user
+        global_permission (int) - new permission id assigned to user
 
     Return Value:
         Returns None on all conditions
     """
     data = get_data()
     idx = get_user_index(user_id)
-    data['users'][idx]['permission_id'] = permission_id
+    data['users'][idx]['global_permission'] = global_permission
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
