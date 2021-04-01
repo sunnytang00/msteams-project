@@ -391,6 +391,8 @@ def remove_user(u_id: int) -> None:
             update_user_all_dm_message(u_id, dm['dm_id'], 'Removed user')
 
 def get_message_channel_id(message_id: int) -> int:
+    """TODO
+    """
     channels = get_channels()
     for channel in channels:
         for message in channel.get('messages'):
@@ -398,7 +400,11 @@ def get_message_channel_id(message_id: int) -> int:
                 return channel.get('channel_id')
     return None
 
-def remove_message(message_id: int) -> None:
+def remove_message(message_id: int) -> bool:
     """TODO"""
     channel_id = get_message_channel_id(message_id)
-    update_message(message_id, channel_id, remove=True)
+    if not channel_id:
+        return False
+    else:
+        update_message(message_id, channel_id, remove=True)
+        return True
