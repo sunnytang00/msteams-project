@@ -41,7 +41,7 @@ def test_invalid_userid():
 @clear
 def test_invalid_channelID(helper):
     helper.register_users(1)
-    helper.create_channels(1)
+    #helper.create_channels(1)
     invalid_id = 10
     with pytest.raises(InputError) as e: 
         channel_join_v1(1, invalid_id)
