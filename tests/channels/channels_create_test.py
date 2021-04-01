@@ -17,46 +17,28 @@ def test_invaild_userID():
         assert f'User ID {invalid_user_id} is invaild' in str(e)
 
 @clear
-def test_vaild_input():
-    user = auth_register_v1(email='bobsmith2@gmail.com',
-                                password='12345678',
-                                name_first='bob',
-                                name_last='smith')
-    user_id = user['auth_user_id']        
+def test_vaild_input(helper):
+    auth_user_id = helper.register_user(1)
         
     channel_id = 1
-    output = channels_create_v1(user_id, "correct", True)
-    expected = {'channel_id': channel_id} 
-    assert output == expected
+    assert channels_create_v1(auth_user_id, "correct", True).get('channel_id') == channel_id
 
 @clear
 def test_many_vaild_input(helper):
-    helper.register_users(10)
+    auth_user_id = helper.register_user(1)
+    helper.register_channel(1, auth_user_id)
+    helper.register_channel(2, auth_user_id)
+    helper.register_channel(3, auth_user_id)
+    helper.register_channel(4, auth_user_id)
 
-    user = auth_register_v1(email='bobsmith2@gmail.com',
-                                password='12345678',
-                                name_first='bob',
-                                name_last='smith')
-    user_id = user['auth_user_id']        
-        
-
-    channels_create_v1(user_id, "correct", True)
-    channels_create_v1(user_id, "correct", True)
-    channels_create_v1(user_id, "correct", True)
-    channels_create_v1(user_id, "correct", True)
-    output = channels_create_v1(user_id, "correct", True)
-
-    channel_id = 5
-    expected = {'channel_id': channel_id} 
-    assert output == expected
+    assert channels_create_v1(auth_user_id, "correct", True).get('channel_id') == 5
 
 @clear
-def test_name_length():
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','bob','smith')
-    user_id = user['auth_user_id']
+def test_name_length(helper):
+    auth_user_id = helper.register_user(1)
 
     invalid_name = "first channel" * 10
     with pytest.raises(InputError) as e: 
-        channels_create_v1(user_id, invalid_name, True)
+        channels_create_v1(auth_user_id, invalid_name, True)
         assert f'Name {invalid_name} is more than 20 characters long' in str(e)
 
