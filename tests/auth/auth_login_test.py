@@ -14,12 +14,7 @@ def test_valid_input(helper):
 
     expected = auth_login_v1(email='harrypotter@gmail.com',
                                 password='qw3rtyAppl3s@99')
-    assert output == expected
-
-    # testing registering a large amount of users, then logging in with one
-    clear_v1()
-
-    helper.register_users(15)
+    assert output.get('auth_user_id') == expected.get('auth_user_id') == 1
 
     output = auth_register_v1(email='harrypotter3@gmail.com',
                                 password='qw3rtyAppl3s@04',
@@ -28,31 +23,23 @@ def test_valid_input(helper):
     
     expected = auth_login_v1(email='harrypotter3@gmail.com',
                             password='qw3rtyAppl3s@04')
-
-    assert output == expected
+    assert output.get('auth_user_id') == expected.get('auth_user_id') == 2
 
 @clear
-def test_many_users():
+def test_many_users(helper):
     """Register three users and try log middle one in."""
-    auth_register_v1(email='harrypotter@gmail.com',
-                        password='qw3rtyAppl3s@99',
-                        name_first='Harry',
-                        name_last='Potter')
+    helper.register_user(1)
 
     output = auth_register_v1(email='bob_smith@gmail.com',
                         password='jfs2@$sjxzvkl',
                         name_first='Bob',
                         name_last='Smith')
-
-    auth_register_v1(email='fiza_good777@gmail.com',
-                        password='qfjklj42w39',
-                        name_first='Fiza',
-                        name_last='Good')
+    helper.register_user(2)
 
     expected = auth_login_v1(email='bob_smith@gmail.com',
                                 password='jfs2@$sjxzvkl')
 
-    assert output == expected
+    assert output.get('auth_user_id') == expected.get('auth_user_id')
 
 @clear
 def test_unknown_email():
