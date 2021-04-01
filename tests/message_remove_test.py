@@ -9,6 +9,7 @@ from src.base.channels import channels_create_v1
 
 @clear
 def test_message_remove_single():
+    """TODO test sucks """
     user = auth_register_v1(email='harrypotter@gmail.com',
                         password='qw3rtyAppl3s@99',
                         name_first='Harry',
@@ -23,5 +24,8 @@ def test_message_remove_single():
     message_info = message_send_v1(auth_user_id, channel_id, "an epic message")
     message_id = message_info.get('message_id')
     assert message_info.get('message_id') == 1
+
+    start_and_end_keys = 2
+    assert len(channel_messages_v1(auth_user_id, channel_id, 1)) - start_and_end_keys == 1
 
     message_remove_v1(auth_register_v1, message_id)
