@@ -38,7 +38,7 @@ def test_vaild_input(helper):
 @clear
 def test_multiple_user_exists(helper):
     helper.register_users(5)
-    helper.create_channels(5)
+    #helper.create_channels(5)
     user = auth_register_v1(email='bobsmith2@gmail.com',
                                 password='12345678',
                                 name_first='bob',
