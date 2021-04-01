@@ -6,6 +6,7 @@ from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from tests.helper import helper, clear
+from src.base.message import message_send_v1
 
 @clear
 def test_time_created():
@@ -17,6 +18,8 @@ def test_time_created():
 
     channel = channels_create_v1(user_id, "Cat Society", True)
     channel_id = channel['channel_id']
+
+    message_send_v1(user_id, channel_id, 'test message')
 
     unix_timestamp = int(time.time()) # round to the neareast second
 

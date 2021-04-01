@@ -66,19 +66,22 @@ data = {
                 }
             ],
             'is_public': TRUE,
-            'dms': [
-                {
-                    dm_id: 1,
-                    u_ids: [1, 2]
-                    name: "bobsmith, harrypotter",
-                }
-            ]
         }
     ],
-    'user_count'        : 2,
-    'message_count'     : 1,
-    'channel_count'     : 1,
-    'dm_count'          : 1,
-    'owner_count'       : 1
+    'dms': [
+        {
+            'auth_user_id': 1,
+            'dm_id': 1,
+            'u_ids': [1, 2]
+            'dm_name': "bobsmith, harrypotter",
+            'messages': []
+        }
+    ],
+
+    'user_count': 2,
+    'message_count': 1,
+    'channel_count': 1,
+    'dm_count': 1,
+    'owner_count': 1
 }
 """
