@@ -48,7 +48,7 @@ def test_invalid_channel_id():
 
     with pytest.raises(InputError) as e: 
         channel_leave_v1(auth_user_id, ch_id)
-        assert f'channel_id {ch_id} does not refer to a valid channel' in str(e)
+        assert f'channel_id {ch_id} does not refer to a valid channel' in str(e.value)
 
 @clear
 def test_invalid_token():
@@ -64,7 +64,7 @@ def test_invalid_token():
     ch_id = channels_create_v1(auth_user_id, ch_name, True)['channel_id']
     with pytest.raises(AccessError) as e: 
         channel_leave_v1(auth_user_id + 10, ch_id)
-        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
+        assert f'token {auth_user_id} does not refer to a valid token' in str(e.value)
 
 
 @clear
@@ -86,4 +86,4 @@ def test_user_is_not_member():
 
     with pytest.raises(AccessError) as e: 
         channel_leave_v1(auth_user_id_2, ch_id)
-        assert f'user with {auth_user_id} is not member of channel' in str(e)
+        assert f'user with {auth_user_id} is not member of channel' in str(e.value)

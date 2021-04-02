@@ -9,7 +9,7 @@ from tests.helper import helper, clear
 def test_invaild_userID():
     with pytest.raises(AccessError) as e: 
         channels_listall_v1(-2)
-        assert 'User ID is invaild' in str(e)
+        assert 'User ID is invaild' in str(e.value)
 
 @clear
 def test_vaild_input(helper):

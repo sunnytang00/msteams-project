@@ -95,4 +95,4 @@ def test_invalid_token():
 
     with pytest.raises(AccessError) as e:
         dm_list_v1(u_id)
-        assert f"token {u_id} does not refer to a valid user" in str(e)
+        assert f"token {u_id} does not refer to a valid user" in str(e.value)

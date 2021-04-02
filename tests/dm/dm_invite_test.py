@@ -104,7 +104,7 @@ def test_dm_not_exist():
 
     with pytest.raises(InputError) as e:
         dm_invite_v1(auth_user_id, fake_dm_id, user3_id)
-        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e)
+        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e.value)
 
 @clear
 def test_u_id_not_valid():
@@ -131,7 +131,7 @@ def test_u_id_not_valid():
 
     with pytest.raises(InputError) as e:
         dm_invite_v1(auth_user_id, dm_id, fake_u_id)
-        assert f"u_id {fake_u_id} does not refer to a valid user" in str(e)
+        assert f"u_id {fake_u_id} does not refer to a valid user" in str(e.value)
 
 @clear
 def test_auth_not_member_of_dm():
@@ -166,5 +166,5 @@ def test_auth_not_member_of_dm():
 
     with pytest.raises(AccessError) as e:
         dm_invite_v1(user3_id, dm_id, user4_id)
-        assert f'user with auth_user_id {user3_id} is not part of the dm' in str(e)
+        assert f'user with auth_user_id {user3_id} is not part of the dm' in str(e.value)
 

@@ -22,7 +22,7 @@ def test_invalid_email():
                         password='f3Fs$1l2z/A',
                         name_first='Steve',
                         name_last='Harvey')
-        assert f'Email {invalid_email} entered is not a valid email' in str(e)
+        assert f'Email {invalid_email} entered is not a valid email' in str(e.value)
 
 @clear
 def test_duplicate_email():
@@ -39,7 +39,7 @@ def test_duplicate_email():
                         password='ohIT8j2BB37s',
                         name_first='Bob',
                         name_last='Smith')
-        assert f'Email address {email} is already being used by another user' in str(e)
+        assert f'Email address {email} is already being used by another user' in str(e.value)
 
 @clear
 def test_short_password():
@@ -50,7 +50,7 @@ def test_short_password():
                         password=invalid_password,
                         name_first='Timmy',
                         name_last='Randy')
-        assert f'Password {invalid_password} entered is less than 6 characters long' in str(e)
+        assert f'Password {invalid_password} entered is less than 6 characters long' in str(e.value)
 
     clear_v1()
     invalid_password = '4sjO3'
@@ -59,7 +59,7 @@ def test_short_password():
                         password=invalid_password,
                         name_first='Ernie',
                         name_last='Singleton')
-        assert f'Password {invalid_password} entered is less than 6 characters long' in str(e)
+        assert f'Password {invalid_password} entered is less than 6 characters long' in str(e.value)
 
 @clear
 def test_first_name_length():
@@ -72,7 +72,7 @@ def test_first_name_length():
                         password='mgQoU2YJpJyOTe4',
                         name_first=invalid_first_name,
                         name_last='Frazier')
-        assert f'name_first {invalid_first_name} is not between 1 and 50 characters inclusively in length' in str(e)
+        assert f'name_first {invalid_first_name} is not between 1 and 50 characters inclusively in length' in str(e.value)
 
     # test if first name is 0 characters
     clear_v1()
@@ -82,7 +82,7 @@ def test_first_name_length():
                         password='mgQoU2YJpJyOTe4',
                         name_first=invalid_first_name,
                         name_last='Everett')
-        assert f'name_first {invalid_first_name} is not between 1 and 50 characters inclusively in length' in str(e)
+        assert f'name_first {invalid_first_name} is not between 1 and 50 characters inclusively in length' in str(e.value)
 
 @clear
 def test_last_name_length():
@@ -95,7 +95,7 @@ def test_last_name_length():
                         password='mgQoU2YJpJyOTe4',
                         name_first='Oakley',
                         name_last=invalid_last_name)
-        assert f'name_last {invalid_last_name} is not between 1 and 50 characters inclusively in length' in str(e)
+        assert f'name_last {invalid_last_name} is not between 1 and 50 characters inclusively in length' in str(e.value)
 
     # test if last name is 0 characters
     clear_v1()
@@ -105,7 +105,7 @@ def test_last_name_length():
                         password='9jx#v44yOTe4',
                         name_first='Everett',
                         name_last=invalid_last_name)
-        assert f'name_last {invalid_last_name} is not between 1 and 50 characters inclusively in length' in str(e)
+        assert f'name_last {invalid_last_name} is not between 1 and 50 characters inclusively in length' in str(e.value)
 
 def test_regular_handle_str():
     name_first = 'Harry'

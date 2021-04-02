@@ -69,7 +69,7 @@ def test_invalid_token():
 
     with pytest.raises(AccessError) as e:
         admin_user_remove_v1(auth_user_id, u_id)
-        assert f"token {auth_user_id} does not refer to a valid token" in str(e)
+        assert f"token {auth_user_id} does not refer to a valid token" in str(e.value)
 
 @clear
 def test_invalid_user():
@@ -85,7 +85,7 @@ def test_invalid_user():
 
     with pytest.raises(InputError) as e:
         admin_user_remove_v1(auth_user_id, u_id)
-        assert f"auth_user_id {u_id} does not refer to a valid user" in str(e)
+        assert f"auth_user_id {u_id} does not refer to a valid user" in str(e.value)
 
 @clear
 def test_only_owner():
@@ -98,7 +98,7 @@ def test_only_owner():
 
     with pytest.raises(InputError) as e:
         admin_user_remove_v1(auth_user_id, auth_user_id)
-        assert f"user with auth_user_id {auth_user_id} is the only currently owner" in str(e)
+        assert f"user with auth_user_id {auth_user_id} is the only currently owner" in str(e.value)
 
 @clear
 def test_not_an_owner():
@@ -116,7 +116,7 @@ def test_not_an_owner():
 
     with pytest.raises(AccessError) as e:
         admin_user_remove_v1(u_id, auth_user_id)
-        assert f"user with auth_user_id {u_id} is not owner of Dreams" in str(e)
+        assert f"user with auth_user_id {u_id} is not owner of Dreams" in str(e.value)
 
 @clear
 def test_remove_only_member_of_channel():

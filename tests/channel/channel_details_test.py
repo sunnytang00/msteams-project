@@ -33,7 +33,7 @@ def test_invalid_channel_id():
 
     with pytest.raises(InputError) as e: 
         channel_details_v1(auth_user_id=auth_user_id, channel_id=invalid_channel_id)
-        assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e)
+        assert f'Channel ID {invalid_channel_id} is not a valid channel.' in str(e.value)
 
 @clear
 def test_user_not_authorised():
@@ -55,4 +55,4 @@ def test_user_not_authorised():
 
     with pytest.raises(AccessError) as e: 
         channel_details_v1(auth_user_id=auth_user_id, channel_id=channel_id)
-        assert f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}' in str(e)
+        assert f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}' in str(e.value)

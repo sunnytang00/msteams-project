@@ -42,7 +42,7 @@ def test_msg_too_long():
 
     with pytest.raises(InputError) as e:
         message_senddm_v1(auth_user_id, dm_id, msgs)
-        assert "message is too long" in str(e)
+        assert "message is too long" in str(e.value)
 
 @clear
 def test_invalid_token():
@@ -62,7 +62,7 @@ def test_invalid_token():
 
     with pytest.raises(AccessError) as e:
         message_senddm_v1(u_id, dm_id, "test")
-        assert f"token {u_id} does not refer to a valid user" in str(e)
+        assert f"token {u_id} does not refer to a valid user" in str(e.value)
 
 
 @clear 
@@ -85,4 +85,4 @@ def test_auth_user_not_member():
 
     with pytest.raises(AccessError) as e:
         message_senddm_v1(user2_id, dm_id, "test")
-        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e)
+        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e.value)

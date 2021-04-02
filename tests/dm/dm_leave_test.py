@@ -67,7 +67,7 @@ def test_dm_id_not_valid():
 
     with pytest.raises(InputError) as e:
         dm_leave_v1(user2_id, fake_dm_id)
-        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e)
+        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e.value)
 
 @clear
 def test_member_not_part_of_dm():
@@ -102,4 +102,4 @@ def test_member_not_part_of_dm():
 
     with pytest.raises(AccessError) as e:
         dm_leave_v1(user4_id, dm_id)
-        assert f"auth_user {user4_id} is not member of dm {dm_id}" in str(e)
+        assert f"auth_user {user4_id} is not member of dm {dm_id}" in str(e.value)

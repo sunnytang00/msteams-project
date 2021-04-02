@@ -92,7 +92,7 @@ def test_invalid_token():
 
     with pytest.raises(AccessError) as e:
         dm_messages_v1(u_id, dm_id, 0)
-        assert f"token {u_id} does not refer to a valid user" in str(e)
+        assert f"token {u_id} does not refer to a valid user" in str(e.value)
 
 @clear
 def test_not_valid_dm_id():
@@ -109,7 +109,7 @@ def test_not_valid_dm_id():
 
     with pytest.raises(InputError) as e:
         dm_messages_v1(auth_user_id, dm_id, 0)
-        assert f"dm_id {dm_id} does not refer to a valid dm" in str(e)
+        assert f"dm_id {dm_id} does not refer to a valid dm" in str(e.value)
 
 @clear
 def start_greater_than_end_of_message():
@@ -128,7 +128,7 @@ def start_greater_than_end_of_message():
 
     with pytest.raises(InputError) as e:
         dm_messages_v1(auth_user_id, dm_id, start)
-        assert f"the message in dm is less than {start}" in str(e)
+        assert f"the message in dm is less than {start}" in str(e.value)
 
 @clear 
 def test_auth_user_not_member():
@@ -150,4 +150,4 @@ def test_auth_user_not_member():
 
     with pytest.raises(AccessError) as e:
         dm_messages_v1(user2_id, dm_id, 0)
-        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e)
+        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e.value)
