@@ -92,7 +92,8 @@ def auth_register_v1(email, password, name_first, name_last):
         'handle_str': handle_str,
         'password': password,
         'permission_id': permission_id,
-        'removed': False
+        'removed': False,
+        'session_list': []
     }
 
     # register user
