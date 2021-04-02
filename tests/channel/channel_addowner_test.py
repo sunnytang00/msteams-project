@@ -28,7 +28,7 @@ def test_invalid_channel_id(helper):
 
     with pytest.raises(InputError) as e: 
         channel_addowner_v1(auth_user_id, ch_id, auth_user_id_2)
-        assert f'channel_id {ch_id} does not refer to a valid channel' in str(e)
+        assert f'channel_id {ch_id} does not refer to a valid channel' in str(e.value)
 
 @clear
 def test_invalid_token(helper):
@@ -42,7 +42,7 @@ def test_invalid_token(helper):
 
     with pytest.raises(AccessError) as e: 
         channel_addowner_v1(auth_user_id + 10, ch_id, auth_user_id_2)
-        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
+        assert f'token {auth_user_id} does not refer to a valid token' in str(e.value)
 
 @clear
 def test_auth_user_has_no_access(helper):
@@ -56,7 +56,7 @@ def test_auth_user_has_no_access(helper):
 
     with pytest.raises(AccessError) as e: 
         channel_addowner_v1(auth_user_id_3, ch_id, auth_user_id)
-        assert f'Auth_user with id {auth_user_id} is not owner of channel or owner of dreams' in str(e)
+        assert f'Auth_user with id {auth_user_id} is not owner of channel or owner of dreams' in str(e.value)
 
 @clear
 def test_is_already_owner(helper):
@@ -69,7 +69,7 @@ def test_is_already_owner(helper):
 
     with pytest.raises(InputError) as e: 
         channel_addowner_v1(auth_user_id, ch_id, auth_user_id_2)
-        assert f' user with ID {auth_user_id_2} is arleady owner of channel' in str(e)
+        assert f' user with ID {auth_user_id_2} is arleady owner of channel' in str(e.value)
 
 @clear
 def test_auth_user_is_owner_of_Dream(helper):

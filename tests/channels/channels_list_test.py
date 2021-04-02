@@ -10,11 +10,11 @@ from tests.helper import helper, clear
 def test_invaild_userID(helper):
     with pytest.raises(AccessError) as e: 
         channels_list_v1(-1)
-        assert 'User ID is invaild' in str(e)
+        assert 'User ID is invaild' in str(e.value)
 
     with pytest.raises(AccessError) as e: 
         channels_list_v1(8)
-        assert 'User ID is invaild' in str(e)
+        assert 'User ID is invaild' in str(e.value)
 
 @clear
 def test_vaild_input(helper):

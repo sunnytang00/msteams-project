@@ -47,7 +47,7 @@ def test_two_character_handle_string():
 
         user_profile_sethandle_v1(auth_user_id, new_handle)
 
-        assert f'Handle string {new_handle} is not between 3 and 20 characters inclusive' in str(e)
+        assert f'Handle string {new_handle} is not between 3 and 20 characters inclusive' in str(e.value)
 
 @clear
 def test_21_character_handle_string():
@@ -69,7 +69,7 @@ def test_21_character_handle_string():
 
         user_profile_sethandle_v1(auth_user_id, new_handle)
 
-        assert f'Handle string {new_handle} is not between 3 and 20 characters inclusive' in str(e)
+        assert f'Handle string {new_handle} is not between 3 and 20 characters inclusive' in str(e.value)
 
 @clear
 def test_handle_string_in_use():
@@ -100,4 +100,4 @@ def test_handle_string_in_use():
 
     with pytest.raises(InputError) as e:
         user_profile_sethandle_v1(auth_user_id, new_handle)
-        assert f'Handle string {new_handle} is already in use' in str(e)     
+        assert f'Handle string {new_handle} is already in use' in str(e.value)     

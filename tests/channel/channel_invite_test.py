@@ -29,20 +29,20 @@ def test_invalid_channel_id(helper):
     invalid_channel_id = 4 
     with pytest.raises(InputError) as e: 
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=invalid_channel_id, u_id=invitee_user_id)
-        assert f'Channel ID {invalid_channel_id} does not exist.' in str(e)
+        assert f'Channel ID {invalid_channel_id} does not exist.' in str(e.value)
 
 @clear
 def test_invaild_userID(helper):
     invalid_user_id = -1
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first", True)
-        assert f'User ID {invalid_user_id} is invaild' in str(e)
+        assert f'User ID {invalid_user_id} is invaild' in str(e.value)
 
     clear_v1()
     invalid_user_id = 2
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first", True)
-        assert f'User ID {invalid_user_id} is invaild' in str(e)
+        assert f'User ID {invalid_user_id} is invaild' in str(e.value)
 
 @clear
 def test_vaild_input(helper):
@@ -60,7 +60,7 @@ def test_name_length(helper):
     invalid_name = "first channel" * 10
     with pytest.raises(InputError) as e: 
         channels_create_v1(auth_user_id, invalid_name, True)
-        assert f'Name {invalid_name} is more than 20 characters long' in str(e)
+        assert f'Name {invalid_name} is more than 20 characters long' in str(e.value)
 
 
     """the authorised user is not already a member of the channel"""
@@ -74,4 +74,4 @@ def test_name_length(helper):
 
     with pytest.raises(AccessError) as e: 
         channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
-        assert f'the authorised user {invitor_user_id} is not already a member of the channel' in str(e)
+        assert f'the authorised user {invitor_user_id} is not already a member of the channel' in str(e.value)

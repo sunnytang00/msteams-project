@@ -51,7 +51,7 @@ def test_invalid_channel_id():
 
     with pytest.raises(InputError) as e: 
         channel_removeowner_v1(auth_user_id, ch_id, auth_user_id_2)
-        assert f'channel_id {ch_id} does not refer to a valid channel' in str(e)
+        assert f'channel_id {ch_id} does not refer to a valid channel' in str(e.value)
 
 @clear
 def test_invalid_token():
@@ -74,7 +74,7 @@ def test_invalid_token():
 
     with pytest.raises(AccessError) as e: 
         channel_removeowner_v1(auth_user_id + 10, ch_id, auth_user_id_2)
-        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
+        assert f'token {auth_user_id} does not refer to a valid token' in str(e.value)
 
 @clear
 def test_the_only_owner():
@@ -90,7 +90,7 @@ def test_the_only_owner():
 
     with pytest.raises(InputError) as e: 
         channel_removeowner_v1(auth_user_id, ch_id, auth_user_id)
-        assert f'user with {auth_user_id} is the only owner of channel' in str(e)
+        assert f'user with {auth_user_id} is the only owner of channel' in str(e.value)
 
 @clear
 def test_user_is_not_owner():
@@ -111,7 +111,7 @@ def test_user_is_not_owner():
 
     with pytest.raises(InputError) as e: 
         channel_removeowner_v1(auth_user_id, ch_id, auth_user_id_2)
-        assert f'user with {auth_user_id} is not owner of channel' in str(e)
+        assert f'user with {auth_user_id} is not owner of channel' in str(e.value)
 
 @clear
 def test_auth_user_has_no_access():
@@ -142,7 +142,7 @@ def test_auth_user_has_no_access():
 
     with pytest.raises(AccessError) as e: 
         channel_removeowner_v1(auth_user_id_3, ch_id, auth_user_id)
-        assert f'Auth_user with id {auth_user_id} is not owner of channel or owner of dreams' in str(e)
+        assert f'Auth_user with id {auth_user_id} is not owner of channel or owner of dreams' in str(e.value)
 
 
 @clear

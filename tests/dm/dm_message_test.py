@@ -3,7 +3,7 @@ import pytest
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from src.base.dm import dm_create, dm_details_v1, dm_messages_v1
+from src.base.dm import dm_create_v1, dm_details_v1, dm_messages_v1
 from src.base.message import message_senddm_v1
 from tests.helper import clear, useless_message
 
@@ -17,7 +17,7 @@ def test_no_msg_in_dm():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
 
     start = 0
 
@@ -37,7 +37,7 @@ def test_few_msg_in_dm():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
 
     msgs = ['1', '2', '3', '4', '5']
 
@@ -58,7 +58,7 @@ def test_many_msg_in_dm():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
 
     msgs = []
     msgs.append("orange")
@@ -85,14 +85,14 @@ def test_invalid_token():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
 
     #make a invalid token
     u_id = auth_user_id + 10
 
     with pytest.raises(AccessError) as e:
         dm_messages_v1(u_id, dm_id, 0)
-        assert f"token {u_id} does not refer to a valid user" in str(e)
+        assert f"token {u_id} does not refer to a valid user" in str(e.value)
 
 @clear
 def test_not_valid_dm_id():
@@ -109,7 +109,7 @@ def test_not_valid_dm_id():
 
     with pytest.raises(InputError) as e:
         dm_messages_v1(auth_user_id, dm_id, 0)
-        assert f"dm_id {dm_id} does not refer to a valid dm" in str(e)
+        assert f"dm_id {dm_id} does not refer to a valid dm" in str(e.value)
 
 @clear
 def start_greater_than_end_of_message():
@@ -122,13 +122,13 @@ def start_greater_than_end_of_message():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
 
     start = 100
 
     with pytest.raises(InputError) as e:
         dm_messages_v1(auth_user_id, dm_id, start)
-        assert f"the message in dm is less than {start}" in str(e)
+        assert f"the message in dm is less than {start}" in str(e.value)
 
 @clear 
 def test_auth_user_not_member():
@@ -146,8 +146,8 @@ def test_auth_user_not_member():
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
 
     with pytest.raises(AccessError) as e:
         dm_messages_v1(user2_id, dm_id, 0)
-        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e)
+        assert f"auth_user {user2} is not member of dm {dm_id}" in str(e.value)

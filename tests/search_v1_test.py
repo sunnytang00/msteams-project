@@ -14,7 +14,7 @@ def test_no_channels(helper):
 
     with pytest.raises(InputError) as e:
         search_v1(auth_user_id, "Hello")
-        assert 'You are do not have any dms and are not in any channels' in str(e)
+        assert 'You are do not have any dms and are not in any channels' in str(e.value)
 
 
 @clear
@@ -27,13 +27,13 @@ def test_empty_query_str(helper):
 
     with pytest.raises(InputError) as e:
         search_v1(auth_user_id, "")
-        assert 'Query string is empty' in str(e)
+        assert 'Query string is empty' in str(e.value)
 
 @clear
 def test_invalid_auth_user_id():
     with pytest.raises(InputError) as e:
         search_v1('NotValid', "Hello")
-        assert 'Auth_user_id is not real' in str(e)
+        assert 'Auth_user_id is not real' in str(e.value)
 
 @clear
 def test_query_too_long(helper):
@@ -41,7 +41,7 @@ def test_query_too_long(helper):
     auth_user_id = user['auth_user_id']
     with pytest.raises(InputError) as e:
         search_v1(auth_user_id, "F" * 1001)
-        assert 'Query string is too long' in str(e)
+        assert 'Query string is too long' in str(e.value)
 
 @clear 
 def test_no_match(helper):

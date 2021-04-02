@@ -46,7 +46,7 @@ def test_invalid_token():
     auth_user_id = u_id + 10
     with pytest.raises(AccessError) as e:
         admin_userpermission_change_v1(auth_user_id, u_id, permission_id = 2)
-        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
+        assert f'token {auth_user_id} does not refer to a valid token' in str(e.value)
 
 @clear
 def test_invalid_user():
@@ -62,7 +62,7 @@ def test_invalid_user():
     u_id = auth_user_id + 10
     with pytest.raises(InputError) as e:
         admin_userpermission_change_v1(auth_user_id, u_id, permission_id = 2)
-        assert f'u_id {u_id} does not refer to a valid user id' in str(e)
+        assert f'u_id {u_id} does not refer to a valid user id' in str(e.value)
 
 @clear
 def test_invalid_permission_id():
@@ -81,7 +81,7 @@ def test_invalid_permission_id():
     permission_id = 4
     with pytest.raises(InputError) as e:
         admin_userpermission_change_v1(auth_user_id, u_id, permission_id)
-        assert f'permission_id {permission_id} does not refer to a valid permisison id' in str(e)
+        assert f'permission_id {permission_id} does not refer to a valid permisison id' in str(e.value)
 
 @clear
 def test_not_owner():
@@ -99,5 +99,5 @@ def test_not_owner():
 
     with pytest.raises(AccessError) as e:
         admin_userpermission_change_v1(u_id, auth_user_id, permission_id = 2)
-        assert f'user id {u_id} is not owner of Dreams' in str(e)
+        assert f'user id {u_id} is not owner of Dreams' in str(e.value)
 
