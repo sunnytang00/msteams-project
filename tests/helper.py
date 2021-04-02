@@ -8,7 +8,8 @@ from tests.testing_data import testing_data
 class Helper:
     @staticmethod
     def register_users(quantity: int) -> None:
-        """Register one to many new users for testing purposes 
+        """Register one to many new users
+        use when you want to register channels and don't care about any data in each user
 
         Arguments:
             quantity (int) - The amount of users that will be registered.
@@ -29,13 +30,14 @@ class Helper:
 
     @staticmethod
     def register_user(value: int) -> int:
-        """Register one user, use when you only care about the user_id
+        """Register one user
+        use when you want to register a user but only care about the user id
 
         Arguments:
             value (int) - select a user to register
     
         Return Value:
-            Returns user_id
+            Returns auth_user_id
         """
         users = [
             {
@@ -73,8 +75,9 @@ class Helper:
         return len(testing_data['users'])
 
     @staticmethod
-    def create_channels(quantity: int) -> None:
-        """Register one to many channels testing purposes 
+    def create_channels(quantity: int, auth_user_id: int) -> None:
+        """Register one to many channels
+        use when you want to register channels and don't care about any data in each channel
 
         Arguments:
             quantity (int) - The amount of channels that will be registered
@@ -86,15 +89,16 @@ class Helper:
             if quantity == count: 
                 break
 
-            channels_create_v1(auth_user_id=channel['channel_id'],
+            channels_create_v1(auth_user_id=auth_user_id,
                                 name=channel['name'],
                                 is_public=channel['is_public']
                                 )
         return
 
     @staticmethod
-    def register_channel(value: int, auth_user_id: int) -> int:
-        """Register one channel, use when you only care about the channel_id
+    def create_channel(value: int, auth_user_id: int) -> int:
+        """Register one channel 
+        use when you want to register a channel but only care about the channel_id
 
         Arguments:
             value (int) - select a channel to register
@@ -113,6 +117,10 @@ class Helper:
             },
             {
                 'name': 'Dog soc',
+                'is_public': True
+            },
+            {
+                'name': 'Pancakes',
                 'is_public': True
             }
         ]

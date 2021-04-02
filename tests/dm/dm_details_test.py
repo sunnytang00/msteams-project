@@ -18,15 +18,15 @@ def test_valid_input():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
     
     details = dm_details_v1(user2_id, dm['dm_id'])
 
-    assert user_id in [user['u_id'] for user in details['members']] and (
+    assert auth_user_id in [user['u_id'] for user in details['members']] and (
             user2_id in [user['u_id'] for user in details['members']])
 
 @clear
@@ -37,13 +37,13 @@ def test_invalid_token():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id])
+    dm = dm_create(auth_user_id, [auth_user_id])
 
     #make a invalid token
-    u_id = user_id + 10
+    u_id = auth_user_id + 10
 
     with pytest.raises(AccessError) as e:
         dm_details_v1(u_id, dm['dm_id'])
@@ -58,13 +58,13 @@ def test_not_valid_dm():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
 
     #make a invalid dm_id
     dm_id = 10
     
     with pytest.raises(InputError) as e:
-        dm_details_v1(user_id, dm_id)
+        dm_details_v1(auth_user_id, dm_id)
         assert f"dm_id {dm_id} does not refer to a valid dm" in str(e)
 
 @clear 
@@ -79,11 +79,11 @@ def test_auth_user_not_member():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id])
+    dm = dm_create(auth_user_id, [auth_user_id])
 
     with pytest.raises(AccessError) as e:
         dm_details_v1(user2_id, dm['dm_id'])

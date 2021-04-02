@@ -24,12 +24,12 @@ def test_valid_input():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -54,12 +54,12 @@ def test_dm_id_not_valid():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -89,13 +89,13 @@ def test_member_not_part_of_dm():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
     user4_id = user4.get('auth_user.id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1

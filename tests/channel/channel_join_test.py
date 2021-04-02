@@ -13,7 +13,7 @@ def test_valid_input():
                                 name_first='bob',
                                 name_last='smith'
                             )
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
     user_2 = auth_register_v1(email='bobsmith2@gmail.com',
                                 password='12as548',
@@ -21,7 +21,7 @@ def test_valid_input():
                                 name_last='smith2')
     user_id_2 = user_2['auth_user_id']
 
-    channel = channels_create_v1(user_id, "channel1", True)
+    channel = channels_create_v1(auth_user_id, "channel1", True)
     channel_join_v1(user_id_2, channel['channel_id'])
     result = channels_list_v1(user_id_2)['channels']
 
@@ -53,7 +53,7 @@ def test_access_to_private():
                                 password='12345678',
                                 name_first='bob',
                                 name_last='smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
     user_2 = auth_register_v1(email='bobsmith2@gmail.com',
                                 password='12345678',
@@ -61,8 +61,8 @@ def test_access_to_private():
                                 name_last='smith2')
     user_id_2 = user_2['auth_user_id']
 
-    channels_create_v1(user_id, "channel1", False)
-    channel_2 = channels_create_v1(user_id, "channel2", False)
+    channels_create_v1(auth_user_id, "channel1", False)
+    channel_2 = channels_create_v1(auth_user_id, "channel2", False)
 
     channel_id_2 = channel_2['channel_id']
 
@@ -90,10 +90,10 @@ def test_already_member_of_channel():
                                 name_first='bob2',
                                 name_last='smith2')
 
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
     user_id_2 = user_2['auth_user_id']
 
-    channel = channels_create_v1(user_id, "channel1", True)
+    channel = channels_create_v1(auth_user_id, "channel1", True)
     channel_id = channel['channel_id']
 
     channel_join_v1(user_id_2, channel_id)

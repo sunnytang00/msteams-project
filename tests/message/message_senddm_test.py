@@ -15,14 +15,14 @@ def test_valid_input():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(user_id, [user_id]).get('dm_id')
+    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
 
     msgs = "test"
 
-    msg_id = message_senddm_v1(user_id, dm_id, msgs).get('message_id')
+    msg_id = message_senddm_v1(auth_user_id, dm_id, msgs).get('message_id')
     assert msg_id == 1
 
 @clear
@@ -33,15 +33,15 @@ def test_msg_too_long():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(user_id, [user_id]).get('dm_id')
+    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
 
     msgs = "test" * 1000
 
     with pytest.raises(InputError) as e:
-        message_senddm_v1(user_id, dm_id, msgs)
+        message_senddm_v1(auth_user_id, dm_id, msgs)
         assert "message is too long" in str(e)
 
 @clear
@@ -52,13 +52,13 @@ def test_invalid_token():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(user_id, [user_id]).get('dm_id')
+    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
 
     #make a invalid token
-    u_id = user_id + 10
+    u_id = auth_user_id + 10
 
     with pytest.raises(AccessError) as e:
         message_senddm_v1(u_id, dm_id, "test")
@@ -77,11 +77,11 @@ def test_auth_user_not_member():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create(user_id, [user_id]).get('dm_id')
+    dm_id = dm_create(auth_user_id, [auth_user_id]).get('dm_id')
 
     with pytest.raises(AccessError) as e:
         message_senddm_v1(user2_id, dm_id, "test")

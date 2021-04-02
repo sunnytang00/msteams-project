@@ -7,18 +7,9 @@ from src.base.other import clear_v1
 from tests.helper import helper, clear
 
 @clear
-def test_valid_input():
-    invitor_user = auth_register_v1(email='bobsmith@gmail.com',
-                                password='42flshjfzhh8',
-                                name_first='Bob',
-                                name_last='Smith')
-    invitor_user_id = invitor_user['auth_user_id']
-
-    invitee_user = auth_register_v1(email='batman777@gmail.com',
-                                password='12as548',
-                                name_first='Bat',
-                                name_last='Man')
-    invitee_user_id = invitee_user['auth_user_id']
+def test_valid_input(helper):
+    invitor_user_id = helper.register_user(1)
+    invitee_user_id = helper.register_user(2)
 
     channel = channels_create_v1(invitor_user_id, "Cat Society", True)
     channel_id = channel['channel_id']
@@ -31,18 +22,9 @@ def test_valid_input():
     assert output == expected
 
 @clear
-def test_invalid_channel_id():
-    invitor_user = auth_register_v1(email='bobsmith@gmail.com',
-                                password='42flshjfzhh8',
-                                name_first='Bob',
-                                name_last='Smith')
-    invitor_user_id = invitor_user['auth_user_id']
-
-    invitee_user = auth_register_v1(email='batman777@gmail.com',
-                                password='12as548',
-                                name_first='Bat',
-                                name_last='Man')
-    invitee_user_id = invitee_user['auth_user_id']
+def test_invalid_channel_id(helper):
+    invitor_user_id = helper.register_user(1)
+    invitee_user_id = helper.register_user(2)
 
     invalid_channel_id = 4 
     with pytest.raises(InputError) as e: 
@@ -50,7 +32,7 @@ def test_invalid_channel_id():
         assert f'Channel ID {invalid_channel_id} does not exist.' in str(e)
 
 @clear
-def test_invaild_userID():
+def test_invaild_userID(helper):
     invalid_user_id = -1
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first", True)
@@ -63,48 +45,29 @@ def test_invaild_userID():
         assert f'User ID {invalid_user_id} is invaild' in str(e)
 
 @clear
-def test_vaild_input():
-    user = auth_register_v1(email='bobsmith2@gmail.com',
-                                password='12345678',
-                                name_first='bob',
-                                name_last='smith')
-    user_id = user['auth_user_id']        
+def test_vaild_input(helper):
+    auth_user_id = helper.register_user(1)
         
     channel_id = 1
-    output = channels_create_v1(user_id, "correct", True)
+    output = channels_create_v1(auth_user_id, "correct", True)
     expected = {'channel_id': channel_id} 
     assert output == expected
 
 @clear
-def test_name_length():
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','bob','smith')
-    user_id = user['auth_user_id']
+def test_name_length(helper):
+    auth_user_id = helper.register_user(1)
 
     invalid_name = "first channel" * 10
     with pytest.raises(InputError) as e: 
-        channels_create_v1(user_id, invalid_name, True)
+        channels_create_v1(auth_user_id, invalid_name, True)
         assert f'Name {invalid_name} is more than 20 characters long' in str(e)
 
 
     """the authorised user is not already a member of the channel"""
     clear_v1()
-    invitor_user = auth_register_v1(email='bobsmith@gmail.com',
-                                password='42flshjfzhh8',
-                                name_first='Bob',
-                                name_last='Smith')
-    invitor_user_id = invitor_user['auth_user_id']
-
-    invitee_user = auth_register_v1(email='batman777@gmail.com',
-                                password='12a548',
-                                name_first='Bat',
-                                name_last='Man')
-    invitee_user_id = invitee_user['auth_user_id']
-
-    channel_owner_user = auth_register_v1(email='harrypotter7@gmail.com',
-                            password='qw3rtyAppl3s@99',
-                            name_first='Harry',
-                            name_last='Potter')
-    channel_owner_user_id = channel_owner_user['auth_user_id']            
+    invitor_user_id = helper.register_user(1)
+    invitee_user_id = helper.register_user(2)
+    channel_owner_user_id = helper.register_user(3)
 
     channel = channels_create_v1(channel_owner_user_id, "Cat Society", True)
     channel_id = channel['channel_id']

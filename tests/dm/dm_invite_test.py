@@ -24,17 +24,17 @@ def test_valid_input():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
     
-    dm_invite_v1(user_id, dm_id, user3_id)
+    dm_invite_v1(auth_user_id, dm_id, user3_id)
 
     assert get_dm(dm_id).get('u_ids') == [1, 2, 3]
 
@@ -58,19 +58,19 @@ def test_invite_multiple():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
     user4_id = user4.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
     
-    dm_invite_v1(user_id, dm_id, user3_id)
-    dm_invite_v1(user_id, dm_id, user4_id)
+    dm_invite_v1(auth_user_id, dm_id, user3_id)
+    dm_invite_v1(auth_user_id, dm_id, user4_id)
 
     assert get_dm(dm_id).get('u_ids') == [1, 2, 3, 4]
 
@@ -90,12 +90,12 @@ def test_dm_not_exist():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -103,7 +103,7 @@ def test_dm_not_exist():
     fake_dm_id = 2
 
     with pytest.raises(InputError) as e:
-        dm_invite_v1(user_id, fake_dm_id, user3_id)
+        dm_invite_v1(auth_user_id, fake_dm_id, user3_id)
         assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e)
 
 @clear
@@ -119,18 +119,18 @@ def test_u_id_not_valid():
                             name_last='Potter')
 
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     fake_u_id = 99
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
 
     with pytest.raises(InputError) as e:
-        dm_invite_v1(user_id, dm_id, fake_u_id)
+        dm_invite_v1(auth_user_id, dm_id, fake_u_id)
         assert f"u_id {fake_u_id} does not refer to a valid user" in str(e)
 
 @clear
@@ -153,18 +153,18 @@ def test_auth_not_member_of_dm():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
     user4_id = user4.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
 
     with pytest.raises(AccessError) as e:
         dm_invite_v1(user3_id, dm_id, user4_id)
-        assert f'user with user_id {user3_id} is not part of the dm' in str(e)
+        assert f'user with auth_user_id {user3_id} is not part of the dm' in str(e)
 
