@@ -4,7 +4,7 @@ from src.base.error import InputError, AccessError
 from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_member, get_user
 from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users
 
-def dm_create(auth_user_id, u_ids):
+def dm_create_v1(auth_user_id, u_ids):
     """TODO"""
     if not get_current_user(auth_user_id):
         raise InputError(f"auth_user_id {auth_user_id} does not refer to a valid user")

@@ -5,11 +5,11 @@ import pytest
 from src.base.auth import auth_register_v1
 from src.base.error import InputError
 from src.base.other import clear_v1
-from src.base.dm import dm_create
+from src.base.dm import dm_create_v1
 from tests.helper import clear, helper
 
 @clear
-def test_dm_create_single(helper):
+def test_dm_create_v1_single(helper):
     """Create a DM with a single user, not including owner"""
     user = auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
@@ -25,10 +25,10 @@ def test_dm_create_single(helper):
 
     dm_id = 1
     dm_name = "harrypotter"
-    assert dm_create(auth_user_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
+    assert dm_create_v1(auth_user_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
 @clear
-def test_dm_create_many():
+def test_dm_create_v1_many():
     """Create many DMs with many users"""
     user = auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
@@ -63,7 +63,7 @@ def test_dm_create_many():
 
     dm_id = 1
     dm_name = "bobsmith, bobsmith0, harrypotter"
-    assert dm_create(u_id_4, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
+    assert dm_create_v1(u_id_4, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
     # create second channel
 
@@ -78,7 +78,7 @@ def test_dm_create_many():
 
     dm_id = 2
     dm_name = "bobsmith, bobsmith0, bobsmith1, bobsmith2"
-    assert dm_create(u_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
+    assert dm_create_v1(u_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
 
 @clear
@@ -95,7 +95,7 @@ def test_invalid_auth_user_id(helper):
     u_ids = [u_id]
 
     with pytest.raises(InputError) as e:
-        dm_create(auth_user_id, u_ids)
+        dm_create_v1(auth_user_id, u_ids)
     assert f"auth_user_id {auth_user_id} does not refer to a valid user" in str(e.value)
 
 @clear
@@ -120,5 +120,5 @@ def test_invalid_u_ids(helper):
     u_ids = [u_id, invalid_u_id, u_id_3]
 
     with pytest.raises(InputError) as e:
-        dm_create(auth_user_id, u_ids)
+        dm_create_v1(auth_user_id, u_ids)
     assert f'u_id {invalid_u_id} does not refer to a valid user' in str(e.value)

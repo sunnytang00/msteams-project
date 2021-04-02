@@ -3,7 +3,7 @@ import pytest
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from src.base.dm import dm_create, dm_invite_v1
+from src.base.dm import dm_create_v1, dm_invite_v1
 from tests.helper import clear
 from src.data.helper import get_dms
 from src.base.helper import get_dm
@@ -29,7 +29,7 @@ def test_valid_input():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -64,7 +64,7 @@ def test_invite_multiple():
     user4_id = user4.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -95,7 +95,7 @@ def test_dm_not_exist():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -124,7 +124,7 @@ def test_u_id_not_valid():
     fake_u_id = 99
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -159,7 +159,7 @@ def test_auth_not_member_of_dm():
     user4_id = user4.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1

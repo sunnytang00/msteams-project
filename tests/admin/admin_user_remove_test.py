@@ -7,7 +7,7 @@ from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.users import users_all_v1
 from src.base.message import message_senddm_v1
-from src.base.dm import dm_messages_v1, dm_create
+from src.base.dm import dm_messages_v1, dm_create_v1
 from tests.helper import helper, clear
 
 @clear
@@ -42,7 +42,7 @@ def test_removed_user_dm_msg():
     u_id = user2['auth_user_id']
 
     #create a dm
-    dm_id = dm_create(auth_user_id, [auth_user_id, u_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, [auth_user_id, u_id]).get('dm_id')
 
     #sent msg in dm
     message_senddm_v1(auth_user_id, dm_id, "user1 here")
