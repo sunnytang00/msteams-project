@@ -1,5 +1,8 @@
-"""TODO"""
+""" Functionality to DMs.
 
+This module demonstrates the creation, removal, invitation, ability to leave and display DMs.
+As specified by the COMP1531 Major Project specification.
+"""
 from src.base.error import InputError, AccessError
 from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_member, get_user
 from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users
