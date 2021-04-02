@@ -31,12 +31,12 @@ def test_valid_input():
 def test_invalid_userid():
     with pytest.raises(AccessError) as e: 
         channel_join_v1(-1, 0)
-        assert 'User ID is invalid' in str(e)
+        assert 'User ID is invalid' in str(e.value)
     
     clear_v1()
     with pytest.raises(AccessError) as e: 
         channel_join_v1(5, 0)
-        assert 'User ID is invalid' in str(e)
+        assert 'User ID is invalid' in str(e.value)
     
 @clear
 def test_invalid_channelID(helper):
@@ -45,7 +45,7 @@ def test_invalid_channelID(helper):
     invalid_id = 10
     with pytest.raises(InputError) as e: 
         channel_join_v1(1, invalid_id)
-        assert 'Channel ID is invalid' in str(e)
+        assert 'Channel ID is invalid' in str(e.value)
 
 @clear
 def test_access_to_private():
@@ -68,7 +68,7 @@ def test_access_to_private():
 
     with pytest.raises(AccessError) as e: 
         channel_join_v1(user_id_2, channel_id_2)
-        assert 'Cannot access the private channel' in str(e)
+        assert 'Cannot access the private channel' in str(e.value)
 
 
 @clear
@@ -77,7 +77,7 @@ def test_channel_not_exist(helper):
     channel_id = 1
     with pytest.raises(InputError) as e: 
         channel_join_v1(1, channel_id)
-        assert f'Channel with ID {channel_id} does not exist' in str(e)
+        assert f'Channel with ID {channel_id} does not exist' in str(e.value)
 
 @clear
 def test_already_member_of_channel():
@@ -99,4 +99,4 @@ def test_already_member_of_channel():
     channel_join_v1(user_id_2, channel_id)
     with pytest.raises(InputError) as e: 
         channel_join_v1(user_id_2, channel_id)
-        assert 'The user is already in the channel' in str(e)
+        assert 'The user is already in the channel' in str(e.value)

@@ -52,4 +52,4 @@ def test_message_no_longer_exists():
 
     with pytest.raises(InputError) as e: 
         message_remove_v1(auth_register_v1, message_id)
-        assert f"Message {message_id} (based on ID) no longer exists" in str(e)
+        assert f"Message {message_id} (based on ID) no longer exists" in str(e.value)

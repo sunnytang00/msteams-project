@@ -1,5 +1,5 @@
 # Iteration-1 Project Assumptions
-## auth.py
+## auth
 ### `auth_login`
 1. Every user will be uniquely identifiable by a unique ID.
 2. Initially, the total number of registered users will be 0.
@@ -7,7 +7,7 @@
 ### `auth_register`
 1. Password lengh will be greater than 0.
 
-## channels.py
+## channels
 ### `channels_list`
 1. The user will only see public channels and channels that the user is a member of.
 ### `channels_listall`
@@ -21,7 +21,7 @@
 6. An owner is also considered a member.
 7. Many channels can have the same name.
 
-## channel.py
+## channel
 ### `channel_invite`
 1. Authorised users of a channel can invite other users to that channel.
 2. A user can not be invited to a channel that they are already apart of.
@@ -29,7 +29,7 @@
 1. The members of a channel are stored in `all_members`, chronologically ordered.
 2. The owners of a channel are stored in `owner_members`, chronologically ordered.
 ### `channel_messages`
-1. Messages are stored inside a list, where each element is a message.
+1. Messages are stored inside a list, where each element is a message. (not the greatest assumption)
 2. Messages that are deleted are entirely removed from storage.
 ### `channel_join`
 1. A user can be apart of 0 or more channels.
@@ -39,7 +39,7 @@ If the user leaves and is:
 2. one of the owners delete their information from `all_members` and `owner_members`.
 3. the only member/owner in the channel remove the whole channel.
 
-## user.py
+## user
 1. The user should be authorised if they are accessing setemail, setname and sethandle functions.
 ### `user_profile`
 1. blah 
@@ -50,6 +50,19 @@ If the user leaves and is:
 ### `user_profile_sethandle`
 1. The user will not set their display handle to be the same as it was previously.
 
-## other.py
+## message
+### `message_remove`
+1. Messages that are removed are cleared from the database.
+
+## dm
+1. The user should be authorised if they are accessing setemail, setname and sethandle functions.
+### `dm_create`
+1. The u_id of the user who creates a DM has to be valid.
+
+## admin
+### `admin_user_remove`
+1. An admin can not remove themselves.
+
+## other
 ### `clear`
-1. Will only clear data created by `auth_regsiter` and `channels_create`.
+1. ...

@@ -57,7 +57,7 @@ def test_invalid_channel_id():
 
     with pytest.raises(InputError) as e: 
         channel_messages_v1(auth_user_id=auth_user_id, channel_id=invalid_channel_id, start=0)
-        assert f'Channel ID {invalid_channel_id} is not a valid channel' in str(e)
+        assert f'Channel ID {invalid_channel_id} is not a valid channel' in str(e.value)
 
 @clear
 def test_invalid_start():
@@ -74,7 +74,7 @@ def test_invalid_start():
 
     with pytest.raises(InputError) as e: 
         channel_messages_v1(auth_user_id=auth_user_id, channel_id=channel_id, start=invalid_start)
-        assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e)
+        assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e.value)
 
 @clear
 def test_user_not_member(helper):
@@ -91,4 +91,4 @@ def test_user_not_member(helper):
 
     with pytest.raises(AccessError) as e: 
         channel_messages_v1(auth_user_id=auth_user_id, channel_id=channel_id, start=0)
-        assert f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}' in str(e)
+        assert f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}' in str(e.value)

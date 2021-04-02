@@ -10,11 +10,11 @@ def test_invaild_userID():
     invalid_user_id = -1
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first channel" * 10, True)
-        assert f'User ID {invalid_user_id} is invaild' in str(e)
+        assert f'User ID {invalid_user_id} is invaild' in str(e.value)
 
     with pytest.raises(AccessError) as e: 
         channels_create_v1(2, "first channel" * 10, True)
-        assert f'User ID {invalid_user_id} is invaild' in str(e)
+        assert f'User ID {invalid_user_id} is invaild' in str(e.value)
 
 @clear
 def test_vaild_input(helper):
@@ -40,5 +40,5 @@ def test_name_length(helper):
     invalid_name = "first channel" * 10
     with pytest.raises(InputError) as e: 
         channels_create_v1(auth_user_id, invalid_name, True)
-        assert f'Name {invalid_name} is more than 20 characters long' in str(e)
+        assert f'Name {invalid_name} is more than 20 characters long' in str(e.value)
 

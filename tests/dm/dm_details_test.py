@@ -3,7 +3,7 @@ import pytest
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from src.base.dm import dm_create, dm_details_v1
+from src.base.dm import dm_create_v1, dm_details_v1
 from tests.helper import clear
 
 @clear
@@ -22,7 +22,7 @@ def test_valid_input():
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
     
     details = dm_details_v1(user2_id, dm['dm_id'])
 
@@ -40,14 +40,14 @@ def test_invalid_token():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id])
 
     #make a invalid token
     u_id = auth_user_id + 10
 
     with pytest.raises(AccessError) as e:
         dm_details_v1(u_id, dm['dm_id'])
-        assert f"token {u_id} does not refer to a valid user" in str(e)
+        assert f"token {u_id} does not refer to a valid user" in str(e.value)
 
 
 @clear
@@ -65,7 +65,7 @@ def test_not_valid_dm():
     
     with pytest.raises(InputError) as e:
         dm_details_v1(auth_user_id, dm_id)
-        assert f"dm_id {dm_id} does not refer to a valid dm" in str(e)
+        assert f"dm_id {dm_id} does not refer to a valid dm" in str(e.value)
 
 @clear 
 def test_auth_user_not_member():
@@ -83,9 +83,9 @@ def test_auth_user_not_member():
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id])
 
     with pytest.raises(AccessError) as e:
         dm_details_v1(user2_id, dm['dm_id'])
-        assert f"auth_user {user2} is not member of dm {dm['dm_id']}" in str(e)
+        assert f"auth_user {user2} is not member of dm {dm['dm_id']}" in str(e.value)
     

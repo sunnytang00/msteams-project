@@ -46,7 +46,7 @@ def test_invalid_email():
     
     with pytest.raises(InputError) as e:
         user_profile_setemail_v1(auth_user_id, new_email)
-        assert f'Email {email} is not a valid email' in str(e)
+        assert f'Email {email} is not a valid email' in str(e.value)
 
 @clear
 def test_email_in_use():
@@ -77,5 +77,5 @@ def test_email_in_use():
     
     with pytest.raises(InputError) as e:
         user_profile_setemail_v1(auth_user_id, new_email)
-        assert f'Email address {email} is already being used by another user' in str(e)
+        assert f'Email address {email} is already being used by another user' in str(e.value)
 

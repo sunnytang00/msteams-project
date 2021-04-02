@@ -3,7 +3,7 @@ import pytest
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from src.base.dm import dm_create, dm_remove_v1, dm_leave_v1
+from src.base.dm import dm_create_v1, dm_remove_v1, dm_leave_v1
 from tests.helper import clear
 from src.data.helper import get_dms
 from src.base.helper import get_dm
@@ -29,7 +29,7 @@ def test_valid_input():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -59,7 +59,7 @@ def test_dm_id_not_valid():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -67,7 +67,7 @@ def test_dm_id_not_valid():
 
     with pytest.raises(InputError) as e:
         dm_leave_v1(user2_id, fake_dm_id)
-        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e)
+        assert f"dm_id {fake_dm_id} does not refer to a valid dm" in str(e.value)
 
 @clear
 def test_member_not_part_of_dm():
@@ -95,11 +95,11 @@ def test_member_not_part_of_dm():
     user4_id = user4.get('auth_user.id')
 
     #create a dm
-    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
 
     with pytest.raises(AccessError) as e:
         dm_leave_v1(user4_id, dm_id)
-        assert f"auth_user {user4_id} is not member of dm {dm_id}" in str(e)
+        assert f"auth_user {user4_id} is not member of dm {dm_id}" in str(e.value)
