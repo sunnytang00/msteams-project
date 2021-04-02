@@ -29,7 +29,7 @@
 1. The members of a channel are stored in `all_members`, chronologically ordered.
 2. The owners of a channel are stored in `owner_members`, chronologically ordered.
 ### `channel_messages`
-1. Messages are stored inside a list, where each element is a message.
+1. Messages are stored inside a list, where each element is a message. (not the greatest assumption)
 2. Messages that are deleted are entirely removed from storage.
 ### `channel_join`
 1. A user can be apart of 0 or more channels.
@@ -50,6 +50,19 @@ If the user leaves and is:
 ### `user_profile_sethandle`
 1. The user will not set their display handle to be the same as it was previously.
 
+## message
+### `message_remove`
+1. Messages that are removed are cleared from the database.
+
+## dm
+1. The user should be authorised if they are accessing setemail, setname and sethandle functions.
+### `dm_create`
+1. The u_id of the user who creates a DM has to be valid.
+
+## admin
+### `admin_user_remove`
+1. An admin can not remove themselves.
+
 ## other
 ### `clear`
-1. Will only clear data created by `auth_regsiter` and `channels_create`.
+1. ...
