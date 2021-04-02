@@ -96,7 +96,7 @@ def test_invalid_auth_user_id(helper):
 
     with pytest.raises(InputError) as e:
         dm_create(auth_user_id, u_ids)
-    assert f'u_id {auth_user_id} does not refer to a valid user' in str(e)
+    assert f"auth_user_id {auth_user_id} does not refer to a valid user" in str(e.value)
 
 @clear
 def test_invalid_u_ids(helper):
@@ -121,4 +121,4 @@ def test_invalid_u_ids(helper):
 
     with pytest.raises(InputError) as e:
         dm_create(auth_user_id, u_ids)
-    assert f'u_id {invalid_u_id} does not refer to a valid user' in str(e)
+    assert f'u_id {invalid_u_id} does not refer to a valid user' in str(e.value)
