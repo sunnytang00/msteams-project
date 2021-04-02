@@ -347,18 +347,18 @@ def update_all_members(channel_id : int, all_members: list) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_permission_id(user_id : int, permission_id: int) -> None:
+def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     """Update the permission id of a user
 
     Arguments:
-        user_id (int) - id of user
+        auth_user_id (int) - id of user
         permission_id (int) - new permission id assigned to user
 
     Return Value:
         Returns None on all conditions
     """
     data = get_data()
-    idx = get_user_index(user_id)
+    idx = get_user_index(auth_user_id)
     data['users'][idx]['permission_id'] = permission_id
 
     with open(data_path, 'w') as f:
@@ -421,27 +421,27 @@ def update_user_count(user_count: int) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_removed_flag(user_id : int, flag: bool) -> None:
+def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     """ update the removed flag of user 
 
     Arguments:
-        user_id (int) - id of user
+        auth_user_id (int) - id of user
         flag (bool) - True if user being removed, False if not
     Return Value:
         Returns None on all conditions
     """
 
     data = get_data()
-    idx = get_user_index(user_id)
+    idx = get_user_index(auth_user_id)
     data['users'][idx]['removed'] = flag
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_user_all_channel_message(user_id : int, ch_id: dict, message: str) -> None:
+def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in channel
 
     Arguments:
-        user_id (int) - id of user
+        auth_user_id (int) - id of user
         ch_id (int) - id of channel
         message (str) - new message 
     Return Value:
@@ -452,18 +452,18 @@ def update_user_all_channel_message(user_id : int, ch_id: dict, message: str) ->
     msgs = data['channels'][idx]['messages']
     i = 0
     while i < len(msgs):
-        if msgs[i]['u_id'] == user_id:
+        if msgs[i]['u_id'] == auth_user_id:
             msgs[i]['message'] = message
         i += 1
     data['channels'][idx]['messages'] = msgs
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_user_all_dm_message(user_id: int, dm_id: dict, message: str) -> None:
+def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in dm
 
     Arguments:
-        user_id (int) - id of user
+        auth_user_id (int) - id of user
         dm_id (int) - id of dm
         message (str) - new message 
     Return Value:
@@ -474,7 +474,7 @@ def update_user_all_dm_message(user_id: int, dm_id: dict, message: str) -> None:
     msgs = data['dms'][idx]['messages']
     i = 0
     while i < len(msgs):
-        if msgs[i]['u_id'] == user_id:
+        if msgs[i]['u_id'] == auth_user_id:
             msgs[i]['message'] = message
         i += 1
     data['dms'][idx]['messages'] = msgs

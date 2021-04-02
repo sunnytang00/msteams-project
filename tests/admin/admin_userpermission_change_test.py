@@ -14,7 +14,7 @@ def test_valid_input():
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user1['auth_user_id']
+    auth_user_id = user1['auth_user_id']
     user2 = auth_register_v1(email='harrypotter7@gmail.com',
                                     password='qw3rtyAppl3s@99',
                                     name_first='Harry',
@@ -22,10 +22,10 @@ def test_valid_input():
     u_id = user2['auth_user_id']
 
     #change permission of user2 as owner
-    admin_userpermission_change_v1(user_id, u_id, permission_id = 1)
+    admin_userpermission_change_v1(auth_user_id, u_id, permission_id = 1)
 
     #create a channel with user1
-    ch_id = channels_create_v1(user_id, 'owner', True)['channel_id']
+    ch_id = channels_create_v1(auth_user_id, 'owner', True)['channel_id']
 
     # user2 added himself as owner of channel
     channel_addowner_v1(u_id, ch_id, u_id)
@@ -43,10 +43,10 @@ def test_invalid_token():
     u_id = user['auth_user_id']
 
     #make a invalid token_id
-    user_id = u_id + 10
+    auth_user_id = u_id + 10
     with pytest.raises(AccessError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
-        assert f'token {user_id} does not refer to a valid token' in str(e)
+        admin_userpermission_change_v1(auth_user_id, u_id, permission_id = 2)
+        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
 
 @clear
 def test_invalid_user():
@@ -56,12 +56,12 @@ def test_invalid_user():
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
     #make a invalid id
-    u_id = user_id + 10
+    u_id = auth_user_id + 10
     with pytest.raises(InputError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id = 2)
+        admin_userpermission_change_v1(auth_user_id, u_id, permission_id = 2)
         assert f'u_id {u_id} does not refer to a valid user id' in str(e)
 
 @clear
@@ -71,7 +71,7 @@ def test_invalid_permission_id():
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
     user2 = auth_register_v1(email='harrypotter7@gmail.com',
                                     password='qw3rtyAppl3s@99',
                                     name_first='Harry',
@@ -80,7 +80,7 @@ def test_invalid_permission_id():
 
     permission_id = 4
     with pytest.raises(InputError) as e:
-        admin_userpermission_change_v1(user_id, u_id, permission_id)
+        admin_userpermission_change_v1(auth_user_id, u_id, permission_id)
         assert f'permission_id {permission_id} does not refer to a valid permisison id' in str(e)
 
 @clear
@@ -90,7 +90,7 @@ def test_not_owner():
                                 password='FVn4HTWEsz8k6Msf',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
     user2 = auth_register_v1(email='harrypotter7@gmail.com',
                                     password='qw3rtyAppl3s@99',
                                     name_first='Harry',
@@ -98,6 +98,6 @@ def test_not_owner():
     u_id = user2['auth_user_id']
 
     with pytest.raises(AccessError) as e:
-        admin_userpermission_change_v1(u_id, user_id, permission_id = 2)
+        admin_userpermission_change_v1(u_id, auth_user_id, permission_id = 2)
         assert f'user id {u_id} is not owner of Dreams' in str(e)
 

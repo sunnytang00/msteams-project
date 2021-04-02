@@ -59,7 +59,7 @@ def auth_register_v1(email, password, name_first, name_last):
     Return Value:
         Returns auth_user_id (dict) on newly created user.
     """
-    user_id = get_user_count() + 1
+    auth_user_id = get_user_count() + 1
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -87,7 +87,7 @@ def auth_register_v1(email, password, name_first, name_last):
         permission_id = 2
 
     user = { 
-        'u_id': user_id,
+        'u_id': auth_user_id,
         'email': email,
         'name_first': name_first,
         'name_last': name_last,
@@ -101,5 +101,5 @@ def auth_register_v1(email, password, name_first, name_last):
     store_user(user)
 
     return {
-        'auth_user_id': user_id,
+        'auth_user_id': auth_user_id,
     }

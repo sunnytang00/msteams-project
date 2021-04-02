@@ -81,13 +81,13 @@ def get_user(auth_user_id: int) -> dict:
     return {}
 
 def get_channel(channel_id: int) -> dict:
-    """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
+    """Function that when passed a channel id, will get the id, name, auth_user_id, owners, all members, messages and whether it is public
 
     Arguments:
         channel_id (int): ID of the channel
 
     Return Values:
-        dict: A dict of the id, name, user_id, owners, all members, messages and whether it is public of the channel if it is found
+        dict: A dict of the id, name, auth_user_id, owners, all members, messages and whether it is public of the channel if it is found
         empty dict if the id does not match a channel
     """    
     for channel in get_channels():
@@ -340,17 +340,17 @@ def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
     }
 
 
-def remove_from_owner_members(channel_id : int, user_id: int) -> None:
+def remove_from_owner_members(channel_id : int, auth_user_id: int) -> None:
     """TODO"""
     owner_member = get_channel(channel_id)['owner_members']
-    user = get_user(user_id)
+    user = get_user(auth_user_id)
     owner_member.remove(user)
     update_owner_members(channel_id, owner_member)
 
-def remove_from_all_members(channel_id : int, user_id: int) -> None:
+def remove_from_all_members(channel_id : int, auth_user_id: int) -> None:
     """TODO"""
     all_member = get_channel(channel_id)['all_members']
-    user = get_user(user_id)
+    user = get_user(auth_user_id)
     all_member.remove(user)
     update_all_members(channel_id, all_member)
         

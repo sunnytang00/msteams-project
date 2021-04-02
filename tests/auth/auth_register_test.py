@@ -6,19 +6,13 @@ from src.base.helper import get_handle_str
 from tests.helper import helper, clear
 
 @clear
-def test_valid_input(helper):
-    users_count = helper.get_users_count()
-    # TODO: remove users_count makes code less clear
-    helper.register_users(quantity=users_count)
-
-    user_id = users_count + 1
-    output = auth_register_v1(email='harrypotter7@gmail.com',
+def test_single_user():
+    auth_user = auth_register_v1(email='harrypotter7@gmail.com',
                             password='qw3rtyAppl3s@99',
                             name_first='Harry',
                             name_last='Potter')
 
-    expected = { 'auth_user_id': user_id }
-    assert expected == output
+    assert auth_user.get('auth_user_id') == 1
 
 @clear
 def test_invalid_email():

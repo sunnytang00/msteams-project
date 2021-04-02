@@ -23,16 +23,16 @@ def test_valid_input():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     
-    dm_remove_v1(user_id, 1)
+    dm_remove_v1(auth_user_id, 1)
 
     assert get_dms() == []
 
@@ -52,18 +52,18 @@ def test_same_dm_owner_remove_one():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
-    dm1 = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm1 = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     assert dm1.get('dm_id') == 2
     
-    dm_remove_v1(user_id, 1)
+    dm_remove_v1(auth_user_id, 1)
 
     assert get_dms() == [{
         'auth_user_id' : 1,
@@ -89,12 +89,12 @@ def test_create_two_dm_remove_one():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
-    dm1 = dm_create(user2_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm1 = dm_create(user2_id, [auth_user_id, user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     assert dm1.get('dm_id') == 2
@@ -125,17 +125,17 @@ def test_not_valid_dm_id():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
     dm_id = dm.get('dm_id')
     assert dm_id == 1
     
     with pytest.raises(InputError) as e:
-        dm_remove_v1(user_id, 2)
+        dm_remove_v1(auth_user_id, 2)
         assert f"dm_id {dm_id} does not refer to a valid dm" in str(e)
 
 @clear
@@ -154,15 +154,15 @@ def test_not_creator_deleting_dm():
                             name_first='Harry',
                             name_last='Potter')
 
-    user_id = user.get('auth_user_id')
+    auth_user_id = user.get('auth_user_id')
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create(user_id, [user_id, user2_id, user3_id])
+    dm = dm_create(auth_user_id, [auth_user_id, user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     
     with pytest.raises(AccessError) as e:
         dm_remove_v1(user2_id, 1)
-        assert f'auth_user_id with user_id {user2_id} is not creator' in str(e)
+        assert f'auth_user_id with auth_user_id {user2_id} is not creator' in str(e)
