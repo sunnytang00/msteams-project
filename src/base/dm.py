@@ -5,7 +5,20 @@ from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_me
 from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users
 
 def dm_create_v1(auth_user_id, u_ids):
-    """TODO"""
+    """Create a DM.
+    
+    Arguements:
+        auth_user_id (int) - an authorised user
+        u_ids (int) - contains the user(s) that this DM is 
+        directed to, and will not include the creator.
+    Exceptions:
+        InputError when auth_user_id does not refer to a valid user
+        InputError when u_id does not refer to a valid user
+    
+    Return Value:
+        Returns a dict containing dm_id and dm_name on success
+    """
+
     if not get_current_user(auth_user_id):
         raise InputError(f"auth_user_id {auth_user_id} does not refer to a valid user")
     
