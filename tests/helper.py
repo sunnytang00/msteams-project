@@ -26,7 +26,6 @@ class Helper:
                             name_first=user['name_first'],
                             name_last=user['name_last']
                             )
-        return
 
     @staticmethod
     def register_user(value: int) -> int:
@@ -93,7 +92,6 @@ class Helper:
                                 name=channel['name'],
                                 is_public=channel['is_public']
                                 )
-        return
 
     @staticmethod
     def create_channel(value: int, auth_user_id: int) -> int:

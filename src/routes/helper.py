@@ -14,7 +14,8 @@ def encode_token(session_id: str)  -> str:
 
 def decode_token(payload: str) -> str:
     """takes in a jwt and decodes it"""
-    return jwt.decode(payload, SECRET, algorithms='HS256')
+    # when decoded, payload is a dict
+    return jwt.decode(payload, SECRET, algorithms='HS256').get('session_id')
 
 def get_new_session_id() -> str:
     return str(uuid4())

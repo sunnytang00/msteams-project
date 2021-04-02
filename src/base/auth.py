@@ -29,9 +29,7 @@ def auth_login_v1(email, password):
 
     # TODO: make helper function that returns user based on email
     for user in get_users():
-        # check user exists
         if email == user['email']:
-            # check corret password
             if password == user['password']:
                 return {'auth_user_id': user['u_id']}
             else:
@@ -94,7 +92,8 @@ def auth_register_v1(email, password, name_first, name_last):
         'handle_str': handle_str,
         'password': password,
         'permission_id': permission_id,
-        'removed': False
+        'removed': False,
+        'session_list': []
     }
 
     # register user
