@@ -6,7 +6,7 @@ from tests.helper import helper, clear
 
 @clear
 def test_valid_input(helper):
-    """Testing for a valid login, first register the user and then login, expected return is user_id."""
+    """Testing for a valid login, first register the user and then login, expected return is auth_user_id."""
     output = auth_register_v1(email='harrypotter@gmail.com',
                                 password='qw3rtyAppl3s@99',
                                 name_first='Harry',

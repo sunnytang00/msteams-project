@@ -37,7 +37,7 @@ class Helper:
             value (int) - select a user to register
     
         Return Value:
-            Returns user_id
+            Returns auth_user_id
         """
         users = [
             {

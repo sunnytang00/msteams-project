@@ -14,16 +14,16 @@ def test_time_created():
                                 password='42flshjfzhh8',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
-    channel = channels_create_v1(user_id, "Cat Society", True)
+    channel = channels_create_v1(auth_user_id, "Cat Society", True)
     channel_id = channel['channel_id']
 
-    message_send_v1(user_id, channel_id, 'test message')
+    message_send_v1(auth_user_id, channel_id, 'test message')
 
     unix_timestamp = int(time.time()) # round to the neareast second
 
-    result = channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=0)
+    result = channel_messages_v1(auth_user_id=auth_user_id, channel_id=channel_id, start=0)
     result_unix_timestamp = result['messages'][0]['time_created']
     
     assert unix_timestamp == result_unix_timestamp
@@ -34,12 +34,12 @@ def test_pagination():
                                 password='42flshjfzhh8',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
-    channel = channels_create_v1(user_id, "Cat Society", True)
+    channel = channels_create_v1(auth_user_id, "Cat Society", True)
     channel_id = channel['channel_id']
 
-    result = channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=0)
+    result = channel_messages_v1(auth_user_id=auth_user_id, channel_id=channel_id, start=0)
     result_start = result['start']
     result_end = result['end']
     
@@ -51,12 +51,12 @@ def test_invalid_channel_id():
                                 password='42flshjfzhh8',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
     invalid_channel_id = 40
 
     with pytest.raises(InputError) as e: 
-        channel_messages_v1(auth_user_id=user_id, channel_id=invalid_channel_id, start=0)
+        channel_messages_v1(auth_user_id=auth_user_id, channel_id=invalid_channel_id, start=0)
         assert f'Channel ID {invalid_channel_id} is not a valid channel' in str(e)
 
 @clear
@@ -65,15 +65,15 @@ def test_invalid_start():
                                 password='42flshjfzhh8',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
-    channel = channels_create_v1(user_id, "Cat Society", True)
+    channel = channels_create_v1(auth_user_id, "Cat Society", True)
     channel_id = channel['channel_id']
 
     invalid_start = 100
 
     with pytest.raises(InputError) as e: 
-        channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=invalid_start)
+        channel_messages_v1(auth_user_id=auth_user_id, channel_id=channel_id, start=invalid_start)
         assert f'Start {invalid_start} is greater than the total number of messages in the channel.' in str(e)
 
 @clear
@@ -84,11 +84,11 @@ def test_user_not_member(helper):
                                 password='42flshjfzhh8',
                                 name_first='Bob',
                                 name_last='Smith')
-    user_id = user['auth_user_id']
+    auth_user_id = user['auth_user_id']
 
     channel = channels_create_v1(10, "Cat Society", True)
     channel_id = channel['channel_id']
 
     with pytest.raises(AccessError) as e: 
-        channel_messages_v1(auth_user_id=user_id, channel_id=channel_id, start=0)
-        assert f'Authorised user {user_id} is not a member of channel with channel_id {channel_id}' in str(e)
+        channel_messages_v1(auth_user_id=auth_user_id, channel_id=channel_id, start=0)
+        assert f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}' in str(e)

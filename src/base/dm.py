@@ -110,7 +110,7 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
         raise InputError(f"u_id {auth_user_id} does not refer to a valid user")
 
     if not user_is_dm_member(dm_id, auth_user_id):
-        raise AccessError(f'user with user_id {auth_user_id} is not part of the dm')
+        raise AccessError(f'user with auth_user_id {auth_user_id} is not part of the dm')
 
     dm_users = get_dm(dm_id).get('u_ids')
     dm_users.append(u_id)
@@ -123,7 +123,7 @@ def dm_remove_v1(auth_user_id, dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
     
     if get_dm(dm_id).get('auth_user_id') != auth_user_id:
-        raise AccessError(f'auth_user_id with user_id {auth_user_id} is not creator')
+        raise AccessError(f'auth_user_id with auth_user_id {auth_user_id} is not creator')
 
     dm_list = get_dms()
     dm = get_dm(dm_id)
