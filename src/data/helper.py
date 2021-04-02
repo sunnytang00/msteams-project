@@ -154,6 +154,27 @@ def store_user(user: dict) -> None:
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
+
+def store_session_id(u_id: int, session_id: int) -> None:
+    """Update the user's session id
+    
+    Arguments:
+        u_id (int) - The user's id
+        session_id (int) - The user's session id
+
+    Return Value:
+        Returns None on all conditions
+    """
+
+    data = get_data()
+    idx = get_user_index(u_id)
+
+    data['users'][idx]['session_list'].append(session_id)
+
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
+
 def store_message_dm(message: dict, dm_id: int) ->None:
     """store message sent to dm on the data storage
 
