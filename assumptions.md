@@ -60,8 +60,8 @@ If the user leaves and is:
 1. The u_id of the user who creates a DM has to be valid.
 
 ## admin
-### `admin_user_remove`
-1. An admin can not remove themselves.
+1. ...
+
 
 ## other
 ### `clear`
