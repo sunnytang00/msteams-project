@@ -1,6 +1,7 @@
 from src.base.error import InputError
 
-def echo(value):
-    if value == 'echo':
-        raise InputError('Input cannot be echo')
-    return value
+def echo(input):
+    if input == 'echo':
+        raise InputError
+    return input
+

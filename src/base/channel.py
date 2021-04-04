@@ -4,9 +4,10 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 """
 
 import time
-from src.data.data import data
 from src.base.error import InputError, AccessError
-from src.base.helper import user_exists, get_user_data, get_channel_data, channel_exists, user_is_member
+from src.base.helper import get_user, get_channel, user_is_member,\
+     user_is_Dream_owner, user_is_owner, remove_from_owner_members, remove_from_all_members
+from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -24,23 +25,20 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
         Returns {} (dict) on invited user.
     """    
 
-    global data
-
-    if not user_exists(auth_user_id):
+    if not get_user(auth_user_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
 
-    if not user_exists(u_id):
+    if not get_user(u_id):
         raise InputError(f'u_id {u_id} does not refer to a valid user')
-
-    channel = get_channel_data(channel_id)
-
-    if not channel:
+ 
+    if not get_channel(channel_id):
         raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
     
-    if not user_is_member(channel, auth_user_id):
+    if not user_is_member(channel_id, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
 
-    channel['all_members'].append(u_id)
+    user = get_user(u_id)
+    append_channel_all_members(channel_id, user)
     return {}
 
 def channel_details_v1(auth_user_id, channel_id):
@@ -57,13 +55,13 @@ def channel_details_v1(auth_user_id, channel_id):
     Return Value:
         Returns { name, owner_members, all_members } (dict) on valid channel_id and auth_user_id
     """    
-    channel = get_channel_data(channel_id)
-
-    if not channel:
+    if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
-    if not user_is_member(channel, auth_user_id):
+    if not user_is_member(channel_id, auth_user_id):
         raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
+
+    channel = get_channel(channel_id)
 
     name = channel['name']
     owner_members = channel['owner_members']
@@ -94,14 +92,13 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     """ 
     limit = 50
 
-    channel = get_channel_data(channel_id)
-    if not channel_exists(channel_id):
+    if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
-    if not user_is_member(channel, auth_user_id):
+    if not user_is_member(channel_id, auth_user_id):
         raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
 
-    channel = get_channel_data(channel_id)
+    channel = get_channel(channel_id)
     # check if start is valid
     messages = channel['messages']
     if start > len(messages):
@@ -109,34 +106,41 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     end = start + limit
     if end > len(messages):
         end = -1
-    time_created = int(time.time())
 
     return {
-        'messages': [
-            {
-                'message_id': 1,
-                'u_id': 1,
-                'message': 'Hello world',
-                'time_created': time_created,
-            }
-        ],
-        'start': start,
-        'end': end,
+        'messages' : messages,
+        'start' : start,
+        'end' : end
     }
 
 
 def channel_leave_v1(auth_user_id, channel_id):
-    """[summary]
+    """ Remove user with u_id from owner list of channel with channel_id
 
     Args:
-        auth_user_id ([type]): [description]
-        channel_id ([type]): [description]
+        auth_user_id (should be token): [description]
+        channel_id (int): id of channel
+
+    Exceptions:
+        AccessError - Occurs when the token is invalid
+        AccessError - Occurs when the auth_user is not member of channel
+        InputError - Occurs when the channel_id is invalid
 
     Returns:
-        [type]: [description]
-    """    
-    return {
-    }
+        Returns {} (dict) on success
+    """   
+    if not get_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not get_channel(channel_id):
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
+
+    if not user_is_member(channel_id, auth_user_id):
+        raise AccessError(f'user with {auth_user_id} is not member of channel')
+    
+    remove_from_owner_members(channel_id, auth_user_id)
+    remove_from_all_members(channel_id, auth_user_id)
+    return {}
 
 def channel_join_v1(auth_user_id, channel_id):
     """ Add user as the member of channel with specified ID
@@ -155,49 +159,97 @@ def channel_join_v1(auth_user_id, channel_id):
     Return Value:
         Returns {} (dict) on success
     """
-    global data
 
-    if not user_exists(auth_user_id):
+    if not get_user(auth_user_id):
         raise AccessError('User ID is invaild')
 
-    if not channel_exists(channel_id):
+    if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')
 
-    channel_data = get_channel_data(channel_id)
+    channel_data = get_channel(channel_id)
 
     if not channel_data['is_public']:
         raise AccessError(f'channel_id {channel_id} refers to a channel that is private')
-    if user_is_member(channel_data, auth_user_id):
+    if user_is_member(channel_id, auth_user_id):
         raise InputError('The user is already in the channel')
-
-    channel_data['all_members'].append(auth_user_id)
+    
+    user = get_user(auth_user_id)
+    append_channel_all_members(channel_id, user)
 
     return {}
 
 def channel_addowner_v1(auth_user_id, channel_id, u_id):
-    """[summary]
+    """ Add user with u_id as owner of channel with channel_id
 
     Args:
-        auth_user_id ([type]): [description]
-        channel_id ([type]): [description]
-        u_id ([type]): [description]
+        auth_user_id (should be token): [description]
+        channel_id (int): id of channel
+        u_id (int): id of user being added to channel
+
+    Exceptions:
+        AccessError - Occurs when the token is invalid
+        AccessError - Occurs when the auth_user is not owner of channel or owner of 'Dreams' 
+        InputError - Occurs when the channel_id is invalid
+        InputError - Occurs when user with u_id is already owner of channel
 
     Returns:
-        [type]: [description]
+        Returns {} (dict) on success
     """    
-    return {
-    }
+    if not get_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not get_channel(channel_id):
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
+
+
+    if not user_is_Dream_owner(auth_user_id) and not user_is_owner(channel_id, auth_user_id):
+        raise AccessError(f'Auth_user with id {auth_user_id} is not owner of channel or owner of dreams')
+
+    if user_is_owner(channel_id, u_id):
+        raise InputError(f' user with ID {u_id} is arleady owner of channel')
+
+    user = get_user(u_id)
+    append_channel_owner_members(channel_id, user)
+    if not user_is_member(channel_id, u_id):
+        append_channel_all_members(channel_id, user)
+
+    return {}
 
 def channel_removeowner_v1(auth_user_id, channel_id, u_id):
-    """[summary]
+    """ Remove user with u_id from owner list of channel with channel_id
 
     Args:
-        auth_user_id ([type]): [description]
-        channel_id ([type]): [description]
-        u_id ([type]): [description]
+        auth_user_id (should be token): [description]
+        channel_id (int): id of channel
+        u_id (int): id of user whose owner permission being removed
+
+    Exceptions:
+        AccessError - Occurs when the token is invalid
+        AccessError - Occurs when the auth_user is not owner of channel or owner of 'Dreams' 
+        InputError - Occurs when the channel_id is invalid
+        InputError - Occurs when user with u_id is not owner of channel
+        InputError - Occurs when user is the only owner in the channel
 
     Returns:
-        [type]: [description]
-    """    
-    return {
-    }
+        Returns {} (dict) on success
+    """   
+    if not get_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not get_channel(channel_id):
+        raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
+
+    if not user_is_Dream_owner(auth_user_id) and not user_is_owner(channel_id, auth_user_id):
+        raise AccessError(f'Auth_user with id {auth_user_id} is not owner of channel or owner of dreams')
+    
+    if not user_is_owner(channel_id, u_id):
+        raise InputError(f'user with {u_id} is not owner of channel')
+    
+    channel = get_channel(channel_id)
+
+    if user_is_owner(channel_id, u_id) and len(channel['owner_members']) == 1:
+        raise InputError(f'user with {u_id} is the only owner of channel')
+
+    remove_from_owner_members(channel_id, u_id)
+
+    return {}

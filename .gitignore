@@ -125,3 +125,9 @@ dmypy.json
 
 # Other
 *.py~
+
+# storage file
+data.json
+
+# vscode
+.vscode

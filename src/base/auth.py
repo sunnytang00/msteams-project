@@ -3,20 +3,20 @@
 This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
 """
 
-from src.data.data import data
 from src.base.error import InputError
 from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
+from src.data.helper import get_users, store_user, get_user_count, get_owner_count, update_owner_count
 import re
 
 def auth_login_v1(email, password):
     """ Given a registered users' email and password and returns their `auth_user_id` value
 
     Arguments:
-        email (str) - The users email address.
-        password (str) - The users password.
+        email (str) - The users email address
+        password (str) - The users password
 
     Exceptions:
-        InputError - Occurs when email entered is not a valid email as according to project specification.
+        InputError - Occurs when email entered is not a valid email as according to project specification
         InputError - Occurs when the email matches a registered email, but the password is incorrect
         InputError - Occurs when the email entered does not match any registered system
 
@@ -27,10 +27,9 @@ def auth_login_v1(email, password):
     if not valid_email(email):
         raise InputError(f'Email {email} entered is not a valid email')
 
-    for user in data['users']:
-        # check user exists
+    # TODO: make helper function that returns user based on email
+    for user in get_users():
         if email == user['email']:
-            # check corret password
             if password == user['password']:
                 return {'auth_user_id': user['u_id']}
             else:
@@ -43,23 +42,22 @@ def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
 
     Arguments:
-        email (str) - The users email address.
-        password (str) - The users password.
-        name_first (str) - The users first name.
-        name_last (str) - The users last name.
+        email (str) - The user's email address
+        password (str) - The user's password
+        name_first (str) - The user's first name
+        name_last (str) - The user's last name
     
     Exceptions:
-        InputError - Occurs when email entered is not a valid email as according to project specification.
-        InputError - Occurs when email address is already being used by another user.
-        InputError - Occurs when password entered is less than 6 characters long.
-        InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length.
-        InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length.
+        InputError - Occurs when email entered is not a valid email as according to project specification
+        InputError - Occurs when email address is already being used by another user
+        InputError - Occurs when password entered is less than 6 characters long
+        InputError - Occurs when name_first is not between 1 and 50 characters inclusively in length
+        InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length
 
     Return Value:
         Returns auth_user_id (dict) on newly created user.
     """
-    global data
-    user_id = len(data['users']) + 1
+    auth_user_id = get_user_count() + 1
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -76,19 +74,31 @@ def auth_register_v1(email, password, name_first, name_last):
     if email_exists(email):
         raise InputError(f'Email address {email} is already being used by another user')
 
-    # TODO: only base implemented
     handle_str = get_handle_str(name_first, name_last)
 
-    # register user
-    data['users'].append({ 
-        'u_id': user_id,
+    permission_id = 0
+    if not get_users(): #if there is no user already registered
+        permission_id = 1
+        owner_count = get_owner_count() + 1
+        update_owner_count(owner_count)
+    else:
+        permission_id = 2
+
+    user = { 
+        'u_id': auth_user_id,
         'email': email,
         'name_first': name_first,
         'name_last': name_last,
         'handle_str': handle_str,
-        'password': password
-    })
+        'password': password,
+        'permission_id': permission_id,
+        'removed': False,
+        'session_list': []
+    }
+
+    # register user
+    store_user(user)
 
     return {
-        'auth_user_id': user_id,
+        'auth_user_id': auth_user_id,
     }
