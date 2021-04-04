@@ -510,6 +510,7 @@ def update_message(message_id: int, channel_id: int, remove: bool) -> None:
 
     if remove:
         del data['channels'][channel_idx]['messages'][message_idx]
+        #data['channels'][channel_idx]['messages'].pop(message_idx)
     else:
         """TODO"""
         pass
