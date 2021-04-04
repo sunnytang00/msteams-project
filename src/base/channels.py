@@ -77,7 +77,6 @@ def channels_create_v1(auth_user_id, name, is_public):
     Exceptions:
         AccessError - Occurs when the auth_user_id is invalid 
         InputError - Occurs when the length of name is too long
-        InputError - Occurs when the channel with specified name already exists
 
     Return Value:
         Returns ｛'channel_id'｝ (dict) on valid authenticated user and valid name

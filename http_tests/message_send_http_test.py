@@ -18,7 +18,7 @@ def test_sendmessage_basic():
     assert auth_user_id == 1
 
     channel = requests.post(url + 'channels/create/v2', json = {
-        'auth_user_id': auth_user_id,
+        'token': token,
         'name': 'channel_test1',
         'is_public': True
     })
