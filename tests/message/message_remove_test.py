@@ -45,9 +45,8 @@ def test_message_no_longer_exists(helper):
         assert f"Message {message_id} (based on ID) no longer exists" in str(e.value)
 
 @clear
-def test_user_not_authorised(helper):
-    """TODO"""
-    """TODO double check this"""
+def test_user_is_not_channel_owner(helper):
+    """try removing a message created with auth_user_id with another user that is not a dream owner"""
     auth_user_id = helper.register_user(1)
     assert auth_user_id == 1
     not_auth_user_id = helper.register_user(2)
