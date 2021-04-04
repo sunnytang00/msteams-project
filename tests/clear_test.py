@@ -2,11 +2,10 @@ import pytest
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.error import InputError
-from tests.helper import helper
+from tests.helper import helper, clear
 
+@clear
 def test_users_clear():
-    clear_v1()
-
     result = auth_register_v1(email='batman@gmail.com',
                         password='q3yAppl3s99',
                         name_first='Bat',

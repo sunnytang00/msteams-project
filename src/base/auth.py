@@ -29,9 +29,7 @@ def auth_login_v1(email, password):
 
     # TODO: make helper function that returns user based on email
     for user in get_users():
-        # check user exists
         if email == user['email']:
-            # check corret password
             if password == user['password']:
                 return {'auth_user_id': user['u_id']}
             else:
@@ -59,7 +57,7 @@ def auth_register_v1(email, password, name_first, name_last):
     Return Value:
         Returns auth_user_id (dict) on newly created user.
     """
-    user_id = get_user_count() + 1
+    auth_user_id = get_user_count() + 1
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -87,19 +85,20 @@ def auth_register_v1(email, password, name_first, name_last):
         permission_id = 2
 
     user = { 
-        'u_id': user_id,
+        'u_id': auth_user_id,
         'email': email,
         'name_first': name_first,
         'name_last': name_last,
         'handle_str': handle_str,
         'password': password,
         'permission_id': permission_id,
-        'removed': False
+        'removed': False,
+        'session_list': []
     }
 
     # register user
     store_user(user)
 
     return {
-        'auth_user_id': user_id,
+        'auth_user_id': auth_user_id,
     }

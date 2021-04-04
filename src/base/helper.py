@@ -1,10 +1,12 @@
 """TODO"""
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
-                            get_dms, update_user_all_channel_message, update_user_all_dm_message
+                            get_dms, update_user_all_channel_message, update_user_all_dm_message, update_message
+from src.routes.helper import decode_token
 import re
 from datetime import timezone, datetime
 import time
+from collections import namedtuple
 
 def valid_email(email: str) -> bool:
     """Check if email is valid
@@ -80,13 +82,13 @@ def get_user(auth_user_id: int) -> dict:
     return {}
 
 def get_channel(channel_id: int) -> dict:
-    """Function that when passed a channel id, will get the id, name, user_id, owners, all members, messages and whether it is public
+    """Function that when passed a channel id, will get the id, name, auth_user_id, owners, all members, messages and whether it is public
 
     Arguments:
         channel_id (int): ID of the channel
 
     Return Values:
-        dict: A dict of the id, name, user_id, owners, all members, messages and whether it is public of the channel if it is found
+        dict: A dict of the id, name, auth_user_id, owners, all members, messages and whether it is public of the channel if it is found
         empty dict if the id does not match a channel
     """    
     for channel in get_channels():
@@ -339,17 +341,17 @@ def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
     }
 
 
-def remove_from_owner_members(channel_id : int, user_id: int) -> None:
+def remove_from_owner_members(channel_id : int, auth_user_id: int) -> None:
     """TODO"""
     owner_member = get_channel(channel_id)['owner_members']
-    user = get_user(user_id)
+    user = get_user(auth_user_id)
     owner_member.remove(user)
     update_owner_members(channel_id, owner_member)
 
-def remove_from_all_members(channel_id : int, user_id: int) -> None:
+def remove_from_all_members(channel_id : int, auth_user_id: int) -> None:
     """TODO"""
     all_member = get_channel(channel_id)['all_members']
-    user = get_user(user_id)
+    user = get_user(auth_user_id)
     all_member.remove(user)
     update_all_members(channel_id, all_member)
         
@@ -389,3 +391,32 @@ def remove_user(u_id: int) -> None:
         if user_is_dm_member(dm['dm_id'], u_id):
             update_user_all_dm_message(u_id, dm['dm_id'], 'Removed user')
 
+def get_message_channel_id(message_id: int) -> int:
+    """TODO
+    """
+    channels = get_channels()
+    for channel in channels:
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                return channel.get('channel_id')
+    return None
+
+def remove_message(message_id: int) -> bool:
+    """TODO"""
+    channel_id = get_message_channel_id(message_id)
+    if not channel_id:
+        return False
+    else:
+        update_message(message_id, channel_id, remove=True)
+        return True
+
+def token_to_auth_user_id(token: str) -> int:
+    """Get auth_user_id from a token
+    can also be used to see if token is valid
+    """
+    session_id = decode_token(token)
+    for user in get_users():
+        for session in user.get('session_list'):
+            if session == session_id:
+                return user.get('u_id')
+    return None

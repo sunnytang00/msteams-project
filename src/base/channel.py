@@ -109,19 +109,11 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     end = start + limit
     if end > len(messages):
         end = -1
-    time_created = int(time.time())
 
     return {
-        'messages': [
-            {
-                'message_id': 1,
-                'u_id': 1,
-                'message': 'Hello world',
-                'time_created': time_created,
-            }
-        ],
-        'start': start,
-        'end': end,
+        'messages' : messages,
+        'start' : start,
+        'end' : end
     }
 
 

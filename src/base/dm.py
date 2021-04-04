@@ -1,13 +1,38 @@
-"""TODO"""
+""" Functionality to DMs.
 
+This module demonstrates the creation, removal, invitation, ability to leave and display DMs.
+As specified by the COMP1531 Major Project specification.
+"""
 from src.base.error import InputError, AccessError
 from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_member, get_user
 from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users
-def dm_create(auth_user_id, u_ids):
-    """TODO"""
+
+def dm_create_v1(auth_user_id, u_ids):
+    """Create a DM.
+    
+    Arguements:
+        auth_user_id (int) - an authorised user
+        u_ids (int) - contains the user(s) that this DM is 
+        directed to, and will not include the creator.
+    Exceptions:
+        InputError when auth_user_id does not refer to a valid user
+        InputError when u_id does not refer to a valid user
+    
+    Return Value:
+        Returns a dict containing dm_id and dm_name on success
+    """
+
+    if not get_current_user(auth_user_id):
+        raise InputError(f"auth_user_id {auth_user_id} does not refer to a valid user")
+    
+    for u_id in u_ids:
+        if not get_current_user(u_id):
+            raise InputError(f"u_id {u_id} does not refer to a valid user")
+
     #using auth user in place of token
     dm_id = get_dm_count() + 1
     dm_name = get_dm_name(u_ids)
+    # notes user who makes dm is not in u_ids
     dm = {
         'auth_user_id' : auth_user_id,
         'dm_id': dm_id,
@@ -110,7 +135,7 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
         raise InputError(f"u_id {auth_user_id} does not refer to a valid user")
 
     if not user_is_dm_member(dm_id, auth_user_id):
-        raise AccessError(f'user with user_id {auth_user_id} is not part of the dm')
+        raise AccessError(f'user with auth_user_id {auth_user_id} is not part of the dm')
 
     dm_users = get_dm(dm_id).get('u_ids')
     dm_users.append(u_id)
@@ -123,7 +148,7 @@ def dm_remove_v1(auth_user_id, dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
     
     if get_dm(dm_id).get('auth_user_id') != auth_user_id:
-        raise AccessError(f'auth_user_id with user_id {auth_user_id} is not creator')
+        raise AccessError(f'auth_user_id with auth_user_id {auth_user_id} is not creator')
 
     dm_list = get_dms()
     dm = get_dm(dm_id)
