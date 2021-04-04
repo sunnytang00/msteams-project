@@ -45,4 +45,3 @@ def test_basic(helper):
     dmlist = requests.get(url + f'dm/list/v1?{queryString}')
     dmlist_info = dmlist.json()
     assert dmlist_info == ['1', '2']
-    """
