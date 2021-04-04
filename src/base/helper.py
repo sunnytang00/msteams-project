@@ -444,3 +444,4 @@ def get_user_by_email(email: str) -> dict:
     for user in get_current_users():
         if user['email'] == email:
             return user
+    return {}        
