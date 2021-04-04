@@ -1,23 +1,20 @@
 import requests
 from json import loads
 from src.config import url
+from http_tests.helper import clear, helper
 
-def test_channels_create_basic():
+@clear
+def test_channels_create_basic(helper):
     ##register a user first
-    response = requests.post(url + 'auth/register/v2', json = {
-        'email' : 'harrypotter2@gmail1.com',
-        'password' : 'dumbledore2',
-        'name_first' : 'harry2',
-        'name_last' : 'potter2'
-    })
-
-    token = response.json().get('token')
+    token = helper.register_user(1).json().get('token')
     assert token
+
     response = requests.post(url + 'channels/create/v2', json = {
         'token': token,
         'name': 'channel_test1',
         'is_public': True
     })
+    assert response.status_code == 201
 
     status_code = response.status_code
     # reading data from response
@@ -25,4 +22,16 @@ def test_channels_create_basic():
     channel_id = data.get('channel_id')
 
     assert channel_id == 1
-    assert status_code == 201
+
+@clear
+def test_name_too_long(helper):
+    token = helper.register_user(1).json().get('token')
+    assert token
+
+    response = requests.post(url + 'channels/create/v2', json = {
+        'token': token,
+        'name': 'channel_test1' * 20,
+        'is_public': True
+    })
+
+    assert response.status_code == 400
