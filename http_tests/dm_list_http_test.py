@@ -34,20 +34,15 @@ def test_basic(helper):
         'u_ids' : [u_id3]
     })
 
-
     readable_dm = dm_info.json()
     dm_id = readable_dm.get('dm_id')
 
     readable_dm1 = dm_info1.json()
     dm_id1 = readable_dm1.get('dm_id')
 
-    print(dm_id)
-    print(dm_id1)
-
     queryString = urllib.parse.urlencode({
         'token' : token,
     })
-    print(queryString)
   
     dmlist = requests.get(url + f'dm/list/v1?{queryString}')
     dmlist_info = dmlist.json()
