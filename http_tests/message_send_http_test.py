@@ -14,6 +14,7 @@ def test_sendmessage_basic():
 
     user_info =  user.json()
     auth_user_id = user_info.get('auth_user_id')
+    token = user_info.get('token')
     assert auth_user_id == 1
 
     channel = requests.post(url + 'channels/create/v2', json = {
@@ -27,7 +28,7 @@ def test_sendmessage_basic():
     assert channel_id == 1
 
     message = requests.post(url + 'message/send/v2', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'channel_id' : channel_id,
         'message' : 'i hope this works'
 
