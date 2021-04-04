@@ -104,6 +104,7 @@ def get_channel(channel_id: int) -> dict:
             }
     return {}
 
+'''
 def get_dm_data(dm_id : int) -> dict:
     """Function that when a passed a dm id, will get the id, dm_name and u_ids that refers to member of dm
 
@@ -122,7 +123,7 @@ def get_dm_data(dm_id : int) -> dict:
                 'u_ids': dm['u_ids']
             }
     return {}
-
+'''
 def get_dm(dm_id: int) -> dict:
     """Function that when a passed a dm id, will get the id, dm_name and u_ids that refers to member of dm
 
@@ -323,7 +324,7 @@ def user_is_dm_member(dm_id: int, u_id: int) -> bool:
         True: if user with u_id is member of dm
         False: if user with u_id is not member of dm
     """
-    dm = get_dm_data(dm_id)
+    dm = get_dm(dm_id)
     if u_id in dm['u_ids']:
         return True
     return False

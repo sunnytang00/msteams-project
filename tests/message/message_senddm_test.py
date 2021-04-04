@@ -18,7 +18,7 @@ def test_valid_input():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, []).get('dm_id')
 
     msgs = "test"
 
@@ -36,7 +36,7 @@ def test_msg_too_long():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, []).get('dm_id')
 
     msgs = "test" * 1000
 
@@ -55,7 +55,7 @@ def test_invalid_token():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, []).get('dm_id')
 
     #make a invalid token
     u_id = auth_user_id + 10
@@ -81,7 +81,7 @@ def test_auth_user_not_member():
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm_id = dm_create_v1(auth_user_id, [auth_user_id]).get('dm_id')
+    dm_id = dm_create_v1(auth_user_id, []).get('dm_id')
 
     with pytest.raises(AccessError) as e:
         message_senddm_v1(user2_id, dm_id, "test")

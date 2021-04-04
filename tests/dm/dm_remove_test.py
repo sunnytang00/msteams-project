@@ -5,7 +5,7 @@ from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
 from src.base.dm import dm_create_v1, dm_remove_v1, dm_list_v1
 from tests.helper import clear
-from src.data.helper import get_dms
+#from src.data.helper import get_dms
 
 @clear
 def test_valid_input():
@@ -28,13 +28,13 @@ def test_valid_input():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     
     dm_remove_v1(auth_user_id, 1)
 
-    assert get_dms() == []
+    assert dm_list_v1(auth_user_id) == []
 
 @clear
 def test_same_dm_owner_remove_one():
@@ -57,22 +57,24 @@ def test_same_dm_owner_remove_one():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
-    dm1 = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
+    dm1 = dm_create_v1(auth_user_id, [user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     assert dm1.get('dm_id') == 2
     
     dm_remove_v1(auth_user_id, 1)
-
+    lst = [dm['dm_id'] for dm in dm_list_v1(auth_user_id)]
+    assert lst == [2]
+    '''
     assert get_dms() == [{
         'auth_user_id' : 1,
         'dm_id' : 2,
         'dm_name' : 'harrypotter, harrypotter0, harrypotter1',
-        'u_ids' : [1, 2, 3],
+        'u_ids' : [2, 3],
         'messages': []
     }]
-
+    '''
 @clear
 def test_create_two_dm_remove_one():
     #register users
@@ -93,22 +95,25 @@ def test_create_two_dm_remove_one():
     user2_id = user2.get('auth_user_id')
     user3_id = user3.get('auth_user_id')
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
-    dm1 = dm_create_v1(user2_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
+    dm1 = dm_create_v1(user2_id, [user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     assert dm1.get('dm_id') == 2
     
     dm_remove_v1(user2_id, 2)
+    lst = [dm['dm_id'] for dm in dm_list_v1(auth_user_id)]
+    assert lst == [1]
 
+    '''
     assert get_dms() == [{
         'auth_user_id' : 1,
         'dm_id' : 1,
         'dm_name' : 'harrypotter, harrypotter0, harrypotter1',
-        'u_ids' : [1, 2, 3],
+        'u_ids' : [2, 3],
         'messages': []
     }]
-
+    '''
 @clear
 def test_not_valid_dm_id():
     #register users
@@ -130,7 +135,7 @@ def test_not_valid_dm_id():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
     dm_id = dm.get('dm_id')
     assert dm_id == 1
     
@@ -159,7 +164,7 @@ def test_not_creator_deleting_dm():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
 
     assert dm.get('dm_id') == 1
     
