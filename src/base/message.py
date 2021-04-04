@@ -23,7 +23,21 @@ def message_send_v1(auth_user_id, channel_id, message):
     }
 
 def message_remove_v1(auth_user_id, message_id):
-    """TODO"""
+    """Given a message_id for a message, this message is removed from the channel/DM
+
+    Arguments:
+        auth_user_id (int) - The user's id
+        message_id (int) - The user's message id
+
+    Exceptions:
+        InputError - Message (based on ID) no longer exists
+        AccessError when none of the following are true
+            - Message with message_id was sent by the authorised user making this request
+            - The authorised user is an owner of this channel (if it was sent to a channel) or the **Dreams**
+
+    Return Value:
+        Returns empty dict on all conditions
+    """
     channel_id = get_message_channel_id(message_id)
     channel = get_channel(channel_id)
     if not user_is_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
