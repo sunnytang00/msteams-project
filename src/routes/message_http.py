@@ -38,8 +38,15 @@ def message_edit():
 
 @message_blueprint.route("/message/remove/v1", methods=['DELETE'])
 def message_remove():
-    return dumps({
-    })
+    data = request.get_json()
+
+    token = data.get('token')
+    message_id = data.get('message_id')
+    auth_user_id = token_to_auth_user_id(token)
+
+    ret = message_remove_v1(auth_user_id, message_id)
+
+    return dumps(ret)
 
 
 @message_blueprint.route("/message/share/v1", methods=['POST'])
