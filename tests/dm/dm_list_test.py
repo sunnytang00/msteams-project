@@ -22,7 +22,7 @@ def test_valid_input():
     dm_id = dm['dm_id']
 
     assert dm_id in [dm['dm_id'] for dm in dms]
-
+    
 @clear
 def test_not_member_of_any_dm():
     #register users
