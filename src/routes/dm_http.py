@@ -24,7 +24,13 @@ def dm_details():
 
 @dm_blueprint.route("/dm/list/v1", methods=['GET'])
 def dm_list():
+    token = request.args.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+
+    dm_list = dm_list_v1(auth_user_id)
+
     return dumps({
+        'dms' : dm_list
     })
 
 @dm_blueprint.route("/dm/create/v1", methods=['POST'])
