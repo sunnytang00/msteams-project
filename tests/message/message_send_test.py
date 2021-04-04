@@ -44,7 +44,7 @@ def test_message_over1000():
 
     with pytest.raises(InputError) as e: 
         message_send_v1(auth_user_id, channel_id, msg)
-        assert "Message is more than 1000 characters" in str(e)
+        assert "Message is more than 1000 characters" in str(e.value)
 
 @clear
 def test_message_user_not_in_channel():
@@ -70,5 +70,5 @@ def test_message_user_not_in_channel():
 
     with pytest.raises(AccessError) as e: 
         message_send_v1(intruder_id, channel_id, "i hope this works")
-        assert "Authorised user has not joined the channel" in str(e)
+        assert "Authorised user has not joined the channel" in str(e.value)
 

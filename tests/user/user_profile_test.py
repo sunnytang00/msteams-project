@@ -48,4 +48,4 @@ def test_fail_user():
     u_id = 2
     with pytest.raises(InputError) as e:
         user_profile_v1(auth_user_id, u_id).get('user')
-        assert f'User with u_id {u_id} is not a valid user' in str(e)
+        assert f'User with u_id {u_id} is not a valid user' in str(e.value)

@@ -51,7 +51,7 @@ def test_invalid_firstname_change():
     with pytest.raises(InputError) as e:
         user_profile_setname_v1(auth_user_id, new_name_first, new_name_last)
 
-        assert f'name_first {new_name_first} is not between 1 and 50 characters inclusively in length' in str(e)
+        assert f'name_first {new_name_first} is not between 1 and 50 characters inclusively in length' in str(e.value)
 
 @clear
 def test_invalid_lastname_change():
@@ -73,4 +73,4 @@ def test_invalid_lastname_change():
 
     with pytest.raises(InputError) as e:
         user_profile_setname_v1(auth_user_id, new_name_first, new_name_last)
-        assert f'name_last {new_name_last} is not between 1 and 50 characters inclusively in length' in str(e)        
+        assert f'name_last {new_name_last} is not between 1 and 50 characters inclusively in length' in str(e.value)        

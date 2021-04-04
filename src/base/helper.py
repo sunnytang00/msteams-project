@@ -2,6 +2,7 @@
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
                             get_dms, update_user_all_channel_message, update_user_all_dm_message, update_message
+from src.routes.helper import decode_token
 import re
 from datetime import timezone, datetime
 import time
@@ -408,3 +409,14 @@ def remove_message(message_id: int) -> bool:
     else:
         update_message(message_id, channel_id, remove=True)
         return True
+
+def token_to_auth_user_id(token: str) -> int:
+    """Get auth_user_id from a token
+    can also be used to see if token is valid
+    """
+    session_id = decode_token(token)
+    for user in get_users():
+        for session in user.get('session_list'):
+            if session == session_id:
+                return user.get('u_id')
+    return None
