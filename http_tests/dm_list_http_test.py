@@ -6,8 +6,6 @@ import urllib
 
 @clear
 def test_basic(helper):
-    pass
-    """
 
     response = helper.register_user(1)
     response2 = helper.register_user(2)
