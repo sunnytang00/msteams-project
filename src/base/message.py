@@ -1,7 +1,7 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message
+from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_owner, get_message_channel_id
 from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
@@ -24,8 +24,11 @@ def message_send_v1(auth_user_id, channel_id, message):
 
 def message_remove_v1(auth_user_id, message_id):
     """TODO"""
+    channel_id = get_message_channel_id(message_id)
+    channel = get_channel(channel_id)
+    if not user_is_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+        raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
-    # TODO ACCESS ERRORS
     if not remove_message(message_id):
         raise InputError(f"Message {message_id} (based on ID) no longer exists")
 
