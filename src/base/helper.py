@@ -170,8 +170,8 @@ def user_is_owner(channel: dict, auth_user_id: int) -> bool:
         True: if the user is an owner of the channel
         False: if the user is not an owner of the channel
     """        
-    for owner in channel['owner_members']:
-        if owner['u_id'] == auth_user_id:
+    for owner in channel.get('owner_members'):
+        if owner.get('u_id') == auth_user_id:
             return True
     return False
 
