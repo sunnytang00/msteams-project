@@ -11,6 +11,7 @@ data = {
             'handle_str': harrypotter,     
             'password': password_1_1324&#!$,
             'is_global_permission': 1,                        
+            'session_list': [123e4567-e89b-12d3-a456-426614174000]
         },
         { 
             'u_id': 2,                                              
@@ -20,6 +21,7 @@ data = {
             'handle_str': bobsmith,    
             'password': password_2_1324&#!$,
             'is_global_permission': 2,
+            'session_list': []
         },
     ],
     'channels': [           
