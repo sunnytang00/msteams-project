@@ -3,8 +3,8 @@ from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
 from src.base.helper import token_to_auth_user_id
-from src.base.channel import channel_details_v1 #just for test
 from urllib.parse import urlencode
+
 @clear 
 def test_valid_input(helper):
     user1 = helper.register_user(1)
