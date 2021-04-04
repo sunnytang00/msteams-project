@@ -16,7 +16,6 @@ def test_channels_create_basic(helper):
     })
     assert response.status_code == 201
 
-    status_code = response.status_code
     # reading data from response
     data = response.json()
     channel_id = data.get('channel_id')
