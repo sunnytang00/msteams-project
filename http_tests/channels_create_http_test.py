@@ -10,14 +10,11 @@ def test_channels_create_basic():
         'name_first' : 'harry2',
         'name_last' : 'potter2'
     })
-    status_code = response.status_code
-    assert status_code == 201
 
-    user = response.json()
-    auth_user_id = user['auth_user_id']
-
+    token = response.json().get('token')
+    assert token
     response = requests.post(url + 'channels/create/v2', json = {
-        'auth_user_id': auth_user_id,
+        'token': token,
         'name': 'channel_test1',
         'is_public': True
     })
