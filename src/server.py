@@ -10,7 +10,7 @@ from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 from src.base.channels import channels_create_v1
 
-#from src.routes.dm_http import dm_blueprint
+from src.routes.dm_http import dm_blueprint
 from src.routes.auth_http import auth_blueprint
 from src.routes.clear_http import clear_blueprint
 from src.routes.channels_http import channels_blueprint
@@ -37,7 +37,7 @@ APP.register_blueprint(channels_blueprint)
 APP.register_blueprint(channel_blueprint)
 APP.register_blueprint(user_blueprint)
 APP.register_blueprint(message_blueprint)
-#APP.register_blueprint(dm_blueprint)
+APP.register_blueprint(dm_blueprint)
 
 #######################
 CORS(APP)
