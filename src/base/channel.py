@@ -168,7 +168,7 @@ def channel_join_v1(auth_user_id, channel_id):
 
     channel_data = get_channel(channel_id)
 
-    if not channel_data['is_public'] and not user_is_owner(channel_id, auth_user_id):
+    if not channel_data['is_public'] and not user_is_Dream_owner(auth_user_id):
         raise AccessError(f'channel_id {channel_id} refers to a channel that is private')
     if user_is_member(channel_id, auth_user_id):
         raise InputError('The user is already in the channel')

@@ -2,7 +2,7 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import token_to_auth_user_id
+from src.base.helper import token_to_auth_user_id, get_user
 from urllib.parse import urlencode
 
 @clear
@@ -22,10 +22,10 @@ def test_valid_input(helper):
     ch_id = ch.json().get('channel_id')
 
     response = requests.post(url + "/channel/join/v2", json = {
-        'token': token2
+        'token': token2,
         'channel_id': ch_id
     })
-    assert = response.status_code == 201
+    assert response.status_code == 201
 
     channels = requests.get(url + 'channels/list/v2?token=' + token2).json()
 
@@ -43,7 +43,7 @@ def test_invalid_channel(helper):
     ch_id = 10
 
     response = requests.post(url + "/channel/join/v2", json = {
-        'token': token2
+        'token': token2,
         'channel_id': ch_id
     })
 
@@ -66,7 +66,7 @@ def test_non_global_owner_access_private(helper):
     ch_id = ch.json().get('channel_id')
 
     response = requests.post(url + "/channel/join/v2", json = {
-        'token': token2
+        'token': token2,
         'channel_id': ch_id
     })
 
@@ -89,7 +89,7 @@ def test_global_owner_access_private(helper):
     ch_id = ch.json().get('channel_id')
 
     response = requests.post(url + "/channel/join/v2", json = {
-        'token': token1
+        'token': token1,
         'channel_id': ch_id
     })
     assert response.status_code == 201

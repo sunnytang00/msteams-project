@@ -1,7 +1,7 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.channel import channel_details_v1, channel_invite_v1
+from src.base.channel import channel_details_v1, channel_invite_v1, channel_join_v1
 from src.base.helper import token_to_auth_user_id
 from src.base.other import clear_v1
 
@@ -41,8 +41,15 @@ def channel_messages():
 
 @channel_blueprint.route("/channel/join/v2", methods=['POST'])
 def channel_join():
-    return dumps({
-    })
+    data = request.get_json()
+    token = data.get('token')
+    ch_id = data.get('channel_id')
+
+    auth_user_id = token_to_auth_user_id(token)
+
+    channel_join_v1(auth_user_id, ch_id)
+    
+    return dumps({}), 201
 
 @channel_blueprint.route("/channel/addowner/v1", methods=['POST'])
 def channel_add_owner():
