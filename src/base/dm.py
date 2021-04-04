@@ -74,8 +74,7 @@ def dm_details_v1(auth_user_id, dm_id):
         raise AccessError(f"auth_user {auth_user_id} is not member of dm {dm_id}")
 
     dm = get_dm(dm_id)
-    owner = get_user(dm.get('auth_user_id'))
-    members = [owner]
+    members = []
     for u_id in dm['u_ids']:
         user = get_user(u_id)
         if user:

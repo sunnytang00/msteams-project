@@ -44,9 +44,15 @@ def test_basic(helper):
     assert dm.status_code == 200
 
     dm_details = dm.json()
-
+    print(dm_details.get('members'))
     assert dm_details.get('name') == 'cadifinch, marcoslowery'
-    assert dm_details.get('members') == [{'u_id': 2, 
+    assert dm_details.get('members') == [{'u_id': 1, 
+                                        'email': 'harrypotter3@gmail.com', 
+                                        'name_first': 'Harrrrry', 
+                                        'name_last': 'Pottttter', 
+                                        'handle_str': 'harrrrrypottttter', 
+                                        'permission_id': 1},
+                                        {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
