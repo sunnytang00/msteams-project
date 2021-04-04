@@ -29,7 +29,7 @@ def test_valid_input():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -59,7 +59,7 @@ def test_dm_id_not_valid():
     user3_id = user3.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1
@@ -95,7 +95,7 @@ def test_member_not_part_of_dm():
     user4_id = user4.get('auth_user.id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id, user3_id])
+    dm = dm_create_v1(auth_user_id, [user2_id, user3_id])
 
     dm_id = dm.get('dm_id')
     assert dm_id == 1

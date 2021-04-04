@@ -22,7 +22,7 @@ def test_valid_input():
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id, user2_id])
+    dm = dm_create_v1(auth_user_id, [user2_id])
     
     details = dm_details_v1(user2_id, dm['dm_id'])
 
@@ -40,7 +40,7 @@ def test_invalid_token():
     auth_user_id = user.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id])
+    dm = dm_create_v1(auth_user_id, [])
 
     #make a invalid token
     u_id = auth_user_id + 10
@@ -83,7 +83,7 @@ def test_auth_user_not_member():
     user2_id = user2.get('auth_user_id')
 
     #create a dm
-    dm = dm_create_v1(auth_user_id, [auth_user_id])
+    dm = dm_create_v1(auth_user_id, [])
 
     with pytest.raises(AccessError) as e:
         dm_details_v1(user2_id, dm['dm_id'])

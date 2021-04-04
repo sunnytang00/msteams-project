@@ -12,7 +12,7 @@ def dm_create_v1(auth_user_id, u_ids):
     
     Arguements:
         auth_user_id (int) - an authorised user
-        u_ids (int) - contains the user(s) that this DM is 
+        u_ids (int) - contains the user(s) that this DM is, creator would not included on this list
         directed to, and will not include the creator.
     Exceptions:
         InputError when auth_user_id does not refer to a valid user
@@ -32,12 +32,15 @@ def dm_create_v1(auth_user_id, u_ids):
     #using auth user in place of token
     dm_id = get_dm_count() + 1
     dm_name = get_dm_name(u_ids)
-    # notes user who makes dm is not in u_ids
+
+    members = [auth_user_id]
+    members.extend(u_ids)
+    
     dm = {
         'auth_user_id' : auth_user_id,
         'dm_id': dm_id,
         'dm_name': dm_name,
-        'u_ids': u_ids,
+        'u_ids': members,
         'messages': []
     }
     store_dm(dm)
@@ -71,7 +74,8 @@ def dm_details_v1(auth_user_id, dm_id):
         raise AccessError(f"auth_user {auth_user_id} is not member of dm {dm_id}")
 
     dm = get_dm(dm_id)
-    members = []
+    owner = get_user(dm.get('auth_user_id'))
+    members = [owner]
     for u_id in dm['u_ids']:
         user = get_user(u_id)
         if user:
