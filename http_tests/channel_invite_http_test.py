@@ -22,7 +22,7 @@ def test_valid_input(helper):
     })
     ch_id = ch.json().get('channel_id')
 
-    requests.post(url + "/channel/invite/v2", json = {
+    response = requests.post(url + "/channel/invite/v2", json = {
         'token': invitor_token,
         'channel_id': ch_id,
         'u_id': invitee_id
@@ -31,7 +31,7 @@ def test_valid_input(helper):
     assert response.status_code == 201
 
     url2 = urlencode({"token": invitee_token})
-    channels = requests.get(url + 'channel/list/v2?' + url2).json()
+    channels = requests.get(url + 'channels/list/v2?' + url2).json()
     
     assert ch_id in [channel['channel_id'] for channel in channels['channels']]
 
@@ -96,7 +96,7 @@ def test_auth_user_not_member(helper):
     })
     ch_id = ch.json().get('channel_id')
 
-    requests.post(url + "/channel/invite/v2", json = {
+    response = requests.post(url + "/channel/invite/v2", json = {
         'token': invitor_token,
         'channel_id': ch_id,
         'u_id': invitee_id
