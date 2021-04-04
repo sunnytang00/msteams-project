@@ -3,14 +3,15 @@ from json import dumps
 from flask import Flask, request, Blueprint
 from src.base.other import clear_v1
 from src.base.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1
-
+from src.base.helper import token_to_auth_user_id
 message_blueprint = Blueprint('message_blueprint', __name__)
 
 @message_blueprint.route("/message/send/v2", methods=['POST'])
 def message_send():
     data = request.get_json()
 
-    auth_user_id = data.get('auth_user_id')
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
     channel_id = data.get('channel_id')
     message = data.get('message')
 
