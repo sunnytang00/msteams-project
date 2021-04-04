@@ -1,6 +1,8 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
+from src.base.channel import channel_details_v1
+from src.base.helper import token_to_auth_user_id
 from src.base.other import clear_v1
 
 channel_blueprint = Blueprint('channel_blueprint', __name__)
@@ -12,8 +14,17 @@ def channel_invite():
 
 @channel_blueprint.route("/channel/details/v2", methods=['GET'])
 def channel_details():
+    token = request.args.get('token')
+    ch_id = request.args.get('channel_id')
+    auth_user_id = token_to_auth_user_id(token)
+
+    channel = channel_details_v1(auth_user_id, int(ch_id))
     return dumps({
-    })
+        'name': channel.get('name'),
+        'is_public': channel.get('is_public'),
+        'owner_members': channel.get('owner_members'),
+        'all_members': channel.get('all_members')
+    }), 200
 
 @channel_blueprint.route("/channel/messages/v2", methods=['GET'])
 def channel_messages():
