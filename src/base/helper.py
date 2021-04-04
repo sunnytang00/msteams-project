@@ -435,3 +435,12 @@ def token_to_auth_user_id(token: str) -> int:
             if session == session_id:
                 return user.get('u_id')
     return None
+
+def get_user_by_email(email: str) -> dict:
+    """ Get user(dictionary) from email
+    Only for current users.
+    """
+
+    for user in get_current_users():
+        if user['email'] == email:
+            return user
