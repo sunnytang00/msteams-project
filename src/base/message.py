@@ -7,12 +7,12 @@ from src.base.helper import create_message
 
 def message_send_v1(auth_user_id, channel_id, message):
 
-    channel_data = get_channel(channel_id)
+   # channel_data = get_channel(channel_id)
 
     if len(message) > 1000:
         raise InputError("Message is more than 1000 characters")
     
-    if not user_is_member(channel_data, auth_user_id):
+    if not user_is_member(channel_id, auth_user_id):
         raise AccessError("Authorised user has not joined the channel")
 
     message = create_message(auth_user_id, channel_id, message)

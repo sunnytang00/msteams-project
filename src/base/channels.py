@@ -34,7 +34,7 @@ def channels_list_v1(auth_user_id):
                 }
 
     for channel in get_channels():
-        if user_is_member(channel, auth_user_id):
+        if user_is_member(channel.get('channel_id'), auth_user_id):
             channels = {}
             channels['channel_id'] = channel['channel_id']
             channels['name'] = channel['name']
@@ -59,7 +59,7 @@ def channels_listall_v1(auth_user_id):
 
     public_channels = {'channels': []}
     for channel in get_channels():
-        if user_is_member(channel, auth_user_id) or channel['is_public']:
+        if user_is_member(channel['channel_id'], auth_user_id) or channel['is_public']:
             channels = {}
             channels['channel_id'] = channel['channel_id']
             channels['name'] = channel['name']
