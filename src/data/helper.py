@@ -502,18 +502,27 @@ def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_message(message_id: int, channel_id: int, remove: bool) -> None:
-    """TODO"""
+def update_message(message_id: int, channel_id: int, message = None) -> None:
+    """ remove or edit a message in a channel
+
+    Arguments:
+        message_id (int) - id of a message
+        channel_id (int) - id of a channel
+        message (optional) (str) - a message
+
+    Return Value:
+        Returns None on all conditions
+    """
     data = get_data()
     channel_idx = get_channel_index(channel_id)
     message_idx = get_message_index(channel_idx, message_id)
 
-    if remove:
+    if not message:
+        # no message given so we want to delete a message
         del data['channels'][channel_idx]['messages'][message_idx]
-        #data['channels'][channel_idx]['messages'].pop(message_idx)
     else:
-        """TODO"""
-        pass
+        # message given so we want to edit the message
+        data['channels'][channel_idx]['messages'][message_idx]['message'] = message
 
     with open(data_path, 'w') as f:
         json.dump(data, f)

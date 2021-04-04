@@ -12,8 +12,8 @@ def auth_login_v1(email, password):
     """ Given a registered users' email and password and returns their `auth_user_id` value
 
     Arguments:
-        email (str) - The users email address
-        password (str) - The users password
+        email (str) - The user's email address
+        password (str) - The user's password
 
     Exceptions:
         InputError - Occurs when email entered is not a valid email as according to project specification
