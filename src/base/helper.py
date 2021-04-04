@@ -144,33 +144,35 @@ def get_dm(dm_id: int) -> dict:
             }
     return {}
 
-def user_is_member(channel: dict, auth_user_id: int) -> bool:
+def user_is_member(channel_id: int, auth_user_id: int) -> bool:
     """A function that when passed a channel and an ID of an authenticated user, will check if it is a member of the channel
 
     Arguments:
-        channel (dict): A dictionary of the channel data
+        channel_id : ID of channel
         auth_user_id (int): ID of authenticated user
 
     Return Values:
         True: if the ID of the user is a member of the channel
         False: if the user is not a member of the channel
     """    
+    channel = get_channel(channel_id)
     for user in channel['all_members']:
         if auth_user_id == user['u_id']:
             return True
     return False
 
-def user_is_owner(channel: dict, auth_user_id: int) -> bool:
+def user_is_owner(channel_id: int, auth_user_id: int) -> bool:
     """A function when passed a channel and authenticated user ID, checks if they are the owner
 
     Arguments: 
-        channel (dict): A dictionary of the channel data
+        channel_id : ID of channel
         auth_user_id: ID of an authenticated user
 
     Return Values:
         True: if the user is an owner of the channel
         False: if the user is not an owner of the channel
     """        
+    channel = get_channel(channel_id)
     for owner in channel['owner_members']:
         if owner['u_id'] == auth_user_id:
             return True
@@ -387,9 +389,9 @@ def remove_user(u_id: int) -> None:
     """
     channels = get_channels()
     for channel in channels:
-        if user_is_owner(channel, u_id):
+        if user_is_owner(channel.get('channel_id'), u_id):
             remove_from_owner_members(channel['channel_id'], u_id) # remove user from owner_member
-        if user_is_member(channel, u_id):
+        if user_is_member(channel.get('channel_id'), u_id):
             remove_from_all_members(channel['channel_id'], u_id)  # remove user from all member
             update_user_all_channel_message(u_id, channel['channel_id'], 'Removed user')
 
