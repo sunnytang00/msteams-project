@@ -6,8 +6,8 @@ from src.base.helper import token_to_auth_user_id
 import urllib
 from src.base.dm import dm_details_v1
 from src.base.helper import token_to_auth_user_id
-@clear
 
+@clear
 def test_basic(helper):
 
     response = helper.register_user(1)
@@ -22,7 +22,9 @@ def test_basic(helper):
     token2 = data2.get('token')
 
     u_id2 = data2.get('auth_user_id')
+    assert u_id2 == 2
     u_id3 = data3.get('auth_user_id')
+    assert u_id3 == 3
 
     dm_info = requests.post(url + 'dm/create/v1', json = {
         'token' : token,
@@ -31,24 +33,17 @@ def test_basic(helper):
 
     readable_dm = dm_info.json()
     dm_id = readable_dm.get('dm_id')
-    print(dm_id)
 
-    details = dm_details_v1(2,dm_id)
-    name = details.get('name')
-    members = details.get('members')
-    print(name)
-    print(members)
-    print(token_to_auth_user_id(token2))
     queryString = urllib.parse.urlencode({
         'token' : token2,
         'dm_id' : dm_id
     })
   
     dm = requests.get(url + f'dm/details/v1?{queryString}')
+
+    assert dm.status_code == 200
+
     dm_details = dm.json()
-    print(dm)
-    print(dm_details)
-    print(dm_details.get('name'))
-    print(dm_details.get('members'))
+
     assert dm_details.get('name') == 'cadifinch, marcoslowery'
     

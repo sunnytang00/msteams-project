@@ -9,7 +9,7 @@ dm_blueprint = Blueprint('dm_blueprint', __name__)
 @dm_blueprint.route("/dm/details/v1", methods=['GET'])
 def dm_details():
     token = request.args.get('token')
-    dm_id = request.args.get('dm_id')
+    dm_id = int(request.args.get('dm_id'))
 
     auth_user_id = token_to_auth_user_id(token)
 
