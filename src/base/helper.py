@@ -172,17 +172,13 @@ def user_is_owner(channel_id: int, auth_user_id: int) -> bool:
         True: if the user is an owner of the channel
         False: if the user is not an owner of the channel
     """        
-<<<<<<< HEAD
+    channel = get_channel(channel_id)
     owners = channel.get('owner_members')
     if not owners:
+        # don't iterate over NoneType
         return False
     for owner in owners:
         if owner.get('u_id') == auth_user_id:
-=======
-    channel = get_channel(channel_id)
-    for owner in channel['owner_members']:
-        if owner['u_id'] == auth_user_id:
->>>>>>> 7c414288a8acb357104deefe892bfc4052db85c3
             return True
     return False
 
