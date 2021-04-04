@@ -61,3 +61,5 @@ def message_senddm_v1(auth_user_id, dm_id, message):
     return {
         'message_id' : msg_id
     }
+
+#def message_share_v1():
