@@ -10,11 +10,13 @@ from src.base.auth import auth_register_v1
 from src.base.auth import auth_login_v1
 from src.base.channels import channels_create_v1
 
+from src.routes.dm_http import dm_blueprint
 from src.routes.auth_http import auth_blueprint
 from src.routes.clear_http import clear_blueprint
 from src.routes.channels_http import channels_blueprint
 from src.routes.channel_http import channel_blueprint
 from src.routes.user_http import user_blueprint
+from src.routes.message_http import message_blueprint
 
 def defaultHandler(err):
     response = err.get_response()
@@ -34,6 +36,8 @@ APP.register_blueprint(clear_blueprint)
 APP.register_blueprint(channels_blueprint)
 APP.register_blueprint(channel_blueprint)
 APP.register_blueprint(user_blueprint)
+APP.register_blueprint(message_blueprint)
+APP.register_blueprint(dm_blueprint)
 
 #######################
 CORS(APP)
@@ -70,41 +74,6 @@ def message_remove():
 
 @APP.route("/message/share/v1", methods=['POST'])
 def message_share():
-    return dumps({
-    })
-
-@APP.route("/dm/details/v1", methods=['GET'])
-def dm_details():
-    return dumps({
-    })
-
-@APP.route("/dm/list/v1", methods=['GET'])
-def dm_list():
-    return dumps({
-    })
-
-@APP.route("/dm/create/v1", methods=['POST'])
-def dm_create():
-    return dumps({
-    })
-
-@APP.route("/dm/remove/v1", methods=['DELETE'])
-def dm_remove():
-    return dumps({
-    })
-
-@APP.route("/dm/invite/v1", methods=['POST'])
-def dm_invite():
-    return dumps({
-    })
-
-@APP.route("/dm/leave/v1", methods=['POST'])
-def dm_leave():
-    return dumps({
-    })
-
-@APP.route("/dm/messages/v1", methods=['GET'])
-def dm_messages():
     return dumps({
     })
 
