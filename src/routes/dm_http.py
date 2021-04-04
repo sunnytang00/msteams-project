@@ -8,14 +8,13 @@ dm_blueprint = Blueprint('dm_blueprint', __name__)
 
 @dm_blueprint.route("/dm/details/v1", methods=['GET'])
 def dm_details():
-    data = request.get_json()
-
-    token = data.get('token')
-    dm_id = data.get('dm_id')
+    token = request.args.get('token')
+    dm_id = request.args.get('dm_id')
 
     auth_user_id = token_to_auth_user_id(token)
 
     details = dm_details_v1(auth_user_id, dm_id)
+    
     name = details.get('name')
     members = details.get('members')
     return dumps({
