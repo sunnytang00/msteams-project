@@ -2,11 +2,10 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import token_to_auth_user_id
 from urllib.parse import urlencode
 
 @clear
-def test_valid_input():
+def test_valid_input(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     
@@ -38,7 +37,7 @@ def test_valid_input():
 
 
 @clear
-def test_invalid_channel_id():
+def test_invalid_channel_id(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     
@@ -58,7 +57,7 @@ def test_invalid_channel_id():
     assert response.status_code == 400
 
 @clear
-def test_u_id_already_owner():
+def test_u_id_already_owner(helper):
     user1 = helper.register_user(1)  
 
     token1 = user1.json().get('token')
@@ -80,7 +79,7 @@ def test_u_id_already_owner():
     assert response.status_code == 400
 
 @clear
-def test_auth_user_no_access():
+def test_auth_user_no_access(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     user3 = helper.register_user(3)
@@ -106,7 +105,7 @@ def test_auth_user_no_access():
     assert response.status_code == 403
 
 @clear
-def test_global_owner():
+def test_global_owner(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     user3 = helper.register_user(3)
@@ -131,7 +130,7 @@ def test_global_owner():
     })
     assert response.status_code == 201
 
-    url2 = urlencode({"token": token1, "channel_id": ch_id})
+    url2 = urlencode({"token": token2, "channel_id": ch_id})
 
     channel = requests.get(url + 'channel/details/v2?' + url2).json()
 
