@@ -439,8 +439,17 @@ def token_to_auth_user_id(token: str) -> int:
 def get_user_by_email(email: str) -> dict:
     """ Get user(dictionary) from email
     Only for current users.
-    """
 
+
+    Arguments:
+        email (str)    - Email for a user.
+
+ 
+    Return Value:
+        Returns user(dictionary) on a user with the same email.
+        Returns empty(dictionary) on no user with the email.
+
+    """
     for user in get_current_users():
         if user['email'] == email:
             return user
