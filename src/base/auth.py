@@ -4,7 +4,7 @@ This module demonstrates user registration and login authentication as specified
 """
 
 from src.base.error import InputError
-from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str
+from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, get_user_by_email
 from src.data.helper import get_users, store_user, get_user_count, get_owner_count, update_owner_count
 import re
 
@@ -27,16 +27,17 @@ def auth_login_v1(email, password):
     if not valid_email(email):
         raise InputError(f'Email {email} entered is not a valid email')
 
-    # TODO: make helper function that returns user based on email
-    for user in get_users():
-        if email == user['email']:
-            if password == user['password']:
-                return {'auth_user_id': user['u_id']}
-            else:
-                raise InputError(f'Password {password} is not correct')
-          
-    # email did not match any user
-    raise InputError(f'Email {email} entered does not belong to a user')
+    user = get_user_by_email(email)
+    
+    # email did not match any user.
+    if not user:
+        raise InputError(f'Email {email} entered does not belong to a user')
+
+    # email matches user.
+    if password == user['password']:
+        return {'auth_user_id': user['u_id']}
+    else:
+        raise InputError(f'Password {password} is not correct')    
 
 def auth_register_v1(email, password, name_first, name_last):
     """Register a new user by appending to data
