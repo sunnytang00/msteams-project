@@ -13,7 +13,7 @@ def dm_details():
 
     auth_user_id = token_to_auth_user_id(token)
 
-    details = dm_details_v1(auth_user_id, dm_id)
+    details = dm_details_v1(auth_user_id, int(dm_id))
     
     name = details.get('name')
     members = details.get('members')
