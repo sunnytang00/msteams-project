@@ -31,7 +31,7 @@ def message_remove_v1(auth_user_id, message_id):
 
     Exceptions:
         InputError - Message (based on ID) no longer exists
-        AccessError when none of the following are true
+        AccessError when none of the following are true:
             - Message with message_id was sent by the authorised user making this request
             - The authorised user is an owner of this channel (if it was sent to a channel) or the **Dreams**
 
@@ -49,7 +49,23 @@ def message_remove_v1(auth_user_id, message_id):
     return {}
 
 def message_edit_v1(auth_user_id, message_id, message):
-    """TODO"""
+    """Given a message, update its text with new text. If the new message is an empty string, the message is deleted.
+
+    Arguments:
+        auth_user_id (int) - The user's id
+        message_id (int) - The user's message id
+        message (str) - The message contents
+
+    Exceptions:
+        InputError - Length of message is over 1000 characters
+        InputError - message_id refers to a deleted message
+        AccessError when none of the following are true:
+            - Message with message_id was sent by the authorised user making this request
+            - The authorised user is an owner of this channel (if it was sent to a channel) or the **Dreams**
+
+    Return Value:
+        Returns empty dict on all conditions
+    """
     return {
     }
 
