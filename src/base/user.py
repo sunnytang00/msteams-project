@@ -1,6 +1,7 @@
 """TODO"""
 from src.base.helper import get_user
-from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, handle_str_exists
+from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, \
+                            get_handle_str, handle_str_exists, get_current_user
 from src.base.error import InputError
 from src.data.helper import get_users, update_name_first, update_name_last, update_email, update_handle_str 
 
@@ -14,6 +15,10 @@ def user_profile_v1(auth_user_id, u_id):
     name_first = user.get('name_first')
     name_last = user.get('name_last')
     handle_str = user.get('handle_str')
+
+    if not get_current_user(u_id):
+        name_first = 'Removed'
+        name_last = 'user'
 
     return {
         'user': {

@@ -1,7 +1,8 @@
 """TODO"""
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
-                            get_dms, update_user_all_channel_message, update_user_all_dm_message, update_message
+                            get_dms, update_user_all_channel_message, update_user_all_dm_message, update_message, \
+                            update_dm_users
 from src.routes.helper import decode_token
 import re
 from datetime import timezone, datetime
@@ -354,7 +355,13 @@ def remove_from_all_members(channel_id : int, auth_user_id: int) -> None:
     user = get_user(auth_user_id)
     all_member.remove(user)
     update_all_members(channel_id, all_member)
-        
+
+def remove_from_dm_members(dm_id : int, u_id: int) -> None:
+    """TODO"""
+    dm_members = get_dm(dm_id).get('u_ids')
+    dm_members.remove(u_id)
+    update_dm_users(dm_members, dm_id)     
+
 def get_dm_name(u_ids: list) -> str:
     """TODO"""
     # iterate over all users and populate with respected handle_str
@@ -389,7 +396,9 @@ def remove_user(u_id: int) -> None:
     dms = get_dms()
     for dm in dms:
         if user_is_dm_member(dm['dm_id'], u_id):
+            remove_from_dm_members(dm['dm_id'], u_id)
             update_user_all_dm_message(u_id, dm['dm_id'], 'Removed user')
+
 
 def get_message_channel_id(message_id: int) -> int:
     """TODO
