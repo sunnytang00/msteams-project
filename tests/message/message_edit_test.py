@@ -26,6 +26,9 @@ def test_message_edit_single_message(helper):
 
     assert messages[-1].get('message') == og_message
     message_edit_v1(auth_user_id, message_id, edited_message)
+
+    # get new updated message
+    messages = channel_messages_v1(auth_user_id, channel_id, 1).get('messages')
     assert messages[-1].get('message') == edited_message
 
 @clear
@@ -42,7 +45,7 @@ def test_edit_deleted_message(helper):
     message_id = message_info.get('message_id')
     assert message_id == 1
 
-    message_remove_v1(auth_register_v1, message_id)
+    message_remove_v1(auth_user_id, message_id)
 
     new_message = "blah blah"
     with pytest.raises(InputError) as e: 
