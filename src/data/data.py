@@ -36,7 +36,7 @@ data = {
                     'name_last': Potter,                         
                     'handle_str': harrypotter,    
                     'password': password_1_1324&#!$,
-                    'is_global_permission': 1,
+                    'permission_id': 1,
                 },
             ],
             'all_members': [
@@ -47,7 +47,7 @@ data = {
                     'name_last': Potter,                         
                     'handle_str': harrypotter,    
                     'password': password_1_1324&#!$,
-                    'is_global_permission': 1,                        
+                    'permission_id': 1,                        
                 },
                 { 
                     'u_id': 2,                                              
@@ -56,7 +56,7 @@ data = {
                     'name_last': Smith,                         
                     'handle_str': bobsmith,     
                     'password': password_2_1324&#!$,                         
-                    'is_global_permission': 2,
+                    'permission_id': 2,                        
                 },
             ],
             'messages': [
