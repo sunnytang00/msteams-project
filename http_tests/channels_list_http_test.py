@@ -61,7 +61,7 @@ def test_no_channel_exists(helper):
     token1 = helper.register_user(1).json().get('token')
 
     assert token1
-    channels = requests.get(url + 'channels/list/v2?token=' + token2).json()
+    channels = requests.get(url + 'channels/list/v2?token=' + token1).json()
 
     ch_ids = [channel['channel_id'] for channel in channels['channels']]
-    assert ch_ids = []
+    assert ch_ids == []

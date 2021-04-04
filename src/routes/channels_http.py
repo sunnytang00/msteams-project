@@ -2,14 +2,18 @@ import sys
 from json import dumps
 from flask import Flask, request, Blueprint
 from src.base.other import clear_v1
-from src.base.channels import channels_create_v1, channels_listall_v1
+from src.base.channels import channels_create_v1, channels_listall_v1, channels_list_v1
 from src.base.helper import token_to_auth_user_id
 channels_blueprint = Blueprint('channels_blueprint', __name__)
 
 @channels_blueprint.route("/channels/list/v2", methods=['GET'])
 def channels_list():
+    token = request.args.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    channels = channels_list_v1(auth_user_id)
     return dumps({
-    })
+        'channels': channels['channels']
+    }), 201
 
 @channels_blueprint.route("/channels/listall/v2", methods=['GET'])
 def channels_list_all():
