@@ -8,8 +8,8 @@ from src.base.auth import auth_register_v1
 class Helper:
     @staticmethod
     def register_user(value: int) -> requests.models.Response:
-        """Register one user
-        use when you want to register a user but only care about the user id
+        """Register one user.
+        Use when you want to register a user but only care about the user id
 
         Arguments:
             value (int) - select a user to register
@@ -35,6 +35,18 @@ class Helper:
                 'password': '1tJlH9WIvItbZb',
                 'name_first': 'Cadi',
                 'name_last': 'Finch'
+            },
+            {
+                'email': 'fletcherparker@gmail.com',
+                'password': '0MfdIzEGOr6Jc',
+                'name_first': 'Fletcher',
+                'name_last': 'Parker'
+            },
+            {
+                'email': 'tomjerry@gmail.com',
+                'password': 'ZgeDoajXeZN23',
+                'name_first': 'Tom',
+                'name_last': 'Jerry'
             }
         ]
         if value < 1 or value > len(users):
