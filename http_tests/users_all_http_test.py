@@ -30,8 +30,8 @@ def test_multiple_users(helper):
     assert token1
 
     u_id1 = user1.json().get('auth_user_id')
-    u_id2 = user1.json().get('auth_user_id')
-    u_id3 = user1.json().get('auth_user_id')
+    u_id2 = user2.json().get('auth_user_id')
+    u_id3 = user3.json().get('auth_user_id')
     
 
     url2 = urlencode({"token": token1})
