@@ -7,4 +7,10 @@ source =
 omit =
     test_*.py
     *_test.py
+    *_http.py
+    http_tests/helper.py
     src/server.py
+    src/routes/helper.py
+    src/base/helper.py
+    src/data/helper.py
+    tests/helper.py
