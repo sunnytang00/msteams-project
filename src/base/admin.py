@@ -3,6 +3,23 @@ from src.base.helper import get_user, user_is_Dream_owner, remove_user, get_curr
 from src.data.helper import update_permission_id, get_owner_count, update_owner_count, update_removed_flag
 
 def admin_userpermission_change_v1(auth_user_id, u_id, permission_id):
+    """Given a User by their user ID, set their 
+    permissions to new permissions described by permission_id
+
+    Args:
+        auth_user_id (int): id of authenticated user
+        u_id (int): id of user
+        permission_id (int): permission id of user
+
+    Raises:
+        AccessError: auth_user_id is not valid
+        InputError: u_id does not refer to a valid user
+        InputError: permission_id does not refer to a value permission
+        AccessError: when
+      
+        The authorised user is not an owner
+    Returns:
+    """    
     if not get_current_user(auth_user_id):
         raise AccessError(f'token {auth_user_id} does not refer to a valid token')
 
@@ -22,6 +39,25 @@ def admin_userpermission_change_v1(auth_user_id, u_id, permission_id):
     return {}
 
 def admin_user_remove_v1(auth_user_id, u_id):
+    """Given a User by their user ID, remove the user from the Dreams. 
+    Dreams owners can remove other **Dreams** owners 
+    (including the original first owner). Once users are removed from **Dreams**, 
+    the contents of the messages they sent will be replaced by 'Removed user'. 
+    Their profile must still be retrievable with user/profile/v2, with their 
+    name replaced by 'Removed user'. 
+
+    Args:
+        auth_user_id (int): id of authenticated user
+        u_id (int): id of user
+
+    Raises:
+        AccessError: auth_user_id is not valid
+        InputError: u_id does not refer to a valid user
+        AccessError: The user is currently the only owner
+        InputError: The authorised user is not an owner
+
+    Returns:
+    """    
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid token")
     
