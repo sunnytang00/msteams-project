@@ -24,7 +24,13 @@ def dm_details():
 
 @dm_blueprint.route("/dm/list/v1", methods=['GET'])
 def dm_list():
+    token = request.args.get('token')
+
+    auth_user_id = token_to_auth_user_id(token)
+
+    l = dm_list_v1(auth_user_id)
     return dumps({
+        'dms' : l
     })
 
 @dm_blueprint.route("/dm/create/v1", methods=['POST'])
@@ -45,7 +51,17 @@ def dm_create():
     })
 
 @dm_blueprint.route("/dm/remove/v1", methods=['DELETE'])
-def dm_remove():
+def dm_remove(): 
+    """
+    data = request.get_json()
+
+    token = data.get('token')
+    dm_id = data.get('dm_id')
+
+    auth_user_id = token_to_auth_user_id(token)
+    dm_remove_v1(auth_user_id, dm_id)
+    """
+
     return dumps({
     })
 
