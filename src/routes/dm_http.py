@@ -53,7 +53,7 @@ def dm_create():
 
 @dm_blueprint.route("/dm/remove/v1", methods=['DELETE'])
 def dm_remove(): 
-    """
+
     data = request.get_json()
 
     token = data.get('token')
@@ -61,7 +61,7 @@ def dm_remove():
 
     auth_user_id = token_to_auth_user_id(token)
     dm_remove_v1(auth_user_id, dm_id)
-    """
+    
 
     return dumps({
     })
