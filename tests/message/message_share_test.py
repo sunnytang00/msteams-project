@@ -41,6 +41,5 @@ def test_share_channel(helper):
 
     expected = f'{optional_message}\n"""\n{og_message}\n"""'
     assert channel_messages[1].get('message') == expected
-    assert 1 == 2
 
     # optional message
