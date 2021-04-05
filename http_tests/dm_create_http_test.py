@@ -51,8 +51,6 @@ def test_input_error(helper):
         'token' : token,
         'u_ids' : [4, u_id3]
     })
-
-    dm_info = dm.json()
     
     assert dm.status_code == 400
 
