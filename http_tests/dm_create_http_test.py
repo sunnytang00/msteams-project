@@ -39,7 +39,6 @@ def test_input_error(helper):
     response3 = helper.register_user(3)
 
     data = response.json()
-    data2 = response2.json()
     data3 = response3.json()
 
     token = data.get('token')
