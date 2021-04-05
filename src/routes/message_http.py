@@ -38,8 +38,37 @@ def message_edit():
 
 @message_blueprint.route("/message/remove/v1", methods=['DELETE'])
 def message_remove():
-    return dumps({
-    })
+    """Given a message_id for a message, this message is removed from the channel/DM
+
+    Arguments:
+        token (str)    - unique for each user.
+        message_id (int)    - User's message id.
+    
+
+    Exceptions:
+        InputError  - Occurs when ...
+        AccessError - Occurs when ...
+
+    Exceptions:
+        InputError - Message (based on ID) no longer exists
+        AccessError when none of the following are true:
+            - Message with message_id was sent by the authorised user making this request
+            - The authorised user is an owner of this channel (if it was sent to a channel) or the **Dreams**
+    Return Value:
+        Returns empty dict on successfully removing a message.        
+    """
+    
+    
+    data = request.get_json()
+
+    token = data.get('token')
+    message_id = data.get('message_id')
+    auth_user_id = token_to_auth_user_id(token)
+
+    ret = message_remove_v1(auth_user_id, message_id)
+
+    return dumps(ret)
+
 
 
 @message_blueprint.route("/message/share/v1", methods=['POST'])
