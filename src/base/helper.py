@@ -352,18 +352,27 @@ def new_message_id(channel_id: int) -> int:
     #After message is stored this will return 2 etc etc
     return get_message_count() + 1
 
-def create_message(auth_user_id: int, channel_id: int, message: str) -> dict:
+def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None) -> dict:
     timenow = datetime.utcnow()
     timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
 
-    return {
-        'message_id' : new_message_id(channel_id),
-        'channel_id' : channel_id,
-        'u_id' : auth_user_id,
-        'message' : message,
-        'time_created' : timestamp
-    }
-
+    if channel_id:
+        msg = {
+            'message_id' : new_message_id(channel_id),
+            'channel_id' : channel_id,
+            'u_id' : auth_user_id,
+            'message' : message,
+            'time_created' : timestamp
+        }
+    else:
+        msg = {
+            'message_id' : new_message_id(channel_id),
+            'dm_id' : dm_id,
+            'u_id' : auth_user_id,
+            'message' : message,
+            'time_created' : timestamp
+        }
+    return msg
 
 def remove_from_owner_members(channel_id : int, auth_user_id: int) -> None:
     """TODO"""
@@ -489,3 +498,23 @@ def get_user_by_email(email: str) -> dict:
         if user['email'] == email:
             return user
     return {}        
+
+def format_share_message(og_message: str, optional_message: str) -> str:
+    output = f'{optional_message}\n"""\n{og_message}\n"""'
+    return output
+
+def get_message(message_id: int) -> str:
+    channels = get_channels()
+    for channel in channels:
+        # look for message in channels
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                return message.get('message')
+
+    dms = get_dms()
+    for dm in dms:
+        # look for message in dms
+        for message in dm.get('messages'):
+            if message.get('message_id') == message_id:
+                return message.get('message')
+    return {}
