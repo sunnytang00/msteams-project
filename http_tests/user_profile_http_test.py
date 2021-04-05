@@ -42,8 +42,6 @@ def test_input_error():
     data = response.json()
     token = data.get('token')
 
-    u_id = 1
-
     queryString = urllib.parse.urlencode({
         'token' : token,
         'u_id' : 2
