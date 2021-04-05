@@ -30,7 +30,7 @@ def test_basic_invite(helper):
     dm_info = dm.json()
     assert dm_info.get('dm_id') == 1
 
-    dm1 = requests.post(url + 'dm/invite/v1', json = {
+    requests.post(url + 'dm/invite/v1', json = {
         'token' : token,
         'dm_id' : dm_info.get('dm_id'),
         'u_id' : u_id3
@@ -43,8 +43,6 @@ def test_basic_invite(helper):
   
     dm_deets = requests.get(url + f'dm/details/v1?{queryString}')
     dm_details = dm_deets.json()
-
-    print(dm_details)
 
     assert dm_details.get('name') == 'harrrrrypottttter, marcoslowery'
     assert dm_details.get('members') == [{'u_id': 1, 
