@@ -518,3 +518,40 @@ def get_message(message_id: int) -> str:
             if message.get('message_id') == message_id:
                 return message.get('message')
     return {}
+
+
+def get_notifications(u_id: int) -> list:
+    users = get_users()
+    for user in users:
+        if user.get('u_id') == u_id:
+            return user.get('notifications')
+    return None
+
+def get_channel_name(channel_id: int) -> str:
+    for channel in get_channels():
+        if channel.get('channel_id') == channel_id:
+            return channel.get('name')
+    return None
+
+def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, tagged = False) -> dict:
+    user = get_user(u_id)
+
+    handle_str = user.get('handle_str')
+
+    if added:
+        if channel_id != -1:
+            name = get_channel_name(channel_id)
+            notification_message = f"{handle_str} added you to {name}"
+            notification = {
+                'channel_id': channel_id,
+                'dm_id': dm_id,
+                'notification_message': notification_message
+            }
+
+        if dm_id != -1:
+            pass
+    if tagged:
+        pass
+
+    return notification
+
