@@ -35,7 +35,6 @@ def test_basic(helper):
 def test_input_error(helper):
 
     response = helper.register_user(1)
-    response2 = helper.register_user(2)
     response3 = helper.register_user(3)
 
     data = response.json()
