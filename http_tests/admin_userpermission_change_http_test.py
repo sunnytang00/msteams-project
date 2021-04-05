@@ -1,4 +1,3 @@
-'''
 import requests
 from json import loads
 from src.config import url
@@ -20,7 +19,7 @@ def test_valid_input(helper):
         'u_id': u_id,
         'permission_id': 1
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     ch_id = helper.create_channel(1, token1, 'big fish', True).json().get('channel_id')
 
@@ -86,4 +85,3 @@ def test_auth_user_not_Dream_owner(helper):
         'permission_id': 2
     })
     assert response.status_code == 403
-'''
