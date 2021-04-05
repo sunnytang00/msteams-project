@@ -94,7 +94,8 @@ def auth_register_v1(email, password, name_first, name_last):
         'password': password,
         'permission_id': permission_id,
         'removed': False,
-        'session_list': []
+        'session_list': [],
+        'notifications': []
     }
 
     # register user
