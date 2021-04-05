@@ -25,7 +25,7 @@ def test_valid_input():
 
     admin_user_remove_v1(auth_user_id, u_id)
 
-    assert u_id not in [user['u_id'] for user in users_all_v1()]
+    assert u_id not in [user['u_id'] for user in users_all_v1(auth_user_id)]
 
 @clear
 def test_removed_user_dm_msg():

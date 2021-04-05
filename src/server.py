@@ -18,6 +18,7 @@ from src.routes.channel_http import channel_blueprint
 from src.routes.user_http import user_blueprint
 from src.routes.message_http import message_blueprint
 from src.routes.admin_http import admin_blueprint
+from src.routes.users_http import users_blueprint
 
 def defaultHandler(err):
     response = err.get_response()
@@ -40,6 +41,7 @@ APP.register_blueprint(user_blueprint)
 APP.register_blueprint(message_blueprint)
 APP.register_blueprint(dm_blueprint)
 APP.register_blueprint(admin_blueprint)
+APP.register_blueprint(users_blueprint)
 #######################
 CORS(APP)
 
