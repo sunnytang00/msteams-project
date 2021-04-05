@@ -20,7 +20,6 @@ def test_basic(helper):
     assert response.status_code == 201
 
     data = response.json()
-    token_1 = data.get('token')
     auth_user_id_1 = data.get('auth_user_id')
     
     #creating 3rd user.
@@ -29,7 +28,6 @@ def test_basic(helper):
     assert response.status_code == 201
 
     data = response.json()
-    token_2 = data.get('token')
     auth_user_id_2 = data.get('auth_user_id')
 
     #creating channel.
