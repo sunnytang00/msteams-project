@@ -19,13 +19,17 @@ def test_register_single(helper):
     assert auth_user_id == data.get('auth_user_id') # see if returns correct id
 
 @clear
-def test_invalid_email():
+def test_invalid_email(helper):
+    """
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter_is_cool',
         'password' : 'dubledore',
         'name_first' : 'harry',
         'name_last' : 'potter'
     })
+    """
+    invalid_email = 'harry_is_cool'
+    response = helper.register_user(1, email=invalid_email)
 
     assert response.status_code == 400
 
