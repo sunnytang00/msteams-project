@@ -95,5 +95,20 @@ def dm_leave():
 
 @dm_blueprint.route("/dm/messages/v1", methods=['GET'])
 def dm_messages():
+    token = request.args.get('token')
+    dm_id = request.args.get('dm_id')
+    start = request.args.get('start')
+
+    auth_user_id = token_to_auth_user_id(token)
+
+    dm_msg = dm_messages_v1(auth_user_id, int(dm_id), int(start))
+
+    messages = dm_msg.get('messages')
+    start = dm_msg.get('start')
+    end = dm_msg.get('end')
+
     return dumps({
+        'messages' : messages,
+        'start' : start,
+        'end' : end
     })
