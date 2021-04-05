@@ -1,6 +1,11 @@
 from src.config import data_path
 import json
 
+def save(data) -> None:
+    """Dumps data to data.json"""
+    with open(data_path, 'w') as f:
+        json.dump(data, f)
+
 def clear_data() -> None:
     """ Resets the internal data of the application to it's initial state
     
@@ -20,8 +25,7 @@ def clear_data() -> None:
         'owner_count' : 0
     }
 
-    with open(data_path, 'w') as f:
-        json.dump(cleared_data, f)
+    save(cleared_data)
 
 def get_data() -> dict:
     """Get data stored on data storage
@@ -140,9 +144,7 @@ def store_message(message: dict, channel_id: int) -> None:
     data['channels'][idx]['messages'].append(message)
     data['message_count'] += 1
     
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 
 def store_user(user: dict) -> None:
     """store the data of user on data storage
@@ -157,9 +159,7 @@ def store_user(user: dict) -> None:
     data.get('users').append(user)
     data['user_count'] += 1
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 
 def store_session_id(u_id: int, session_id: int) -> None:
     """Update the user's session id
@@ -177,9 +177,7 @@ def store_session_id(u_id: int, session_id: int) -> None:
 
     data['users'][idx]['session_list'].append(session_id)
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 
 def store_message_dm(message: dict, dm_id: int) ->None:
     """store message sent to dm on the data storage
@@ -198,9 +196,7 @@ def store_message_dm(message: dict, dm_id: int) ->None:
     data['dms'][idx]['messages'].append(message)
     data['message_count'] += 1
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
@@ -218,9 +214,7 @@ def update_name_first(u_id: int, name_first: str) -> None:
 
     data['users'][idx]['name_first'] = name_first
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_name_last(u_id: int, name_last: str) -> None:
     """Update the user's last name
     
@@ -237,9 +231,7 @@ def update_name_last(u_id: int, name_last: str) -> None:
 
     data['users'][idx]['name_last'] = name_last
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_email(u_id: int, email: str) -> None:
     """Update the user's email
     
@@ -256,9 +248,7 @@ def update_email(u_id: int, email: str) -> None:
 
     data['users'][idx]['email'] = email
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_handle_str(u_id: int, handle_str: str) -> None:
     """Update the user's handle (i.e. display name)
     
@@ -274,9 +264,7 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
 
     data['users'][idx]['handle_str'] = handle_str 
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
 
@@ -292,9 +280,7 @@ def store_channel(channel: dict) -> bool:
     data['channels'].append(channel)
     data['channel_count'] += 1
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
     if get_channels() == data["channels"]:
         return True
     return False
@@ -315,9 +301,7 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
 
     data['channels'][idx]['all_members'].append(user)
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def append_channel_owner_members(channel_id: int, user: dict) -> None:
     """Append a user to channel owner members
 
@@ -334,9 +318,7 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
 
     data['channels'][idx]['owner_members'].append(user)
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_owner_members(channel_id: int, owner_members: list) -> None:
     """Update the owners users of a channel
 
@@ -353,9 +335,7 @@ def update_owner_members(channel_id: int, owner_members: list) -> None:
 
     data['channels'][idx]['owner_members'] = owner_members 
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_all_members(channel_id : int, all_members: list) -> None:
     """Update the member users of a channel
 
@@ -371,9 +351,7 @@ def update_all_members(channel_id : int, all_members: list) -> None:
 
     data['channels'][idx]['all_members'] = all_members 
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     """Update the permission id of a user
 
@@ -388,24 +366,18 @@ def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     idx = get_user_index(auth_user_id)
     data['users'][idx]['permission_id'] = permission_id
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_dm_list(dms: list) -> None:
     data = get_data()
     data['dms'] = dms
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_dm_users(dm_users: list, dm_id: int) -> None:
     data = get_data()
     idx = get_dm_index(dm_id)
     data['dms'][idx]['u_ids'] = dm_users
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def store_dm(dm: dict) -> None:
     """store the dm in storage
     
@@ -419,9 +391,7 @@ def store_dm(dm: dict) -> None:
     data.get('dms').append(dm)
 
     data['dm_count'] += 1
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_owner_count(owner_count : int) -> None:
     """ update the count of owner 
 
@@ -432,9 +402,7 @@ def update_owner_count(owner_count : int) -> None:
     """
     data = get_data()
     data['owner_count'] = owner_count
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_user_count(user_count: int) -> None:
     """ update the count of user 
 
@@ -445,9 +413,7 @@ def update_user_count(user_count: int) -> None:
     """
     data = get_data()
     data['owner_count'] = user_count
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     """ update the removed flag of user 
 
@@ -461,9 +427,7 @@ def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     data = get_data()
     idx = get_user_index(auth_user_id)
     data['users'][idx]['removed'] = flag
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in channel
 
@@ -483,9 +447,7 @@ def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: st
             msgs[i]['message'] = message
         i += 1
     data['channels'][idx]['messages'] = msgs
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in dm
 
@@ -505,9 +467,7 @@ def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> 
             msgs[i]['message'] = message
         i += 1
     data['dms'][idx]['messages'] = msgs
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
+    save(data)
 def update_message(message_id: int, channel_id = None, dm_id = None, message = None) -> None:
     """ remove or edit a message in a channel
 
@@ -538,7 +498,4 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
         else:
             data['dms'][dm_idx]['messages'][message_idx]['message'] = message
 
-    with open(data_path, 'w') as f:
-        json.dump(data, f)
-
-# TODO save func
+    save(data)
