@@ -64,7 +64,7 @@ def test_basic(helper):
         'message': "Hello everyone!",
     })
 
-    assert response.status_code == 201    
+    assert response.status_code == 200    
     #remove the message
 
     data = response.json()
@@ -75,7 +75,7 @@ def test_basic(helper):
         'message_id': message_id,
     })
 
-    assert response.status_code == 201
+    assert response.status_code == 204
 
     #check if message is deleted.
     assert get_message_count() == 0
