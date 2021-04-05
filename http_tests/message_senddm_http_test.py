@@ -81,13 +81,11 @@ def test_access_error(helper):
 
     data = response.json()
     data2 = response2.json()
-    data3 = response3.json()
 
     token = data.get('token')
     token3 = data3.get('token')
 
     u_id2 = data2.get('auth_user_id')
-    u_id3 = data3.get('auth_user_id')
 
     dm = requests.post(url + 'dm/create/v1', json = {
         'token' : token,
