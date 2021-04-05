@@ -14,11 +14,10 @@ def test_setname_basic():
     })
 
     data = response.json()
-    auth_user_id = data.get('auth_user_id')
-    assert auth_user_id == 1
+    token = data.get('token')
 
     requests.put(url + 'user/profile/setname/v2', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'name_first' : 'albus',
         'name_last' : 'dumbledore'
     })
@@ -26,7 +25,7 @@ def test_setname_basic():
     u_id = 1
 
     queryString = urllib.parse.urlencode({
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'u_id' : u_id
     })
     user = requests.get(url + f'user/profile/v2?{queryString}')
