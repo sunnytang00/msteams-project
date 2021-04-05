@@ -28,7 +28,7 @@ def test_basic(helper):
 
     dm_info = dm.json()
     assert dm_info.get('dm_id') == 1
-    assert dm_info.get('dm_name') == get_dm_name([u_id2, u_id3])
+    assert dm_info.get('dm_name') == get_dm_name([u_id, u_id2, u_id3])
 
 
 
