@@ -15,13 +15,7 @@ def test_valid_input(helper):
 
     u_id = user2.json().get('auth_user_id')
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     response = requests.post(url + "/channel/addowner/v1", json = {
         'token': token1,
         'channel_id' : ch_id,
@@ -64,12 +58,7 @@ def test_u_id_already_owner(helper):
     assert token1
     u_id = user1.json().get('auth_user_id')
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
 
     response = requests.post(url + "/channel/addowner/v1", json = {
         'token': token1,
@@ -90,13 +79,7 @@ def test_auth_user_no_access(helper):
 
     u_id = user3.json().get('auth_user_id')
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     response = requests.post(url + "/channel/addowner/v1", json = {
         'token': token2,
         'channel_id' : ch_id,
@@ -116,13 +99,7 @@ def test_global_owner(helper):
 
     u_id = user3.json().get('auth_user_id')
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token2,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(2,token2, 'big fish!', True).json().get('channel_id')
     response = requests.post(url + "/channel/addowner/v1", json = {
         'token': token1,
         'channel_id' : ch_id,

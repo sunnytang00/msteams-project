@@ -1,5 +1,5 @@
 from src.data.helper import clear_data, get_data
-from src.base.helper import user_is_member
+from src.base.helper import user_is_channel_member
 from src.base.error import InputError, AccessError
 
 def clear_v1():
@@ -34,7 +34,7 @@ def search_v1(auth_user_id, query_str):
 
         channel_id = channel['channel_id']
         
-        if user_is_member(channel_id, auth_user_id) is True:
+        if user_is_channel_member(channel_id, auth_user_id) is True:
 
             for message in channel['messages']:
 

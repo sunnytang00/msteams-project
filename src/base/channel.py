@@ -5,7 +5,7 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import get_user, get_channel, user_is_member,\
+from src.base.helper import get_user, get_channel, user_is_channel_member,\
      user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members
 from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members
 
@@ -34,7 +34,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     if not get_channel(channel_id):
         raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
     
-    if not user_is_member(channel_id, auth_user_id):
+    if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError(f'the authorised user {auth_user_id} is not already a member of the channel')
 
     user = get_user(u_id)
@@ -58,7 +58,7 @@ def channel_details_v1(auth_user_id, channel_id):
     if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
-    if not user_is_member(channel_id, auth_user_id):
+    if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
 
     channel = get_channel(channel_id)
@@ -95,7 +95,7 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')   
 
-    if not user_is_member(channel_id, auth_user_id):
+    if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError(f'Authorised user {auth_user_id} is not a member of channel with channel_id {channel_id}')
 
     channel = get_channel(channel_id)
@@ -135,7 +135,7 @@ def channel_leave_v1(auth_user_id, channel_id):
     if not get_channel(channel_id):
         raise InputError(f'channel_id {channel_id} does not refer to a valid channel')
 
-    if not user_is_member(channel_id, auth_user_id):
+    if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError(f'user with {auth_user_id} is not member of channel')
     
     remove_from_owner_members(channel_id, auth_user_id)
@@ -170,7 +170,7 @@ def channel_join_v1(auth_user_id, channel_id):
 
     if not channel_data['is_public'] and not user_is_Dream_owner(auth_user_id):
         raise AccessError(f'channel_id {channel_id} refers to a channel that is private')
-    if user_is_member(channel_id, auth_user_id):
+    if user_is_channel_member(channel_id, auth_user_id):
         raise InputError('The user is already in the channel')
     
     user = get_user(auth_user_id)
@@ -210,7 +210,7 @@ def channel_addowner_v1(auth_user_id, channel_id, u_id):
 
     user = get_user(u_id)
     append_channel_owner_members(channel_id, user)
-    if not user_is_member(channel_id, u_id):
+    if not user_is_channel_member(channel_id, u_id):
         append_channel_all_members(channel_id, user)
 
     return {}

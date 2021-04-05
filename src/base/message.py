@@ -1,7 +1,7 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner
+from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner
 from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
@@ -26,7 +26,7 @@ def message_send_v1(auth_user_id, channel_id, message):
     if len(message) > 1000:
         raise InputError("Message is more than 1000 characters")
     
-    if not user_is_member(channel_id, auth_user_id):
+    if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError("Authorised user has not joined the channel")
 
     message = create_message(auth_user_id, channel_id, message)
@@ -91,6 +91,7 @@ def message_edit_v1(auth_user_id, message_id, message):
     Return Value:
         Returns empty dict on successfully editing a message
     """
+    # TODO: add empty str delete
     output = get_message_ch_id_or_dm_id(message_id)
     channel_id = output.get('channel_id')
     dm_id = output.get('dm_id')
@@ -173,6 +174,20 @@ def message_share_v1(auth_user_id, og_message_id, channel_id, dm_id):
     Return Value:
         Returns shared_message_id on successfully sharing message
     """
+
+    output = get_message_ch_id_or_dm_id(og_message_id)
+    channel_id = output.get('channel_id')
+    dm_id = output.get('dm_id')
+
+    if channel_id:
+        # og_message is from a channel
+        pass
+    else:
+        # og_message is from a DM
+        if not user_is_dm_member(dm_id, auth_user_id):
+            raise AccessError(f"auth_user {auth_user_id} is not member of dm {dm_id}")
+        pass
+
     return {
         'shared_message_id': None
     }

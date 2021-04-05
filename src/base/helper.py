@@ -145,7 +145,7 @@ def get_dm(dm_id: int) -> dict:
             }
     return {}
 
-def user_is_member(channel_id: int, auth_user_id: int) -> bool:
+def user_is_channel_member(channel_id: int, auth_user_id: int) -> bool:
     """A function that when passed a channel and an ID of an authenticated user, will check if it is a member of the channel
 
     Arguments:
@@ -412,7 +412,7 @@ def remove_user(u_id: int) -> None:
     for channel in channels:
         if user_is_channel_owner(channel.get('channel_id'), u_id):
             remove_from_owner_members(channel['channel_id'], u_id) # remove user from owner_member
-        if user_is_member(channel.get('channel_id'), u_id):
+        if user_is_channel_member(channel.get('channel_id'), u_id):
             remove_from_all_members(channel['channel_id'], u_id)  # remove user from all member
             update_user_all_channel_message(u_id, channel['channel_id'], 'Removed user')
 
