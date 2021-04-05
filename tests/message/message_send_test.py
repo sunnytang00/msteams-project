@@ -7,16 +7,10 @@ from tests.helper import helper, clear
 from src.base.channels import channels_create_v1
 
 @clear
-def test_message_send_success():
+def test_message_send_success(helper):
+    auth_user_id = helper.register_user(1)
 
-    user = auth_register_v1(email='harrypotter@gmail.com',
-                        password='qw3rtyAppl3s@99',
-                        name_first='Harry',
-                        name_last='Potter')
-
-    auth_user_id = user['auth_user_id']
-
-    channel_id = channels_create_v1(auth_user_id, "message_test", True).get('channel_id')
+    channel_id = helper.create_channel(1, auth_user_id)
 
     assert auth_user_id == 1
     assert channel_id == 1
@@ -26,16 +20,10 @@ def test_message_send_success():
     assert message_info.get('message_id') == 1
 
 @clear
-def test_message_over1000():
+def test_message_length_over_1000(helper):
+    auth_user_id = helper.register_user(1)
 
-    user = auth_register_v1(email='harrypotter@gmail.com',
-                        password='qw3rtyAppl3s@99',
-                        name_first='Harry',
-                        name_last='Potter')
-
-    auth_user_id = user['auth_user_id']
-
-    channel_id = channels_create_v1(auth_user_id, "message_test", True).get('channel_id')
+    channel_id = helper.create_channel(1, auth_user_id)
 
     assert auth_user_id == 1
     assert channel_id == 1
@@ -47,23 +35,28 @@ def test_message_over1000():
         assert "Message is more than 1000 characters" in str(e.value)
 
 @clear
-def test_message_user_not_in_channel():
+def test_message_length_1000(helper):
+    auth_user_id = helper.register_user(1)
 
-    user = auth_register_v1(email='harrypotter@gmail.com',
-                        password='qw3rtyAppl3s@99',
-                        name_first='Harry',
-                        name_last='Potter')
+    channel_id = helper.create_channel(1, auth_user_id)
 
-    intruder = auth_register_v1(email='albusdumbledore@gmail.com',
-                        password='severussnape',
-                        name_first='Albus',
-                        name_last='Dumbledore')
+    assert auth_user_id == 1
+    assert channel_id == 1
 
-    auth_user_id = user['auth_user_id']
+    msg = "e" * 100
 
-    intruder_id = intruder['auth_user_id']
+    message_info = message_send_v1(auth_user_id, channel_id, msg)
 
-    channel_id = channels_create_v1(auth_user_id, "message_test", True).get('channel_id')
+    assert message_info.get('message_id') == 1
+
+
+@clear
+def test_message_user_not_in_channel(helper):
+    auth_user_id = helper.register_user(1)
+
+    intruder_id = helper.register_user(2)
+
+    channel_id = helper.create_channel(1, auth_user_id)
 
     assert auth_user_id == 1
     assert channel_id == 1
