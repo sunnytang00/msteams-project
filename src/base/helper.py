@@ -431,10 +431,10 @@ def get_message_ch_id_or_dm_id(message_id: int) -> dict:
 def remove_message(message_id: int, channel_id=None, dm_id=None) -> bool:
     """Remove a message from a channel or dm"""
     if channel_id:
-        update_message(message_id, channel_id)
+        update_message(message_id, channel_id=channel_id)
         return True
     else:
-        update_message(message_id, dm_id)
+        update_message(message_id, dm_id=dm_id)
         return True
 
 def edit_message(message_id: int, message: str) -> bool:

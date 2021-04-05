@@ -80,16 +80,21 @@ def get_channel_index(channel_id: int) -> int:
             return idx
     return -1
 
-def get_message_index(channel_idx: int, message_id: int) -> int:
+def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
     """Get the index of the user in users list
 
     Return Value:get
         Returns index on all conditions
     """
     data = get_data()
-    for idx in range(len(data)-1):
-        if data['channels'][channel_idx]['messages'][idx].get('message_id') == message_id:
-            return idx
+    if channel_idx:
+        for idx in range(len(data)-1):
+            if data['channels'][channel_idx]['messages'][idx].get('message_id') == message_id:
+                return idx
+    elif dm_idx:
+        for idx in range(len(data)-1):
+            if data['dms'][dm_idx]['messages'][idx].get('message_id') == message_id:
+                return idx
     return -1
 
 def get_dm_index(dm_id: int) -> int:
@@ -99,7 +104,7 @@ def get_dm_index(dm_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    for idx in range(len(data.get('dms'))-1):
+    for idx in range(len(data)-1):
         if data['dms'][idx]['dm_id'] == dm_id:
             return idx
     return -1
@@ -518,7 +523,7 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
 
     if channel_id:
         channel_idx = get_channel_index(channel_id)
-        message_idx = get_message_index(channel_idx, message_id)
+        message_idx = get_message_index(message_id, channel_idx=channel_idx)
         if not message:
             # no message given so we want to delete a message
             del data['channels'][channel_idx]['messages'][message_idx]
@@ -527,7 +532,7 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
             data['channels'][channel_idx]['messages'][message_idx]['message'] = message
     else:
         dm_idx = get_dm_index(dm_id)
-        message_idx = get_message_index(dm_idx, message_id)
+        message_idx = get_message_index(message_id, dm_idx=dm_idx)
         if not message:
             del data['dms'][dm_idx]['messages'][message_idx]
         else:
