@@ -42,6 +42,68 @@ def test_basic(helper):
 
     assert dm_info.get('dms') == []
 
+@clear
+
+def test_input_error(helper):
+
+    response = helper.register_user(1)
+    response2 = helper.register_user(2)
+    response3 = helper.register_user(3)
+
+    data = response.json()
+    data2 = response2.json()
+    data3 = response3.json()
+
+    token = data.get('token')
+    u_id2 = data2.get('auth_user_id')
+    u_id3 = data3.get('auth_user_id')
+
+    requests.post(url + 'dm/create/v1', json = {
+        'token' : token,
+        'u_ids' : [u_id2, u_id3]
+    })
+
+    response = requests.delete(url + 'dm/remove/v1', json = {
+        'token' : token,
+        'dm_id' : 4
+    })
+    
+    assert response.status_code == 400
+
+@clear
+
+def test_access_error(helper):
+
+    response = helper.register_user(1)
+    response2 = helper.register_user(2)
+    response3 = helper.register_user(3)
+
+    data = response.json()
+    data2 = response2.json()
+    data3 = response3.json()
+
+    token = data.get('token')
+    token3 = data3.get('token')
+    u_id2 = data2.get('auth_user_id')
+    u_id3 = data3.get('auth_user_id')
+
+    dm = requests.post(url + 'dm/create/v1', json = {
+        'token' : token,
+        'u_ids' : [u_id2, u_id3]
+    })
+
+    dm_info = dm.json()
+    dm_id = dm_info.get('dm_id') 
+
+    response = requests.delete(url + 'dm/remove/v1', json = {
+        'token' : token3,
+        'dm_id' : dm_id
+    })
+    
+    assert response.status_code == 403
+
+    
+
 
     
 

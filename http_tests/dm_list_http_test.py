@@ -42,7 +42,7 @@ def test_basic(helper):
                                     'name': 'harrrrrypottttter, marcoslowery'},
                                     {'dm_id': 2, 
                                     'name': 'cadifinch, harrrrrypottttter'}]
-    
+                                    
 
 
 
