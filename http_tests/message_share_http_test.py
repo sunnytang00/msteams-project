@@ -53,7 +53,6 @@ def test_share_dm(helper):
     print(dm_messages_data)
     dm_messages = dm_messages_data.json().get('messages')
 
-    shared_message = dm_messages[0]
 
     expected = f'{optional_message}\n"""\n{og_message}\n"""'
     assert dm_messages[0].get('message') == expected
@@ -77,7 +76,6 @@ def test_share_dm(helper):
     dm_messages_data = requests.get(url + "/dm/messages/v1?" + url2)
     dm_messages = dm_messages_data.json().get('messages')
     
-    shared_message = dm_messages[0]
     
     expected = f'{optional_message}\n"""\n{og_message}\n"""'
     assert dm_messages[0].get('message') == expected
