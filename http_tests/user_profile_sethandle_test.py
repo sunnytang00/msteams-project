@@ -5,7 +5,7 @@ from http_tests.helper import clear
 import urllib
 @clear
 
-def test_setemail_basic():
+def test_sethandle_basic():
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
@@ -16,9 +16,9 @@ def test_setemail_basic():
     data = response.json()
     token = data.get('token')
 
-    requests.put(url + 'user/profile/setemail/v2', json = {
+    requests.put(url + 'user/profile/sethandle/v2', json = {
         'token' : token,
-        'email' : 'albusdumbledore@gmail.com',
+        'handle_str' : 'teststring',
     })
 
     u_id = 1
@@ -30,11 +30,11 @@ def test_setemail_basic():
     user = requests.get(url + f'user/profile/v2?{queryString}')
 
     data = user.json()
-    assert data.get('user').get('user').get('email') == 'albusdumbledore@gmail.com'
+    assert data.get('user').get('user').get('handle_str') == 'teststring'
 
 @clear
 
-def test_input_error():
+def test_tooshort():
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
@@ -45,16 +45,16 @@ def test_input_error():
     data = response.json()
     token = data.get('token')
 
-    response = requests.put(url + 'user/profile/setemail/v2', json = {
+    error = requests.put(url + 'user/profile/sethandle/v2', json = {
         'token' : token,
-        'email' : 'invalidemail!!!!!!!!',
+        'handle_str' : '22',
     })
 
-    assert response.status_code == 400
+    assert error.status_code == 400
 
 @clear
 
-def test_input_error2():
+def test_inuse():
     response = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
@@ -62,33 +62,21 @@ def test_input_error2():
         'name_last' : 'potter'
     })
 
-    data = response.json()
-    u_id = data.get('auth_user_id')
-
-    response2 = requests.post(url + 'auth/register/v2', json = {
-        'email' : 'jamespotter@gmail.com',
-        'password' : 'severussnape',
+    requests.post(url + 'auth/register/v2', json = {
+        'email' : 'harrypotter1@gmail.com',
+        'password' : 'dumbledore',
         'name_first' : 'james',
         'name_last' : 'potter'
     })
-    data2 = response2.json()
-    token2 = data2.get('token')
+
+    data = response.json()
     token = data.get('token')
 
-    
-    queryString = urllib.parse.urlencode({
+    error = requests.put(url + 'user/profile/sethandle/v2', json = {
         'token' : token,
-        'u_id' : u_id
-    })
-    user = requests.get(url + f'user/profile/v2?{queryString}')
-    data = user.json()
-    email = data.get('user').get('user').get('email')
-
-
-    response = requests.put(url + 'user/profile/setemail/v2', json = {
-        'token' : token2,
-        'email' : email,
+        'handle_str' : 'jamespotter',
     })
 
-    assert response.status_code == 400
+    assert error.status_code == 400
+
 
