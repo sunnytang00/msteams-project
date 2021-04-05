@@ -79,9 +79,7 @@ def dm_details_v1(auth_user_id, dm_id):
     members = []
     for u_id in dm['u_ids']:
         user = get_user(u_id)
-        if user:
-            members.append(user)
-    
+        members.append(user)
     return {'name': dm['dm_name'], 'members': members}
 
 

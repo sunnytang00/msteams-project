@@ -3,6 +3,7 @@ from src.base.auth import auth_register_v1
 from src.base.user import user_profile_v1
 from src.base.other import clear_v1
 from src.base.error import InputError
+from src.base.admin import admin_user_remove_v1
 from tests.helper import helper, clear
 
 @clear
@@ -49,3 +50,15 @@ def test_fail_user():
     with pytest.raises(InputError) as e:
         user_profile_v1(auth_user_id, u_id).get('user')
         assert f'User with u_id {u_id} is not a valid user' in str(e.value)
+
+@clear
+def test_removed_user(helper):
+    auth_user_id = helper.register_user(1)
+    u_id = helper.register_user(2)
+
+    admin_user_remove_v1(auth_user_id, u_id)
+
+    profile = user_profile_v1(auth_user_id, u_id).get('user')
+
+    assert u_id == profile.get('u_id') and profile.get('name_first') == 'Removed' \
+        and profile.get('name_last') == 'user'
