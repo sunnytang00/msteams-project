@@ -44,8 +44,6 @@ def test_basic_invite(helper):
     dm_deets = requests.get(url + f'dm/details/v1?{queryString}')
     dm_details = dm_deets.json()
 
-    print(dm_details)
-
     assert dm_details.get('name') == 'harrrrrypottttter, marcoslowery'
     assert dm_details.get('members') == [{'u_id': 1, 
                                         'email': 'harrypotter3@gmail.com', 
