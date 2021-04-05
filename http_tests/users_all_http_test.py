@@ -25,7 +25,7 @@ def test_one_user(helper):
 def test_multiple_users(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
-    user2 = helper.register_user(3)
+    user3 = helper.register_user(3)
     token1 = user1.json().get('token')
     assert token1
 
