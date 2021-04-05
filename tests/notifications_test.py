@@ -1,6 +1,6 @@
 import pytest
 
-from src.base.notifications import get_notifications
+from src.base.notifications import get_notifications, notifactions_get_v1
 from src.base.channel import channel_invite_v1
 from src.base.channels import channels_create_v1, channels_listall_v1 ,channels_list_v1
 from src.base.error import InputError, AccessError
@@ -19,5 +19,14 @@ def test_invite_channel(helper):
     channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
 
     notifications = get_notifications(invitee_user_id)
+
     assert len(notifications) == 1
     assert notifications[0].get('notification_message') == 'bobsmith added you to Cat Society'
+
+@clear
+def test_empty_notifications(helper):
+    u_id = helper.register_user(1)
+
+    notifications = notifactions_get_v1(u_id)
+    assert len(notifications) == 0
+

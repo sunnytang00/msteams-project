@@ -2,6 +2,7 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
+from src.routes.notifications_http import notifactions_get_v1
 from urllib.parse import urlencode
 
 @clear
@@ -32,3 +33,13 @@ def test_invite_user_into_channel(helper):
     print(response.json())
     assert len(notifications) == 1
     assert notifications[0].get('notification_message') == 'bobsmith added you to Harvey N'
+
+@clear
+def test_empty_notifications(helper):
+    user1 = helper.register_user(1, name_first='bob', name_last='smith')
+    token1 = user1.json().get('token')
+
+    url2 = urlencode({"token": token1})
+    response = requests.get(url + "notifications/get/v1?" + url2)
+    print(response.json())
+    assert response.status_code == 200
