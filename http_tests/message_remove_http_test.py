@@ -3,6 +3,7 @@ from json import loads
 from http_tests.helper import helper, clear
 from src.config import url
 from src.data.helper import get_message_count
+from urllib.parse import urlencode
 
 @clear
 def test_basic(helper):
@@ -77,4 +78,13 @@ def test_basic(helper):
     assert response.status_code == 200
 
     #check if message is deleted.
-    assert get_message_count() == 0
+    url2 = urlencode({"token": token_0, "channel_id": channel_id, "start": 0})
+    
+    response = requests.get(url + "channel/messages/v2?" + url2)
+
+    assert response.status_code == 200 
+
+    data = response.json()
+    messages = data['messages']
+
+    assert len(messages) == 0
