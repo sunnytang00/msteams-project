@@ -6,7 +6,7 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 import time
 from src.base.error import InputError, AccessError
 from src.base.helper import get_user, get_channel, user_is_member,\
-     user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members
+     user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members, get_current_user
 from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
@@ -25,7 +25,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
         Returns {} (dict) on invited user.
     """    
 
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
 
     if not get_user(u_id):
@@ -55,6 +55,8 @@ def channel_details_v1(auth_user_id, channel_id):
     Return Value:
         Returns { name, owner_members, all_members } (dict) on valid channel_id and auth_user_id
     """    
+    if not get_current_user(auth_user_id):
+        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
     if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
@@ -91,6 +93,9 @@ def channel_messages_v1(auth_user_id, channel_id, start):
         Returns { messages, start, end } (dict): [description]
     """ 
     limit = 50
+
+    if not get_current_user(auth_user_id):
+        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
 
     if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')   
@@ -129,7 +134,7 @@ def channel_leave_v1(auth_user_id, channel_id):
     Returns:
         Returns {} (dict) on success
     """   
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError(f'token {auth_user_id} does not refer to a valid token')
 
     if not get_channel(channel_id):
@@ -160,7 +165,7 @@ def channel_join_v1(auth_user_id, channel_id):
         Returns {} (dict) on success
     """
 
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError('User ID is invaild')
 
     if not get_channel(channel_id):
@@ -195,7 +200,7 @@ def channel_addowner_v1(auth_user_id, channel_id, u_id):
     Returns:
         Returns {} (dict) on success
     """    
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError(f'token {auth_user_id} does not refer to a valid token')
 
     if not get_channel(channel_id):
@@ -233,7 +238,7 @@ def channel_removeowner_v1(auth_user_id, channel_id, u_id):
     Returns:
         Returns {} (dict) on success
     """   
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError(f'token {auth_user_id} does not refer to a valid token')
 
     if not get_channel(channel_id):

@@ -36,3 +36,4 @@ def test_private_channel_exists(helper):
     ch_ids = [channel['channel_id'] for channel in channels['channels']]
     assert ch1_id in ch_ids and ch2_id not in ch_ids
 
+
