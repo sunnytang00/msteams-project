@@ -70,7 +70,7 @@ class Helper:
         return response
 
     @staticmethod
-    def create_channel(value: int, token: str, name = none, is_public = true) -> requests.models.Response:
+    def create_channel(value: int, token: str, name = None, is_public = True) -> requests.models.Response:
         """Register one channel.
         Will use "random" but unique (for given value) paramters for ones not given.
         If you need a parameter to be a value in particular you can pass it in as a parameter.
