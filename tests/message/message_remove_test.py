@@ -1,5 +1,8 @@
+"""Testing the removal of channel and dm messages"""
+
 import pytest
-from src.base.message import message_send_v1, message_remove_v1
+from src.base.message import message_send_v1, message_remove_v1, message_senddm_v1
+from src.base.dm import dm_create_v1, dm_messages_v1
 from src.base.auth import auth_register_v1
 from src.base.channel import channel_messages_v1
 from src.base.other import clear_v1
@@ -8,12 +11,12 @@ from tests.helper import helper, clear
 from src.base.channels import channels_create_v1
 
 @clear
-def test_message_remove_single(helper):
-    """Add and remove a single user's message"""
+def test_channel_message_remove_single(helper):
+    """Add and remove a single user's message from a channel"""
     auth_user_id = helper.register_user(1)
     assert auth_user_id == 1
 
-    channel_id = channels_create_v1(auth_user_id, "message_test", True).get('channel_id')
+    channel_id = helper.create_channel(1, auth_user_id)
     assert channel_id == 1
 
     message_info = message_send_v1(auth_user_id, channel_id, "an epic message")
@@ -28,6 +31,30 @@ def test_message_remove_single(helper):
     with pytest.raises(InputError) as e:
         messages = channel_messages_v1(auth_user_id, channel_id, 1).get('messages')
     assert "Start 1 is greater than the total number of messages in the channel" in str(e.value)
+
+@clear
+def test_dm_message_remove_single(helper):
+    """Add and remove a single user's message from a dm"""
+    auth_user_id = helper.register_user(1)
+    assert auth_user_id == 1
+
+    u_ids = [auth_user_id]
+    dm_id = dm_create_v1(auth_user_id, u_ids)
+    assert dm_id == 1
+
+    message_info = message_senddm_v1(auth_user_id, dm_id, "an epic message")
+    message_id = message_info.get('message_id')
+    assert message_info.get('message_id') == 1
+
+    messages = channel_messages_v1(auth_user_id, dm_id, 1).get('messages')
+    assert len(messages) == 1
+
+    message_remove_v1(auth_user_id, message_id)
+
+    with pytest.raises(InputError) as e:
+        messages = dm_messages_v1(auth_user_id, dm_id, 1).get('messages')
+    assert "Start 1 is greater than the total number of messages in the channel" in str(e.value)
+
 
 @clear
 def test_message_no_longer_exists(helper):

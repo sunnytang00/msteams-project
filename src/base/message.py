@@ -1,7 +1,7 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_owner, get_message_channel_id, edit_message
+from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message
 from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
@@ -52,9 +52,10 @@ def message_remove_v1(auth_user_id, message_id):
     Return Value:
         Returns empty dict on successfully removing a message
     """
-    channel_id = get_message_channel_id(message_id)
+    output = get_message_ch_id_or_dm_id(message_id)
+    channel_id = output.get('channel_id')
     channel = get_channel(channel_id)
-    if not user_is_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+    if not user_is_channel_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
         raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
     if not remove_message(message_id):
@@ -80,10 +81,10 @@ def message_edit_v1(auth_user_id, message_id, message):
     Return Value:
         Returns empty dict on successfully editing a message
     """
-    channel_id = get_message_channel_id(message_id)
+    channel_id = get_message_ch_id_or_dm_id(message_id)
     channel = get_channel(channel_id)
 
-    if not user_is_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+    if not user_is_channel_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
         raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
     if len(message) > 1000:
