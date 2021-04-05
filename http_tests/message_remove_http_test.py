@@ -64,7 +64,7 @@ def test_basic(helper):
         'message': "Hello everyone!",
     })
 
-    assert reponse.status_code == 201    
+    assert response.status_code == 201    
     #remove the message
 
     data = response.json()
