@@ -24,15 +24,15 @@ def message_send():
 
 @message_blueprint.route("/message/edit/v2", methods=['PUT'])
 def message_edit():
-    """
     data = request.get_json()
 
-    auth_user_id = data.get('auth_user_id')
+    token = data.get('token')
     message_id = data.get('message_id')
     message = data.get('message')
 
+    auth_user_id = token_to_auth_user_id(token)
     message_edit_v1(auth_user_id, message_id, message)
-    """
+    
     return dumps({
     })
 
