@@ -2,13 +2,12 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import token_to_auth_user_id
+from src.base.helper import get_dm_name
 import urllib
-from src.base.dm import dm_details_v1
-from src.base.helper import token_to_auth_user_id
+
 
 @clear
-def test_basic(helper):
+def test_basic_invite(helper):
 
     response = helper.register_user(1)
     response2 = helper.register_user(2)
@@ -19,32 +18,33 @@ def test_basic(helper):
     data3 = response3.json()
 
     token = data.get('token')
-    token2 = data2.get('token')
 
     u_id2 = data2.get('auth_user_id')
-    assert u_id2 == 2
     u_id3 = data3.get('auth_user_id')
-    assert u_id3 == 3
 
-    dm_info = requests.post(url + 'dm/create/v1', json = {
+    dm = requests.post(url + 'dm/create/v1', json = {
         'token' : token,
-        'u_ids' : [u_id2, u_id3]
+        'u_ids' : [u_id2]
     })
 
-    readable_dm = dm_info.json()
-    dm_id = readable_dm.get('dm_id')
+    dm_info = dm.json()
+    assert dm_info.get('dm_id') == 1
+
+    requests.post(url + 'dm/invite/v1', json = {
+        'token' : token,
+        'dm_id' : dm_info.get('dm_id'),
+        'u_id' : u_id3
+    })
 
     queryString = urllib.parse.urlencode({
-        'token' : token2,
-        'dm_id' : dm_id
+        'token' : token,
+        'dm_id' : dm_info.get('dm_id')
     })
   
-    dm = requests.get(url + f'dm/details/v1?{queryString}')
+    dm_deets = requests.get(url + f'dm/details/v1?{queryString}')
+    dm_details = dm_deets.json()
 
-    assert dm.status_code == 200
-
-    dm_details = dm.json()
-    assert dm_details.get('name') == 'cadifinch, harrrrrypottttter, marcoslowery'
+    assert dm_details.get('name') == 'harrrrrypottttter, marcoslowery'
     assert dm_details.get('members') == [{'u_id': 1, 
                                         'email': 'harrypotter3@gmail.com', 
                                         'name_first': 'Harrrrry', 
@@ -63,5 +63,7 @@ def test_basic(helper):
                                         'name_last': 'Finch', 
                                         'handle_str': 'cadifinch', 
                                         'permission_id': 2}]
+
+
 
 

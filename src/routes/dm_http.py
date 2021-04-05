@@ -51,6 +51,15 @@ def dm_remove():
 
 @dm_blueprint.route("/dm/invite/v1", methods=['POST'])
 def dm_invite():
+    data = request.get_json()
+
+    token = data.get('token')
+    dm_id = data.get('dm_id')
+    u_id = data.get('u_id')
+    
+    auth_user_id = token_to_auth_user_id(token)
+
+    dm_invite_v1(auth_user_id, int(dm_id), int(u_id))
     return dumps({
     })
 

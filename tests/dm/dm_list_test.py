@@ -20,7 +20,6 @@ def test_valid_input():
     #should replaced when dm_details() finished
     dms = dm_list_v1(auth_user_id)
     dm_id = dm['dm_id']
-
     assert dm_id in [dm['dm_id'] for dm in dms]
 
 @clear

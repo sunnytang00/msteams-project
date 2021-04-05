@@ -33,7 +33,8 @@ def test_private_channel_exists(helper):
 
     assert token1
     assert token2
-
+    # TODO remove comment when youve seen it Wang
+    """
     ch1 = requests.post(url + 'channels/create/v2', json = {
         'token': token1,
         'name': 'channel_test1',
@@ -44,8 +45,12 @@ def test_private_channel_exists(helper):
         'name': 'channel_test2',
         'is_public': False
     })
-    ch1_id = ch1.json().get('channel_id')
-    ch2_id = ch2.json().get('channel_id')
+    """
+    r1 = helper.create_channel(1, token1) # r for response
+    r2 = helper.create_channel(value=2, token=token1, is_public=False)
+
+    ch1_id = r1.json().get('channel_id')
+    ch2_id = r2.json().get('channel_id')
 
     channels = requests.get(url + 'channels/listall/v2?token=' + token2).json()
 

@@ -1,7 +1,7 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_owner, get_message_channel_id, edit_message
+from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner
 from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
@@ -37,6 +37,7 @@ def message_send_v1(auth_user_id, channel_id, message):
     }
 
 def message_remove_v1(auth_user_id, message_id):
+    # TODO MORE TESTS!!!!!! I'll finish off the tests
     """Given a message_id for a message, this message is removed from the channel/DM
 
     Arguments:
@@ -52,13 +53,23 @@ def message_remove_v1(auth_user_id, message_id):
     Return Value:
         Returns empty dict on successfully removing a message
     """
-    channel_id = get_message_channel_id(message_id)
-    channel = get_channel(channel_id)
-    if not user_is_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
-        raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+    output = get_message_ch_id_or_dm_id(message_id)
+    channel_id = output.get('channel_id')
+    dm_id = output.get('dm_id')
 
-    if not remove_message(message_id):
+    if not channel_id and not dm_id:
         raise InputError(f"Message {message_id} (based on ID) no longer exists")
+
+    if channel_id:
+        if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        remove_message(message_id, channel_id=channel_id)
+    else:
+        if not user_is_dm_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        remove_message(message_id, dm_id=dm_id)
 
     return {}
 
@@ -80,21 +91,30 @@ def message_edit_v1(auth_user_id, message_id, message):
     Return Value:
         Returns empty dict on successfully editing a message
     """
-    channel_id = get_message_channel_id(message_id)
-    channel = get_channel(channel_id)
+    output = get_message_ch_id_or_dm_id(message_id)
+    channel_id = output.get('channel_id')
+    dm_id = output.get('dm_id')
 
-    if not user_is_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
-        raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+    if not channel_id and not dm_id:
+        raise InputError(f"Message {message_id} (based on ID) no longer exists")
 
     if len(message) > 1000:
         raise InputError("Message is more than 1000 characters")
 
-    if not edit_message(message_id, message):
-        raise InputError(f"message_id {message_id} refers to a deleted message")
+    if channel_id:
+        if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        edit_message(message_id, message=message, channel_id=channel_id)
+    else:
+        if not user_is_dm_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+        edit_message(message_id, message=message, dm_id=dm_id)
 
     return {}
 
 def message_senddm_v1(auth_user_id, dm_id, message):
+    """TODO"""
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 
@@ -120,4 +140,24 @@ def message_senddm_v1(auth_user_id, dm_id, message):
         'message_id' : msg_id
     }
 
-#def message_share_v1():
+def message_share_v1(auth_user_id, og_message_id, channel_id, dm_id):
+    """og_message_id is the original message. channel_id is the channel that the message is being shared to,
+    and is -1 if it is being sent to a DM. dm_id is the DM that the message is being shared to, and is -1
+    if it is being sent to a channel. message is the optional message in addition to the shared message,
+    and will be an empty string '' if no message is given
+
+    Arguments:
+        auth_user_id (int) - The authenticated user's id
+        og_message_id (int) - The original message
+        channel_id (int) - the channel that the message is being shared to
+        dm_id (int) - the DM that he message is being shared to
+    
+    Exceptions:
+        AccessError - the authorised user has not joined the channel or DM they are trying to share the message to
+
+    Return Value:
+        Returns shared_message_id on successfully sharing message
+    """
+    return {
+        'shared_message_id': None
+    }
