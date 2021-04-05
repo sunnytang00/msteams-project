@@ -75,7 +75,7 @@ def test_basic(helper):
         'message_id': message_id,
     })
 
-    assert response.status_code == 204
+    assert response.status_code == 200
 
     #check if message is deleted.
     assert get_message_count() == 0
