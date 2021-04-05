@@ -202,7 +202,15 @@ def message_share_v1(auth_user_id, og_message_id, message, channel_id, dm_id):
         # og_message is from a DM
         if not user_is_dm_member(og_dm_id, auth_user_id):
             raise AccessError(f"the authorised user has not joined the channel or DM they are trying to share the message to")
-        # TODO
+
+        if channel_id == -1:
+            share_message = format_share_message(og_message, message)
+
+            message = create_message(auth_user_id, share_message, channel_id=channel_id)
+            store_message_dm(message, dm_id)
+            return {
+                'shared_message_id': message.get('message_id')
+            }
 
     return {
         'shared_message_id': None
