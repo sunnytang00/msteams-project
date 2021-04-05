@@ -394,7 +394,7 @@ def remove_from_dm_members(dm_id : int, u_id: int) -> None:
     dm_members.remove(u_id)
     update_dm_users(dm_members, dm_id)     
 
-def get_dm_name(u_ids: list) -> str:
+def create_dm_name(u_ids: list) -> str:
     """TODO"""
     # iterate over all users and populate with respected handle_str
     handle_strs = [get_user(u_id).get('handle_str') for u_id in u_ids]
@@ -533,6 +533,12 @@ def get_channel_name(channel_id: int) -> str:
             return channel.get('name')
     return None
 
+def get_dm_name(dm_id: int) -> str:
+    for dm in get_dms():
+        if dm.get('channel_id') == dm_id:
+            return dm.get('name')
+    return None
+
 def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, tagged = False) -> dict:
     user = get_user(u_id)
 
@@ -549,7 +555,13 @@ def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, t
             }
 
         if dm_id != -1:
-            pass
+            name = get_dm_name(dm_id)
+            notification_message = f"{handle_str} added you to {name}"
+            notification = {
+                'channel_id': channel_id,
+                'dm_id': dm_id,
+                'notification_message': notification_message
+            }
     if tagged:
         pass
 
