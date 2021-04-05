@@ -26,9 +26,9 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
     """    
 
     if not get_current_user(auth_user_id):
-        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+        raise AccessError(f'u_id {auth_user_id} does not refer to a valid user')
 
-    if not get_user(u_id):
+    if not get_current_user(u_id):
         raise InputError(f'u_id {u_id} does not refer to a valid user')
  
     if not get_channel(channel_id):
@@ -56,7 +56,7 @@ def channel_details_v1(auth_user_id, channel_id):
         Returns { name, owner_members, all_members } (dict) on valid channel_id and auth_user_id
     """    
     if not get_current_user(auth_user_id):
-        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+        raise AccessError(f'u_id {auth_user_id} does not refer to a valid user')
     if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')    
 
@@ -95,7 +95,7 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     limit = 50
 
     if not get_current_user(auth_user_id):
-        raise InputError(f'u_id {auth_user_id} does not refer to a valid user')
+        raise AccessError(f'u_id {auth_user_id} does not refer to a valid user')
 
     if not get_channel(channel_id):
         raise InputError(f'Channel ID {channel_id} is not a valid channel')   

@@ -1,6 +1,6 @@
 import pytest
 from src.base.channels import channels_create_v1
-from src.base.channel import channel_details_v1, channel_addowner_v1
+from src.base.channel import channel_details_v1, channel_addowner_v1, channel_join_v1
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
@@ -13,6 +13,21 @@ def test_valid_input(helper):
 
     ch_name = "big fish"
     ch_id = channels_create_v1(auth_user_id, ch_name, True)['channel_id']
+    channel_addowner_v1(auth_user_id, ch_id, auth_user_id_2)
+
+    ch_details = channel_details_v1(auth_user_id, ch_id)
+
+    assert auth_user_id_2 in [user['u_id'] for user in ch_details['owner_members']]
+
+@clear
+def test_valid_input2(helper):
+    auth_user_id = helper.register_user(1)
+    auth_user_id_2 = helper.register_user(2)
+
+    ch_name = "big fish"
+    ch_id = channels_create_v1(auth_user_id, ch_name, True)['channel_id']
+    channel_join_v1(auth_user_id_2, ch_id)
+
     channel_addowner_v1(auth_user_id, ch_id, auth_user_id_2)
 
     ch_details = channel_details_v1(auth_user_id, ch_id)

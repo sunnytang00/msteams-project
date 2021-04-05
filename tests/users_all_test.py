@@ -5,8 +5,18 @@ from src.base.error import InputError
 from tests.helper import helper, clear
 from src.base.users import users_all_v1
 from src.base.helper import get_handle_str 
+from src.base.error import AccessError
 
 # TODO update these tests so it can handle dynamically changing session lists
+
+@clear
+def test_invalid_token(helper):
+    invalid_id = 10
+
+    with pytest.raises(AccessError) as e: 
+        users_all_v1(auth_user_id=invalid_id)
+        assert f'token {invalid_id} does not refer to a valid token' in str(e.value)
+
 """
 @clear
 def test_one_user(helper):
