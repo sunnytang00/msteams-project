@@ -162,7 +162,7 @@ def user_is_member(channel_id: int, auth_user_id: int) -> bool:
             return True
     return False
 
-def user_is_owner(channel_id: int, auth_user_id: int) -> bool:
+def user_is_channel_owner(channel_id: int, auth_user_id: int) -> bool:
     """A function when passed a channel and authenticated user ID, checks if they are the owner
 
     Arguments: 
@@ -182,6 +182,21 @@ def user_is_owner(channel_id: int, auth_user_id: int) -> bool:
         if owner.get('u_id') == auth_user_id:
             return True
     return False
+
+def user_is_dm_owner(dm_id: int, auth_user_id: int) -> bool:
+    """A function that checks if a user is the owner of a dm
+
+    Arguments: 
+        channel_id : ID of channel
+        auth_user_id: ID of an authenticated user
+
+    Return Values:
+        True: if the user is an owner of the channel
+        False: if the user is not an owner of the channel
+    """        
+    dm = get_dm(dm_id)
+    dm_owner = dm.get('auth_user_id')
+    return dm_owner == auth_user_id
 
 def valid_password(password: str) -> bool:
     """A function that when passed password, will check if the length is greater than 6
@@ -221,6 +236,7 @@ def valid_last_name(name_last: str) -> bool:
     return len(name_last) in range(1, 51)
 
 def email_exists(email: str) -> bool:
+    # TODO: redunant delete
     """A function that when passed an email, will check if it already exists
 
     Arguements:
@@ -394,7 +410,7 @@ def remove_user(u_id: int) -> None:
     """
     channels = get_channels()
     for channel in channels:
-        if user_is_owner(channel.get('channel_id'), u_id):
+        if user_is_channel_owner(channel.get('channel_id'), u_id):
             remove_from_owner_members(channel['channel_id'], u_id) # remove user from owner_member
         if user_is_member(channel.get('channel_id'), u_id):
             remove_from_all_members(channel['channel_id'], u_id)  # remove user from all member
@@ -407,33 +423,44 @@ def remove_user(u_id: int) -> None:
             update_user_all_dm_message(u_id, dm['dm_id'], 'Removed user')
 
 
-def get_message_channel_id(message_id: int) -> int:
-    """Get a channel id from a message id"""
+def get_message_ch_id_or_dm_id(message_id: int) -> dict:
+    """Get a channel_id or dm_id from a message_id
+    returns a dict with only key channel_id, dm_id or None"""
     channels = get_channels()
     for channel in channels:
+        # look for message in channels
         for message in channel.get('messages'):
             if message.get('message_id') == message_id:
-                return channel.get('channel_id')
-    return None
+                return {'channel_id': channel.get('channel_id')}
 
-def remove_message(message_id: int) -> bool:
+    """Get a dm_id from a message_id"""
+    dms = get_dms()
+    for dm in dms:
+        # look for message in dms
+        for message in dm.get('messages'):
+            if message.get('message_id') == message_id:
+                return {'dm_id': dm.get('dm_id')}
+    return {}
+
+
+def remove_message(message_id: int, channel_id=None, dm_id=None) -> bool:
+    """Remove a message from a channel or dm"""
+    if channel_id:
+        update_message(message_id, channel_id=channel_id)
+        return True
+    else:
+        update_message(message_id, dm_id=dm_id)
+        return True
+
+def edit_message(message_id: int, message: str, channel_id=None, dm_id=None) -> bool:
     """Remove a message from a channel"""
-    channel_id = get_message_channel_id(message_id)
-    if not channel_id:
-        return False
-
-    update_message(message_id, channel_id)
-    return True
-
-def edit_message(message_id: int, message: str) -> bool:
-    """Remove a message from a channel"""
-    channel_id = get_message_channel_id(message_id)
-    if not channel_id:
-        return False
-
-    update_message(message_id, channel_id, message)
-    return True
-
+    # TODO: does it have to return bool?
+    if channel_id:
+        update_message(message_id, message=message, channel_id=channel_id)
+        return True
+    else:
+        update_message(message_id, dm_id=dm_id)
+        return True
 
 def token_to_auth_user_id(token: str) -> int:
     """Get auth_user_id from a token
@@ -450,10 +477,8 @@ def get_user_by_email(email: str) -> dict:
     """ Get user(dictionary) from email
     Only for current users.
 
-
     Arguments:
-        email (str)    - Email for a user.
-
+        email (str) - Email for a user.
  
     Return Value:
         Returns user(dictionary) on a user with the same email.
