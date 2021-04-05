@@ -27,13 +27,13 @@ def test_time_created(helper):
 
     expected_time = int(time.time())
 
-    url2 = urlencode({"token": token1, "channel_id": ch_id, "start": 0})
+    url2 = urlencode({"token": token1, "channel_id" : ch_id,  "start": 0})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
-    assert response == 200
+    assert response.status_code == 200
 
     msgs = response.json()
-    acutal_time = msgs['messages'][0]['time_created']
+    actual_time = msgs['messages'][0]['time_created']
     assert expected_time == actual_time
 
 
@@ -54,7 +54,7 @@ def test_pagination(helper):
     url2 = urlencode({"token": token1, "channel_id": ch_id, "start": 0})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
-    assert response == 200
+    assert response.status_code ==  200
 
     msgs = response.json()
 
@@ -72,7 +72,7 @@ def test_invalid_channel_id(helper):
     url2 = urlencode({"token": token1, "channel_id": ch_id, "start": 0})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
-    assert response == 400
+    assert response.status_code ==  400
 
 @clear
 def test_invalid_start(helper):
@@ -91,7 +91,7 @@ def test_invalid_start(helper):
     url2 = urlencode({"token": token1, "channel_id": ch_id, "start": 100})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
-    assert response == 400
+    assert response.status_code ==  400
 
 @clear
 def test_user_not_member(helper):
@@ -112,4 +112,4 @@ def test_user_not_member(helper):
     url2 = urlencode({"token": token2, "channel_id": ch_id, "start": 0})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
-    assert response == 403
+    assert response.status_code ==  403
