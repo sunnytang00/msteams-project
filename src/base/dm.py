@@ -51,7 +51,17 @@ def dm_create_v1(auth_user_id, u_ids):
     }
 
 def dm_list_v1(auth_user_id):
-    """TODO"""
+    """List all the dms a user is a part of
+
+    Args:
+        auth_user_id (int): id of the user
+
+    Raises:
+        AccessError: tthe user is not valid
+
+    Returns:
+        dm_list: list of dms that the user is a member of
+    """
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
     
@@ -65,7 +75,20 @@ def dm_list_v1(auth_user_id):
     return dm_list
 
 def dm_details_v1(auth_user_id, dm_id):
-    """TODO"""
+    """Users that are part of this dm can view basic information about the dm
+
+    Args:
+        auth_user_id (int): id of authorised user
+        dm_id (int): id of the dm
+
+    Raises:
+        AccessError: if the user id does not refer to a valid user
+        InputError: if the dm_id does not refer to a valid dm
+        AccessError: if the authorised user is not a amember of this dm with dm_id
+
+    Returns:
+        A dict containing the dm name and members of the dm
+    """    """TODO"""
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 
@@ -86,7 +109,27 @@ def dm_details_v1(auth_user_id, dm_id):
 
 
 def dm_messages_v1(auth_user_id, dm_id, start):
-    """TODO"""
+    """Given a DM with ID dm_id that the authorised user is part of, 
+    return up to 50 messages between index "start" and "start + 50". 
+    Message with index 0 is the most recent message in the channel. 
+    This function returns a new index "end" which is the value of "start + 50",
+    or, if this function has returned the least recent messages in the channel, 
+    returns -1 in "end" to indicate there are no more messages to load after this return.
+
+    Args:
+        auth_user_id (int): id of authorised user
+        dm_id (int): id of the dm
+        start (int): index of messages
+
+    Raises:
+        AccessError: if the user id does not refer to a valid user
+        InputError: DM ID is not a valid DM
+        AccessError: Authorised user is not a member of DM with dm_id
+        InputError: start is greater than the total number of messages in the channel
+
+    Returns:
+        A dict containing the messages in the dm, along with the start and end index
+    """    """TODO"""
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 
@@ -116,6 +159,16 @@ def dm_messages_v1(auth_user_id, dm_id, start):
         'end': end
     }
 def dm_leave_v1(u_id, dm_id):
+    """Given a DM ID, the user is removed as a member of this DM
+
+    Args:
+        u_id (int): id of a user in the dm
+        dm_id (int): id of the dm
+
+    Raises:
+        InputError: dm_id is not a valid DM
+        AccessError: Authorised user is not a member of DM with dm_id
+    """    
     if not get_dm(dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
     
@@ -128,6 +181,18 @@ def dm_leave_v1(u_id, dm_id):
 
 
 def dm_invite_v1(auth_user_id, dm_id, u_id):
+    """Inviting a user to an existing dm
+
+    Args:
+        auth_user_id (int): id of authorised user
+        dm_id (int): id of the dm
+        u_id (int): id of user to be invited to dm
+
+    Raises:
+        InputError: dm_id does not refer to an existing dm.
+        InputError: u_id does not refer to a valid user. 
+        AccessError: the authorised user is not already a member of the DM
+    """    
     if not get_dm(dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
 
@@ -144,6 +209,16 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
 
 
 def dm_remove_v1(auth_user_id, dm_id):
+    """Remove an existing DM. This can only be done by the original creator of the DM.
+
+    Args:
+        auth_user_id (int) : id of user trying to remove dm
+        dm_id (int): id of dm being removed
+
+    Raises:
+        InputError: dm_id does not refer to a valid DM 
+        AccessError: the user is not the original DM creator
+    """    
     if not get_dm(dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
     

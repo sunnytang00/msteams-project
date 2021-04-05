@@ -57,5 +57,5 @@ def test_sendmessage_basic():
     })
 
     messages = channel_messages_v1(auth_user_id, channel_id, 1).get('messages')
-    assert messages[-1].get('message') == 'edited the first message'
+    assert messages[1].get('message') == 'edited the first message'
   
