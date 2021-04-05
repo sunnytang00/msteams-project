@@ -33,14 +33,14 @@ def test_valid_input(helper):
         'token': token1,
         'channel_id' : ch_id
     })
-    assert response == 201
+    assert response.status_code == 201
 
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 
     channel = requests.get(url + 'channel/details/v2?' + url2).json()
 
-    assert creator_id not in [user['u_id'] for user in channel['owner_members']] and \
-           not in [user['u_id'] for user in channel['all_members']]
+    assert creator_id not in [user['u_id'] for user in channel['owner_members']] \
+           and creator_id not in [user['u_id'] for user in channel['all_members']]
 
 
 @clear
@@ -75,7 +75,7 @@ def test_auth_user_not_member(helper):
     })
     ch_id = ch.json().get('channel_id')
 
-    response = requests.post(url + "/channel/addowner/v1", json = {
+    response = requests.post(url + "/channel/leave/v1", json = {
         'token': token1,
         'channel_id' : ch_id
     })
