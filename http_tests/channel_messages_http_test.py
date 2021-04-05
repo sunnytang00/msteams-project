@@ -12,13 +12,7 @@ def test_time_created(helper):
     token1 = user1.json().get('token')
     assert token1
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     requests.post(url + 'message/send/v2', json = {
         'token' : token1,
         'channel_id' : ch_id,
@@ -44,13 +38,7 @@ def test_pagination(helper):
     token1 = user1.json().get('token')
     assert token1
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     url2 = urlencode({"token": token1, "channel_id": ch_id, "start": 0})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
@@ -81,13 +69,7 @@ def test_invalid_start(helper):
     token1 = user1.json().get('token')
     assert token1
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     url2 = urlencode({"token": token1, "channel_id": ch_id, "start": 100})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)
@@ -102,13 +84,7 @@ def test_user_not_member(helper):
     token2 = user2.json().get('token')
     assert token1 and token2
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'big fish!',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     url2 = urlencode({"token": token2, "channel_id": ch_id, "start": 0})
 
     response = requests.get(url + "/channel/messages/v2?" + url2)

@@ -12,13 +12,7 @@ def test_valid_input(helper):
     auth_user_id = user1.json().get('auth_user_id')
     assert token1
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     url2 = urlencode({"token": token1, "channel_id": ch_id})
 
     response = requests.get(url + 'channel/details/v2?' + url2)
@@ -50,13 +44,7 @@ def test_user_not_authorised(helper):
     token2 = user2.json().get('token')
     assert token1 and token2
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 
     response = requests.get(url + 'channel/details/v2?' + url2)

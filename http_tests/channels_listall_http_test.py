@@ -11,17 +11,8 @@ def test_valid_input(helper):
     token1 = user1.json().get('token')
     assert token1
 
-    requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test2',
-        'is_public': True
-    })
-    
+    helper.create_channel(1,token1, 'big fish!', True)
+    helper.create_channel(1,token1, 'big fish2!', True)
     channels = requests.get(url + 'channels/listall/v2?token=' + token1).json()
 
     assert len(channels['channels']) == 2
@@ -33,19 +24,7 @@ def test_private_channel_exists(helper):
 
     assert token1
     assert token2
-    # TODO remove comment when youve seen it Wang
-    """
-    ch1 = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch2 = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test2',
-        'is_public': False
-    })
-    """
+
     r1 = helper.create_channel(1, token1) # r for response
     r2 = helper.create_channel(value=2, token=token1, is_public=False)
 
