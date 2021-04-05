@@ -152,7 +152,6 @@ def test_input_error2(helper):
     token = data.get('token')
 
     u_id2 = data2.get('auth_user_id')
-    u_id3 = data3.get('auth_user_id')
 
     dm = requests.post(url + 'dm/create/v1', json = {
         'token' : token,
@@ -192,7 +191,7 @@ def test_input_error2(helper):
     assert response.status_code == 400
 
 @clear
-def test_input_error2(helper):
+def test_access_error(helper):
 
     response = helper.register_user(1)
     response2 = helper.register_user(2)
