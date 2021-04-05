@@ -153,7 +153,7 @@ def message_share_v1(auth_user_id, og_message_id, channel_id, dm_id):
         dm_id (int) - the DM that he message is being shared to
     
     Exceptions:
-        AcxessError - the authorised user has not joined the channel or DM they are trying to share the message to
+        AccessError - the authorised user has not joined the channel or DM they are trying to share the message to
 
     Return Value:
         Returns shared_message_id on successfully sharing message
