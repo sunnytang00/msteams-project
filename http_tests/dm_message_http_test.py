@@ -1,4 +1,3 @@
-"""
 import requests
 import time
 from json import loads
@@ -14,7 +13,7 @@ def test_no_msg_in_dm(helper):
     assert token1
 
     dm = requests.post(url + 'dm/create/v1', json = {
-        'token' : token,
+        'token' : token1,
         'u_ids' : []
     })
     dm_id = dm.json().get('dm_id')
@@ -24,7 +23,7 @@ def test_no_msg_in_dm(helper):
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
 
     response = requests.get(url + "/dm/messages/v1?" + url2)
-    assert response == 200
+    assert response.status_code == 200
 
     actual = response.json()
 
@@ -43,7 +42,7 @@ def test_invalid_dm_id(helper):
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
 
     response = requests.get(url + "/dm/messages/v1?" + url2)
-    assert response == 400
+    assert response.status_code == 400
 
 @clear
 def test_invalid_start(helper):
@@ -53,7 +52,7 @@ def test_invalid_start(helper):
     assert token1
 
     dm = requests.post(url + 'dm/create/v1', json = {
-        'token' : token,
+        'token' : token1,
         'u_ids' : []
     })
     dm_id = dm.json().get('dm_id')
@@ -61,7 +60,7 @@ def test_invalid_start(helper):
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 100})
 
     response = requests.get(url + "/dm/messages/v1?" + url2)
-    assert response == 400
+    assert response.status_code == 400
 
 @clear
 def test_auth_user_not_member(helper):
@@ -73,7 +72,7 @@ def test_auth_user_not_member(helper):
     assert token1 and token2
 
     dm = requests.post(url + 'dm/create/v1', json = {
-        'token' : token,
+        'token' : token1,
         'u_ids' : []
     })
     dm_id = dm.json().get('dm_id')
@@ -82,7 +81,9 @@ def test_auth_user_not_member(helper):
     url2 = urlencode({"token": token2, "dm_id": dm_id, "start": 0})
 
     response = requests.get(url + "/dm/messages/v1?" + url2)
-    assert response == 403
+    assert response.status_code == 403
+
+"""
 
 #tests below requires message_senddm
 #maybe could import the base version of message_senddm temporarily?
