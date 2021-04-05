@@ -61,6 +61,7 @@ def get_user_index(u_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
+    # TODO: dont loop over data this is wrong fix
     for idx in range(len(data)-1):
         if data['users'][idx]['u_id'] == u_id:
             return idx
@@ -98,7 +99,7 @@ def get_dm_index(dm_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    for idx in range(len(data)-1):
+    for idx in range(len(data.get('dms'))-1):
         if data['dms'][idx]['dm_id'] == dm_id:
             return idx
     return -1
@@ -502,7 +503,7 @@ def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> 
     with open(data_path, 'w') as f:
         json.dump(data, f)
 
-def update_message(message_id: int, channel_id: int, message = None) -> None:
+def update_message(message_id: int, channel_id = None, dm_id = None, message = None) -> None:
     """ remove or edit a message in a channel
 
     Arguments:
@@ -514,15 +515,25 @@ def update_message(message_id: int, channel_id: int, message = None) -> None:
         Returns None on all conditions
     """
     data = get_data()
-    channel_idx = get_channel_index(channel_id)
-    message_idx = get_message_index(channel_idx, message_id)
 
-    if not message:
-        # no message given so we want to delete a message
-        del data['channels'][channel_idx]['messages'][message_idx]
+    if channel_id:
+        channel_idx = get_channel_index(channel_id)
+        message_idx = get_message_index(channel_idx, message_id)
+        if not message:
+            # no message given so we want to delete a message
+            del data['channels'][channel_idx]['messages'][message_idx]
+        else:
+            # message given so we want to edit the message
+            data['channels'][channel_idx]['messages'][message_idx]['message'] = message
     else:
-        # message given so we want to edit the message
-        data['channels'][channel_idx]['messages'][message_idx]['message'] = message
+        dm_idx = get_dm_index(dm_id)
+        message_idx = get_message_index(dm_idx, message_id)
+        if not message:
+            del data['dms'][dm_idx]['messages'][message_idx]
+        else:
+            data['dms'][dm_idx]['messages'][message_idx]['message'] = message
 
     with open(data_path, 'w') as f:
         json.dump(data, f)
+
+# TODO save func

@@ -54,12 +54,22 @@ def message_remove_v1(auth_user_id, message_id):
     """
     output = get_message_ch_id_or_dm_id(message_id)
     channel_id = output.get('channel_id')
-    channel = get_channel(channel_id)
-    if not user_is_channel_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
-        raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+    dm_id = output.get('dm_id')
 
-    if not remove_message(message_id):
+    if not channel_id and not dm_id:
         raise InputError(f"Message {message_id} (based on ID) no longer exists")
+
+    if channel_id:
+        if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        remove_message(message_id, channel_id=channel_id)
+    else:
+        #TODO
+        #if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+        #    raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        remove_message(message_id, dm_id=dm_id)
 
     return {}
 

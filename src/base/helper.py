@@ -409,7 +409,8 @@ def remove_user(u_id: int) -> None:
 
 
 def get_message_ch_id_or_dm_id(message_id: int) -> dict:
-    """Get a channel_id from a message_id"""
+    """Get a channel_id or dm_id from a message_id
+    returns a dict with only key channel_id, dm_id or None"""
     channels = get_channels()
     for channel in channels:
         # look for message in channels
@@ -427,14 +428,14 @@ def get_message_ch_id_or_dm_id(message_id: int) -> dict:
     return {}
 
 
-def remove_message(message_id: int) -> bool:
-    """Remove a message from a channel"""
-    channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
-    if not channel_id:
-        return False
-
-    update_message(message_id, channel_id)
-    return True
+def remove_message(message_id: int, channel_id=None, dm_id=None) -> bool:
+    """Remove a message from a channel or dm"""
+    if channel_id:
+        update_message(message_id, channel_id)
+        return True
+    else:
+        update_message(message_id, dm_id)
+        return True
 
 def edit_message(message_id: int, message: str) -> bool:
     """Remove a message from a channel"""
@@ -444,7 +445,6 @@ def edit_message(message_id: int, message: str) -> bool:
 
     update_message(message_id, channel_id, message)
     return True
-
 
 def token_to_auth_user_id(token: str) -> int:
     """Get auth_user_id from a token

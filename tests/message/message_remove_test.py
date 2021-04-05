@@ -39,14 +39,14 @@ def test_dm_message_remove_single(helper):
     assert auth_user_id == 1
 
     u_ids = [auth_user_id]
-    dm_id = dm_create_v1(auth_user_id, u_ids)
+    dm_id = dm_create_v1(auth_user_id, u_ids).get('dm_id')
     assert dm_id == 1
 
     message_info = message_senddm_v1(auth_user_id, dm_id, "an epic message")
     message_id = message_info.get('message_id')
     assert message_info.get('message_id') == 1
 
-    messages = channel_messages_v1(auth_user_id, dm_id, 1).get('messages')
+    messages = dm_messages_v1(auth_user_id, dm_id, 1).get('messages')
     assert len(messages) == 1
 
     message_remove_v1(auth_user_id, message_id)
