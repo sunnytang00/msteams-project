@@ -19,7 +19,13 @@ def test_empty_query_str():
         assert 'Query string is empty' in str(e.value)
 
 @clear
-def test_invalid_auth_user_id():
+def test_invalid_auth_user_id_int():
+    with pytest.raises(InputError) as e:
+        search_v1(-1, "Hello")
+        assert 'Auth_user_id is not real' in str(e)
+
+@clear
+def test_invalid_auth_user_id_str():
     with pytest.raises(InputError) as e:
         search_v1('NotValid', "Hello")
         assert 'Auth_user_id is not real' in str(e)
@@ -53,6 +59,25 @@ def test_one_match():
 
     test_channel = channels_create_v1(user_id, "correct", True)
     channel_id = test_channel['channel_id']
+
+    message_send_v1(user_id, channel_id, "Hello")
+
+    result = search_v1(user_id, "Hello")
+    assert len(result) == 1
+
+@clear 
+def test_not_in_a_channel_():
+
+    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
+    user_id = user['auth_user_id']
+
+    user1 = auth_register_v1('bobsmith1@gmail.com','2345678','Bobbo','Smith')
+    user_id_1 = user1['auth_user_id']
+
+    test_channel = channels_create_v1(user_id, "correct", True)
+    channel_id = test_channel['channel_id']
+
+    test_channel_1 = channels_create_v1(user_id_1, "correct", True)
 
     message_send_v1(user_id, channel_id, "Hello")
 
