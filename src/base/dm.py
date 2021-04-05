@@ -3,9 +3,10 @@
 This module demonstrates the creation, removal, invitation, ability to leave and display DMs.
 As specified by the COMP1531 Major Project specification.
 """
+
 from src.base.error import InputError, AccessError
-from src.base.helper import get_dm_name, get_current_user, get_dm, user_is_dm_member, get_user
-from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users
+from src.base.helper import create_dm_name, get_current_user, get_dm, user_is_dm_member, get_user, create_notification
+from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users, store_notification
 
 def dm_create_v1(auth_user_id, u_ids):
     """Create a DM.
@@ -29,12 +30,11 @@ def dm_create_v1(auth_user_id, u_ids):
         if not get_current_user(u_id):
             raise InputError(f"u_id {u_id} does not refer to a valid user")
 
-    #using auth user in place of token
     dm_id = get_dm_count() + 1
 
     members = [auth_user_id]
     members.extend(u_ids)
-    dm_name = get_dm_name(members)
+    dm_name = create_dm_name(members)
     
     dm = {
         'auth_user_id' : auth_user_id,
@@ -194,7 +194,6 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
     if not get_dm(dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
 
-    #consider case where u_id is already in u_ids???
     if not get_current_user(u_id):
         raise InputError(f"u_id {auth_user_id} does not refer to a valid user")
 
@@ -204,6 +203,9 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
     dm_users = get_dm(dm_id).get('u_ids')
     dm_users.append(u_id)
     update_dm_users(dm_users, dm_id)
+
+    notification = create_notification(channel_id=-1, dm_id=dm_id, u_id=auth_user_id, added=True)
+    store_notification(notification, u_id)
 
 
 def dm_remove_v1(auth_user_id, dm_id):
