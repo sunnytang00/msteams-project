@@ -32,15 +32,15 @@ def dm_create_v1(auth_user_id, u_ids):
     #using auth user in place of token
     dm_id = get_dm_count() + 1
 
-    u_ids = [auth_user_id] # initialise u_ids with owner
-    u_ids.extend(u_ids)
-    dm_name = get_dm_name(u_ids)
+    members = [auth_user_id]
+    members.extend(u_ids)
+    dm_name = get_dm_name(members)
     
     dm = {
         'auth_user_id' : auth_user_id,
         'dm_id': dm_id,
         'dm_name': dm_name,
-        'u_ids': u_ids,
+        'u_ids': members,
         'messages': []
     }
     store_dm(dm)

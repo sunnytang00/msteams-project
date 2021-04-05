@@ -459,7 +459,7 @@ def edit_message(message_id: int, message: str, channel_id=None, dm_id=None) -> 
         update_message(message_id, message=message, channel_id=channel_id)
         return True
     else:
-        update_message(message_id, dm_id=dm_id)
+        update_message(message_id, message=message, dm_id=dm_id)
         return True
 
 def token_to_auth_user_id(token: str) -> int:

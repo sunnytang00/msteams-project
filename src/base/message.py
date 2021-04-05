@@ -121,6 +121,7 @@ def message_senddm_v1(auth_user_id, dm_id, message):
     if not user_is_dm_member(dm_id, auth_user_id):
         raise AccessError(f"auth_user {auth_user_id} is not member of dm {dm_id}")
 
+    # TODO test this
     max_length = 1000
 
     if len(message) > max_length:
