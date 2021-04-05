@@ -37,7 +37,6 @@ def message_send_v1(auth_user_id, channel_id, message):
     }
 
 def message_remove_v1(auth_user_id, message_id):
-    # TODO MORE TESTS!!!!!! I'll finish off the tests
     """Given a message_id for a message, this message is removed from the channel/DM
 
     Arguments:
@@ -91,7 +90,6 @@ def message_edit_v1(auth_user_id, message_id, message):
     Return Value:
         Returns empty dict on successfully editing a message
     """
-    # TODO: add empty str delete
     output = get_message_ch_id_or_dm_id(message_id)
     channel_id = output.get('channel_id')
     dm_id = output.get('dm_id')

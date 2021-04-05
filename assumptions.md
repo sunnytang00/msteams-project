@@ -53,6 +53,10 @@ If the user leaves and is:
 ## message
 ### `message_remove`
 1. Messages that are removed are cleared from the database.
+### `message_share`
+1. Messages that are shared can be over length 1000 characters with optional text.
+### `messages_remove`
+1. Users can not delete their own messages.
 
 ## dm
 1. The user should be authorised if they are accessing setemail, setname and sethandle functions.
@@ -60,9 +64,4 @@ If the user leaves and is:
 1. The u_id of the user who creates a DM has to be valid.
 
 ## admin
-1. ...
-
-
-## other
-### `clear`
-1. ...
+1. An admin will not remove themselves.
