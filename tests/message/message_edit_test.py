@@ -125,7 +125,7 @@ def test_message_over_1000_char(helper):
         assert f"Length of message is over 1000 characters" in str(e.value)
 
 @clear
-def test_user_is_authorised(helper):
+def test_user_is_not_authorised(helper):
     """try removing a message created with auth_user_id with another user that is not a dream owner"""
     auth_user_id = helper.register_user(1)
     assert auth_user_id == 1
@@ -163,3 +163,9 @@ def test_user_is_authorised(helper):
     with pytest.raises(AccessError) as e:
         message_edit_v1(not_auth_user_id, message_id, new_message)
         assert f"Message with message_id {message_id} was not sent by the authorised user making this request" in str(e.value)
+
+
+@clear
+def test_user_is_dream_owner(helper):
+    """Remove messages as a dream owner"""
+    pass
