@@ -44,7 +44,6 @@ def test_basic(helper):
         'channel_id': channel_id,
         'u_id': auth_user_id_1,
     })
-    #assuming that this function works according to the specs.
 
     assert response.status_code == 201
     
