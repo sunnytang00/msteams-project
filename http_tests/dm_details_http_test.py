@@ -83,13 +83,10 @@ def test_input_error(helper):
     u_id3 = data3.get('auth_user_id')
     assert u_id3 == 3
 
-    dm_info = requests.post(url + 'dm/create/v1', json = {
+    requests.post(url + 'dm/create/v1', json = {
         'token' : token,
         'u_ids' : [u_id2, u_id3]
     })
-
-    readable_dm = dm_info.json()
-    dm_id = readable_dm.get('dm_id')
 
     queryString = urllib.parse.urlencode({
         'token' : token2,
