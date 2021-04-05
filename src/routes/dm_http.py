@@ -81,6 +81,14 @@ def dm_invite():
 
 @dm_blueprint.route("/dm/leave/v1", methods=['POST'])
 def dm_leave():
+    data = request.get_json()
+
+    token = data.get('token')
+    dm_id = data.get('dm_id')
+
+    auth_user_id = token_to_auth_user_id(token)
+    dm_leave_v1(auth_user_id, int(dm_id))
+
     return dumps({
     })
 
