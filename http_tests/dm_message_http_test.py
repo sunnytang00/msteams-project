@@ -83,11 +83,11 @@ def test_auth_user_not_member(helper):
     response = requests.get(url + "/dm/messages/v1?" + url2)
     assert response.status_code == 403
 
-"""
+
 
 #tests below requires message_senddm
 #maybe could import the base version of message_senddm temporarily?
-'''
+
 @clear
 def test_few_msgs_in_dm(helper):
     user1 = helper.register_user(1)
@@ -113,7 +113,7 @@ def test_few_msgs_in_dm(helper):
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
 
     response = requests.get(url + "/dm/messages/v1?" + url2)
-    assert response == 200
+    assert response.status_code == 200
 
     messages = response.json()
     
@@ -155,12 +155,10 @@ def test_many_msgs_in_dm(helper):
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
 
     response = requests.get(url + "/dm/messages/v1?" + url2)
-    assert response == 200
+    assert response.status_code == 200
 
     messages = response.json()
     
     assert "last" in [msg['message'] for msg in messages['messages']] \
             and "orange" not in [msg['message'] for msg in messages['messages']] \
             and messages['end'] == 50
-'''
-"""
