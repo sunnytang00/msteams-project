@@ -15,13 +15,8 @@ def test_valid_input(helper):
     invitee_id = user2.json().get('auth_user_id')
     assert invitor_token
     assert invitee_token
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': invitor_token,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
 
+    ch_id = helper.create_channel(1,invitor_token, 'big fish!', True).json().get('channel_id')
     response = requests.post(url + "/channel/invite/v2", json = {
         'token': invitor_token,
         'channel_id': ch_id,
@@ -61,13 +56,7 @@ def test_invalid_u_id(helper):
     invitor_token = user1.json().get('token')
     assert invitor_token
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': invitor_token,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,invitor_token, 'big fish!', True).json().get('channel_id')
     invitee_id = 10
 
     response = requests.post(url + "/channel/invite/v2", json = {
@@ -89,13 +78,7 @@ def test_auth_user_not_member(helper):
     assert invitor_token
     assert invitee_token
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': invitee_token,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(2,invitee_token, 'big fish!', True).json().get('channel_id')
     response = requests.post(url + "/channel/invite/v2", json = {
         'token': invitor_token,
         'channel_id': ch_id,
