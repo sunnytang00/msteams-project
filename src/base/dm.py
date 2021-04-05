@@ -58,7 +58,9 @@ def dm_list_v1(auth_user_id):
     dm_list = []
     for dm in get_dms():
         if user_is_dm_member(dm['dm_id'], auth_user_id):
-            dm_list.append(get_dm(dm['dm_id']))
+            dm_data = get_dm(dm['dm_id'])
+            dms = {'dm_id': dm_data['dm_id'], 'name': dm_data['dm_name']}
+            dm_list.append(dms)
 
     return dm_list
 
