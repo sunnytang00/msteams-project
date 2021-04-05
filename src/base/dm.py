@@ -31,10 +31,10 @@ def dm_create_v1(auth_user_id, u_ids):
 
     #using auth user in place of token
     dm_id = get_dm_count() + 1
-    dm_name = get_dm_name(u_ids)
 
     members = [auth_user_id]
     members.extend(u_ids)
+    dm_name = get_dm_name(members)
     
     dm = {
         'auth_user_id' : auth_user_id,
