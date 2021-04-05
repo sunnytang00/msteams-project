@@ -22,15 +22,6 @@ def register_http():
 
     user = auth_register_v1(email, hashed_password, name_first, name_last)
 
-    """
-    # TODO: raising expections 
-    try:
-        user = auth_register_v1(email, hashed_password, name_first, name_last)
-    expect InputError:
-        # do stuff
-        pass
-    """
-
     auth_user_id = user.get('auth_user_id')
 
     new_session_id = get_new_session_id() # i.e. uuid

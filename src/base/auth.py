@@ -56,7 +56,7 @@ def auth_register_v1(email, password, name_first, name_last):
         InputError - Occurs when name_last is not between 1 and 50 characters inclusively in length
 
     Return Value:
-        Returns auth_user_id (dict) on newly created user.
+        Returns dict with auth_user_id on newly created user.
     """
     auth_user_id = get_user_count() + 1
 
