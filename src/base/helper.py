@@ -183,6 +183,21 @@ def user_is_channel_owner(channel_id: int, auth_user_id: int) -> bool:
             return True
     return False
 
+def user_is_dm_owner(dm_id: int, auth_user_id: int) -> bool:
+    """A function that checks if a user is the owner of a dm
+
+    Arguments: 
+        channel_id : ID of channel
+        auth_user_id: ID of an authenticated user
+
+    Return Values:
+        True: if the user is an owner of the channel
+        False: if the user is not an owner of the channel
+    """        
+    dm = get_dm(dm_id)
+    dm_owner = dm.get('auth_user_id')
+    return dm_owner == auth_user_id
+
 def valid_password(password: str) -> bool:
     """A function that when passed password, will check if the length is greater than 6
 
@@ -444,7 +459,7 @@ def edit_message(message_id: int, message: str, channel_id=None, dm_id=None) -> 
         update_message(message_id, message=message, channel_id=channel_id)
         return True
     else:
-        update_message(message_id, message=message, dm_id=dm_id)
+        update_message(message_id, dm_id=dm_id)
         return True
 
 def token_to_auth_user_id(token: str) -> int:

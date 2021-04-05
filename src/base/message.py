@@ -1,7 +1,7 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message
+from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner
 from src.data.helper import store_message, store_message_dm, get_message_count
 from src.base.helper import create_message
 
@@ -37,6 +37,7 @@ def message_send_v1(auth_user_id, channel_id, message):
     }
 
 def message_remove_v1(auth_user_id, message_id):
+    # TODO MORE TESTS!!!!!! I'll finish off the tests
     """Given a message_id for a message, this message is removed from the channel/DM
 
     Arguments:
@@ -65,9 +66,8 @@ def message_remove_v1(auth_user_id, message_id):
 
         remove_message(message_id, channel_id=channel_id)
     else:
-        #TODO
-        #if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
-        #    raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+        if not user_is_dm_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
         remove_message(message_id, dm_id=dm_id)
 
@@ -107,12 +107,9 @@ def message_edit_v1(auth_user_id, message_id, message):
 
         edit_message(message_id, message=message, channel_id=channel_id)
     else:
-        #TODO
-        #if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
-        #    raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
-
+        if not user_is_dm_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
         edit_message(message_id, message=message, dm_id=dm_id)
-
 
     return {}
 
