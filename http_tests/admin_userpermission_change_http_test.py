@@ -1,3 +1,4 @@
+'''
 import requests
 from json import loads
 from src.config import url
@@ -76,7 +77,7 @@ def test_auth_user_not_Dream_owner(helper):
     token1 = user1.json().get('token')
     token2 = user2.json().get('token')
     assert token1 and token2
-    
+
     u_id = user1.json().get('auth_user_id')
 
     response = requests.post(url + "admin/userpermission/change/v1", json ={
@@ -85,3 +86,4 @@ def test_auth_user_not_Dream_owner(helper):
         'permission_id': 2
     })
     assert response.status_code == 403
+'''

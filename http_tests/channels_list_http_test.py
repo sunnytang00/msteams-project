@@ -11,20 +11,8 @@ def test_valid_input(helper):
     token1 = user1.json().get('token')
     assert token1
 
-    ch1 = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch2 = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test2',
-        'is_public': False
-    })
-    
-    ch1_id = ch1.json().get('channel_id')
-    ch2_id = ch2.json().get('channel_id')
-
+    ch1_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
+    ch2_id = helper.create_channel(1,token1, 'big fish2!', False).json().get('channel_id')
     channels = requests.get(url + 'channels/list/v2?token=' + token1).json()
 
     ch_ids = [channel['channel_id'] for channel in channels['channels']]
@@ -38,19 +26,8 @@ def test_multiple_member_exists(helper):
     assert token1
     assert token2
 
-    ch1 = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch2 = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test2',
-        'is_public': False
-    })
-    ch1_id = ch1.json().get('channel_id')
-    ch2_id = ch2.json().get('channel_id')
-
+    ch1_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
+    ch2_id = helper.create_channel(1,token1, 'big fish2!', False).json().get('channel_id')
     channels = requests.get(url + 'channels/list/v2?token=' + token2).json()
 
     ch_ids = [channel['channel_id'] for channel in channels['channels']]
