@@ -59,7 +59,7 @@ def dm_invite():
     
     auth_user_id = token_to_auth_user_id(token)
 
-    details = dm_invite_v1(auth_user_id, int(dm_id), int(u_id))
+    dm_invite_v1(auth_user_id, int(dm_id), int(u_id))
     return dumps({
     })
 
