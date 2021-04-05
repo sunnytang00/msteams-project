@@ -4,7 +4,6 @@ from src.config import url
 from http_tests.helper import clear
 
 # TODO: BROKEN TEST... Come back to later when finished iter-1 work...
-"""
 @clear
 def test_login_basic_http():
     ### register
@@ -20,6 +19,7 @@ def test_login_basic_http():
 
     register_data = response.json()
     registered_auth_user_id = register_data.get('auth_user_id')
+    register_token = register_data.get('token')
 
     ### login user
     response = requests.post(url + 'auth/login/v2', json = {
@@ -31,6 +31,7 @@ def test_login_basic_http():
 
     login_data = response.json()
     expected_auth_user_id = login_data.get('auth_user_id')
+    expected_token = login_data.get('token')
 
     assert registered_auth_user_id == expected_auth_user_id
-"""
+    assert expected_token != register_token #to show a new token has been generated
