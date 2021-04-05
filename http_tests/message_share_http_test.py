@@ -22,7 +22,7 @@ def test_share_dm(helper):
     og_message = "I like shrimps"
 
     #message_info = message_senddm_v1(auth_user_id, dm_id, og_message)
-    message_info = requests.post(url + "/dm/create/v1", json = {
+    message_info = requests.post(url + "/message/senddm/v1", json = {
         'token': token1,
         'dm_id': dm_id,
         'message' : og_message
@@ -37,7 +37,7 @@ def test_share_dm(helper):
     #message_info = message_share_v1(auth_user_id, og_message_id, optional_message, channel_id, dm_id)
     message_info = requests.post(url + "message/share/v1", json = {
         'token': token1,
-        'dm_id': og_message_id,
+        'og_message_id': og_message_id,
         'message' : optional_message,
         'channel_id': channel_id,
         'dm_id': dm_id
@@ -45,11 +45,12 @@ def test_share_dm(helper):
     assert message_info.status_code == 201
 
     shared_message_id = message_info.json().get('shared_message_id')
-    assert shared_message_id ==  2
+    assert shared_message_id == 2
 
     #dm_messages = dm_messages_v1(auth_user_id, dm_id, 0).get('messages')
-    url2 = urlencode({"token": token1, "dm_id": ch_id}, "start": 0)
-    dm_messages_data = requests.get(url + "/dm/messages/v1" + url2)
+    url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
+    dm_messages_data = requests.get(url + "dm/messages/v1?" + url2)
+    print(dm_messages_data)
     dm_messages = dm_messages_data.json().get('messages')
 
     shared_message = dm_messages[0]
@@ -62,7 +63,7 @@ def test_share_dm(helper):
     #message_info = message_share_v1(auth_user_id, og_message_id, optional_message, channel_id, dm_id)
     message_info = requests.post(url + "message/share/v1", json = {
         'token': token1,
-        'dm_id': og_message_id,
+        'og_message_id': og_message_id,
         'message' : optional_message,
         'channel_id': channel_id,
         'dm_id': dm_id
@@ -72,8 +73,8 @@ def test_share_dm(helper):
     shared_message_id = message_info.json().get('shared_message_id')
     assert shared_message_id == 3
     #dm_messages = dm_messages_v1(auth_user_id, dm_id, 0).get('messages')
-    url2 = urlencode({"token": token1, "dm_id": ch_id}, "start": 0)
-    dm_messages_data = requests.get(url + "/dm/messages/v1" + url2)
+    url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
+    dm_messages_data = requests.get(url + "/dm/messages/v1?" + url2)
     dm_messages = dm_messages_data.json().get('messages')
     
     shared_message = dm_messages[0]
