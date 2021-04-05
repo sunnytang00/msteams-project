@@ -21,7 +21,7 @@ def test_share_dm(helper):
 
     og_message = "I like shrimps"
 
-    #message_info = message_senddm_v1(auth_user_id, dm_id, og_message)
+    
     message_info = requests.post(url + "/message/senddm/v1", json = {
         'token': token1,
         'dm_id': dm_id,
@@ -34,7 +34,7 @@ def test_share_dm(helper):
     optional_message = ''
 
     channel_id = -1
-    #message_info = message_share_v1(auth_user_id, og_message_id, optional_message, channel_id, dm_id)
+    
     message_info = requests.post(url + "message/share/v1", json = {
         'token': token1,
         'og_message_id': og_message_id,
@@ -47,7 +47,7 @@ def test_share_dm(helper):
     shared_message_id = message_info.json().get('shared_message_id')
     assert shared_message_id == 2
 
-    #dm_messages = dm_messages_v1(auth_user_id, dm_id, 0).get('messages')
+    
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
     dm_messages_data = requests.get(url + "dm/messages/v1?" + url2)
     print(dm_messages_data)
@@ -60,7 +60,7 @@ def test_share_dm(helper):
 
     #optional message
     optional_message = '1'
-    #message_info = message_share_v1(auth_user_id, og_message_id, optional_message, channel_id, dm_id)
+    
     message_info = requests.post(url + "message/share/v1", json = {
         'token': token1,
         'og_message_id': og_message_id,
@@ -72,7 +72,7 @@ def test_share_dm(helper):
 
     shared_message_id = message_info.json().get('shared_message_id')
     assert shared_message_id == 3
-    #dm_messages = dm_messages_v1(auth_user_id, dm_id, 0).get('messages')
+    
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
     dm_messages_data = requests.get(url + "/dm/messages/v1?" + url2)
     dm_messages = dm_messages_data.json().get('messages')
@@ -81,3 +81,43 @@ def test_share_dm(helper):
     
     expected = f'{optional_message}\n"""\n{og_message}\n"""'
     assert dm_messages[0].get('message') == expected
+
+@clear
+def test_user_is_not_member(helper):
+    user1 = helper.register_user(1)
+    user2 = helper.register_user(2)
+    token1 = user1.json().get('token')
+    token2 = user2.json().get('token')
+    assert token1 and token2
+
+    dm = requests.post(url + "/dm/create/v1", json = {
+        'token': token1,
+        'u_ids': []
+    })
+    dm_id = dm.json().get('dm_id')
+    assert dm_id == 1
+
+    og_message = "I like shrimps"
+
+    
+    message_info = requests.post(url + "/message/senddm/v1", json = {
+        'token': token1,
+        'dm_id': dm_id,
+        'message' : og_message
+    })
+    og_message_id = message_info.json().get('message_id')
+
+    assert og_message_id == 1
+
+    optional_message = ''
+
+    channel_id = -1
+    
+    message_info = requests.post(url + "message/share/v1", json = {
+        'token': token2,
+        'og_message_id': og_message_id,
+        'message' : optional_message,
+        'channel_id': channel_id,
+        'dm_id': dm_id
+    })
+    assert message_info.status_code == 403
