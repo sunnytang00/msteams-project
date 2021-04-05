@@ -24,7 +24,7 @@ def test_dm_create_v1_single(helper):
     u_ids = [u_id]
 
     dm_id = 1
-    dm_name = "harrypotter"
+    dm_name = "harrrrrypottttter, harrypotter"
     assert dm_create_v1(auth_user_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
 @clear
@@ -62,7 +62,7 @@ def test_dm_create_v1_many():
     u_ids = [u_id, u_id_2, u_id_3]
 
     dm_id = 1
-    dm_name = "bobsmith, bobsmith0, harrypotter"
+    dm_name = "bobsmith, bobsmith0, bobsmith1, harrypotter"
     assert dm_create_v1(u_id_4, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
     # create second channel
@@ -77,7 +77,7 @@ def test_dm_create_v1_many():
     u_ids = [u_id_4, u_id_2, u_id_3, u_id_5]
 
     dm_id = 2
-    dm_name = "bobsmith, bobsmith0, bobsmith1, bobsmith2"
+    dm_name = "bobsmith, bobsmith0, bobsmith1, bobsmith2, harrypotter"
     assert dm_create_v1(u_id, u_ids) == {'dm_id': dm_id, 'dm_name': dm_name}
 
 

@@ -17,7 +17,7 @@ def test_basic(helper):
     data3 = response3.json()
 
     token = data.get('token')
-
+    u_id = data.get('auth_user_id')
     u_id2 = data2.get('auth_user_id')
     u_id3 = data3.get('auth_user_id')
 
@@ -28,7 +28,7 @@ def test_basic(helper):
 
     dm_info = dm.json()
     assert dm_info.get('dm_id') == 1
-    assert dm_info.get('dm_name') == get_dm_name([u_id2, u_id3])
+    assert dm_info.get('dm_name') == get_dm_name([u_id, u_id2, u_id3])
 
 
 
