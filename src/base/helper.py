@@ -437,14 +437,15 @@ def remove_message(message_id: int, channel_id=None, dm_id=None) -> bool:
         update_message(message_id, dm_id=dm_id)
         return True
 
-def edit_message(message_id: int, message: str) -> bool:
+def edit_message(message_id: int, message: str, channel_id=None, dm_id=None) -> bool:
     """Remove a message from a channel"""
-    channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
-    if not channel_id:
-        return False
-
-    update_message(message_id, channel_id, message)
-    return True
+    # TODO: does it have to return bool?
+    if channel_id:
+        update_message(message_id, message=message, channel_id=channel_id)
+        return True
+    else:
+        update_message(message_id, message=message, dm_id=dm_id)
+        return True
 
 def token_to_auth_user_id(token: str) -> int:
     """Get auth_user_id from a token

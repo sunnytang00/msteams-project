@@ -91,17 +91,28 @@ def message_edit_v1(auth_user_id, message_id, message):
     Return Value:
         Returns empty dict on successfully editing a message
     """
-    channel_id = get_message_ch_id_or_dm_id(message_id)
-    channel = get_channel(channel_id)
+    output = get_message_ch_id_or_dm_id(message_id)
+    channel_id = output.get('channel_id')
+    dm_id = output.get('dm_id')
 
-    if not user_is_channel_owner(channel, auth_user_id) and not user_is_Dream_owner(auth_user_id):
-        raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+    if not channel_id and not dm_id:
+        raise InputError(f"Message {message_id} (based on ID) no longer exists")
 
     if len(message) > 1000:
         raise InputError("Message is more than 1000 characters")
 
-    if not edit_message(message_id, message):
-        raise InputError(f"message_id {message_id} refers to a deleted message")
+    if channel_id:
+        if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+            raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        edit_message(message_id, message=message, channel_id=channel_id)
+    else:
+        #TODO
+        #if not user_is_channel_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
+        #    raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
+
+        edit_message(message_id, message=message, dm_id=dm_id)
+
 
     return {}
 
