@@ -1,6 +1,9 @@
+"""Update a channel or DM message"""
+
 import pytest
-from src.base.message import message_send_v1, message_remove_v1, message_edit_v1
+from src.base.message import message_send_v1, message_senddm_v1, message_remove_v1, message_edit_v1
 from src.base.auth import auth_register_v1
+from src.base.dm import dm_create_v1, dm_messages_v1
 from src.base.channel import channel_messages_v1
 from src.base.other import clear_v1
 from src.base.error import InputError, AccessError
@@ -24,16 +27,18 @@ def test_message_edit_single_message(helper):
 
     messages = channel_messages_v1(auth_user_id, channel_id, 1).get('messages')
 
-    assert messages[-1].get('message') == og_message
+    assert messages[0].get('message') == og_message
     message_edit_v1(auth_user_id, message_id, edited_message)
 
     # get new updated message
     messages = channel_messages_v1(auth_user_id, channel_id, 1).get('messages')
-    assert messages[-1].get('message') == edited_message
+    assert messages[0].get('message') == edited_message
 
 @clear
 def test_edit_deleted_message(helper):
     """try editting a message that doesn't exist"""
+
+    # edit a message in channel
     auth_user_id = helper.register_user(1)
     assert auth_user_id == 1
 
@@ -48,6 +53,23 @@ def test_edit_deleted_message(helper):
     message_remove_v1(auth_user_id, message_id)
 
     new_message = "blah blah"
+    with pytest.raises(InputError) as e: 
+        message_edit_v1(auth_user_id, message_id, new_message)
+        assert f"message_id {message_id} refers to a deleted message" in str(e.value)
+
+    # edit a message in DM
+    auth_user_id2 = helper.register_user(2)
+    assert auth_user_id2 == 2
+    u_ids = [auth_user_id, auth_user_id2]
+    dm_id = dm_create_v1(auth_user_id, u_ids).get('dm_id')
+    assert dm_id == 1
+
+    message_info = message_senddm_v1(auth_user_id, dm_id, og_message)
+    message_id = message_info.get('message_id')
+    assert message_id == 2
+
+    message_remove_v1(auth_user_id, message_id)
+
     with pytest.raises(InputError) as e: 
         message_edit_v1(auth_user_id, message_id, new_message)
         assert f"message_id {message_id} refers to a deleted message" in str(e.value)
