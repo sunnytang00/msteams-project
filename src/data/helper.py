@@ -137,13 +137,32 @@ def get_dms() -> list:
     """
     return get_data().get('dms')
 
-def store_message(message: dict, channel_id: int) -> None:
+def store_message_channel(message: dict, channel_id: int) -> None:
     data = get_data()
     idx = get_channel_index(channel_id)
 
     data['channels'][idx]['messages'].append(message)
     data['message_count'] += 1
     
+    save(data)
+
+def store_message_dm(message: dict, dm_id: int) -> None:
+    """store message sent to dm on the data storage
+
+    Arguments:
+        message (dict) : dictionary contains message and some information of it
+        dm_id (int) : id of dm
+
+    Return Value:
+        Returns None on all conditions
+
+    """
+    data = get_data()
+    idx = get_dm_index(dm_id)
+
+    data['dms'][idx]['messages'].append(message)
+    data['message_count'] += 1
+
     save(data)
 
 def store_user(user: dict) -> None:
@@ -179,24 +198,6 @@ def store_session_id(u_id: int, session_id: int) -> None:
 
     save(data)
 
-def store_message_dm(message: dict, dm_id: int) ->None:
-    """store message sent to dm on the data storage
-
-    Arguments:
-        message (dict) : dictionary contains message and some information of it
-        dm_id (int) : id of dm
-
-    Return Value:
-        Returns None on all conditions
-
-    """
-    data = get_data()
-    idx = get_dm_index(dm_id)
-
-    data['dms'][idx]['messages'].append(message)
-    data['message_count'] += 1
-
-    save(data)
 
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
@@ -448,6 +449,7 @@ def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: st
         i += 1
     data['channels'][idx]['messages'] = msgs
     save(data)
+
 def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in dm
 
@@ -468,6 +470,7 @@ def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> 
         i += 1
     data['dms'][idx]['messages'] = msgs
     save(data)
+
 def update_message(message_id: int, channel_id = None, dm_id = None, message = None) -> None:
     """ remove or edit a message in a channel
 
