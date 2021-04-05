@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 
 
 @clear
-def test_valid_input():
+def test_valid_input(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     
@@ -36,7 +36,7 @@ def test_valid_input():
         'channel_id' : ch_id,
         'u_id': creator_id
     })
-    assert response == 201
+    assert response.status_code == 201
 
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 
@@ -46,7 +46,7 @@ def test_valid_input():
 
 
 @clear
-def test_invalid_channel_id():
+def test_invalid_channel_id(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     
@@ -66,7 +66,7 @@ def test_invalid_channel_id():
     assert response.status_code == 400
 
 @clear
-def test_user_the_only_owner():
+def test_user_the_only_owner(helper):
     user1 = helper.register_user(1)
     
     token1 = user1.json().get('token')
@@ -89,7 +89,7 @@ def test_user_the_only_owner():
     assert response.status_code == 400
 
 @clear
-def test_auth_user_not_owner():
+def test_auth_user_not_owner(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     
@@ -114,7 +114,7 @@ def test_auth_user_not_owner():
     assert response.status_code == 400
 
 @clear
-def test_auth_user_no_access():
+def test_auth_user_no_access(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     user3 = helper.register_user(3)
@@ -146,7 +146,7 @@ def test_auth_user_no_access():
     assert response.status_code == 403
 
 @clear
-def test_auth_user_global_owner():
+def test_auth_user_global_owner(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     user3 = helper.register_user(3)
@@ -175,7 +175,7 @@ def test_auth_user_global_owner():
         'channel_id' : ch_id,
         'u_id': u_id
     })
-    assert response == 201
+    assert response.status_code == 201
 
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 
