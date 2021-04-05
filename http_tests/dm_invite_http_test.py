@@ -30,6 +30,27 @@ def test_basic_invite(helper):
     dm_info = dm.json()
     assert dm_info.get('dm_id') == 1
 
+    queryString = urllib.parse.urlencode({
+        'token' : token,
+        'dm_id' : dm_info.get('dm_id')
+    })
+  
+    dm_deets = requests.get(url + f'dm/details/v1?{queryString}')
+    dm_details = dm_deets.json()
+
+    assert dm_details.get('members') == [{'u_id': 1, 
+                                        'email': 'harrypotter3@gmail.com', 
+                                        'name_first': 'Harrrrry', 
+                                        'name_last': 'Pottttter', 
+                                        'handle_str': 'harrrrrypottttter', 
+                                        'permission_id': 1},
+                                        {'u_id': 2, 
+                                        'email': 'marcoslowery@gmail.com', 
+                                        'name_first': 'Marcos', 
+                                        'name_last': 'Lowery', 
+                                        'handle_str': 'marcoslowery', 
+                                        'permission_id': 2}]
+
     requests.post(url + 'dm/invite/v1', json = {
         'token' : token,
         'dm_id' : dm_info.get('dm_id'),

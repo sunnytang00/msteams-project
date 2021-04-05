@@ -14,13 +14,12 @@ def test_setprofile_basic():
     })
 
     data = response.json()
-    auth_user_id = data.get('auth_user_id')
-    assert auth_user_id == 1
+    token = data.get('token')
 
     u_id = 1
 
     queryString = urllib.parse.urlencode({
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'u_id' : u_id
     })
     user = requests.get(url + f'user/profile/v2?{queryString}')

@@ -32,6 +32,26 @@ def test_invalid_channel_id(helper):
         assert f'Channel ID {invalid_channel_id} does not exist.' in str(e.value)
 
 @clear
+def test_invalid_token(helper):
+    invitor_user_id = 10
+    invitee_user_id = helper.register_user(2)
+
+    ch_id = channels_create_v1(invitee_user_id, "big fish", True)['channel_id']
+    with pytest.raises(AccessError) as e: 
+        channel_invite_v1(auth_user_id=invitor_user_id, channel_id=ch_id, u_id=invitee_user_id)
+        assert f'u_id {invitor_user_id} does not refer to a valid user' in str(e.value)
+
+@clear
+def test_invalid_u_id(helper):
+    invitor_user_id = helper.register_user(1)
+    invitee_user_id = 10
+
+    ch_id = channels_create_v1(invitor_user_id, "big fish", True)['channel_id']
+    with pytest.raises(InputError) as e: 
+        channel_invite_v1(auth_user_id=invitor_user_id, channel_id=ch_id, u_id=invitee_user_id)
+        assert f'u_id {invitee_user_id} does not refer to a valid user' in str(e.value)
+'''
+@clear
 def test_invaild_userID(helper):
     invalid_user_id = -1
     with pytest.raises(AccessError) as e: 
@@ -43,7 +63,7 @@ def test_invaild_userID(helper):
     with pytest.raises(AccessError) as e: 
         channels_create_v1(invalid_user_id, "first", True)
         assert f'User ID {invalid_user_id} is invaild' in str(e.value)
-
+'''
 @clear
 def test_vaild_input(helper):
     auth_user_id = helper.register_user(1)

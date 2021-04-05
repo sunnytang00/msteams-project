@@ -4,6 +4,7 @@ from src.config import url
 from http_tests.helper import clear, helper
 from urllib.parse import urlencode
 
+
 @clear
 def test_valid_input(helper):
     user1 = helper.register_user(1)
@@ -13,21 +14,29 @@ def test_valid_input(helper):
     token2 = user2.json().get('token')
     assert token1 and token2
 
+    creator_id = user1.json().get('auth_user_id')
+
     u_id = user2.json().get('auth_user_id')
 
     ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
-    response = requests.post(url + "/channel/addowner/v1", json = {
+    requests.post(url + "/channel/addowner/v1", json = {
         'token': token1,
         'channel_id' : ch_id,
         'u_id': u_id
     })
+
+    response = requests.post(url + "/channel/removeowner/v1", json = {
+        'token': token2,
+        'channel_id' : ch_id,
+        'u_id': creator_id
+    })
     assert response.status_code == 201
 
-    url2 = urlencode({"token": token1, "channel_id": ch_id})
+    url2 = urlencode({"token": token2, "channel_id": ch_id})
 
     channel = requests.get(url + 'channel/details/v2?' + url2).json()
 
-    assert u_id in [user['u_id'] for user in channel['owner_members']]
+    assert creator_id not in [user['u_id'] for user in channel['owner_members']]
 
 
 @clear
@@ -43,7 +52,7 @@ def test_invalid_channel_id(helper):
 
     ch_id = 10
 
-    response = requests.post(url + "/channel/addowner/v1", json = {
+    response = requests.post(url + "/channel/removeowner/v1", json = {
         'token': token1,
         'channel_id' : ch_id,
         'u_id': u_id
@@ -51,16 +60,35 @@ def test_invalid_channel_id(helper):
     assert response.status_code == 400
 
 @clear
-def test_u_id_already_owner(helper):
-    user1 = helper.register_user(1)  
-
+def test_user_the_only_owner(helper):
+    user1 = helper.register_user(1)
+    
     token1 = user1.json().get('token')
     assert token1
+
     u_id = user1.json().get('auth_user_id')
 
     ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
+    response = requests.post(url + "/channel/removeowner/v1", json = {
+        'token': token1,
+        'channel_id' : ch_id,
+        'u_id': u_id
+    })
+    assert response.status_code == 400
 
-    response = requests.post(url + "/channel/addowner/v1", json = {
+@clear
+def test_auth_user_not_owner(helper):
+    user1 = helper.register_user(1)
+    user2 = helper.register_user(2)
+    
+    token1 = user1.json().get('token')
+    token2 = user2.json().get('token')
+    assert token1 and token2
+
+    u_id = user2.json().get('auth_user_id')
+
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
+    response = requests.post(url + "/channel/removeowner/v1", json = {
         'token': token1,
         'channel_id' : ch_id,
         'u_id': u_id
@@ -80,7 +108,13 @@ def test_auth_user_no_access(helper):
     u_id = user3.json().get('auth_user_id')
 
     ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
-    response = requests.post(url + "/channel/addowner/v1", json = {
+    requests.post(url + "/channel/addowner/v1", json = {
+        'token': token1,
+        'channel_id' : ch_id,
+        'u_id': u_id
+    })
+
+    response = requests.post(url + "/channel/removeowner/v1", json = {
         'token': token2,
         'channel_id' : ch_id,
         'u_id': u_id
@@ -88,7 +122,7 @@ def test_auth_user_no_access(helper):
     assert response.status_code == 403
 
 @clear
-def test_global_owner(helper):
+def test_auth_user_global_owner(helper):
     user1 = helper.register_user(1)
     user2 = helper.register_user(2)
     user3 = helper.register_user(3)
@@ -100,7 +134,13 @@ def test_global_owner(helper):
     u_id = user3.json().get('auth_user_id')
 
     ch_id = helper.create_channel(2,token2, 'big fish!', True).json().get('channel_id')
-    response = requests.post(url + "/channel/addowner/v1", json = {
+    requests.post(url + "/channel/addowner/v1", json = {
+        'token': token2,
+        'channel_id' : ch_id,
+        'u_id': u_id
+    })
+
+    response = requests.post(url + "/channel/removeowner/v1", json = {
         'token': token1,
         'channel_id' : ch_id,
         'u_id': u_id
@@ -111,4 +151,6 @@ def test_global_owner(helper):
 
     channel = requests.get(url + 'channel/details/v2?' + url2).json()
 
-    assert u_id in [user['u_id'] for user in channel['owner_members']]
+    assert u_id not in [user['u_id'] for user in channel['owner_members']]
+
+

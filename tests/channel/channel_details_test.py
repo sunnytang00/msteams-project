@@ -22,6 +22,17 @@ def test_valid_input():
     assert auth_user_id in [users['u_id'] for users in output['all_members']]
 
 @clear
+def test_invalid_token(helper):
+    auth_user_id = 10
+
+    u_id = helper.register_user(1)
+
+    ch_id = channels_create_v1(u_id, "big fish", True)['channel_id']
+    with pytest.raises(AccessError) as e: 
+        channel_details_v1(auth_user_id=auth_user_id, channel_id=ch_id)
+        assert f'u_id {auth_user_id} does not refer to a valid user' in str(e.value)
+
+@clear
 def test_invalid_channel_id():
     user = auth_register_v1(email='bobsmith@gmail.com',
                                 password='FVn4HTWEsz8k6Msf',

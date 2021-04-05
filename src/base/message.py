@@ -1,8 +1,8 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner
-from src.data.helper import store_message, store_message_dm, get_message_count
+from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner, user_is_channel_member, format_share_message, get_message
+from src.data.helper import store_message_channel, store_message_dm, get_message_count
 from src.base.helper import create_message
 
 def message_send_v1(auth_user_id, channel_id, message):
@@ -26,11 +26,11 @@ def message_send_v1(auth_user_id, channel_id, message):
     if len(message) > 1000:
         raise InputError("Message is more than 1000 characters")
     
-    if not user_is_member(channel_id, auth_user_id):
+    if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError("Authorised user has not joined the channel")
 
-    message = create_message(auth_user_id, channel_id, message)
-    store_message(message, channel_id)
+    message = create_message(auth_user_id, message, channel_id=channel_id)
+    store_message_channel(message, channel_id)
     
     return {
         'message_id': message.get('message_id')
@@ -91,6 +91,7 @@ def message_edit_v1(auth_user_id, message_id, message):
     Return Value:
         Returns empty dict on successfully editing a message
     """
+    # TODO: add empty str delete
     output = get_message_ch_id_or_dm_id(message_id)
     channel_id = output.get('channel_id')
     dm_id = output.get('dm_id')
@@ -98,7 +99,8 @@ def message_edit_v1(auth_user_id, message_id, message):
     if not channel_id and not dm_id:
         raise InputError(f"Message {message_id} (based on ID) no longer exists")
 
-    if len(message) > 1000:
+    max_length = 1000
+    if len(message) > max_length:
         raise InputError("Message is more than 1000 characters")
 
     if channel_id:
@@ -114,7 +116,21 @@ def message_edit_v1(auth_user_id, message_id, message):
     return {}
 
 def message_senddm_v1(auth_user_id, dm_id, message):
-    """TODO"""
+    """Send a message from authorised_user to the DM specified by dm_id. Note: Each message should have it's own unique ID.
+     I.E. No messages should share an ID with another message, even if that other message is in a different channel or DM.
+
+    Arguments:
+        auth_user_id (int) - The user's id
+        message_id (int) - The user's message id
+        message (str) - The message contents
+
+    Exceptions:
+        InputError - Message is more than 1000 characters
+        AccessError - the authorised user is not a member of the DM they are trying to post to
+
+    Return Value:
+        Returns dict with message_id on success
+    """
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 
@@ -140,7 +156,7 @@ def message_senddm_v1(auth_user_id, dm_id, message):
         'message_id' : msg_id
     }
 
-def message_share_v1(auth_user_id, og_message_id, channel_id, dm_id):
+def message_share_v1(auth_user_id, og_message_id, message, channel_id, dm_id):
     """og_message_id is the original message. channel_id is the channel that the message is being shared to,
     and is -1 if it is being sent to a DM. dm_id is the DM that the message is being shared to, and is -1
     if it is being sent to a channel. message is the optional message in addition to the shared message,
@@ -158,6 +174,36 @@ def message_share_v1(auth_user_id, og_message_id, channel_id, dm_id):
     Return Value:
         Returns shared_message_id on successfully sharing message
     """
+
+    output = get_message_ch_id_or_dm_id(og_message_id)
+    og_channel_id = output.get('channel_id')
+    og_dm_id = output.get('dm_id')
+    og_message = get_message(og_message_id)
+
+    if og_channel_id:
+        if not user_is_channel_member(channel_id, auth_user_id):
+            raise AccessError(f"the authorised user has not joined the channel or DM they are trying to share the message to")
+
+        # share/send message to DM
+        if channel_id == -1:
+            pass
+
+        # share/send message to channel
+        if dm_id == -1:
+            share_message = format_share_message(og_message, message)
+
+            message = create_message(auth_user_id, share_message, channel_id=channel_id)
+            store_message_channel(message, channel_id)
+            return {
+                'shared_message_id': message.get('message_id')
+            }
+
+    else:
+        # og_message is from a DM
+        if not user_is_dm_member(og_dm_id, auth_user_id):
+            raise AccessError(f"the authorised user has not joined the channel or DM they are trying to share the message to")
+        # TODO
+
     return {
         'shared_message_id': None
     }

@@ -17,6 +17,8 @@ from src.routes.channels_http import channels_blueprint
 from src.routes.channel_http import channel_blueprint
 from src.routes.user_http import user_blueprint
 from src.routes.message_http import message_blueprint
+from src.routes.admin_http import admin_blueprint
+from src.routes.users_http import users_blueprint
 
 def defaultHandler(err):
     response = err.get_response()
@@ -38,7 +40,8 @@ APP.register_blueprint(channel_blueprint)
 APP.register_blueprint(user_blueprint)
 APP.register_blueprint(message_blueprint)
 APP.register_blueprint(dm_blueprint)
-
+APP.register_blueprint(admin_blueprint)
+APP.register_blueprint(users_blueprint)
 #######################
 CORS(APP)
 
@@ -111,7 +114,7 @@ def users_all():
 def search():
     return dumps({
     })
-
+'''
 @APP.route("/admin/user/remove/v1", methods=['DELETE'])
 def admin_user_remove():
     return dumps({
@@ -121,7 +124,7 @@ def admin_user_remove():
 def admin_user_permission_change():
     return dumps({
     })
-
+'''
 @APP.route("/notifications/get/v1", methods=['GET'])
 def notification_get():
     return dumps({

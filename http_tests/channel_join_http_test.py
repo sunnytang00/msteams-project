@@ -13,13 +13,7 @@ def test_valid_input(helper):
     token2 = user2.json().get('token')
     assert token1 and token2
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': True
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
     response = requests.post(url + "/channel/join/v2", json = {
         'token': token2,
         'channel_id': ch_id
@@ -57,13 +51,7 @@ def test_non_global_owner_access_private(helper):
     token2 = user2.json().get('token')
     assert token1 and token2
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token1,
-        'name': 'channel_test1',
-        'is_public': False
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(1,token1, 'big fish!', False).json().get('channel_id')
     response = requests.post(url + "/channel/join/v2", json = {
         'token': token2,
         'channel_id': ch_id
@@ -80,13 +68,7 @@ def test_global_owner_access_private(helper):
     token2 = user2.json().get('token')
     assert token1 and token2
 
-    ch = requests.post(url + 'channels/create/v2', json = {
-        'token': token2,
-        'name': 'channel_test1',
-        'is_public': False
-    })
-    ch_id = ch.json().get('channel_id')
-
+    ch_id = helper.create_channel(2,token2, 'big fish!', False).json().get('channel_id')
     response = requests.post(url + "/channel/join/v2", json = {
         'token': token1,
         'channel_id': ch_id
@@ -97,5 +79,4 @@ def test_global_owner_access_private(helper):
 
     assert ch_id in (channel['channel_id'] for channel in channels['channels'])
 
-    pass
 

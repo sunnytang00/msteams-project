@@ -5,7 +5,7 @@ as specified by the COMP1531 Major Project specification.
 """
 
 from src.base.error import InputError, AccessError
-from src.base.helper import get_user, get_channel, user_is_member, valid_channel_name
+from src.base.helper import get_user, get_channel, user_is_channel_member, valid_channel_name, get_current_user
 from src.data.helper import get_channels, store_channel, get_channel_count
 
 def channels_list_v1(auth_user_id):
@@ -21,7 +21,7 @@ def channels_list_v1(auth_user_id):
         Returns channels_of_user (list) on valid authenticated user
     """
     
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if len(get_channels()) == 0:
@@ -34,7 +34,7 @@ def channels_list_v1(auth_user_id):
                 }
 
     for channel in get_channels():
-        if user_is_member(channel.get('channel_id'), auth_user_id):
+        if user_is_channel_member(channel.get('channel_id'), auth_user_id):
             channels = {}
             channels['channel_id'] = channel['channel_id']
             channels['name'] = channel['name']
@@ -54,12 +54,12 @@ def channels_listall_v1(auth_user_id):
     Return Value:
         Returns get_channels() (list) on valid authenticated user
     """
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError(f'User ID {auth_user_id} is invaild')
 
     public_channels = {'channels': []}
     for channel in get_channels():
-        if user_is_member(channel['channel_id'], auth_user_id) or channel['is_public']:
+        if user_is_channel_member(channel['channel_id'], auth_user_id) or channel['is_public']:
             channels = {}
             channels['channel_id'] = channel['channel_id']
             channels['name'] = channel['name']
@@ -82,7 +82,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         Returns ｛'channel_id'｝ (dict) on valid authenticated user and valid name
     """
 
-    if not get_user(auth_user_id):
+    if not get_current_user(auth_user_id):
         raise AccessError(f'User ID {auth_user_id} is invaild')
 
     if valid_channel_name(name):

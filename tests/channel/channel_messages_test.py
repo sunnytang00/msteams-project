@@ -5,7 +5,7 @@ from src.base.channels import channels_create_v1
 from src.base.error import InputError, AccessError
 from src.base.auth import auth_register_v1
 from src.base.other import clear_v1
-from tests.helper import helper, clear
+from tests.helper import helper, clear, useless_message
 from src.base.message import message_send_v1
 
 @clear
@@ -44,6 +44,39 @@ def test_pagination():
     result_end = result['end']
     
     assert result_start == 0 and result_end == -1
+
+@clear
+def test_too_many_msgs(helper):
+    auth_user_id = helper.register_user(1)
+
+    ch_name = "big fish"
+
+    ch_id = channels_create_v1(auth_user_id, ch_name, True)['channel_id']
+
+    msgs = []
+    msgs.append("orange")
+    msgs.extend(useless_message(50))
+    msgs.append("last")
+
+    for msg in msgs:
+        message_send_v1(auth_user_id, ch_id, msg)
+
+    result = channel_messages_v1(auth_user_id=auth_user_id, channel_id=ch_id, start=0)
+    result_start = result['start']
+    result_end = result['end']
+    
+    assert result_start == 0 and result_end == 50
+
+@clear
+def test_invalid_token(helper):
+    auth_user_id = 10
+
+    u_id = helper.register_user(1)
+
+    ch_id = channels_create_v1(u_id, "big fish", True)['channel_id']
+    with pytest.raises(AccessError) as e: 
+        channel_messages_v1(auth_user_id=auth_user_id, channel_id=ch_id, start=0)
+        assert f'u_id {auth_user_id} does not refer to a valid user' in str(e.value)
 
 @clear
 def test_invalid_channel_id():

@@ -14,18 +14,17 @@ def test_setemail_basic():
     })
 
     data = response.json()
-    auth_user_id = data.get('auth_user_id')
-    assert auth_user_id == 1
+    token = data.get('token')
 
     requests.put(url + 'user/profile/setemail/v2', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'email' : 'albusdumbledore@gmail.com',
     })
 
     u_id = 1
 
     queryString = urllib.parse.urlencode({
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'u_id' : u_id
     })
     user = requests.get(url + f'user/profile/v2?{queryString}')
