@@ -68,3 +68,4 @@ def test_auth_user_not_member(helper):
     })
     assert response.status_code == 403
 
+

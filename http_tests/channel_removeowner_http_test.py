@@ -153,3 +153,4 @@ def test_auth_user_global_owner(helper):
 
     assert u_id not in [user['u_id'] for user in channel['owner_members']]
 
+

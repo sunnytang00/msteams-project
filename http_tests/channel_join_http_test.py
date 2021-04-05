@@ -79,5 +79,4 @@ def test_global_owner_access_private(helper):
 
     assert ch_id in (channel['channel_id'] for channel in channels['channels'])
 
-    pass
 
