@@ -43,9 +43,14 @@ def login_http():
 
     user = auth_login_v1(email, hashed_password)
     auth_user_id = user.get('auth_user_id')
+    
+    new_session_id = get_new_session_id() # i.e. uuid
+    store_session_id(auth_user_id, new_session_id) 
+
+    token = encode_token(new_session_id)
 
     return dumps({
-        #'token': token,
+        'token': token,
         'auth_user_id': auth_user_id
     }), 200
 
