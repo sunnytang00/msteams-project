@@ -41,7 +41,7 @@ def test_basic(helper):
     channel_id = data['channel_id']
 
     #Inviting 2nd user and 3rd user to the channel.
-    response = request.post(url + "/channel/invite/v2", json = {
+    response = requests.post(url + "/channel/invite/v2", json = {
         'token': token_0,
         'channel_id': channel_id,
         'u_id': auth_user_id_1,
@@ -50,7 +50,7 @@ def test_basic(helper):
 
     assert response.status_code == 201
     
-    response = request.post(url + "/channel/invite/v2", json = {
+    response = requests.post(url + "/channel/invite/v2", json = {
         'token': token_0,
         'channel_id': channel_id,
         'u_id': auth_user_id_2,
@@ -60,7 +60,7 @@ def test_basic(helper):
 
 
     #Create a message.
-    response = request.post(url + "message/send/v2", json = {
+    response = requests.post(url + "message/send/v2", json = {
         'token': token_0,
         'channel_id': channel_id,
         'message': "Hello everyone!",
@@ -72,7 +72,7 @@ def test_basic(helper):
     data = response.json()
     message_id = data['message_id']
 
-    response = request.delete(url + "message/remove/v1", json = {
+    response = requests.delete(url + "message/remove/v1", json = {
         'token': token_0,
         'message_id': message_id,
     })
