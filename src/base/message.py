@@ -114,6 +114,7 @@ def message_edit_v1(auth_user_id, message_id, message):
     return {}
 
 def message_senddm_v1(auth_user_id, dm_id, message):
+    """TODO"""
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 
@@ -139,4 +140,24 @@ def message_senddm_v1(auth_user_id, dm_id, message):
         'message_id' : msg_id
     }
 
-#def message_share_v1():
+def message_share_v1(auth_user_id, og_message_id, channel_id, dm_id):
+    """og_message_id is the original message. channel_id is the channel that the message is being shared to,
+    and is -1 if it is being sent to a DM. dm_id is the DM that the message is being shared to, and is -1
+    if it is being sent to a channel. message is the optional message in addition to the shared message,
+    and will be an empty string '' if no message is given
+
+    Arguments:
+        auth_user_id (int) - The authenticated user's id
+        og_message_id (int) - The original message
+        channel_id (int) - the channel that the message is being shared to
+        dm_id (int) - the DM that he message is being shared to
+    
+    Exceptions:
+        AcxessError - the authorised user has not joined the channel or DM they are trying to share the message to
+
+    Return Value:
+        Returns shared_message_id on successfully sharing message
+    """
+    return {
+        'shared_message_id': None
+    }
