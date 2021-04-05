@@ -147,7 +147,6 @@ def test_input_error2(helper):
 
     data = response.json()
     data2 = response2.json()
-    data3 = response3.json()
 
     token = data.get('token')
 
