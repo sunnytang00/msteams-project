@@ -49,5 +49,16 @@ def message_share():
 
 @message_blueprint.route("/message/senddm/v1", methods=['POST'])
 def message_senddm():
+    data = request.get_json()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    dm_id = data.get('dm_id')
+    message = data.get('message')
+
+    ret = message_senddm_v1(auth_user_id, int(dm_id), message)
+    message_id = ret.get('message_id')
+
     return dumps({
+        'message_id' : message_id
     })
