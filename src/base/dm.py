@@ -84,8 +84,6 @@ def dm_details_v1(auth_user_id, dm_id):
     
     return {'name': dm['dm_name'], 'members': members}
 
-def Func_for_sort_msg(msgs):
-    return msgs['message_id']
 
 def dm_messages_v1(auth_user_id, dm_id, start):
     """TODO"""
@@ -101,8 +99,7 @@ def dm_messages_v1(auth_user_id, dm_id, start):
     msgs = get_dm(dm_id).get('messages').copy()
 
     if start > len(msgs):
-        raise InputError(f"the message in dm is less than {start}")
-
+        raise InputError(f'Start {start} is greater than the total number of messages in the channel')
     msgs.sort(reverse = True, key = Func_for_sort_msg)
 
     end = -1
@@ -129,7 +126,6 @@ def dm_leave_v1(u_id, dm_id):
     dm_users.remove(u_id)
     update_dm_users(dm_users, dm_id)
 
-    
 
 def dm_invite_v1(auth_user_id, dm_id, u_id):
     if not get_dm(dm_id):
@@ -147,7 +143,6 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
     update_dm_users(dm_users, dm_id)
 
 
-
 def dm_remove_v1(auth_user_id, dm_id):
     if not get_dm(dm_id):
         raise InputError(f"dm_id {dm_id} does not refer to a valid dm")
@@ -160,3 +155,6 @@ def dm_remove_v1(auth_user_id, dm_id):
     dm_list.remove(dm)
     update_dm_list(dm_list)
 
+
+def Func_for_sort_msg(msgs):
+    return msgs['message_id']
