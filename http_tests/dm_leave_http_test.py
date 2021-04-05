@@ -75,12 +75,10 @@ def test_input_error(helper):
     u_id2 = data2.get('auth_user_id')
     u_id3 = data3.get('auth_user_id')
 
-    dm = requests.post(url + 'dm/create/v1', json = {
+    requests.post(url + 'dm/create/v1', json = {
         'token' : token,
         'u_ids' : [u_id2, u_id3]
     })
-
-    dm_info = dm.json()
     
     response = requests.post(url + 'dm/leave/v1', json = {
         'token' : token2,
