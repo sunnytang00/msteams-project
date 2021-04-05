@@ -6,8 +6,8 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 import time
 from src.base.error import InputError, AccessError
 from src.base.helper import get_user, get_channel, user_is_channel_member,\
-     user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members, get_current_user
-from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members
+     user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members, get_current_user, create_notification
+from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members, store_notification
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -39,6 +39,10 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
 
     user = get_user(u_id)
     append_channel_all_members(channel_id, user)
+    
+    notification = create_notification(channel_id=channel_id, dm_id=-1, u_id=auth_user_id, added=True)
+    store_notification(notification, u_id)
+
     return {}
 
 def channel_details_v1(auth_user_id, channel_id):

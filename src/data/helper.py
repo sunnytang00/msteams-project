@@ -450,7 +450,7 @@ def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: st
     data['channels'][idx]['messages'] = msgs
     save(data)
 
-def update_user_all_dm_message(auth_user_id: int, dm_id: dict, message: str) -> None:
+def update_user_all_dm_message(auth_user_id: int, dm_id: int, message: str) -> None:
     """ update the contents of msg sent by a user in dm
 
     Arguments:
@@ -500,5 +500,14 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
             del data['dms'][dm_idx]['messages'][message_idx]
         else:
             data['dms'][dm_idx]['messages'][message_idx]['message'] = message
+
+    save(data)
+
+def store_notification(notification: dict, u_id: int) -> None:
+    """TODO"""
+    data = get_data()
+    user_idx = get_user_index(u_id)
+
+    data['users'][user_idx]['notifications'].append(notification)
 
     save(data)
