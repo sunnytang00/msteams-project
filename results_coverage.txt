@@ -1,0 +1,32 @@
+Name                         Stmts   Miss Branch BrPart  Cover
+--------------------------------------------------------------
+http_tests/__init__.py           0      0      0      0   100%
+src/__init__.py                  0      0      0      0   100%
+src/base/__init__.py             0      0      0      0   100%
+src/base/admin.py               31      0     18      0   100%
+src/base/auth.py                35      0     18      0   100%
+src/base/channel.py             97      0     58      0   100%
+src/base/channels.py            37      0     18      0   100%
+src/base/dm.py                  88      0     46      0   100%
+src/base/echo.py                 5      0      2      0   100%
+src/base/error.py                7      0      0      0   100%
+src/base/message.py             79      2     38      3    96%
+src/base/notifications.py        4      0      0      0   100%
+src/base/other.py               24      0     16      0   100%
+src/base/user.py                44      0     28      3    96%
+src/base/users.py                7      0      2      0   100%
+src/config.py                    5      0      0      0   100%
+src/data/__init__.py             0      0      0      0   100%
+src/data/data.py                 0      0      0      0   100%
+src/routes/__init__.py           0      0      0      0   100%
+tests/__init__.py                0      0      0      0   100%
+tests/admin/__init__.py          0      0      0      0   100%
+tests/auth/__init__.py           0      0      0      0   100%
+tests/channel/__init__.py        0      0      0      0   100%
+tests/channels/__init__.py       0      0      0      0   100%
+tests/dm/__init__.py             0      0      0      0   100%
+tests/message/__init__.py        0      0      0      0   100%
+tests/testing_data.py            1      0      0      0   100%
+tests/user/__init__.py           0      0      0      0   100%
+--------------------------------------------------------------
+TOTAL                          464      2    244      6    99%
