@@ -22,7 +22,8 @@ def clear_data() -> None:
         'channel_count': 0,
         'message_count': 0,
         'dm_count': 0,
-        'owner_count' : 0
+        'owner_count' : 0,
+        'valid_msg_ids' : []
     }
 
     save(cleared_data)
@@ -510,4 +511,12 @@ def store_notification(notification: dict, u_id: int) -> None:
 
     data['users'][user_idx]['notifications'].append(notification)
 
+    save(data)
+
+def update_active_msg_ids(msg_id: int, method: str) -> None:
+    data = get_data()
+    if method == 'add':
+        data['valid_msg_ids'].append(msg_id)
+    if method == 'remove':
+        data['valid_msg_ids'].remove(msg_id)
     save(data)

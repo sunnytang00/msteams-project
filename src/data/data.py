@@ -70,6 +70,7 @@ data = {
                     'u_id': 1,
                     'message': 'Hello world',
                     'time_created': 1582426789,
+                    'pinned' : False
                 }
             ],
             'is_public': TRUE,
@@ -90,5 +91,6 @@ data = {
     'channel_count': 1,
     'dm_count': 1,
     'owner_count': 1
+    'valid_msg_ids': [1]
 }
 """

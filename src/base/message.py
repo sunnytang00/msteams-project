@@ -2,7 +2,7 @@
 import time
 from src.base.error import InputError, AccessError
 from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner, user_is_channel_member, format_share_message, get_message
-from src.data.helper import store_message_channel, store_message_dm, get_message_count
+from src.data.helper import store_message_channel, store_message_dm, get_message_count, update_active_msg_ids
 from src.base.helper import create_message
 
 def message_send_v1(auth_user_id, channel_id, message):
@@ -30,6 +30,8 @@ def message_send_v1(auth_user_id, channel_id, message):
         raise AccessError("Authorised user has not joined the channel")
 
     message = create_message(auth_user_id, message, channel_id=channel_id)
+    message_id = message.get('message_id')
+    update_active_msg_ids(message_id, 'add')
     store_message_channel(message, channel_id)
     
     return {
@@ -64,11 +66,13 @@ def message_remove_v1(auth_user_id, message_id):
             raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
         remove_message(message_id, channel_id=channel_id)
+        update_active_msg_ids(message_id, 'remove')
     else:
         if not user_is_dm_owner(channel_id, auth_user_id) and not user_is_Dream_owner(auth_user_id):
             raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
         remove_message(message_id, dm_id=dm_id)
+        update_active_msg_ids(message_id, 'remove')
 
     return {}
 
@@ -149,6 +153,7 @@ def message_senddm_v1(auth_user_id, dm_id, message):
             'time_created' : time_created
     }
     store_message_dm(msg, dm_id)
+    update_active_msg_ids(msg_id, 'add')
 
     return {
         'message_id' : msg_id
@@ -213,3 +218,13 @@ def message_share_v1(auth_user_id, og_message_id, message, channel_id, dm_id):
     return {
         'shared_message_id': None
     }
+"""
+def message_pin_v1(auth_user_id, message_id):
+
+def message_unpin_v1(auth_user_id, message_id):
+
+
+def message_react_v1(auth_user_id, message_id, react_id):
+
+def message_unreact_v1(auth_user_id, message_id, react_id):
+"""
