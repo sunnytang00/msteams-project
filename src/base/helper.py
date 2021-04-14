@@ -500,7 +500,7 @@ def get_user_by_email(email: str) -> dict:
     return {}        
 
 def format_share_message(og_message: str, optional_message: str) -> str:
-    output = f'{optional_message}\n"""\n{og_message}\n"""'
+    output = f'{optional_message}\n\n"""\n{og_message}\n"""'
     return output
 
 def get_message(message_id: int) -> str:

@@ -50,7 +50,6 @@ def test_share_dm(helper):
     
     url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
     dm_messages_data = requests.get(url + "dm/messages/v1?" + url2)
-    print(dm_messages_data)
     dm_messages = dm_messages_data.json().get('messages')
 
 
@@ -77,7 +76,7 @@ def test_share_dm(helper):
     dm_messages = dm_messages_data.json().get('messages')
     
     
-    expected = f'{optional_message}\n"""\n{og_message}\n"""'
+    expected = f'{optional_message}\n\n"""\n{og_message}\n"""'
     assert dm_messages[0].get('message') == expected
 
 @clear
