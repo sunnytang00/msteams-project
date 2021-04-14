@@ -57,8 +57,7 @@ def test_sendmessage_basic():
     })
 
     messages = channel_messages_v1(auth_user_id, channel_id, 1).get('messages')
-    # first message would be index 0 after reversed
-    assert messages[0].get('message') == 'edited the first message'
+    assert messages[1].get('message') == 'edited the first message'
 
 @clear
 def test_over1000():

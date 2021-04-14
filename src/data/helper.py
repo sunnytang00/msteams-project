@@ -91,10 +91,14 @@ def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    if channel_idx:
-        for idx in range(len(data)-1):
-            if data['channels'][channel_idx]['messages'][idx].get('message_id') == message_id:
-                return idx
+    channels = get_channels()
+    if channel_idx or channel_idx == 0:
+        for channel in channels:
+            for idx in range(len(channel['messages'])-1):
+                if channel['messages'][idx].get('message_id') == message_id:
+                    return idx
+
+    # TODO fix this
     elif dm_idx:
         for idx in range(len(data)-1):
             if data['dms'][dm_idx]['messages'][idx].get('message_id') == message_id:
@@ -472,7 +476,7 @@ def update_user_all_dm_message(auth_user_id: int, dm_id: int, message: str) -> N
     save(data)
 
 def update_message(message_id: int, channel_id = None, dm_id = None, message = None) -> None:
-    """ remove or edit a message in a channel
+    """ remove or edit a message in a channel or dm
 
     Arguments:
         message_id (int) - id of a message
