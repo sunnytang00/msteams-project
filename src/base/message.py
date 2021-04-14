@@ -215,5 +215,5 @@ def message_share_v1(auth_user_id, og_message_id, message, channel_id, dm_id):
             }
 
     return {
-        'shared_message_id': None
+        'shared_message_id': None # TODO add message_id
     }
