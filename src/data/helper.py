@@ -476,7 +476,8 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
 
     Arguments:
         message_id (int) - id of a message
-        channel_id (int) - id of a channel
+        channel_id (optional) (int) - id of a channel
+        dm_id (optional) (int) - id of a dm
         message (optional) (str) - a message
 
     Return Value:
