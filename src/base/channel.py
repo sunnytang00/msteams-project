@@ -117,9 +117,9 @@ def channel_messages_v1(auth_user_id, channel_id, start):
         end = -1
 
     return {
-        'messages' : messages,
-        'start' : start,
-        'end' : end
+        'messages': messages,
+        'start': start,
+        'end': end
     }
 
 
