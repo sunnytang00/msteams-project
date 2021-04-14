@@ -96,7 +96,6 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     Return Value:
         Returns { messages, start, end } (dict): [description]
     """ 
-    limit = 50
 
     if not get_current_user(auth_user_id):
         raise AccessError(f'u_id {auth_user_id} does not refer to a valid user')
@@ -112,14 +111,15 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     messages = channel['messages']
     if start > len(messages):
         raise InputError(f'Start {start} is greater than the total number of messages in the channel')
+    limit = 50
     end = start + limit
     if end > len(messages):
         end = -1
 
     return {
-        'messages': messages,
-        'start': start,
-        'end': end
+        'messages' : messages,
+        'start' : start,
+        'end' : end
     }
 
 
