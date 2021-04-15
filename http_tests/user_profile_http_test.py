@@ -26,8 +26,8 @@ def test_setprofile_basic():
     user = requests.get(url + f'user/profile/v2?{queryString}')
 
     data = user.json()
-    assert data.get('user').get('user').get('name_first') == 'harry'
-    assert data.get('user').get('user').get('name_last') == 'potter'
+    assert data.get('name_first') == 'harry'
+    assert data.get('name_last') == 'potter'
 
 @clear
 

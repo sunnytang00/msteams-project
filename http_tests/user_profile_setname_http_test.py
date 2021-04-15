@@ -31,8 +31,8 @@ def test_setname_basic():
     user = requests.get(url + f'user/profile/v2?{queryString}')
 
     data = user.json()
-    assert data.get('user').get('user').get('name_first') == 'albus'
-    assert data.get('user').get('user').get('name_last') == 'dumbledore'
+    assert data.get('name_first') == 'albus'
+    assert data.get('name_last') == 'dumbledore'
 
 @clear
 

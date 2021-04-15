@@ -25,7 +25,7 @@ def test_single_user():
 
     user_profile_sethandle_v1(auth_user_id, new_handle)
 
-    assert user_profile_v1(auth_user_id, u_id).get('user').get('handle_str') == new_handle
+    assert user_profile_v1(auth_user_id, u_id).get('handle_str') == new_handle
 
 @clear
 def test_two_character_handle_string():

@@ -30,7 +30,7 @@ def test_single_user():
                 'handle_str': handle_str
                 }
 
-    assert user_profile_v1(auth_user_id, u_id).get('user') == expected
+    assert user_profile_v1(auth_user_id, u_id) == expected
 
 # TODO: test valid if user is valid
 @clear
@@ -48,7 +48,7 @@ def test_fail_user():
     assert auth_user_id == 1
     u_id = 2
     with pytest.raises(InputError) as e:
-        user_profile_v1(auth_user_id, u_id).get('user')
+        user_profile_v1(auth_user_id, u_id)
         assert f'User with u_id {u_id} is not a valid user' in str(e.value)
 
 @clear
@@ -58,7 +58,7 @@ def test_removed_user(helper):
 
     admin_user_remove_v1(auth_user_id, u_id)
 
-    profile = user_profile_v1(auth_user_id, u_id).get('user')
+    profile = user_profile_v1(auth_user_id, u_id)
 
     assert u_id == profile.get('u_id') and profile.get('name_first') == 'Removed' \
         and profile.get('name_last') == 'user'

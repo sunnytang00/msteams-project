@@ -25,7 +25,7 @@ def test_single_user():
 
     user_profile_setemail_v1(auth_user_id, new_email)
 
-    assert user_profile_v1(auth_user_id, u_id).get('user').get('email') == new_email
+    assert user_profile_v1(auth_user_id, u_id).get('email') == new_email
 
 @clear
 def test_invalid_email():
