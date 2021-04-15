@@ -42,6 +42,11 @@ def test_tag_someone(helper):
     channel_invite_v1(auth_user_id=invitor_user_id, channel_id=channel_id, u_id=invitee_user_id)
     message = '@bobsmith'
     message_send_v1(invitor_user_id, channel_id, message) 
+    message = 'wdqdwdq@bobsmith'
+    message_send_v1(invitor_user_id, channel_id, message) 
+    message = '@bobsmith @bobsmith @'
+    message_send_v1(invitor_user_id, channel_id, message) 
     notifications = notifactions_get_v1(invitor_user_id)
-    assert notifications[0].get('notification_message') == f'bobsmith tagged you in Cat Society: {message}'
+    print(notifications)
+    assert notifications[0].get('notification_message') == f'bobsmith tagged you in Cat Society: @bobsmith'
 

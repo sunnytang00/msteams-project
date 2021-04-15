@@ -1,15 +1,30 @@
 import threading
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_Dream_owner, remove_user, get_current_user, get_channel, user_is_channel_member
-from src.data.helper import store_message_standup, update_channel_startup
+from src.base.helper import user_is_Dream_owner, remove_user, get_current_user, get_channel, user_is_channel_member,\
+                            tagged_handlestrs, create_notification, get_user_from_handlestr, create_message
+from src.data.helper import store_message_standup, update_channel_standup, store_notification, store_message_channel
 
-def startup_finish(*args, **kwargs):
+def standup_finish(*args, **kwargs):
+    auth_user_id = kwargs.get('auth_user_id')
     channel_id = kwargs.get('channel_id')
-    startup_data = get_channel(channel_id).get('startup')
-    buffered_msgs = startup_data.get('buffer')
+    standup_data = get_channel(channel_id).get('standup')
+    buffered_msgs = standup_data.get('buffer')
+    messages = ''
     for msg in buffered_msgs:
-        
+        handlestrs = tagged_handlestrs(msg)
+        for handlestr in handlestrs['handle_strs']:
+            user = get_user_from_handlestr(handlestr)
+            if user and user_is_channel_member(channel_id, user.get('u_id')):
+                notification = create_notification(channel_id=channel_id, dm_id=-1, \
+                                                    u_id=user.get('u_id'), tagged=True, msgs = '@' + handlestrs)
+                store_notification(notification, user.get('u_id'))
+        messages += (msg + '\n')
+    messages = messages[0:-1]
+    message = create_message(auth_user_id, message, channel_id=channel_id)
+    store_message_channel(message, channel_id)
+
+
 
 def standup_start_v1(auth_user_id, channel_id, length):
     if not get_current_user(auth_user_id):
@@ -21,14 +36,14 @@ def standup_start_v1(auth_user_id, channel_id, length):
     if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError('Authorised user is not in the channel')
 
-    if get_channel(channel_id)['startup'].get('active'):
+    if get_channel(channel_id)['standup'].get('active'):
         raise InputError('An active standup is currently running in this channel')
 
     kwargs = {'auth_user_id': auth_user_id, 'channel_id': channel_id}
-    startup_data = get_channel(channel_id).get('startup') 
-    startup_data.get('active') = True
-    update_channel_startup(channel_id, startup_data)
-    threading.timer(length, startup_finish, kwargs = kwargs)
+    standup_data = get_channel(channel_id).get('standup') 
+    standup_data['active'] = True
+    update_channel_standup(channel_id, standup_data)
+    threading.Timer(length, standup_finish, kwargs = kwargs)
     time_finish = int(time.time()) + length
     return {
         'time_finish': time_finish

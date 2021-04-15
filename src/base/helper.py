@@ -100,7 +100,8 @@ def get_channel(channel_id: int) -> dict:
                 'owner_members': channel['owner_members'],
                 'all_members' : channel['all_members'],
                 'messages' : channel['messages'],
-                'is_public' : channel['is_public']
+                'is_public' : channel['is_public'],
+                'standup': channel['standup'],
             }
     return {}
 
