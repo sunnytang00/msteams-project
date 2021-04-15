@@ -569,3 +569,22 @@ def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, t
 
     return notification
 
+def is_pinned(message_id: int) -> bool:
+    channels = get_channels()
+    for channel in channels:
+        # look for message in channels
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                if message.get('pinned') == True:
+                    return True
+
+    dms = get_dms()
+    for dm in dms:
+        # look for message in dms
+        for message in dm.get('messages'):
+            if message.get('message_id') == message_id:
+                if message.get('pinned') == True:
+                    return True
+
+    return False
+    

@@ -138,6 +138,9 @@ def get_dms() -> list:
     """
     return get_data().get('dms')
 
+def get_valid_msg_ids() -> list:
+    return get_data().get('valid_msg_ids')
+
 def store_message_channel(message: dict, channel_id: int) -> None:
     data = get_data()
     idx = get_channel_index(channel_id)
@@ -520,3 +523,24 @@ def update_active_msg_ids(msg_id: int, method: str) -> None:
     if method == 'remove':
         data['valid_msg_ids'].remove(msg_id)
     save(data)
+
+def set_pin(message_id: int, to_pin: str, channel_id = None, dm_id = None,) -> None:
+    data = get_data()
+    if channel_id:
+        channel_idx = get_channel_index(channel_id)
+        message_idx = get_message_index(message_id, channel_idx=channel_idx)
+        if to_pin == 'pin':
+            data['channels'][channel_idx]['messages'][message_idx]['pinned'] = True
+        if to_pin == 'unpin':
+            data['channels'][channel_idx]['messages'][message_idx]['pinned'] = False
+    else:
+        dm_idx = get_dm_index(dm_id)
+        message_idx = get_message_index(message_id, dm_idx=dm_idx)
+        if to_pin == 'pin':
+            data['dms'][dm_idx]['messages'][message_idx]['pinned'] = True
+        if to_pin == 'unpin':
+            data['dms'][dm_idx]['messages'][message_idx]['pinned'] = False
+
+    save(data)
+
+    
