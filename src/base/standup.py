@@ -10,6 +10,7 @@ def standup_finish(*args, **kwargs):
     channel_id = kwargs.get('channel_id')
     standup_data = get_channel(channel_id).get('standup')
     buffered_msgs = standup_data.get('buffer')
+
     messages = ''
     for msg in buffered_msgs:
         handlestrs = tagged_handlestrs(msg)
@@ -21,9 +22,14 @@ def standup_finish(*args, **kwargs):
                 store_notification(notification, user.get('u_id'))
         messages += (msg + '\n')
     messages = messages[0:-1]
+
     message = create_message(auth_user_id, message, channel_id=channel_id)
     store_message_channel(message, channel_id)
 
+    standup_data['active'] = False
+    standup_data['time_finish'] = None
+    standup_data['buffer'] = []
+    update_channel_standup(standup_data)
 
 
 def standup_start_v1(auth_user_id, channel_id, length):
@@ -42,12 +48,23 @@ def standup_start_v1(auth_user_id, channel_id, length):
     kwargs = {'auth_user_id': auth_user_id, 'channel_id': channel_id}
     standup_data = get_channel(channel_id).get('standup') 
     standup_data['active'] = True
-    update_channel_standup(channel_id, standup_data)
     threading.Timer(length, standup_finish, kwargs = kwargs)
     time_finish = int(time.time()) + length
+    standup_data['time_finish'] = time_finish
+    update_channel_standup(channel_id, standup_data)
     return {
         'time_finish': time_finish
     }
+
+def standup_active_v1(auth_user_id, channel_id):
+    if not get_current_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not get_channel(channel_id):
+        raise InputError(f'Channel ID {channel_id} is not a valid channel')
+
+    standup_data = get_channel(channel_id).get('standup')
+    return {'is_active': standup_data.get('active'), 'time_finish': standup_data.get('time_finish')}
 
 def standup_send_v1(auth_user_id, channel_id, message):
     if not get_current_user(auth_user_id):
