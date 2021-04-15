@@ -100,7 +100,8 @@ def get_channel(channel_id: int) -> dict:
                 'owner_members': channel['owner_members'],
                 'all_members' : channel['all_members'],
                 'messages' : channel['messages'],
-                'is_public' : channel['is_public']
+                'is_public' : channel['is_public'],
+                'standup': channel['standup'],
             }
     return {}
 
@@ -296,6 +297,21 @@ def get_handle_str(name_first: str, name_last: str) -> str:
         count += 1
 
     return handle_str
+
+def get_user_from_handlestr(handlestr: str) -> dict:
+    """Get user data of user with handlestr provided
+
+    Arguements:
+        handlestr (str): handlestr of user
+
+    Returns:
+        Returns user data
+    """   
+    users = get_current_users()
+    for user in users:
+        if handlestr == user.get('handle_str'):
+            return user
+    return None
 
 def same_name_user_exist(name_first: str, name_last: str) -> str:
     """Check if there is user with same name already exists on the database
@@ -540,7 +556,7 @@ def get_dm_name(dm_id: int) -> str:
             return dm.get('name')
     return None
 
-def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, tagged = False) -> dict:
+def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, tagged = False, msgs = '') -> dict:
     user = get_user(u_id)
 
     handle_str = user.get('handle_str')
@@ -564,7 +580,52 @@ def create_notification(channel_id: int, dm_id: int, u_id: int, added = False, t
                 'notification_message': notification_message
             }
     if tagged:
-        pass
+        if channel_id != -1:
+            name = get_channel_name(channel_id)
+            msg = msgs[0:20]
+            notification_message = f"{handle_str} tagged you in {name}: {msg}"
+            notification = {
+                'channel_id': channel_id,
+                'dm_id': dm_id,
+                'notification_message': notification_message
+            }
+        if dm_id != -1:
+            name = get_dm_name(dm_id)
+            msg = msgs[0:20]
+            notification_message = f"{handle_str} tagged you in {name}: {msg}"
+            notification = {
+                'channel_id': channel_id,
+                'dm_id': dm_id,
+                'notification_message': notification_message
+            }
 
     return notification
 
+def tagged_handlestrs(message: str):
+    """A function that when passed an message, will return a list of handlestr that being tagged
+
+    Arguments:
+        message (str): message being sent to a channel or dm
+
+    Return Values:
+        handle_strs(dict): A dictionary of handlestrs that being tagged 
+    """    
+    msg = message
+    start = 0
+    handle_strs = []
+    while msg.find('@') != -1:
+        start = msg.find('@')
+
+        msg = msg[start + 1:]
+        
+        end = msg.find(' ')
+        if end == -1:
+            end =  len(msg)
+
+        handle_str = msg[0:end]
+        handle_strs.append(handle_str)
+        if handle_str.find('@') != -1:
+            continue
+
+        msg = msg[end:]
+    return {'handle_strs': handle_strs}

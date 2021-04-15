@@ -6,19 +6,7 @@ from src.base.error import InputError
 from src.data.helper import get_users, update_name_first, update_name_last, update_email, update_handle_str 
 
 def user_profile_v1(auth_user_id, u_id):
-    """For a valid user, 
-    returns information about their user_id, email, first name, last name, and handle
-
-    Args:
-        auth_user_id (int): id of authenticated user
-        u_id (int): id of user profile to be looked at
-
-    Raises:
-        InputError: User with u_id is not a valid user
-
-    Returns:
-        A dict user, which contains u_id, email, first and last name, and handle string
-    """    """TODO"""
+    """TODO"""
     user = get_user(u_id)
     if not bool(user):
         raise InputError(f'User with u_id {u_id} is not a valid user')
@@ -43,17 +31,7 @@ def user_profile_v1(auth_user_id, u_id):
     }
 
 def user_profile_setname_v1(auth_user_id, name_first, name_last):
-    """Update the authorised user's first and last name
-
-    Args:
-        auth_user_id (int): id of user to change name
-        name_first (str): new first name
-        name_last (str):  new last name
-
-    Raises:
-        InputError: name_first is not between 1 and 50 characters inclusively in length
-        InputError: name_last is not between 1 and 50 characters inclusively in length
-    """ 
+    """TODO"""
 
     if not valid_first_name(name_first):
         raise InputError(f'name_first {name_first} is not between 1 and 50 characters inclusively in length')
@@ -69,16 +47,7 @@ def user_profile_setname_v1(auth_user_id, name_first, name_last):
     return {}
 
 def user_profile_setemail_v1(auth_user_id, email):
-    """Update the authorised user's email address
-
-    Args:
-        auth_user_id (int): id of user to change email
-        email (str): new email
-
-    Raises:
-        InputError: Email entered is not a valid email
-        InputError: Email address is already being used by another user
-    """ 
+    """TODO"""
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -94,16 +63,9 @@ def user_profile_setemail_v1(auth_user_id, email):
     }
 
 def user_profile_sethandle_v1(auth_user_id, handle_str):
-    """Update the authorised user's handle (i.e. display name)
+    """TODO"""
 
-    Args:
-        auth_user_id (int): id of user to change handle
-        handle_str (str): new display name
-
-    Raises:
-        InputError: handle_str is not between 3 and 20 characters inclusive
-        InputError: handle is already used by another user
-    """    
+    #need to change to tokens eventually
     if len(handle_str) not in range(3, 21):
         raise InputError(f'Handle string {handle_str} is not between 3 and 20 characters inclusive')
 
