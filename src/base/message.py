@@ -1,8 +1,11 @@
 """TODO"""
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner, user_is_channel_member, format_share_message, get_message
-from src.data.helper import store_message_channel, store_message_dm, get_message_count
+from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, \
+    remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, \
+    user_is_dm_owner, user_is_channel_member, format_share_message, get_message, tagged_handlestrs,\
+    get_user_from_handlestr, create_notification
+from src.data.helper import store_message_channel, store_message_dm, get_message_count, store_notification
 from src.base.helper import create_message
 
 def message_send_v1(auth_user_id, channel_id, message):
@@ -29,7 +32,15 @@ def message_send_v1(auth_user_id, channel_id, message):
     if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError("Authorised user has not joined the channel")
 
+    handlestrs = tagged_handlestrs(message)
+    for handlestr in handlestrs['handle_strs']:
+        user = get_user_from_handlestr(handlestr)
+        if user and user_is_channel_member(channel_id, user.get('u_id')):
+            notification = create_notification(channel_id=channel_id, dm_id=-1, u_id=user.get('u_id'), tagged=True, msgs = message)
+            store_notification(notification, user.get('u_id'))
+
     message = create_message(auth_user_id, message, channel_id=channel_id)
+    
     store_message_channel(message, channel_id)
     
     return {

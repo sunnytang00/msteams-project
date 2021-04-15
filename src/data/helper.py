@@ -386,6 +386,12 @@ def update_dm_users(dm_users: list, dm_id: int) -> None:
     idx = get_dm_index(dm_id)
     data['dms'][idx]['u_ids'] = dm_users
 
+def update_channel_startup(channel_id: int, startup: dict) -> None:
+    data = get_data()
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['startup'] = startup
+
     save(data)
 def store_dm(dm: dict) -> None:
     """store the dm in storage

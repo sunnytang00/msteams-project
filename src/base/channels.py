@@ -99,7 +99,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         'all_members': [user],
         'messages': [],
         'is_public': is_public,
-        'standup': {'active': False, 'time_started': None, 'buffer': []}
+        'standup': {'active': False, 'time_finish': None, 'buffer': []}
     }
     store_channel(channel)
 
