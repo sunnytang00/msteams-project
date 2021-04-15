@@ -77,7 +77,7 @@ def test_pin_invalid_message_id(helper):
     message_id2 = message_senddm_v1(auth_user_id2, dm_id, second_message).get('message_id')
     assert message_id2 == 2
 
-    invalid_msg_id = 2
+    invalid_msg_id = 22
     with pytest.raises(InputError) as e: 
         message_pin_v1(auth_user_id1, invalid_msg_id)
         assert f'message with message id {invalid_msg_id} is not a valid message' in str(e.value)
