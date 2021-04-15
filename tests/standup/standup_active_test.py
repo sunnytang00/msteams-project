@@ -20,7 +20,6 @@ def test_valid_input(helper):
 def test_no_standup_active(helper):
     auth_user_id = helper.register_user(1)
     ch_id = helper.create_channel(1, auth_user_id)
-    length = 10
     standup_data = standup_active_v1(auth_user_id, ch_id)
     assert standup_data.get('is_active') == False and standup_data.get('time_finish') == None
 
@@ -36,7 +35,6 @@ def test_invalid_channel(helper):
 def test_invalid_token(helper):
     auth_user_id = helper.register_user(1)
     ch_id = helper.create_channel(1, auth_user_id)
-    length = 10
     with pytest.raises(AccessError) as e: 
         standup_active_v1(auth_user_id + 10, ch_id)
         assert f'token {auth_user_id} does not refer to a valid token' in str(e.value)
