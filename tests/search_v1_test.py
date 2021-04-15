@@ -7,9 +7,8 @@ from src.base.auth import auth_register_v1
 from src.base.channels import channels_create_v1
 
 @clear
-def test_empty_query_str():
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
-    user_id = user['auth_user_id']
+def test_empty_query_str(helper):
+    user_id = helper.register_user(1)
 
     with pytest.raises(InputError) as e:
         search_v1(user_id, "")
@@ -28,34 +27,25 @@ def test_invalid_auth_user_id_str():
         assert 'Auth_user_id is not real' in str(e)
 
 @clear
-def test_query_too_long():
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
-    user_id = user['auth_user_id']
+def test_query_too_long(helper):
+    user_id = helper.register_user(1)
     with pytest.raises(InputError) as e:
         search_v1(user_id, "F" * 1001)
         assert 'Query string is too long' in str(e)
 
 @clear 
-def test_no_match():
-
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
-    user_id = user['auth_user_id']
-
-    test_channel = channels_create_v1(user_id, "test channel", True)
-    channel_id = test_channel['channel_id']
+def test_no_match(helper):
+    user_id = helper.register_user(1)
+    channel_id = helper.create_channel(1, user_id)
 
     message_send_v1(user_id, channel_id, "Hello")
 
     assert search_v1(user_id, "Hello1") == []
 
 @clear 
-def test_one_match():
-
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
-    user_id = user['auth_user_id']
-
-    test_channel = channels_create_v1(user_id, "correct", True)
-    channel_id = test_channel['channel_id']
+def test_one_match(helper):
+    user_id = helper.register_user(1)
+    channel_id = helper.create_channel(1, user_id)
 
     message_send_v1(user_id, channel_id, "Hello")
 
@@ -63,18 +53,14 @@ def test_one_match():
     assert len(result) == 1
 
 @clear 
-def test_not_in_a_channel():
+def test_not_in_a_channel(helper):
 
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
-    user_id = user['auth_user_id']
+    user_id = helper.register_user(1)
 
-    user1 = auth_register_v1('bobsmith1@gmail.com','2345678','Bobbo','Smith')
-    user_id_1 = user1['auth_user_id']
+    channel_id = helper.create_channel(1, user_id)
 
-    test_channel = channels_create_v1(user_id, "correct", True)
-    channel_id = test_channel['channel_id']
+    helper.create_channel(2, user_id)
 
-    channels_create_v1(user_id_1, "correct", True)
 
     message_send_v1(user_id, channel_id, "Hello")
 
@@ -82,13 +68,10 @@ def test_not_in_a_channel():
     assert len(result) == 1
 
 @clear 
-def test_many_matches():
+def test_many_matches(helper):
 
-    user = auth_register_v1('bobsmith2@gmail.com','12345678','Bob','Smith')
-    user_id = user['auth_user_id']
-
-    test_channel = channels_create_v1(user_id, "test channel", True)
-    channel_id = test_channel['channel_id']
+    user_id = helper.register_user(1)
+    channel_id = helper.create_channel(1, user_id)
 
     message_send_v1(user_id, channel_id, "Hello")
     message_send_v1(user_id, channel_id, "Hello")

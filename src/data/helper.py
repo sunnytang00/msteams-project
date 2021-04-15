@@ -1,6 +1,101 @@
 from src.config import data_path
 import json
 
+""" 
+Dummy Data for Database
+
+data = {
+    'users': [
+        { 
+            'u_id': 1,                                              
+            'email': harrypotter@gmail.com,                         
+            'name_first': Harry,                       
+            'name_last': Potter,                         
+            'handle_str': harrypotter,     
+            'password': password_1_1324&#!$,
+            'permission_id': 1,
+            'notifications' : [],
+            'session_list': [123e4567-e89b-12d3-a456-426614174000]
+        },
+        { 
+            'u_id': 2,                                              
+            'email': bobsmith@gmail.com,                         
+            'name_first': Bob,                       
+            'name_last': Smith,                         
+            'handle_str': bobsmith,    
+            'password': password_2_1324&#!$,
+            'permission_id': 2,
+            'notifications' : []
+            'session_list': []
+        },
+    ],
+    'channels': [           
+        {
+            'channel_id': 1,
+            'name': Sample_channel_1,
+            'owner_members': [
+                { 
+                    'u_id': 1,                                              
+                    'email': harrypotter@gmail.com,                        
+                    'name_first': Harry,                       
+                    'name_last': Potter,                         
+                    'handle_str': harrypotter,    
+                    'password': password_1_1324&#!$,
+                    'permission_id': 1,
+                    'session_list': [123e4567-e89b-12d3-a456-426614174000]
+                },
+            ],
+            'all_members': [
+                { 
+                    'u_id': 1,                                              
+                    'email': harrypotter@gmail.com,                        
+                    'name_first': Harry,                       
+                    'name_last': Potter,                         
+                    'handle_str': harrypotter,    
+                    'password': password_1_1324&#!$,
+                    'permission_id': 1,                        
+                    'session_list': [123e4567-e89b-12d3-a456-426614174000]
+                },
+                { 
+                    'u_id': 2,                                              
+                    'email': bobsmith@gmail.com,                         
+                    'name_first': Bob,                      
+                    'name_last': Smith,                         
+                    'handle_str': bobsmith,     
+                    'password': password_2_1324&#!$,                         
+                    'permission_id': 2,                        
+                    'session_list': []
+                },
+            ],
+            'messages': [
+                {
+                    'message_id': 1,
+                    'u_id': 1,
+                    'message': 'Hello world',
+                    'time_created': 1582426789,
+                }
+            ],
+            'is_public': TRUE,
+        }
+    ],
+    'dms': [
+        {
+            'auth_user_id': 1,
+            'dm_id': 1,
+            'u_ids': [1, 2]
+            'dm_name': "bobsmith, harrypotter",
+            'messages': []
+        }
+    ],
+
+    'user_count': 2,
+    'message_count': 1,
+    'channel_count': 1,
+    'dm_count': 1,
+    'owner_count': 1
+}
+"""
+
 def save(data) -> None:
     """Dumps data to data.json"""
     with open(data_path, 'w') as f:
@@ -91,10 +186,14 @@ def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    if channel_idx:
-        for idx in range(len(data)-1):
-            if data['channels'][channel_idx]['messages'][idx].get('message_id') == message_id:
-                return idx
+    channels = get_channels()
+    if channel_idx or channel_idx == 0:
+        for channel in channels:
+            for idx in range(len(channel['messages'])-1):
+                if channel['messages'][idx].get('message_id') == message_id:
+                    return idx
+
+    # TODO fix this
     elif dm_idx:
         for idx in range(len(data)-1):
             if data['dms'][dm_idx]['messages'][idx].get('message_id') == message_id:
@@ -487,11 +586,12 @@ def update_user_all_dm_message(auth_user_id: int, dm_id: int, message: str) -> N
     save(data)
 
 def update_message(message_id: int, channel_id = None, dm_id = None, message = None) -> None:
-    """ remove or edit a message in a channel
+    """ remove or edit a message in a channel or dm
 
     Arguments:
         message_id (int) - id of a message
-        channel_id (int) - id of a channel
+        channel_id (optional) (int) - id of a channel
+        dm_id (optional) (int) - id of a dm
         message (optional) (str) - a message
 
     Return Value:

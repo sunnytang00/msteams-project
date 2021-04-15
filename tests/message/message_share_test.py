@@ -39,8 +39,8 @@ def test_share_channel(helper):
     shared_message = channel_messages[1]
     shared_message.get('channel_id') == 2
 
-    expected = f'{optional_message}\n"""\n{og_message}\n"""'
-    assert channel_messages[1].get('message') == expected
+    expected = f'{optional_message}\n\n"""\n{og_message}\n"""'
+    assert channel_messages[0].get('message') == expected
 
     # optional message
 
@@ -70,7 +70,7 @@ def test_share_dm(helper):
 
     dm_messages = dm_messages_v1(auth_user_id, dm_id, 0).get('messages')
 
-    expected = f'{optional_message}\n"""\n{og_message}\n"""'
+    expected = f'{optional_message}\n\n"""\n{og_message}\n"""'
     assert dm_messages[0].get('message') == expected
 
     #optional message
@@ -80,7 +80,7 @@ def test_share_dm(helper):
     assert shared_message_id == 3
     dm_messages = dm_messages_v1(auth_user_id, dm_id, 0).get('messages')
     
-    expected = f'{optional_message}\n"""\n{og_message}\n"""'
+    expected = f'{optional_message}\n\n"""\n{og_message}\n"""'
     assert dm_messages[0].get('message') == expected
 
 @clear
