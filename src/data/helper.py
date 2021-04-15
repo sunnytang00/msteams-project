@@ -485,6 +485,8 @@ def update_dm_users(dm_users: list, dm_id: int) -> None:
     idx = get_dm_index(dm_id)
     data['dms'][idx]['u_ids'] = dm_users
 
+    save(data)
+    
 def update_channel_standup(channel_id: int, standup: dict) -> None:
     data = get_data()
     idx = get_channel_index(channel_id)
