@@ -84,7 +84,7 @@ def test_share_dm(helper):
     assert dm_messages[0].get('message') == expected
 
 @clear
-def test_user_is_not_member(helper):
+def test_user_is_not_member_dm(helper):
     auth_user_id = helper.register_user(1)
     u_id = helper.register_user(2)
 
@@ -98,6 +98,25 @@ def test_user_is_not_member(helper):
     optional_message = ''
 
     channel_id = -1
+    with pytest.raises(AccessError) as e:
+        message_share_v1(u_id, og_message_id, optional_message, channel_id, dm_id)
+        assert f"the authorised user has not joined the channel or DM they are trying to share the message to" in str(e)
+
+@clear
+def test_user_is_not_member_channel(helper):
+    auth_user_id = helper.register_user(1)
+    u_id = helper.register_user(2)
+
+    channel_id = helper.create_channel(1, auth_user_id)
+
+    og_message = "I like shrimps"
+
+    message_info = message_send_v1(auth_user_id, channel_id, og_message)
+    og_message_id = message_info.get('message_id')
+
+    optional_message = ''
+
+    dm_id = -1
     with pytest.raises(AccessError) as e:
         message_share_v1(u_id, og_message_id, optional_message, channel_id, dm_id)
         assert f"the authorised user has not joined the channel or DM they are trying to share the message to" in str(e)
