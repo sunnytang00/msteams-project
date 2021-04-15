@@ -1,9 +1,9 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.other import clear_v1
-from src.base.dm import dm_details_v1, dm_create_v1, dm_list_v1, dm_messages_v1, dm_leave_v1, dm_invite_v1, dm_remove_v1
-from src.base.helper import token_to_auth_user_id
+from src.other import clear_v1
+from src.dm import dm_details_v1, dm_create_v1, dm_list_v1, dm_messages_v1, dm_leave_v1, dm_invite_v1, dm_remove_v1
+from src.helper import token_to_auth_user_id
 dm_blueprint = Blueprint('dm_blueprint', __name__)
 
 @dm_blueprint.route("/dm/details/v1", methods=['GET'])

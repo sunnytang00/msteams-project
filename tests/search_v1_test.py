@@ -1,10 +1,10 @@
-from src.base.error import InputError, AccessError
-from src.base.message import message_send_v1, message_remove_v1, message_edit_v1
+from src.error import InputError, AccessError
+from src.message import message_send_v1, message_remove_v1, message_edit_v1
 import pytest
 from tests.helper import helper, clear
-from src.base.other import search_v1
-from src.base.auth import auth_register_v1
-from src.base.channels import channels_create_v1
+from src.other import search_v1
+from src.auth import auth_register_v1
+from src.channels import channels_create_v1
 
 @clear
 def test_empty_query_str():

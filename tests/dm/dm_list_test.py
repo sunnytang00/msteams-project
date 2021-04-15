@@ -1,9 +1,9 @@
 import pytest
 
-from src.base.error import InputError, AccessError
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
-from src.base.dm import dm_create_v1, dm_list_v1
+from src.error import InputError, AccessError
+from src.auth import auth_register_v1
+from src.other import clear_v1
+from src.dm import dm_create_v1, dm_list_v1
 from tests.helper import clear
 
 @clear

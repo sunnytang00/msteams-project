@@ -1,6 +1,6 @@
 import pytest
-from src.base.echo import echo
-from src.base.error import InputError
+from src.echo import echo
+from src.error import InputError
 
 def test_echo_echo():
     with pytest.raises(InputError):

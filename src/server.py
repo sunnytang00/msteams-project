@@ -4,11 +4,11 @@ import sys
 from json import dumps
 from flask import Flask, request
 from flask_cors import CORS
-from src.base.error import InputError
+from src.error import InputError
 from src import config
-from src.base.auth import auth_register_v1
-from src.base.auth import auth_login_v1
-from src.base.channels import channels_create_v1
+from src.auth import auth_register_v1
+from src.auth import auth_login_v1
+from src.channels import channels_create_v1
 
 from src.routes.dm_http import dm_blueprint
 from src.routes.auth_http import auth_blueprint

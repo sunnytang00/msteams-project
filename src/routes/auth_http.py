@@ -1,8 +1,8 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.auth import auth_register_v1
-from src.base.auth import auth_login_v1
+from src.auth import auth_register_v1
+from src.auth import auth_login_v1
 
 from src.routes.helper import sha256_hash, get_new_session_id, encode_token
 from src.data.helper import store_session_id

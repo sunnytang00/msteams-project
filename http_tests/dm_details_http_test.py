@@ -2,10 +2,10 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import token_to_auth_user_id
+from src.helper import token_to_auth_user_id
 import urllib
-from src.base.dm import dm_details_v1
-from src.base.helper import token_to_auth_user_id
+from src.dm import dm_details_v1
+from src.helper import token_to_auth_user_id
 
 @clear
 def test_basic(helper):
