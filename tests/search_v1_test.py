@@ -56,7 +56,6 @@ def test_one_match(helper):
 def test_not_in_a_channel(helper):
 
     user_id = helper.register_user(1)
-    user_id_1 = helper.register_user(2)
 
     channel_id = helper.create_channel(1, user_id)
 
