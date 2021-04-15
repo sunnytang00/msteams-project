@@ -5,6 +5,7 @@ from src.error import InputError
 from tests.helper import helper, clear
 from src.user import user_profile_setname_v1, user_profile_setemail_v1, user_profile_v1
 
+
 @clear
 def test_single_user():
     email = 'harrypotter@gmail.com'
