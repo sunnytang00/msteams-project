@@ -159,9 +159,10 @@ def get_user_index(u_id: int) -> int:
     Return Value:
         Returns index on all conditions
     """
+
     data = get_data()
-    # TODO: dont loop over data this is wrong fix
-    for idx in range(len(data)-1):
+    users = get_users()
+    for idx in range(len(data['users'])-1):
         if data['users'][idx]['u_id'] == u_id:
             return idx
     return -1
@@ -174,7 +175,8 @@ def get_channel_index(channel_id: int) -> int:
     """
 
     data = get_data()
-    for idx in range(len(data)-1):
+    channels = get_channels()
+    for idx in range(len(data['channels'])-1):
         if data['channels'][idx]['channel_id'] == channel_id:
             return idx
     return -1
@@ -186,18 +188,20 @@ def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    channels = get_channels()
     if channel_idx or channel_idx == 0:
+        channels = get_channels()
         for channel in channels:
             for idx in range(len(channel['messages'])-1):
                 if channel['messages'][idx].get('message_id') == message_id:
                     return idx
 
-    # TODO fix this
-    elif dm_idx:
-        for idx in range(len(data)-1):
-            if data['dms'][dm_idx]['messages'][idx].get('message_id') == message_id:
-                return idx
+    elif dm_idx or dm_idx == 0:
+        dms = get_dms()
+        for dm in dms:
+            for idx in range(len(dm['messages'])-1):
+                if dm['messages'][idx].get('message_id') == message_id:
+                    return idx
+
     return -1
 
 def get_dm_index(dm_id: int) -> int:
