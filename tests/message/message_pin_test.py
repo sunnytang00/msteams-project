@@ -12,7 +12,7 @@ from src.base.channels import channels_create_v1
 from src.base.helper import is_pinned
 
 @clear
-def test_pin_single_message(helper):
+def test_pin_single_message_channel(helper):
     """Add two messages and pin the second one"""
     auth_user_id = helper.register_user(1)
     assert auth_user_id == 1
@@ -32,4 +32,28 @@ def test_pin_single_message(helper):
     message_pin_v1(auth_user_id, message_id1)
     assert is_pinned(message_id) == False
     assert is_pinned(message_id1) == True
+
+@clear
+def test_pin_single_message_dm(helper):
+    """Add two messages and pin the second one"""
+    auth_user_id1 = helper.register_user(1)
+    auth_user_id2 = helper.register_user(2)
+    assert auth_user_id1 == 1
+    assert auth_user_id2 == 2
+    
+    dm_id = dm_create_v1(auth_user_id1, [auth_user_id2]).get('dm_id')
+    assert dm_id == 1
+
+    first_message = "this shouldnt be pinned"
+    second_message = "hopefully this one gets pinned"
+
+    message_id1 = message_senddm_v1(auth_user_id2, dm_id, first_message).get('message_id')
+    assert message_id1 == 1
+
+    message_id2 = message_senddm_v1(auth_user_id2, dm_id, second_message).get('message_id')
+    assert message_id2 == 2
+
+    message_pin_v1(auth_user_id1, message_id2)
+    assert is_pinned(message_id1) == False
+    assert is_pinned(message_id2) == True
     
