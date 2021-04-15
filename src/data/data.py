@@ -73,6 +73,7 @@ data = {
                 }
             ],
             'is_public': TRUE,
+            'stand_up': {'active': False, 'time_started': None, 'buffer': []}
         }
     ],
     'dms': [

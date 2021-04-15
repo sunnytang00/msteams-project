@@ -165,6 +165,14 @@ def store_message_dm(message: dict, dm_id: int) -> None:
 
     save(data)
 
+def store_message_standup(message: str, channel_id: int) -> None:
+    data = get_data()
+    idx = get_channel_index(channel_id)
+
+    data['channels'][idx]['standup']['buffer'].append(message)
+    
+    save(data)
+
 def store_user(user: dict) -> None:
     """store the data of user on data storage
     
@@ -393,6 +401,7 @@ def store_dm(dm: dict) -> None:
 
     data['dm_count'] += 1
     save(data)
+
 def update_owner_count(owner_count : int) -> None:
     """ update the count of owner 
 
