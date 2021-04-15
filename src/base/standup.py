@@ -23,13 +23,13 @@ def standup_finish(*args, **kwargs):
         messages += (msg + '\n')
     messages = messages[0:-1]
 
-    message = create_message(auth_user_id, message, channel_id=channel_id)
+    message = create_message(auth_user_id, messages, channel_id=channel_id)
     store_message_channel(message, channel_id)
 
     standup_data['active'] = False
     standup_data['time_finish'] = None
     standup_data['buffer'] = []
-    update_channel_standup(standup_data)
+    update_channel_standup(channel_id, standup_data)
 
 
 def standup_start_v1(auth_user_id, channel_id, length):
