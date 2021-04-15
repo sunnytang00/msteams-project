@@ -297,7 +297,6 @@ def store_session_id(u_id: int, session_id: int) -> None:
 
     save(data)
 
-
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
     
@@ -315,6 +314,7 @@ def update_name_first(u_id: int, name_first: str) -> None:
     data['users'][idx]['name_first'] = name_first
 
     save(data)
+
 def update_name_last(u_id: int, name_last: str) -> None:
     """Update the user's last name
     
@@ -332,6 +332,7 @@ def update_name_last(u_id: int, name_last: str) -> None:
     data['users'][idx]['name_last'] = name_last
 
     save(data)
+
 def update_email(u_id: int, email: str) -> None:
     """Update the user's email
     
@@ -349,6 +350,7 @@ def update_email(u_id: int, email: str) -> None:
     data['users'][idx]['email'] = email
 
     save(data)
+
 def update_handle_str(u_id: int, handle_str: str) -> None:
     """Update the user's handle (i.e. display name)
     
@@ -365,6 +367,7 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
     data['users'][idx]['handle_str'] = handle_str 
 
     save(data)
+
 def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
 
@@ -402,6 +405,7 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
     data['channels'][idx]['all_members'].append(user)
 
     save(data)
+
 def append_channel_owner_members(channel_id: int, user: dict) -> None:
     """Append a user to channel owner members
 
@@ -419,6 +423,7 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
     data['channels'][idx]['owner_members'].append(user)
 
     save(data)
+
 def update_owner_members(channel_id: int, owner_members: list) -> None:
     """Update the owners users of a channel
 
@@ -436,6 +441,7 @@ def update_owner_members(channel_id: int, owner_members: list) -> None:
     data['channels'][idx]['owner_members'] = owner_members 
 
     save(data)
+
 def update_all_members(channel_id : int, all_members: list) -> None:
     """Update the member users of a channel
 
@@ -452,6 +458,7 @@ def update_all_members(channel_id : int, all_members: list) -> None:
     data['channels'][idx]['all_members'] = all_members 
 
     save(data)
+
 def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     """Update the permission id of a user
 
@@ -467,17 +474,20 @@ def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     data['users'][idx]['permission_id'] = permission_id
 
     save(data)
+
 def update_dm_list(dms: list) -> None:
     data = get_data()
     data['dms'] = dms
 
     save(data)
+
 def update_dm_users(dm_users: list, dm_id: int) -> None:
     data = get_data()
     idx = get_dm_index(dm_id)
     data['dms'][idx]['u_ids'] = dm_users
 
     save(data)
+
 def store_dm(dm: dict) -> None:
     """store the dm in storage
     
@@ -492,6 +502,7 @@ def store_dm(dm: dict) -> None:
 
     data['dm_count'] += 1
     save(data)
+
 def update_owner_count(owner_count : int) -> None:
     """ update the count of owner 
 
@@ -503,6 +514,7 @@ def update_owner_count(owner_count : int) -> None:
     data = get_data()
     data['owner_count'] = owner_count
     save(data)
+
 def update_user_count(user_count: int) -> None:
     """ update the count of user 
 
@@ -514,6 +526,8 @@ def update_user_count(user_count: int) -> None:
     data = get_data()
     data['owner_count'] = user_count
     save(data)
+    
+
 def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     """ update the removed flag of user 
 
@@ -528,6 +542,7 @@ def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     idx = get_user_index(auth_user_id)
     data['users'][idx]['removed'] = flag
     save(data)
+
 def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in channel
 
