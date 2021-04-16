@@ -125,7 +125,6 @@ def test_not_channel_member(helper):
     message_info1 = message_send_v1(auth_user_id1, channel_id, first_message)
     message_id1 = message_info1.get('message_id')
     assert message_id1 == 1
-    print(get_channel(1))
     with pytest.raises(AccessError) as e: 
         message_pin_v1(auth_user_id2, message_id1)
         assert f'member with id {auth_user_id2} is not channel member' in str(e.value)
