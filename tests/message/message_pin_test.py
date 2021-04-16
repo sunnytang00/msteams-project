@@ -161,9 +161,6 @@ def test_not_dm_member_not_owner(helper):
     message_id1 = message_senddm_v1(auth_user_id2, dm_id, first_message).get('message_id')
     assert message_id1 == 1
 
-    message_id1 = message_info1.get('message_id')
-    assert message_id1 == 1
-
     with pytest.raises(AccessError) as e: 
         message_pin_v1(auth_user_id3, message_id1)
         assert f'member with id {auth_user_id3} is not dm member' in str(e.value)
