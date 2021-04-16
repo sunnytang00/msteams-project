@@ -230,15 +230,15 @@ def message_pin_v1(auth_user_id, message_id):
     channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
     dm_id = get_message_ch_id_or_dm_id(message_id).get('dm_id')
     if channel_id != None:
-        if not user_is_channel_member(auth_user_id, channel_id):
+        if not user_is_channel_member(channel_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not channel member')
-        if not user_is_channel_owner(auth_user_id, channel_id):
+        if not user_is_channel_owner(channel_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not channel owner')
         set_pin(message_id, 'pin', channel_id=channel_id)
     if dm_id != None:
-        if not user_is_dm_member(auth_user_id, dm_id):
+        if not user_is_dm_member(dm_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not dm member')
-        if not user_is_dm_owner(auth_user_id, dm_id):
+        if not user_is_dm_owner(dm_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not dm owner')
         set_pin(message_id, 'pin', dm_id=dm_id)
     
