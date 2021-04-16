@@ -18,11 +18,10 @@ def standup_finish(*args, **kwargs):
             user = get_user_from_handlestr(handlestr)
             if user and user_is_channel_member(channel_id, user.get('u_id')):
                 notification = create_notification(channel_id=channel_id, dm_id=-1, \
-                                                    u_id=user.get('u_id'), tagged=True, msgs = '@' + handlestrs)
+                                                    u_id=user.get('u_id'), tagged=True, msgs = '@' + handlestr)
                 store_notification(notification, user.get('u_id'))
         messages += (msg + '\n')
     messages = messages[0:-1]
-
     message = create_message(auth_user_id, messages, channel_id=channel_id)
     store_message_channel(message, channel_id)
 
@@ -44,11 +43,12 @@ def standup_start_v1(auth_user_id, channel_id, length):
 
     if get_channel(channel_id)['standup'].get('active'):
         raise InputError('An active standup is currently running in this channel')
-
     kwargs = {'auth_user_id': auth_user_id, 'channel_id': channel_id}
     standup_data = get_channel(channel_id).get('standup') 
     standup_data['active'] = True
-    threading.Timer(length, standup_finish, kwargs = kwargs)
+
+    t = threading.Timer(length, standup_finish, kwargs = kwargs)
+    t.start()
     time_finish = int(time.time()) + length
     standup_data['time_finish'] = time_finish
     update_channel_standup(channel_id, standup_data)
