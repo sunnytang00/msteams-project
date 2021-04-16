@@ -168,6 +168,7 @@ def message_senddm_v1(auth_user_id, dm_id, message):
             'time_created' : time_created
     }
     store_message_dm(msg, dm_id)
+    update_active_msg_ids(msg_id, 'add')
 
     return {
         'message_id' : msg_id
