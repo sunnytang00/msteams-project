@@ -530,16 +530,16 @@ def set_pin(message_id: int, to_pin: str, channel_id = None, dm_id = None,) -> N
         channel_idx = get_channel_index(channel_id)
         message_idx = get_message_index(message_id, channel_idx=channel_idx)
         if to_pin == 'pin':
-            data['channels'][channel_idx]['messages'][message_idx]['pinned'] = True
+            data['channels'][channel_idx]['messages'][message_idx]['is_pinned'] = True
         if to_pin == 'unpin':
-            data['channels'][channel_idx]['messages'][message_idx]['pinned'] = False
+            data['channels'][channel_idx]['messages'][message_idx]['is_pinned'] = False
     else:
         dm_idx = get_dm_index(dm_id)
         message_idx = get_message_index(message_id, dm_idx=dm_idx)
         if to_pin == 'pin':
-            data['dms'][dm_idx]['messages'][message_idx]['pinned'] = True
+            data['dms'][dm_idx]['messages'][message_idx]['is_pinned'] = True
         if to_pin == 'unpin':
-            data['dms'][dm_idx]['messages'][message_idx]['pinned'] = False
+            data['dms'][dm_idx]['messages'][message_idx]['is_pinned'] = False
 
     save(data)
 
