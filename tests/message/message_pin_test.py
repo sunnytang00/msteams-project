@@ -201,10 +201,16 @@ def test_not_dm_member_not_owner(helper):
         message_pin_v1(auth_user_id3, message_id1)
         assert f'member with id {auth_user_id3} is not dm member' in str(e.value)
     
+    assert is_pinned(message_id1) == False
+    message_pin_v1(auth_user_id1, message_id1)
+    assert is_pinned(message_id1) == True
+
     with pytest.raises(AccessError) as e: 
         message_unpin_v1(auth_user_id3, message_id1)
         assert f'member with id {auth_user_id3} is not dm member' in str(e.value)
 
+    assert is_pinned(message_id1) == True
+    message_unpin_v1(auth_user_id1, message_id1)
     assert is_pinned(message_id1) == False
 
     dm_invite_v1(auth_user_id1, dm_id, auth_user_id3)
@@ -213,10 +219,15 @@ def test_not_dm_member_not_owner(helper):
         message_pin_v1(auth_user_id3, message_id1)
         assert f'member with id {auth_user_id3} is not dm owner' in str(e.value)
 
+    assert is_pinned(message_id1) == False
+    message_pin_v1(auth_user_id1, message_id1)
+    assert is_pinned(message_id1) == True
+
     with pytest.raises(AccessError) as e: 
         message_unpin_v1(auth_user_id3, message_id1)
         assert f'member with id {auth_user_id3} is not dm owner' in str(e.value)
 
-    assert is_pinned(message_id1) == False
+    assert is_pinned(message_id1) == True
+    
 
     
