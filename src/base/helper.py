@@ -575,7 +575,7 @@ def is_pinned(message_id: int) -> bool:
         # look for message in channels
         for message in channel.get('messages'):
             if message.get('message_id') == message_id:
-                if message.get('pinned') == True:
+                if message.get('is_pinned') == True:
                     return True
 
     dms = get_dms()
@@ -583,7 +583,7 @@ def is_pinned(message_id: int) -> bool:
         # look for message in dms
         for message in dm.get('messages'):
             if message.get('message_id') == message_id:
-                if message.get('pinned') == True:
+                if message.get('is_pinned') == True:
                     return True
 
     return False
