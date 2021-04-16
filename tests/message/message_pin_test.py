@@ -143,10 +143,16 @@ def test_not_channel_member_not_owner(helper):
         message_pin_v1(auth_user_id2, message_id1)
         assert f'member with id {auth_user_id2} is not channel member' in str(e.value)
 
+    assert is_pinned(message_id1) == False
+
+    message_pin_v1(auth_user_id1, message_id1)
+    assert is_pinned(message_id1) == True
     with pytest.raises(AccessError) as e: 
         message_unpin_v1(auth_user_id2, message_id1)
         assert f'member with id {auth_user_id2} is not channel member' in str(e.value)
+    assert is_pinned(message_id1) == True
 
+    message_unpin_v1(auth_user_id1, message_id1)
     assert is_pinned(message_id1) == False
 
     channel_invite_v1(auth_user_id1, channel_id, auth_user_id2)
@@ -154,11 +160,17 @@ def test_not_channel_member_not_owner(helper):
     with pytest.raises(AccessError) as e: 
         message_pin_v1(auth_user_id2, message_id1)
         assert f'member with id {auth_user_id2} is not channel owner' in str(e.value)
+    
+    assert is_pinned(message_id1) == False
+    message_pin_v1(auth_user_id1, message_id1)
+    assert is_pinned(message_id1) == True
 
     with pytest.raises(AccessError) as e: 
         message_unpin_v1(auth_user_id2, message_id1)
         assert f'member with id {auth_user_id2} is not channel owner' in str(e.value)
 
+    assert is_pinned(message_id1) == True
+    message_unpin_v1(auth_user_id1, message_id1)
     assert is_pinned(message_id1) == False
 
     channel_addowner_v1(auth_user_id1, channel_id, auth_user_id2)
