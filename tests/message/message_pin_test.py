@@ -110,7 +110,7 @@ def test__pin_pinned_message(helper):
         assert f'message with message id {message_id2} is already pinned' in str(e.value)
 
 @clear
-def test_not_channel_member(helper):
+def test_not_channel_member_not_owner(helper):
     """not channel member tries to pin"""
     auth_user_id1 = helper.register_user(1)
     auth_user_id2 = helper.register_user(2)
