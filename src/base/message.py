@@ -5,12 +5,13 @@ This module demonstrates the sending, removal, editting and sharing of messages 
 
 import time
 from src.base.error import InputError, AccessError
-from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, user_is_dm_owner, user_is_channel_member, format_share_message, get_message
-from src.data.helper import store_message_channel, store_message_dm, get_message_count, update_active_msg_ids
-from src.base.helper import create_message, is_pinned, get_message_ch_id_or_dm_id
+from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, \
+    remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, \
+    user_is_dm_owner, format_share_message, get_message, tagged_handlestrs,\
+    get_user_from_handlestr, create_notification
+from src.data.helper import store_message_channel, store_message_dm, get_message_count, store_notification, update_active_msg_ids
+from src.base.helper import create_message, is_pinned
 from src.data.helper import get_valid_msg_ids, set_pin
-
-
 def message_send_v1(auth_user_id, channel_id, message):
     """Send a message from authorised_user to the channel specified by channel_id.
     Note: Each message should have it's own unique ID. I.E. No messages should share
