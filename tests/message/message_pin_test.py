@@ -108,4 +108,34 @@ def test__pin_pinned_message(helper):
     with pytest.raises(InputError) as e: 
         message_pin_v1(auth_user_id1, message_id2)
         assert f'message with message id {message_id2} is already pinned' in str(e.value)
+
+@clear
+def not_channel_member(helper):
+    """not channel member tries to pin"""
+    auth_user_id1 = helper.register_user(1)
+    auth_user_id2 = helper.register_user(2)
+    assert auth_user_id1 == 1
+    assert auth_user_id2 == 2
+    
+    channel_id = channels_create_v1(auth_user_id1, "message_test", True).get('channel_id')
+    assert channel_id == 1
+
+    first_message = "this shouldnt be pinned"
+    second_message = "hopefully this one gets pinned"
+
+    message_info1 = message_send_v1(auth_user_id1, channel_id, first_message)
+    message_id1 = message_info1.get('message_id')
+    assert message_id1 == 1
+
+    with pytest.raises(AccessError) as e: 
+        message_pin_v1(auth_user_id2, message_id1)
+        assert f'member with id {auth_user_id2} is not channel member'
+
+    assert is_pinned(message_id1) == False
+
+    channel_invite_v1(auth_user_id1, channel_id, auth_user_id2)
+
+    message_pin_v1(auth_user_id2, message_id1)
+
+    assert is_pinned(message_id1) == True
     
