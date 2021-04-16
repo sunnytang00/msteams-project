@@ -92,7 +92,8 @@ data = {
     'message_count': 1,
     'channel_count': 1,
     'dm_count': 1,
-    'owner_count': 1
+    'owner_count': 1,
+    'valid_msg_ids': [1]
 }
 """
 
@@ -117,7 +118,8 @@ def clear_data() -> None:
         'channel_count': 0,
         'message_count': 0,
         'dm_count': 0,
-        'owner_count' : 0
+        'owner_count' : 0,
+        'valid_msg_ids' : []
     }
 
     save(cleared_data)
@@ -628,3 +630,34 @@ def store_notification(notification: dict, u_id: int) -> None:
     data['users'][user_idx]['notifications'].append(notification)
 
     save(data)
+
+def get_valid_msg_ids() -> list:
+    return get_data().get('valid_msg_ids')
+
+def update_active_msg_ids(msg_id: int, method: str) -> None:
+    data = get_data()
+    if method == 'add':
+        data['valid_msg_ids'].append(msg_id)
+    if method == 'remove':
+        data['valid_msg_ids'].remove(msg_id)
+    save(data)
+
+def set_pin(message_id: int, to_pin: str, channel_id = None, dm_id = None,) -> None:
+    data = get_data()
+    if channel_id:
+        channel_idx = get_channel_index(channel_id)
+        message_idx = get_message_index(message_id, channel_idx=channel_idx)
+        if to_pin == 'pin':
+            data['channels'][channel_idx]['messages'][message_idx]['is_pinned'] = True
+        if to_pin == 'unpin':
+            data['channels'][channel_idx]['messages'][message_idx]['is_pinned'] = False
+    else:
+        dm_idx = get_dm_index(dm_id)
+        message_idx = get_message_index(message_id, dm_idx=dm_idx)
+        if to_pin == 'pin':
+            data['dms'][dm_idx]['messages'][message_idx]['is_pinned'] = True
+        if to_pin == 'unpin':
+            data['dms'][dm_idx]['messages'][message_idx]['is_pinned'] = False
+
+    save(data)
+
