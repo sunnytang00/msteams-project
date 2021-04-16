@@ -242,11 +242,28 @@ def message_pin_v1(auth_user_id, message_id):
             raise AccessError(f'member with id {auth_user_id} is not dm owner')
         set_pin(message_id, 'pin', dm_id=dm_id)
     
+def message_unpin_v1(auth_user_id, message_id):
+    if message_id not in get_valid_msg_ids():
+        raise InputError(f'message with message id {message_id} is not a valid message')
+    if not is_pinned(message_id):
+        raise InputError(f'message with message id {message_id} is not pinned')
+
+    channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
+    dm_id = get_message_ch_id_or_dm_id(message_id).get('dm_id')
+    if channel_id != None:
+        if not user_is_channel_member(channel_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not channel member')
+        if not user_is_channel_owner(channel_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not channel owner')
+        set_pin(message_id, 'unpin', channel_id=channel_id)
+    if dm_id != None:
+        if not user_is_dm_member(dm_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not dm member')
+        if not user_is_dm_owner(dm_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not dm owner')
+        set_pin(message_id, 'unpin', dm_id=dm_id)
 
 """
-def message_unpin_v1(auth_user_id, message_id):
-
-
 def message_react_v1(auth_user_id, message_id, react_id):
 
 def message_unreact_v1(auth_user_id, message_id, react_id):
