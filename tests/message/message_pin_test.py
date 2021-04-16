@@ -119,9 +119,8 @@ def test_pin_pinned_message(helper):
 
     message_unpin_v1(auth_user_id1, message_id2)
     assert is_pinned(message_id1) == False
-    message_unpin_v1(auth_user_id1, message_id2)
     with pytest.raises(InputError) as e: 
-        message_pin_v1(auth_user_id1, message_id2)
+        message_unpin_v1(auth_user_id1, message_id2)
         assert f'message with message id {message_id2} is not pinned' in str(e.value)
 
 @clear
