@@ -3,7 +3,7 @@
 import pytest
 from src.base.message import message_send_v1, message_senddm_v1, message_remove_v1, message_edit_v1, message_pin_v1
 from src.base.auth import auth_register_v1
-from src.base.dm import dm_create_v1, dm_messages_v1
+from src.base.dm import dm_create_v1, dm_messages_v1, dm_invite_v1
 from src.base.channel import channel_messages_v1, channel_invite_v1, channel_join_v1, channel_addowner_v1
 from src.base.other import clear_v1
 from src.base.error import InputError, AccessError
@@ -83,7 +83,7 @@ def test_pin_invalid_message_id(helper):
         assert f'message with message id {invalid_msg_id} is not a valid message' in str(e.value)
 
 @clear
-def test__pin_pinned_message(helper):
+def test_pin_pinned_message(helper):
     """try to pin already pinned message"""
     auth_user_id1 = helper.register_user(1)
     auth_user_id2 = helper.register_user(2)
@@ -111,7 +111,7 @@ def test__pin_pinned_message(helper):
 
 @clear
 def test_not_channel_member_not_owner(helper):
-    """not channel member tries to pin"""
+    """not channel member tries to pin, raises error, then add him, still raises error then finally make him owner"""
     auth_user_id1 = helper.register_user(1)
     auth_user_id2 = helper.register_user(2)
     assert auth_user_id1 == 1
@@ -137,7 +137,45 @@ def test_not_channel_member_not_owner(helper):
         message_pin_v1(auth_user_id2, message_id1)
         assert f'member with id {auth_user_id2} is not channel owner' in str(e.value)
 
+    assert is_pinned(message_id1) == False
+
     channel_addowner_v1(auth_user_id1, channel_id, auth_user_id2)
     message_pin_v1(auth_user_id2, message_id1)
     assert is_pinned(message_id1) == True
+
+@clear
+def test_not_dm_member_not_owner(helper):
+    """not dm member tries to pin, raises error, then add him, still raises error then finally make him owner"""
+    auth_user_id1 = helper.register_user(1)
+    auth_user_id2 = helper.register_user(2)
+    auth_user_id2 = helper.register_user(3)
+    assert auth_user_id1 == 1
+    assert auth_user_id2 == 2
+    assert auth_user_id3 == 3
+    
+    dm_id = dm_create_v1(auth_user_id1, [auth_user_id2]).get('dm_id')
+    assert dm_id == 1
+
+    first_message = "this shouldnt be pinned"
+
+    message_id1 = message_senddm_v1(auth_user_id2, dm_id, first_message).get('message_id')
+    assert message_id1 == 1
+
+    message_id1 = message_info1.get('message_id')
+    assert message_id1 == 1
+
+    with pytest.raises(AccessError) as e: 
+        message_pin_v1(auth_user_id3, message_id1)
+        assert f'member with id {auth_user_id3} is not dm member' in str(e.value)
+
+    assert is_pinned(message_id1) == False
+
+    dm_invite_v1(auth_user_id1, dm_id, auth_user_id3)
+
+    with pytest.raises(AccessError) as e: 
+        message_pin_v1(auth_user_id3, message_id1)
+        assert f'member with id {auth_user_id3} is not dm owner' in str(e.value)
+
+    assert is_pinned(message_id1) == False
+
     
