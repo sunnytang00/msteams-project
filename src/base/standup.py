@@ -79,11 +79,11 @@ def standup_send_v1(auth_user_id, channel_id, message):
     if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError(f'auth_user {auth_user_id} does not member of channel {channel_id}')
 
-    '''
-    standup = get_standup(channel_id)
+    standup = get_channel(channel_id).get('standup') 
+
     if not standup['active']:
         raise InputError('An active standup is not currently running in this channel')
-    '''
+    
     user = get_current_user(auth_user_id)
     handlestr = user.get('handle_str')
     msgs = handlestr + ': ' + message

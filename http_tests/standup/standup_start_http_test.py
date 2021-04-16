@@ -109,7 +109,6 @@ def test_not_member_in_channel(helper):
     token1 = user1.json().get('token')
     token2 = user2.json().get('token')
     assert token1 and token2
-    u_id = user2.json().get('auth_user_id')
 
     ch_id = helper.create_channel(2, token2, 'big fish', True).json().get('channel_id')
 

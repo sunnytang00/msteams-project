@@ -3,7 +3,6 @@ from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
 from urllib.parse import urlencode
-import time
 
 @clear
 def test_valid_input(helper):
