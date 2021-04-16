@@ -363,7 +363,7 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
             'u_id' : auth_user_id,
             'message' : message,
             'time_created' : timestamp,
-            'pinned' : False,
+            'is_pinned' : False,
         }
     else:
         msg = {
@@ -372,7 +372,7 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
             'u_id' : auth_user_id,
             'message' : message,
             'time_created' : timestamp,
-            'pinned' : False,
+            'is_pinned' : False,
         }
     return msg
 
