@@ -11,7 +11,7 @@ from tests.helper import helper, clear
 def test_valid_input(helper):
     auth_user_id = helper.register_user(1)
     ch_id = helper.create_channel(1, auth_user_id)
-    length = 100
+    length = 1
     time_finish = standup_start_v1(auth_user_id, ch_id, length).get('time_finish')
     standup_data = standup_active_v1(auth_user_id, ch_id)
     assert standup_data.get('is_active') == True and standup_data.get('time_finish') == time_finish
