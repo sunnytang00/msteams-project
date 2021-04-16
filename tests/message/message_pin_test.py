@@ -4,7 +4,7 @@ import pytest
 from src.base.message import message_send_v1, message_senddm_v1, message_remove_v1, message_edit_v1, message_pin_v1
 from src.base.auth import auth_register_v1
 from src.base.dm import dm_create_v1, dm_messages_v1
-from src.base.channel import channel_messages_v1
+from src.base.channel import channel_messages_v1, channel_invite_v1
 from src.base.other import clear_v1
 from src.base.error import InputError, AccessError
 from tests.helper import helper, clear
