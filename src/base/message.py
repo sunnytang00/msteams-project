@@ -44,7 +44,9 @@ def message_send_v1(auth_user_id, channel_id, message):
             store_notification(notification, user.get('u_id'))
 
     message = create_message(auth_user_id, message, channel_id=channel_id)
-    
+    message_id = message.get('message_id')
+    update_active_msg_ids(message_id, 'add')
+
     store_message_channel(message, channel_id)
     
     return {
@@ -84,6 +86,8 @@ def message_remove_v1(auth_user_id, message_id):
             raise AccessError(f"Message with message_id {message_id} was sent by the authorised user making this request")
 
         remove_message(message_id, dm_id=dm_id)
+        update_active_msg_ids(message_id, 'remove')
+
 
     return {}
 
