@@ -148,7 +148,7 @@ def test_not_dm_member_not_owner(helper):
     """not dm member tries to pin, raises error, then add him, still raises error then finally make him owner"""
     auth_user_id1 = helper.register_user(1)
     auth_user_id2 = helper.register_user(2)
-    auth_user_id2 = helper.register_user(3)
+    auth_user_id3 = helper.register_user(3)
     assert auth_user_id1 == 1
     assert auth_user_id2 == 2
     assert auth_user_id3 == 3
