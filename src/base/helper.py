@@ -378,7 +378,8 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
             'channel_id' : channel_id,
             'u_id' : auth_user_id,
             'message' : message,
-            'time_created' : timestamp
+            'time_created' : timestamp,
+            'is_pinned' : False
         }
     else:
         msg = {
@@ -386,7 +387,8 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
             'dm_id' : dm_id,
             'u_id' : auth_user_id,
             'message' : message,
-            'time_created' : timestamp
+            'time_created' : timestamp,
+            'is_pinned' : False
         }
     return msg
 
@@ -629,3 +631,22 @@ def tagged_handlestrs(message: str):
 
         msg = msg[end:]
     return {'handle_strs': handle_strs}
+
+def is_pinned(message_id: int) -> bool:
+    channels = get_channels()
+    for channel in channels:
+        # look for message in channels
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                if message.get('is_pinned') == True:
+                    return True
+
+    dms = get_dms()
+    for dm in dms:
+        # look for message in dms
+        for message in dm.get('messages'):
+            if message.get('message_id') == message_id:
+                if message.get('is_pinned') == True:
+                    return True
+
+    return False
