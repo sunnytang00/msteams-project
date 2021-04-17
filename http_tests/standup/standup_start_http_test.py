@@ -11,17 +11,17 @@ def test_valid_input(helper):
     token1 = user1.json().get('token')
     assert token1
 
-    u_id = user1.json.get('auth_user_id')
+    u_id = user1.json().get('auth_user_id')
 
     ch_id = helper.create_channel(1, token1, 'big fish', True).json().get('channel_id')
     length = 1
 
-    url_profile = urlencode({'token': token, 'u_id': u_id})
+    url_profile = urlencode({'token': token1, 'u_id': u_id})
     handle_str = requests.get(url + "user/profile/v2?" + url_profile).json().get('user').get('handle_str')
-
+    print(handle_str)
     response = requests.post(url + "standup/start/v1", json ={
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'length': length
     }) 
     assert response.status_code == 200
@@ -31,20 +31,20 @@ def test_valid_input(helper):
 
     requests.post(url + "standup/send/v1", json = {
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'message': '123'
     })
 
     requests.post(url + "standup/send/v1", json = {
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'message': '1234'
     })
 
     requests.post(url + "standup/send/v1", json = {
         'token': token1,
-        'channel_id': ch_id
-        'message': '@' = handle_str + ' ' + '1234'
+        'channel_id': ch_id,
+        'message': '@' + handle_str + ' ' + '1234'
     })
 
     time.sleep(2)
@@ -54,7 +54,7 @@ def test_valid_input(helper):
 
     notifications = requests.get(url + "notifications/get/v1?token=" + token1).json()
 
-    assert len(notifactions) == 1
+    assert len(notifications) == 1
     assert len(msgs.get('messages')) == 1
     assert time_finish == expected
 
@@ -71,7 +71,7 @@ def test_invalid_channel(helper):
 
     response = requests.post(url + "standup/start/v1", json ={
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'length': length
     })
     assert response.status_code == 400
@@ -89,14 +89,14 @@ def test_standup_already_started(helper):
 
     response = requests.post(url + "standup/start/v1", json ={
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'length': length
     })
     assert response.status_code == 200
 
     response = requests.post(url + "standup/start/v1", json ={
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'length': length
     })
     assert response.status_code == 400
@@ -116,7 +116,7 @@ def test_not_member_in_channel(helper):
 
     response = requests.post(url + "standup/start/v1", json ={
         'token': token1,
-        'channel_id': ch_id
+        'channel_id': ch_id,
         'length': length
     })
     assert response.status_code == 403

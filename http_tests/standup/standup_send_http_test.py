@@ -5,7 +5,6 @@ from http_tests.helper import clear, helper
 from urllib.parse import urlencode
 import time
 
-
 @clear
 def test_invalid_channel(helper):
     user1 = helper.register_user(1)

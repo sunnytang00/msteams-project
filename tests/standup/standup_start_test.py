@@ -3,7 +3,7 @@ import time
 from src.base.channels import channels_create_v1
 from src.base.channel import channel_details_v1, channel_addowner_v1, channel_messages_v1
 from src.base.error import InputError, AccessError
-from src.base.standup import standup_send_v1, standup_start_v1
+from src.standup import standup_send_v1, standup_start_v1
 from src.base.other import clear_v1
 from src.base.user import user_profile_v1
 from src.base.notifications import notifactions_get_v1
@@ -20,8 +20,9 @@ def test_valid_input(helper):
     standup_send_v1(auth_user_id, ch_id, '1234')
     msg = '@' + handle_str + ' ' + '1234'
     standup_send_v1(auth_user_id, ch_id, msg)
-    time.sleep(2)
+    time.sleep(1)
     msgs = channel_messages_v1(auth_user_id, ch_id, 0)
+    print(msgs.get('messages'))
     assert len(notifactions_get_v1(auth_user_id)) == 1
     assert len(msgs.get('messages')) == 1
     assert time_finish.get('time_finish') == expected
