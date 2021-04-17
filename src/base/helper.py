@@ -361,7 +361,7 @@ def user_is_dm_member(dm_id: int, u_id: int) -> bool:
         return True
     return False
 
-def new_message_id(channel_id: int) -> int:
+def new_message_id() -> int:
     #To correctly use, must create message then store the message. If you do not
     #Store the message this count WILL NOT change
     #E.g, when first started, this will return int 1, then when called again
@@ -374,7 +374,7 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
 
     if channel_id:
         msg = {
-            'message_id' : new_message_id(channel_id),
+            'message_id' : new_message_id(),
             'channel_id' : channel_id,
             'u_id' : auth_user_id,
             'message' : message,
@@ -387,7 +387,7 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
         }
     else:
         msg = {
-            'message_id' : new_message_id(dm_id),
+            'message_id' : new_message_id(),
             'dm_id' : dm_id,
             'u_id' : auth_user_id,
             'message' : message,
