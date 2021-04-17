@@ -283,20 +283,40 @@ def message_react_v1(auth_user_id, message_id, react_id):
     channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
     dm_id = get_message_ch_id_or_dm_id(message_id).get('dm_id')
     if channel_id != None:
-        if auth_user_id in get_react_uids(message_id):
-            raise InputError(f'user with id {auth_user_id} has already reacted to message id {message_id} in channel')
         if not user_is_channel_member(channel_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not channel member')
+        if auth_user_id in get_react_uids(message_id):
+            raise InputError(f'user with id {auth_user_id} has already reacted to message id {message_id} in channel')
         set_react(message_id, auth_user_id, 'react', channel_id=channel_id)
 
     if dm_id != None:
-        if auth_user_id in get_react_uids(message_id,):
-            raise InputError(f'user with id {auth_user_id} has already reacted to message id {message_id} in dm')
         if not user_is_dm_member(dm_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not dm member')
+        if auth_user_id in get_react_uids(message_id,):
+            raise InputError(f'user with id {auth_user_id} has already reacted to message id {message_id} in dm')
         set_react(message_id, auth_user_id, 'react', dm_id=dm_id)
 
 
-"""
 def message_unreact_v1(auth_user_id, message_id, react_id):
-"""
+    valid_react_id = 1
+
+    if not check_valid_message(message_id):
+        raise InputError(f'message_id {message_id} is not a valid message within a channel/dm')
+    if react_id != valid_react_id:
+        raise InputError(f'react_id {react_id} is not a valid React ID')
+
+    channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
+    dm_id = get_message_ch_id_or_dm_id(message_id).get('dm_id')
+    if channel_id != None:
+        if not user_is_channel_member(channel_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not channel member')
+        if auth_user_id not in get_react_uids(message_id):
+            raise InputError(f'user with id {auth_user_id} has no active reacts for message id {message_id} in channel')
+        set_react(message_id, auth_user_id, 'unreact', channel_id=channel_id)
+
+    if dm_id != None:
+        if not user_is_dm_member(dm_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not dm member')
+        if auth_user_id not in get_react_uids(message_id,):
+            raise InputError(f'user with id {auth_user_id} has no active reacts for message id {message_id} in channel')
+        set_react(message_id, auth_user_id, 'unreact', dm_id=dm_id)
