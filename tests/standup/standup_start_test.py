@@ -1,19 +1,31 @@
 import pytest
 import time
 from src.base.channels import channels_create_v1
-from src.base.channel import channel_details_v1, channel_addowner_v1, channel_join_v1
+from src.base.channel import channel_details_v1, channel_addowner_v1, channel_messages_v1
 from src.base.error import InputError, AccessError
-from src.base.standup import standup_send_v1, standup_start_v1
+from src.standup import standup_send_v1, standup_start_v1
 from src.base.other import clear_v1
+from src.base.user import user_profile_v1
+from src.base.notifications import notifactions_get_v1
 from tests.helper import helper, clear
-
 @clear
 def test_valid_input(helper):
     auth_user_id = helper.register_user(1)
     ch_id = helper.create_channel(1, auth_user_id)
-    length = 10
+    length = 1
+    handle_str = user_profile_v1(auth_user_id, auth_user_id).get('user').get('handle_str')
     time_finish = standup_start_v1(auth_user_id, ch_id, length)
-    assert time_finish.get('time_finish') == int(time.time()) + length
+    expected = int(time.time()) + length
+    standup_send_v1(auth_user_id, ch_id, '123')
+    standup_send_v1(auth_user_id, ch_id, '1234')
+    msg = '@' + handle_str + ' ' + '1234'
+    standup_send_v1(auth_user_id, ch_id, msg)
+    time.sleep(1)
+    msgs = channel_messages_v1(auth_user_id, ch_id, 0)
+    print(msgs.get('messages'))
+    assert len(notifactions_get_v1(auth_user_id)) == 1
+    assert len(msgs.get('messages')) == 1
+    assert time_finish.get('time_finish') == expected
 @clear
 def test_invalid_channel(helper):
     auth_user_id = helper.register_user(1)
