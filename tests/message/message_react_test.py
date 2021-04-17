@@ -39,3 +39,31 @@ def test_pin_single_message_channel(helper):
 
     assert get_react_uids(message_id2) == [1,2]
 
+@clear
+def test_pin_single_message_dm(helper):
+    """Add two messages and pin the second one"""
+    auth_user_id1 = helper.register_user(1)
+    auth_user_id2 = helper.register_user(2)
+    assert auth_user_id1 == 1
+    assert auth_user_id2 == 2
+    dm_id = dm_create_v1(auth_user_id1, [auth_user_id2]).get('dm_id')
+    assert dm_id == 1
+
+    first_message = "this shouldnt have reacts"
+    second_message = "hopefully this one does"
+
+    message_info1 = message_senddm_v1(auth_user_id1, dm_id, first_message)
+    message_id1 = message_info1.get('message_id')
+    assert message_id1 == 1
+
+    message_info2 = message_senddm_v1(auth_user_id1, dm_id, second_message)
+    message_id2 = message_info2.get('message_id')
+    assert message_id2 == 2
+
+    message_react_v1(auth_user_id1, message_id2, 1)
+
+    assert get_react_uids(message_id2) == [1]
+
+    message_react_v1(auth_user_id2, message_id2, 1)
+
+    assert get_react_uids(message_id2) == [1,2]
