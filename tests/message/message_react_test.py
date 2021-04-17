@@ -157,9 +157,6 @@ def test_react_to_invalid_msg_id(helper):
     dm_id = dm_create_v1(auth_user_id1, [auth_user_id2]).get('dm_id')
     assert dm_id == 1
 
-    first_message = "this shouldnt have reacts"
-    second_message = "hopefully this one does"
-
     invalid_message_id = 33
     with pytest.raises(InputError) as e: 
         message_react_v1(auth_user_id1, invalid_message_id, valid_react_id)
