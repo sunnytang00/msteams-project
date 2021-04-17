@@ -160,7 +160,6 @@ def message_senddm_v1(auth_user_id, dm_id, message):
         raise InputError("message is too long")
 
     msg_id = get_message_count() + 1
-    time_created = int(time.time())
     msg = create_message(auth_user_id, message, dm_id=dm_id)
     store_message_dm(msg, dm_id)
     update_active_msg_ids(msg_id, 'add')
