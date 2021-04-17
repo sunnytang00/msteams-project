@@ -10,8 +10,8 @@ from src.base.helper import user_is_channel_member, get_channel, get_current_use
     user_is_dm_owner, format_share_message, get_message, tagged_handlestrs,\
     get_user_from_handlestr, create_notification
 from src.data.helper import store_message_channel, store_message_dm, get_message_count, store_notification, update_active_msg_ids
-from src.base.helper import create_message, is_pinned
-from src.data.helper import get_valid_msg_ids, set_pin
+from src.base.helper import create_message, is_pinned, check_valid_message, get_react_uids
+from src.data.helper import get_valid_msg_ids, set_pin, set_react
 def message_send_v1(auth_user_id, channel_id, message):
     """Send a message from authorised_user to the channel specified by channel_id.
     Note: Each message should have it's own unique ID. I.E. No messages should share
@@ -275,9 +275,34 @@ def message_unpin_v1(auth_user_id, message_id):
         if not user_is_dm_owner(dm_id, auth_user_id):
             raise AccessError(f'member with id {auth_user_id} is not dm owner')
         set_pin(message_id, 'unpin', dm_id=dm_id)
+    
 
-"""
 def message_react_v1(auth_user_id, message_id, react_id):
 
+    valid_react_id = 1
+
+    if not check_valid_message(message_id):
+        raise InputError(f'message_id {message_id} is not a valid message within a channel/dm')
+    if react_id != valid_react_id:
+        raise InputError(f'react_id {react_id} is not a valid React ID')
+
+    channel_id = get_message_ch_id_or_dm_id(message_id).get('channel_id')
+    dm_id = get_message_ch_id_or_dm_id(message_id).get('dm_id')
+    if channel_id != None:
+        if auth_user_id in get_react_uids(message_id):
+            raise InputError(f'user with id {auth_user_id} has already reacted to message id {message_id} in channel')
+        if not user_is_channel_member(channel_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not channel member')
+        set_react(message_id, auth_user_id, 'react', channel_id=channel_id)
+
+    if dm_id != None:
+        if auth_user_id in get_react_uids(message_id,):
+            raise InputError(f'user with id {auth_user_id} has already reacted to message id {message_id} in dm')
+        if not user_is_dm_member(dm_id, auth_user_id):
+            raise AccessError(f'member with id {auth_user_id} is not dm member')
+        set_react(message_id, auth_user_id, 'react', dm_id=dm_id)
+
+
+"""
 def message_unreact_v1(auth_user_id, message_id, react_id):
 """

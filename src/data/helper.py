@@ -73,7 +73,10 @@ data = {
                     'u_id': 1,
                     'message': 'Hello world',
                     'time_created': 1582426789,
-                    'reacts' : [],
+                    'reacts' : [{'react_id' : 1,
+                        'u_ids' : [],
+                        'is_this_user_reacted' : False
+                            }],
                     'is_pinned' : False
                 }
             ],
@@ -644,7 +647,7 @@ def update_active_msg_ids(msg_id: int, method: str) -> None:
         data['valid_msg_ids'].remove(msg_id)
     save(data)
 
-def set_pin(message_id: int, to_pin: str, channel_id = None, dm_id = None,) -> None:
+def set_pin(message_id: int, to_pin: str, channel_id = None, dm_id = None) -> None:
     data = get_data()
     if channel_id:
         channel_idx = get_channel_index(channel_id)
@@ -663,3 +666,22 @@ def set_pin(message_id: int, to_pin: str, channel_id = None, dm_id = None,) -> N
 
     save(data)
 
+def set_react(message_id: int, auth_user_id: int, to_react: str, channel_id = None, dm_id = None) -> list:
+    data = get_data()
+    if channel_id:
+        channel_idx = get_channel_index(channel_id)
+        message_idx = get_message_index(message_id, channel_idx=channel_idx)
+        if to_react == 'react':
+            data['channels'][channel_idx]['messages'][message_idx]['reacts'][0]['u_ids'].append(auth_user_id)
+        if to_react == 'unreact':
+            data['channels'][channel_idx]['messages'][message_idx]['reacts'][0]['u_ids'].remove(auth_user_id)
+
+    else:
+        dm_idx = get_dm_index(dm_id)
+        message_idx = get_message_index(message_id, dm_idx=dm_idx)
+        if to_react == 'react':
+            data['dms'][dm_idx]['messages'][message_idx]['reacts'][0]['u_ids'].append(auth_user_id)
+        if to_react == 'unreact':
+            data['dms'][dm_idx]['messages'][message_idx]['reacts'][0]['u_ids'].remove(auth_user_id)
+    
+    save(data)

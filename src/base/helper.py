@@ -379,15 +379,23 @@ def create_message(auth_user_id: int, message: str, channel_id=None, dm_id=None)
             'u_id' : auth_user_id,
             'message' : message,
             'time_created' : timestamp,
+            'reacts' : [{'react_id' : 1,
+                        'u_ids' : [],
+                        'is_this_user_reacted' : False
+                    }],
             'is_pinned' : False
         }
     else:
         msg = {
-            'message_id' : new_message_id(channel_id),
+            'message_id' : new_message_id(dm_id),
             'dm_id' : dm_id,
             'u_id' : auth_user_id,
             'message' : message,
             'time_created' : timestamp,
+            'reacts' : [{'react_id' : 1,
+                        'u_ids' : [],
+                        'is_this_user_reacted' : False
+                    }],
             'is_pinned' : False
         }
     return msg
@@ -649,4 +657,37 @@ def is_pinned(message_id: int) -> bool:
                 if message.get('is_pinned') == True:
                     return True
 
+    return False
+
+def get_react_uids(message_id: int) -> list:
+    channels = get_channels()
+    for channel in channels:
+        # look for message in channels
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                react_list = message.get('reacts')
+                return react_list[0].get('u_ids')
+
+    dms = get_dms()
+    for dm in dms:
+        # look for message in dms
+        for message in dm.get('messages'):
+            if message.get('message_id') == message_id:
+                react_list = message.get('reacts')
+                return react_list[0].get('u_ids')
+
+def check_valid_message(message_id: int) -> str:
+    channels = get_channels()
+    for channel in channels:
+        # look for message in channels
+        for message in channel.get('messages'):
+            if message.get('message_id') == message_id:
+                return True
+
+    dms = get_dms()
+    for dm in dms:
+        # look for message in dms
+        for message in dm.get('messages'):
+            if message.get('message_id') == message_id:
+                return True
     return False
