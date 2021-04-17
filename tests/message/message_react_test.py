@@ -160,12 +160,6 @@ def test_react_to_invalid_msg_id(helper):
     first_message = "this shouldnt have reacts"
     second_message = "hopefully this one does"
 
-    message_info1 = message_senddm_v1(auth_user_id1, dm_id, first_message)
-    message_id1 = message_info1.get('message_id')
-
-    message_info2 = message_senddm_v1(auth_user_id1, dm_id, second_message)
-    message_id2 = message_info2.get('message_id')
-
     invalid_message_id = 33
     with pytest.raises(InputError) as e: 
         message_react_v1(auth_user_id1, invalid_message_id, valid_react_id)
@@ -193,7 +187,6 @@ def test_non_member_react_and_react_reacted(helper):
     assert dm_id == 1
 
     first_message = "this shouldnt have reacts"
-    second_message = "hopefully this one does"
 
     message_info1 = message_senddm_v1(auth_user_id1, dm_id, first_message)
     message_id1 = message_info1.get('message_id')
