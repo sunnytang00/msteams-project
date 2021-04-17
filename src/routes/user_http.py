@@ -18,7 +18,7 @@ def user_profile():
     user = user_profile_v1(auth_user_id, int(u_id))
 
     return dumps({
-        'user' : user
+        'user': user.get('user')
     })
 
 @user_blueprint.route("/user/profile/setname/v2", methods=['PUT'])

@@ -30,7 +30,7 @@ def test_sethandle_basic():
     user = requests.get(url + f'user/profile/v2?{queryString}')
 
     data = user.json()
-    assert data.get('user').get('user').get('handle_str') == 'teststring'
+    assert data.get('user').get('handle_str') == 'teststring'
 
 @clear
 
