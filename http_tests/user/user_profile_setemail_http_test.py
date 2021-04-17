@@ -30,7 +30,7 @@ def test_setemail_basic():
     user = requests.get(url + f'user/profile/v2?{queryString}')
 
     data = user.json()
-    assert data.get('user').get('user').get('email') == 'albusdumbledore@gmail.com'
+    assert data.get('user').get('email') == 'albusdumbledore@gmail.com'
 
 @clear
 
@@ -82,7 +82,7 @@ def test_input_error2():
     })
     user = requests.get(url + f'user/profile/v2?{queryString}')
     data = user.json()
-    email = data.get('user').get('user').get('email')
+    email = data.get('user').get('email')
 
 
     response = requests.put(url + 'user/profile/setemail/v2', json = {
