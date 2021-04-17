@@ -5,7 +5,7 @@ As specified by the COMP1531 Major Project specification.
 """
 
 from src.base.error import InputError, AccessError
-from src.base.helper import create_dm_name, get_current_user, get_dm, user_is_dm_member, get_user, create_notification
+from src.base.helper import create_dm_name, get_current_user, get_dm, user_is_dm_member, get_user, create_notification, get_react_uids
 from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users, store_notification
 
 def dm_create_v1(auth_user_id, u_ids):
@@ -150,6 +150,13 @@ def dm_messages_v1(auth_user_id, dm_id, start):
     messages  = msgs[start : end]
     if end == -1 and not len(msgs) == 0:
         messages.append(msgs[-1])
+
+    for message in messages:
+        message_id = message.get('message_id')
+        if auth_user_id in get_react_uids(message_id):
+            message['reacts'][0]['is_this_user_reacted'] = True
+        if auth_user_id not in get_react_uids(message_id):
+            message['reacts'][0]['is_this_user_reacted'] = False
 
     return {
         'messages': messages,
