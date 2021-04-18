@@ -22,7 +22,6 @@ def test_valid_input(helper):
     standup_send_v1(auth_user_id, ch_id, msg)
     time.sleep(1)
     msgs = channel_messages_v1(auth_user_id, ch_id, 0)
-    print(msgs.get('messages'))
     assert len(notifactions_get_v1(auth_user_id)) == 1
     assert len(msgs.get('messages')) == 1
     assert time_finish.get('time_finish') == expected
