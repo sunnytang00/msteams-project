@@ -8,11 +8,12 @@ from src.routes.helper import sha256_hash, get_new_session_id, encode_token, dec
 from src.data.helper import store_session_id, remove_session_id
 from src.helper import token_to_auth_user_id
 
+from src.passwordreset.password_reset import SendEmail
+
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 @auth_blueprint.route("/auth/register/v2", methods=['POST'])
 def register():
-    
     data = request.get_json()
 
     email = data.get('email')
@@ -77,3 +78,29 @@ def logout():
     return dumps({
         'is_success': is_success
     }), 200
+
+# Password reset routes
+@auth_blueprint.route("/auth/passwordreset/request/v1", methods=['POST'])
+def password_reset_request():
+    data = request.get_json()
+    email = data.get('email')
+
+    reset_code = SendEmail.generate_reset_code(length=8)
+
+    subject = "Password reset instructions"
+    body = (f"Hello {email},\n"
+            "Forgot your password?\n"
+            "We received a request to reset the password for your Dreams account.\n"
+            f"Your reset code: {reset_code}\n\n"
+            "Dreams Customer Service")
+
+
+    # send email
+    SendEmail.send_email(subject=subject, body=body.replace('\t', ''), recipient=email)
+
+    return dumps({}), 200
+
+@auth_blueprint.route("/auth/passwordreset/reset/v1", methods=['POST'])
+def password_reset():
+
+    return dumps({}), 200
