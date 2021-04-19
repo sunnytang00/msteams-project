@@ -1,6 +1,7 @@
 from src.config import data_path
 import json
 from datetime import timezone, datetime
+
 """ 
 Dummy Data for Database
 
@@ -149,23 +150,18 @@ def get_data() -> dict:
     return data
 
 def get_user_count() -> int:
-    """TODO"""
     return get_data().get('user_count')
 
 def get_channel_count() -> int:
-    """TODO"""
     return get_data().get('channel_count')
 
 def get_message_count() -> int:
-    """TODO"""
     return get_data().get('message_count')
 
 def get_dm_count() -> int:
-    """TODO"""
     return get_data().get('dm_count')
 
 def get_owner_count() -> int:
-    """TODO"""
     return get_data().get('owner_count')
 
 def get_user_index(u_id: int) -> int:
@@ -175,8 +171,8 @@ def get_user_index(u_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    # TODO: dont loop over data this is wrong fix
-    for idx in range(len(data)-1):
+    users = get_users()
+    for idx in range(len(users)-1):
         if data['users'][idx]['u_id'] == u_id:
             return idx
     return -1
@@ -189,7 +185,8 @@ def get_channel_index(channel_id: int) -> int:
     """
 
     data = get_data()
-    for idx in range(len(data)-1):
+    channels = get_channels()
+    for idx in range(len(channels)-1):
         if data['channels'][idx]['channel_id'] == channel_id:
             return idx
     return -1
@@ -208,7 +205,6 @@ def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
                 if channel['messages'][idx].get('message_id') == message_id:
                     return idx
 
-    # TODO fix this
     elif dm_idx:
         for idx in range(len(data)-1):
             if data['dms'][dm_idx]['messages'][idx].get('message_id') == message_id:
@@ -222,7 +218,8 @@ def get_dm_index(dm_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    for idx in range(len(data)-1):
+    dms = get_dms()
+    for idx in range(len(dms)-1):
         if data['dms'][idx]['dm_id'] == dm_id:
             return idx
     return -1
@@ -263,6 +260,20 @@ def get_dms() -> list:
         Returns list of dms on all conditions
     """
     return get_data().get('dms')
+
+
+def get_reset_code(u_id: int) -> str:
+    """ Get a user's reset code
+
+    Return Value:
+        Returns None on all conditions
+    """
+
+    data = get_data()
+    idx = get_user_index(u_id)
+
+    return data['users'][idx]['reset_code']
+
 
 def store_message_channel(message: dict, channel_id: int) -> None:
     data = get_data()
@@ -373,6 +384,7 @@ def update_name_first(u_id: int, name_first: str) -> None:
     data['users'][idx]['name_first'] = name_first
 
     save(data)
+
 def update_name_last(u_id: int, name_last: str) -> None:
     """Update the user's last name
     
@@ -390,6 +402,7 @@ def update_name_last(u_id: int, name_last: str) -> None:
     data['users'][idx]['name_last'] = name_last
 
     save(data)
+
 def update_email(u_id: int, email: str) -> None:
     """Update the user's email
     
@@ -407,6 +420,7 @@ def update_email(u_id: int, email: str) -> None:
     data['users'][idx]['email'] = email
 
     save(data)
+
 def update_handle_str(u_id: int, handle_str: str) -> None:
     """Update the user's handle (i.e. display name)
     
@@ -460,6 +474,7 @@ def append_channel_all_members(channel_id: int, user: dict) -> None:
     data['channels'][idx]['all_members'].append(user)
 
     save(data)
+
 def append_channel_owner_members(channel_id: int, user: dict) -> None:
     """Append a user to channel owner members
 
@@ -477,6 +492,7 @@ def append_channel_owner_members(channel_id: int, user: dict) -> None:
     data['channels'][idx]['owner_members'].append(user)
 
     save(data)
+
 def update_owner_members(channel_id: int, owner_members: list) -> None:
     """Update the owners users of a channel
 
@@ -494,6 +510,7 @@ def update_owner_members(channel_id: int, owner_members: list) -> None:
     data['channels'][idx]['owner_members'] = owner_members 
 
     save(data)
+
 def update_all_members(channel_id : int, all_members: list) -> None:
     """Update the member users of a channel
 
@@ -510,6 +527,7 @@ def update_all_members(channel_id : int, all_members: list) -> None:
     data['channels'][idx]['all_members'] = all_members 
 
     save(data)
+
 def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     """Update the permission id of a user
 
@@ -525,11 +543,29 @@ def update_permission_id(auth_user_id : int, permission_id: int) -> None:
     data['users'][idx]['permission_id'] = permission_id
 
     save(data)
+
+def update_password(auth_user_id: int, password: str) -> None:
+    """Update a users password
+
+    Arguments:
+        auth_user_id (int) - id of user
+        passwordl (str) - the new password of a user
+
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    data['users'][idx]['password'] = password
+
+    save(data)
+
 def update_dm_list(dms: list) -> None:
     data = get_data()
     data['dms'] = dms
 
     save(data)
+
 def update_dm_users(dm_users: list, dm_id: int) -> None:
     data = get_data()
     idx = get_dm_index(dm_id)
@@ -544,6 +580,7 @@ def update_channel_standup(channel_id: int, standup: dict) -> None:
     data['channels'][idx]['standup'] = standup
 
     save(data)
+
 def store_dm(dm: dict) -> None:
     """store the dm in storage
     
@@ -557,6 +594,36 @@ def store_dm(dm: dict) -> None:
     data.get('dms').append(dm)
 
     data['dm_count'] += 1
+    save(data)
+
+def store_reset_code(u_id: int, reset_code: str) -> None:
+    """store a user's reset code
+    
+    Arguments:
+        u_id (int) - the user's id
+
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    idx = get_user_index(u_id)
+
+    data['users'][idx]['reset_code'] = reset_code
+    save(data)
+
+def remove_reset_code(u_id: int) -> None:
+    """remove/reset a user's reset code
+    
+    Arguments:
+        u_id (int) - the user's id
+
+    Return Value:
+        Returns None on all conditions
+    """
+    data = get_data()
+    idx = get_user_index(u_id)
+
+    data['users'][idx]['reset_code'] = ""
     save(data)
 
 def update_owner_count(owner_count : int) -> None:
@@ -674,7 +741,7 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
     save(data)
 
 def store_notification(notification: dict, u_id: int) -> None:
-    """TODO"""
+    
     data = get_data()
     user_idx = get_user_index(u_id)
 
@@ -731,6 +798,7 @@ def set_react(message_id: int, auth_user_id: int, to_react: str, channel_id = No
             data['dms'][dm_idx]['messages'][message_idx]['reacts'][0]['u_ids'].remove(auth_user_id)
     
     save(data)
+
 """
 def store_user_stats(auth_user_id : int, stats: dict) -> None:
     data = get_data()
@@ -740,8 +808,8 @@ def store_user_stats(auth_user_id : int, stats: dict) -> None:
     save(data)
 """
 
-#i could combine these into one function but i think its easier to understand if i separate
 def update_user_stats_channels(auth_user_id: int, change: str) -> None:
+    # could combine these into one function but i think its easier to understand if i separate
     data = get_data()
     idx = get_user_index(auth_user_id)
     if change == 'add':

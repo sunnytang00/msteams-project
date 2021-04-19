@@ -91,7 +91,7 @@ def dm_details_v1(auth_user_id, dm_id):
 
     Returns:
         A dict containing the dm name and members of the dm
-    """    """TODO"""
+    """    
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 
@@ -130,7 +130,7 @@ def dm_messages_v1(auth_user_id, dm_id, start):
 
     Returns:
         A dict containing the messages in the dm, along with the start and end index
-    """    """TODO"""
+    """    
     if not get_current_user(auth_user_id):
         raise AccessError(f"token {auth_user_id} does not refer to a valid user")
 

@@ -96,7 +96,8 @@ def auth_register_v1(email, password, name_first, name_last):
         'removed': False,
         'session_list': [],
         'notifications': [],
-        'user_stats' : user_stats
+        'user_stats' : user_stats,
+        'reset_code': ""
     }
 
     # register user
