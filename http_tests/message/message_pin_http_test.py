@@ -1,3 +1,5 @@
+""" HTTP tests for message/pin/v1 route """
+
 import requests
 from json import loads
 from src.config import url
@@ -33,9 +35,10 @@ def test_pin_message():
         'message' : 'pin me papi'
 
     })
-    
+
     message_info = message.json()
     message_id = message_info.get('message_id')
+
     assert message_id == 1
 
     requests.post(url + 'message/pin/v1', json = {
@@ -43,7 +46,7 @@ def test_pin_message():
         'message_id' : message_id,
     })
 
-    assert data['channels'][channel_id]['messages'][message_id]['is_pinned'] = True
+    assert message_info.get('is_pinned') == True
 
 @clear
 def test_messageid_invalid():
@@ -75,7 +78,7 @@ def test_messageid_invalid():
         'message' : 'pin me papi'
 
     })
-    
+
     message_info = message.json()
     message_id = message_info.get('message_id')
     assert message_id == 1
@@ -139,7 +142,7 @@ def test_messageid_invalid():
         'message' : 'pin me papi'
 
     })
-    
+
     message_info = message.json()
     message_id = message_info.get('message_id')
     assert message_id == 1
@@ -150,15 +153,3 @@ def test_messageid_invalid():
     })
 
     assert response.status_code == 403
-
-
-
-
-
-
-
-
-
-
-
-
