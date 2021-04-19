@@ -5,8 +5,8 @@ from src.auth import auth_register_v1
 from src.auth import auth_login_v1
 
 from src.routes.helper import sha256_hash, get_new_session_id, encode_token, decode_token
-from src.data.helper import store_session_id, remove_session_id
-from src.helper import token_to_auth_user_id
+from src.data.helper import store_session_id, remove_session_id, get_reset_code, update_password
+from src.helper import token_to_auth_user_id, edit_reset_code, valid_password, get_user_by_email
 
 from src.passwordreset.password_reset import SendEmail
 
@@ -96,10 +96,24 @@ def password_reset_request():
 
     # send email
     SendEmail.send_email(subject=subject, body=body, recipient=email)
+    edit_reset_code(email, reset_code) # store reset code
 
     return dumps({}), 200
 
 @auth_blueprint.route("/auth/passwordreset/reset/v1", methods=['POST'])
 def password_reset():
+    data = request.get_json()
+    reset_code = data.get('reset_code')
+    new_password = data.get('new_password')
+
+    if reset_code != get_reset_code(u_id):
+        return dumps({}), 400
+
+    if not valid_password(new_password):
+        return dumps({}), 400
+
+    edit_reset_code(email) # remove used reset code
+    auth_user_id = get_user_by_email(email)
+    update_password(auth_user_id, new_password)
 
     return dumps({}), 200

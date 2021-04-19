@@ -1,8 +1,8 @@
-"""TODO"""
+"""Helpers for mainly but not limited to the base funcitons"""
 
 from src.data.helper import get_users, get_channels, get_data,update_owner_members, update_all_members, get_message_count, \
                             get_dms, update_user_all_channel_message, update_user_all_dm_message, update_message, \
-                            update_dm_users
+                            update_dm_users, store_reset_code, remove_reset_code
 from src.routes.helper import decode_token
 import re
 from datetime import timezone, datetime
@@ -711,3 +711,12 @@ def create_user_stats() -> dict:
 
     return stats
 
+def edit_reset_code(email: str, reset_code = None) -> None:
+    """Reset/remove or store an email address based on optional parameter reset_code"""
+    user = get_user_by_email(email)
+    u_id = user.get('u_id')
+
+    if not reset_code:
+        remove_reset_code(u_id)
+    else:
+        store_reset_code(u_id, reset_code)
