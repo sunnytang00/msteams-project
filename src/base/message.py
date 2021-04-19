@@ -364,3 +364,23 @@ def message_sendlater_v1(auth_user_id, channel_id, message, time_sent):
     message_id = new_message_id()
 
     return {'message id': new_message_id}
+
+def sendlaterdm(*args, **kwargs):
+    auth_user_id = kwargs.get('auth_user_id')
+    dm_id = kwargs.get('dm_id')
+    message = kwargs.get('message')
+    handlestrs = tagged_handlestrs(message)
+    for handlestr in handlestrs['handle_strs']:
+        user = get_user_from_handlestr(handlestr)
+        if user and user_is_dm_member(dm_id, user.get('u_id')):
+            notification = create_notification(channel_id=-1, dm_id=-dm_id, u_id=user.get('u_id'), tagged=True, msgs = message)
+            store_notification(notification, user.get('u_id'))
+
+    msg_id = get_message_count() + 1
+    msg = create_message(auth_user_id, message, dm_id=dm_id)
+    
+    update_active_msg_ids(msg_id, 'add')
+    store_message_dm(msg, dm_id)
+
+def message_sendlaterdm_v1(auth_user_id, channel_id, message, time_sent):
+    pass
