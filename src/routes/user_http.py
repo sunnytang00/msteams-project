@@ -1,13 +1,8 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-<<<<<<< HEAD
-from src.base.user import user_profile_v1, user_profile_setemail_v1, user_profile_setname_v1, user_profile_sethandle_v1, user_stats_v1
-from src.base.helper import token_to_auth_user_id
-=======
 from src.user import user_profile_v1, user_profile_setemail_v1, user_profile_setname_v1, user_profile_sethandle_v1
 from src.helper import token_to_auth_user_id
->>>>>>> update-file-structure-for-iter-3-tests
 
 user_blueprint = Blueprint('user_blueprint', __name__)
 
