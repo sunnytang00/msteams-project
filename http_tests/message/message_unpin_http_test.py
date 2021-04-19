@@ -47,6 +47,14 @@ def test_unpin_pinned_message():
         'message_id' : message_id,
     })
 
+    ret = route channel_messages(..)
+    ret1 = ret.json()
+    print(ret1)
+
+    assert 1 == 2
+
+    assert ret1[0].get('is_pinned') == True
+
     assert message_info.get('is_pinned') == True
 
     requests.put(url + 'message/unpin/v1', json = {
@@ -139,7 +147,7 @@ def test_messageid_invalid():
         'message_id' : message_id,
     })
 
-    response = requests.put(url + 'message/unpin/v1', json = {
+    response = requests.post(url + 'message/unpin/v1', json = {
         'auth_user_id' : auth_user_id,
         'message_id' : 4,
     })
@@ -208,7 +216,7 @@ def test_userid_invalid():
         'message_id' : message_id,
     })
 
-    response = requests.put(url + 'message/unpin/v1', json = {
+    response = requests.post(url + 'message/unpin/v1', json = {
         'auth_user_id' : auth_user_id1,
         'message_id' : message_id,
     })
