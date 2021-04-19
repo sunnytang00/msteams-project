@@ -14,7 +14,7 @@ from src.data.helper import get_channels, get_dms, get_message_count, store_invo
 
 
 def user_profile_v1(auth_user_id, u_id):
-    """TODO"""
+    
     user = get_user(u_id)
     if not bool(user):
         raise InputError(f'User with u_id {u_id} is not a valid user')
@@ -39,7 +39,7 @@ def user_profile_v1(auth_user_id, u_id):
     }
 
 def user_profile_setname_v1(auth_user_id, name_first, name_last):
-    """TODO"""
+    
 
     if not valid_first_name(name_first):
         raise InputError(f'name_first {name_first} is not between 1 and 50 characters inclusively in length')
@@ -55,7 +55,7 @@ def user_profile_setname_v1(auth_user_id, name_first, name_last):
     return {}
 
 def user_profile_setemail_v1(auth_user_id, email):
-    """TODO"""
+    
 
     if not valid_email(email):
         raise InputError(f'Email {email} is not a valid email')
@@ -71,7 +71,7 @@ def user_profile_setemail_v1(auth_user_id, email):
     }
 
 def user_profile_sethandle_v1(auth_user_id, handle_str):
-    """TODO"""
+    
 
     #need to change to tokens eventually
     if len(handle_str) not in range(3, 21):
