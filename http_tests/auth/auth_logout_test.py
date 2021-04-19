@@ -31,8 +31,8 @@ def test_basic_logout(helper):
     assert registered_auth_user_id == expected_auth_user_id
     assert expected_token != register_token #to show a new token has been generated
 
-
     assert token_to_auth_user_id(expected_token) # valid token before deleting
+    
     ### logout
     response = requests.post(url + '/auth/logout/v1', json = {
         'token': expected_token
@@ -42,4 +42,27 @@ def test_basic_logout(helper):
     logout_data = response.json()
     assert logout_data.get('is_success') == True
     assert not token_to_auth_user_id(expected_token) # invalid token after deleting
+
+@clear
+def test_invalid_token_logout(helper):
+    # a valid token that doesn't belong to any user
+    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uX2lkIjoiZTY0MDNhMjQtZmRmZi00NmVkLWJmMDItZmM5YmEyYzI4NGY3In0.0zHxygE5F86T8jSVTfkfM4GhAs_zVBvDPQGco50eDFs'
+
+    response = requests.post(url + '/auth/logout/v1', json = {
+        'token': token 
+    })
+    assert response.status_code == 200
+
+    logout_data = response.json()
+    assert logout_data.get('is_success') == False
+
+    # not a valid token to decode
+    token = 'I like to eat mustard'
+    response = requests.post(url + '/auth/logout/v1', json = {
+        'token': token 
+    })
+    assert response.status_code == 200
+
+    logout_data = response.json()
+    assert logout_data.get('is_success') == False
 
