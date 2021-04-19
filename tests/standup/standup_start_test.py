@@ -1,12 +1,12 @@
 import pytest
 import time
-from src.base.channels import channels_create_v1
-from src.base.channel import channel_details_v1, channel_addowner_v1, channel_messages_v1
-from src.base.error import InputError, AccessError
+from src.channels import channels_create_v1
+from src.channel import channel_details_v1, channel_addowner_v1, channel_messages_v1
+from src.error import InputError, AccessError
 from src.standup import standup_send_v1, standup_start_v1
-from src.base.other import clear_v1
-from src.base.user import user_profile_v1
-from src.base.notifications import notifactions_get_v1
+from src.other import clear_v1
+from src.user import user_profile_v1
+from src.notifications import notifactions_get_v1
 from tests.helper import helper, clear
 @clear
 def test_valid_input(helper):

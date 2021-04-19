@@ -2,7 +2,7 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.channel import channel_messages_v1
+from src.channel import channel_messages_v1
 @clear
 def test_sendmessage_basic():
     user = requests.post(url + 'auth/register/v2', json = {

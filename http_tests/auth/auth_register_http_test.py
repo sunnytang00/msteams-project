@@ -2,13 +2,13 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import token_to_auth_user_id
+from src.helper import token_to_auth_user_id
 
 @clear
 def test_register_single(helper):
     response = helper.register_user(1)
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     data = response.json()
     token = data.get('token')

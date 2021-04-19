@@ -1,6 +1,6 @@
 from src.data.helper import clear_data, get_data
-from src.base.helper import user_is_channel_member
-from src.base.error import InputError, AccessError
+from src.helper import user_is_channel_member
+from src.error import InputError, AccessError
 
 def clear_v1():
     """ Resets the internal data of the application to it's initial state
