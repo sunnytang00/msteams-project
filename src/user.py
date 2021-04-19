@@ -134,7 +134,7 @@ def user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, 
     urllib.request.urlretrieve(img_url, user_photo_path)
 
     photo = Image.open(user_photo_path)
-    cropped_photo = cropped = photo.crop((x_start, y_start, x_end, y_end))
+    cropped_photo = photo.crop((x_start, y_start, x_end, y_end))
     cropped_photo.save(user_photo_path)
 
     url = photo_path + handle_str + '.jpg'
