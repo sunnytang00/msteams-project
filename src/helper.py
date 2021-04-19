@@ -237,7 +237,6 @@ def valid_last_name(name_last: str) -> bool:
     return len(name_last) in range(1, 51)
 
 def email_exists(email: str) -> bool:
-    # TODO: redunant delete
     """A function that when passed an email, will check if it already exists
 
     Arguements:
@@ -432,17 +431,6 @@ def create_dm_name(u_ids: list) -> str:
     return output
 
 def remove_user(u_id: int) -> None:
-    """
-    TODO:   when a user being removed, all member list should remove the user out 
-            and functions that return users stuff should not have those users
-    should keep this function update if there is new type of list of user 
-
-    member list that needs to change:
-        channels:
-            owner_member
-            all_member
-        
-    """
     channels = get_channels()
     for channel in channels:
         if user_is_channel_owner(channel.get('channel_id'), u_id):
@@ -480,7 +468,6 @@ def get_message_ch_id_or_dm_id(message_id: int) -> dict:
 
 def remove_message(message_id: int, channel_id=None, dm_id=None) -> bool:
     """Remove a message from a channel or dm"""
-    # TODO: does it have to return bool?
     if channel_id:
         update_message(message_id, channel_id=channel_id)
         return True
@@ -490,7 +477,6 @@ def remove_message(message_id: int, channel_id=None, dm_id=None) -> bool:
 
 def edit_message(message_id: int, message: str, channel_id=None, dm_id=None) -> bool:
     """Remove a message from a channel"""
-    # TODO: does it have to return bool?
     if channel_id:
         update_message(message_id, message=message, channel_id=channel_id)
         return True

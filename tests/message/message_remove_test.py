@@ -145,8 +145,4 @@ def test_user_is_not_authorised(helper):
         message_remove_v1(not_auth_user_id, message_id)
         assert f"Message with message_id {message_id} was not sent by the authorised user making this request" in str(e.value)
 
-@clear
-def test_user_is_dream_owner(helper):
-    """Remove messages as a dream owner"""
-    #TODO
-    pass
+

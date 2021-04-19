@@ -62,8 +62,6 @@ def echo():
         'data': data
     })
 
-
-#TODO ALL OF THE BELOW FUNCTIONS (use blueprints)
 @APP.route("/message/send/v2", methods=['POST'])
 def message_send():
     return dumps({
