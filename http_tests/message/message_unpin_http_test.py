@@ -182,7 +182,7 @@ def test_userid_invalid():
     channel_id = channel_info.get('channel_id')
     assert channel_id == 1
 
-    channel1 = requests.post(url + 'channels/create/v2', json = {
+    requests.post(url + 'channels/create/v2', json = {
         'token': token1,
         'name': 'channel_test2',
         'is_public': True
@@ -190,7 +190,7 @@ def test_userid_invalid():
 
     channel_info1 = channel.json()
     channel_id1 = channel_info1.get('channel_id')
-    assert channel_id == 2
+    assert channel_id1 == 2
 
     message = requests.post(url + 'message/send/v2', json = {
         'token' : token,
