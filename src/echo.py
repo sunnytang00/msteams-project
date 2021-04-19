@@ -1,4 +1,4 @@
-from src.base.error import InputError
+from src.error import InputError
 
 def echo(input):
     if input == 'echo':

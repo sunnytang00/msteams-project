@@ -1,9 +1,9 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.other import clear_v1
-from src.base.channels import channels_create_v1, channels_listall_v1, channels_list_v1
-from src.base.helper import token_to_auth_user_id
+from src.other import clear_v1
+from src.channels import channels_create_v1, channels_listall_v1, channels_list_v1
+from src.helper import token_to_auth_user_id
 channels_blueprint = Blueprint('channels_blueprint', __name__)
 
 @channels_blueprint.route("/channels/list/v2", methods=['GET'])
@@ -13,7 +13,7 @@ def channels_list():
     channels = channels_list_v1(auth_user_id)
     return dumps({
         'channels': channels['channels']
-    }), 201
+    }), 200
 
 @channels_blueprint.route("/channels/listall/v2", methods=['GET'])
 def channels_list_all():
@@ -22,7 +22,7 @@ def channels_list_all():
     channels = channels_listall_v1(auth_user_id)
     return dumps({
         'channels': channels['channels']
-    }), 201
+    }), 200
 
 @channels_blueprint.route("/channels/create/v2", methods=['POST'])
 def channels_create():
@@ -37,4 +37,4 @@ def channels_create():
 
     return dumps({
         'channel_id' : channel_id
-    }), 201
+    }), 200

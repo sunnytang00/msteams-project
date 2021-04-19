@@ -1,10 +1,10 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.channel import channel_details_v1, channel_invite_v1, channel_join_v1, channel_addowner_v1, channel_removeowner_v1,\
+from src.channel import channel_details_v1, channel_invite_v1, channel_join_v1, channel_addowner_v1, channel_removeowner_v1,\
                              channel_leave_v1, channel_messages_v1
-from src.base.helper import token_to_auth_user_id
-from src.base.other import clear_v1
+from src.helper import token_to_auth_user_id
+from src.other import clear_v1
 
 channel_blueprint = Blueprint('channel_blueprint', __name__)
 
@@ -19,7 +19,7 @@ def channel_invite():
 
     channel_invite_v1(auth_user_id, ch_id, u_id)
 
-    return dumps({}), 201
+    return dumps({}), 200
 
 @channel_blueprint.route("/channel/details/v2", methods=['GET'])
 def channel_details():
@@ -61,7 +61,7 @@ def channel_join():
 
     channel_join_v1(auth_user_id, ch_id)
     
-    return dumps({}), 201
+    return dumps({}), 200
 
 @channel_blueprint.route("/channel/addowner/v1", methods=['POST'])
 def channel_add_owner():
@@ -74,7 +74,7 @@ def channel_add_owner():
 
     channel_addowner_v1(auth_user_id, ch_id, u_id)
 
-    return dumps({}), 201
+    return dumps({}), 200
 
 @channel_blueprint.route("/channel/removeowner/v1", methods=['POST'])
 def channel_remove_owner():
@@ -87,7 +87,7 @@ def channel_remove_owner():
 
     channel_removeowner_v1(auth_user_id, ch_id, u_id)
 
-    return dumps({}), 201
+    return dumps({}), 200
 
 @channel_blueprint.route("/channel/leave/v1", methods=['POST'])
 def channel_leave():
@@ -99,4 +99,4 @@ def channel_leave():
 
     channel_leave_v1(auth_user_id, ch_id)
 
-    return dumps({}), 201
+    return dumps({}), 200
