@@ -3,13 +3,13 @@ import requests
 import urllib.request
 import imgspy
 from PIL import Image
-from src.config import photo_path
+from src.config import photo_path, photo_storage_path
 from src.helper import get_user
 from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, \
                             get_handle_str, handle_str_exists, get_current_user
 from src.error import InputError, AccessError
 from src.data.helper import get_users, update_name_first, update_name_last, update_email, update_handle_str, get_user_stats, get_channels, get_dms, get_valid_msg_ids
-from src.data.helper import get_channels, get_dms, get_message_count, store_involvement_rate
+from src.data.helper import get_channels, get_dms, get_message_count, store_involvement_rate, update_profile_img_url
 
 
 
@@ -23,7 +23,7 @@ def user_profile_v1(auth_user_id, u_id):
     name_first = user.get('name_first')
     name_last = user.get('name_last')
     handle_str = user.get('handle_str')
-
+    profile_img_url = user.get('profile_img_url')
     if not get_current_user(u_id):
         name_first = 'Removed'
         name_last = 'user'
@@ -35,6 +35,7 @@ def user_profile_v1(auth_user_id, u_id):
             'name_first': name_first,
             'name_last': name_last,
             'handle_str': handle_str,
+            'profile_img_url': profile_img_url
         },
     }
 
@@ -128,7 +129,7 @@ def user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, 
     user = get_current_user(auth_user_id)
     handle_str = user.get('handle_str')
 
-    user_photo_path = photo_path + handle_str + '.jpg'
+    user_photo_path = photo_storage_path + handle_str + '.jpg'
 
     urllib.request.urlretrieve(img_url, user_photo_path)
 
@@ -136,6 +137,8 @@ def user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, 
     cropped_photo = cropped = photo.crop((x_start, y_start, x_end, y_end))
     cropped_photo.save(user_photo_path)
 
+    url = photo_path + handle_str + '.jpg'
 
+    update_profile_img_url(auth_user_id, url)
 
     

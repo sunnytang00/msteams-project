@@ -78,7 +78,8 @@ def get_user(auth_user_id: int) -> dict:
                 'name_first': user['name_first'],
                 'name_last': user['name_last'],
                 'handle_str': user['handle_str'],
-                'permission_id' : user['permission_id']
+                'permission_id' : user['permission_id'],
+                'profile_img_url': user['profile_img_url']
             }
     return {}
 

@@ -1,11 +1,12 @@
 import pytest
 from src.auth import auth_register_v1
-from src.user import user_profile_uploadphoto_v1
+from src.user import user_profile_uploadphoto_v1, user_profile_v1
 from src.other import clear_v1
 from src.error import InputError, AccessError
 from src.admin import admin_user_remove_v1
 from tests.helper import helper, clear
 from src.config import photo_path
+
 @clear
 def test_invalid_img_url(helper):
     auth_user_id = helper.register_user(1)
@@ -20,7 +21,7 @@ def test_invalid_img_url(helper):
 @clear
 def test_wrong_dimension(helper):
     auth_user_id = helper.register_user(1)
-    url = photo_path + 'phototest1.png'
+    url = photo_path + 'phototest1.jpg'
     x_start = 0
     y_start = 0
     x_end = 10000

@@ -438,6 +438,23 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
     data['users'][idx]['handle_str'] = handle_str 
 
     save(data)
+
+def update_profile_img_url(u_id: int, url: str) -> None:
+    """Update the user's img_url (the photo displayed)
+    
+    Arguments:
+        u_id (int) - The user's id
+        url (str) - url being used for accessing the photo
+    Return Value:
+        Returns None if updated user's url successfully
+    """
+    data = get_data()
+    idx = get_user_index(u_id)
+
+    data['users'][idx]['profile_img_url'] = url
+
+    save(data)
+
 def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
 
