@@ -3,7 +3,8 @@ from json import dumps
 from flask import Flask, request, Blueprint
 
 from src.other import clear_v1
-from src.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1, message_share_v1, message_react_v1, message_unreact_v1
+from src.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1,\
+     message_share_v1, message_react_v1, message_unreact_v1, message_sendlater_v1, message_sendlaterdm_v1
 from src.helper import token_to_auth_user_id
 
 message_blueprint = Blueprint('message_blueprint', __name__)
@@ -107,6 +108,38 @@ def message_senddm():
     return dumps({
         'message_id' : message_id
     })
+@message_blueprint.route("/message/sendlater/v1", methods=['POST'])
+def message_sendlater():
+    data = request.get_json()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    channel_id = data.get('channel_id')
+    message = data.get('message')
+    time_sent = data.get('time_sent')
+
+    message_id = message_sendlater_v1(auth_user_id, channel_id, message, time_sent).get('message_id')
+
+    return dumps ({
+        'message_id' : message_id
+    }), 200
+
+@message_blueprint.route("/message/sendlaterdm/v1", methods=['POST'])
+def message_sendlaterdm():
+    data = request.get_json()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    dm_id = data.get('dm_id')
+    message = data.get('message')
+    time_sent = data.get('time_sent')
+
+    message_id = message_sendlaterdm_v1(auth_user_id, dm_id, message, time_sent).get('message_id')
+
+    return dumps ({
+        'message_id' : message_id
+    }), 200
+
 """
 @message_blueprint.route("/message/react/v1", methods=['POST'])
 def message_react():

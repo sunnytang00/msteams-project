@@ -32,7 +32,6 @@ def test_valid_input(helper):
     url2 = urlencode({'token': token1, 'dm_id': dm_id, 'start': 0})
 
     msgs = requests.get(url + "dm/messages/v1?" + url2).json()
-
     assert len(msgs.get('messages')) == 1 and msgs.get('messages')[0].get('message') == "1234" and \
         message_id.get('message_id') == msgs.get('messages')[0].get('message_id')
 
