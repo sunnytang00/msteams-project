@@ -94,9 +94,8 @@ def password_reset_request():
             f"Your reset code: {reset_code}\n\n"
             "Dreams Customer Service")
 
-
     # send email
-    SendEmail.send_email(subject=subject, body=body.replace('\t', ''), recipient=email)
+    SendEmail.send_email(subject=subject, body=body, recipient=email)
 
     return dumps({}), 200
 
