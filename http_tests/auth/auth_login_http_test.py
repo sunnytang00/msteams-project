@@ -1,7 +1,7 @@
 import requests
 from json import loads
 from src.config import url
-from http_tests.helper import clear
+from http_tests.helper import clear, helper
 
 @clear
 def test_login_basic_http(helper):
