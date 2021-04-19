@@ -27,7 +27,7 @@ def test_valid_input(helper):
         'token': token1,
         'channel_id' : ch_id
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 

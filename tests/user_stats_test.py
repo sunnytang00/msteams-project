@@ -1,15 +1,15 @@
 import pytest
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
-from src.base.error import InputError
+from src.auth import auth_register_v1
+from src.other import clear_v1
+from src.error import InputError
 from tests.helper import helper, clear
-from src.base.error import AccessError
-from src.base.channel import channel_invite_v1, channel_leave_v1, channel_join_v1, channel_addowner_v1
-from src.base.channels import channels_create_v1
-from src.base.dm import dm_create_v1, dm_leave_v1, dm_invite_v1, dm_remove_v1
-from src.base.message import message_send_v1, message_senddm_v1, message_remove_v1
+from src.error import AccessError
+from src.channel import channel_invite_v1, channel_leave_v1, channel_join_v1, channel_addowner_v1
+from src.channels import channels_create_v1
+from src.dm import dm_create_v1, dm_leave_v1, dm_invite_v1, dm_remove_v1
+from src.message import message_send_v1, message_senddm_v1, message_remove_v1
 #from src.data.helper import get_data
-from src.base.user import user_stats_v1
+from src.user import user_stats_v1
 
 @clear
 def test_check_one_user_stats(helper):

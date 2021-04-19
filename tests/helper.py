@@ -1,8 +1,8 @@
 import pytest
 import functools
-from src.base.channels import channels_create_v1
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
+from src.channels import channels_create_v1
+from src.auth import auth_register_v1
+from src.other import clear_v1
 from tests.testing_data import testing_data
 
 class Helper:

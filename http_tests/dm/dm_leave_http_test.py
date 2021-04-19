@@ -2,10 +2,10 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import create_dm_name
+from src.helper import create_dm_name
 import urllib
-from src.base.helper import get_dm
-from src.base.dm import dm_leave_v1
+from src.helper import get_dm
+from src.dm import dm_leave_v1
 @clear
 
 def test_basic_leave(helper):

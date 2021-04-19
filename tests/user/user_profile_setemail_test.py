@@ -1,9 +1,9 @@
 import pytest
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
-from src.base.error import InputError
+from src.auth import auth_register_v1
+from src.other import clear_v1
+from src.error import InputError
 from tests.helper import helper, clear
-from src.base.user import user_profile_setname_v1, user_profile_setemail_v1, user_profile_v1
+from src.user import user_profile_setname_v1, user_profile_setemail_v1, user_profile_v1
 
 @clear
 def test_single_user():

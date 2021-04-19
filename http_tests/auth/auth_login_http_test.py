@@ -15,7 +15,7 @@ def test_login_basic_http():
     })
 
     status_code = response.status_code
-    assert status_code == 201
+    assert status_code == 200
 
     register_data = response.json()
     registered_auth_user_id = register_data.get('auth_user_id')
