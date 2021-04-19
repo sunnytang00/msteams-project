@@ -16,7 +16,7 @@ def test_sethandle_basic():
     data = response.json()
     token = data.get('token')
 
-    requests.put(url + 'user/profile/sethandle/v2', json = {
+    requests.put(url + 'user/profile/sethandle/v1', json = {
         'token' : token,
         'handle_str' : 'teststring',
     })
@@ -45,7 +45,7 @@ def test_tooshort():
     data = response.json()
     token = data.get('token')
 
-    error = requests.put(url + 'user/profile/sethandle/v2', json = {
+    error = requests.put(url + 'user/profile/sethandle/v1', json = {
         'token' : token,
         'handle_str' : '22',
     })
@@ -72,7 +72,7 @@ def test_inuse():
     data = response.json()
     token = data.get('token')
 
-    error = requests.put(url + 'user/profile/sethandle/v2', json = {
+    error = requests.put(url + 'user/profile/sethandle/v1', json = {
         'token' : token,
         'handle_str' : 'jamespotter',
     })

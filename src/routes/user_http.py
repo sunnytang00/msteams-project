@@ -1,7 +1,7 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.user import user_profile_v1, user_profile_setemail_v1, user_profile_setname_v1, user_profile_sethandle_v1
+from src.base.user import user_profile_v1, user_profile_setemail_v1, user_profile_setname_v1, user_profile_sethandle_v1, user_stats_v1
 from src.base.helper import token_to_auth_user_id
 
 user_blueprint = Blueprint('user_blueprint', __name__)
@@ -54,7 +54,7 @@ def user_profile_setemail():
     return dumps({
     })
 
-@user_blueprint.route("/user/profile/sethandle/v2", methods=['PUT'])
+@user_blueprint.route("/user/profile/sethandle/v1", methods=['PUT'])
 def user_profile_sethandle():
 
     data = request.get_json()
@@ -66,4 +66,15 @@ def user_profile_sethandle():
     user_profile_sethandle_v1(auth_user_id, handle_str)
     
     return dumps({
+    })
+
+@user_blueprint.route("/user/stats/v1", methods=['GET'])
+def user_stats():
+    token = request.args.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    
+    user_stats = user_stats_v1(auth_user_id)
+    
+    return dumps({
+        'user_stats' : user_stats
     })
