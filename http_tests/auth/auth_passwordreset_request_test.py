@@ -5,7 +5,7 @@ from http_tests.helper import clear, helper
 
 @clear
 def test_send_email(helper):
-    email = "georgebush24@gmail.com"
+    email = "goergebush2@gmail.com" # sorry goerge for the spam
     helper.register_user(1, email=email)
 
     response = requests.post(url + 'auth/passwordreset/request/v1', json = {
