@@ -691,3 +691,4 @@ def check_valid_message(message_id: int) -> str:
             if message.get('message_id') == message_id:
                 return True
     return False
+
