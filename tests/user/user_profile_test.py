@@ -32,7 +32,6 @@ def test_single_user():
 
     assert user_profile_v1(auth_user_id, u_id).get('user') == expected
 
-# TODO: test valid if user is valid
 @clear
 def test_fail_user():
     email = 'harrypotter@gmail.com'

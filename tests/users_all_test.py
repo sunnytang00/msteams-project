@@ -7,8 +7,6 @@ from src.users import users_all_v1
 from src.helper import get_handle_str 
 from src.error import AccessError
 
-# TODO update these tests so it can handle dynamically changing session lists
-
 @clear
 def test_invalid_token(helper):
     invalid_id = 10

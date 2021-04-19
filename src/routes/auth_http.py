@@ -116,6 +116,6 @@ def password_reset():
         return dumps({}), 400
 
     edit_reset_code(user.get('email')) # remove used reset code
-    update_password(user.get('u_id'), new_password)
+    update_password(user.get('u_id'))
 
     return dumps({}), 200
