@@ -136,8 +136,15 @@ def get_data() -> dict:
     Return Value:
         Returns data (dict): data stored on the data storage
     """
-    with open(data_path, 'r') as f:
-        data = json.load(f)
+
+    try:
+        with open(data_path, 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        # initialise data before reading
+        clear_data()
+        with open(data_path, 'r') as f:
+            data = json.load(f)
 
     return data
 
