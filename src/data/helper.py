@@ -150,23 +150,23 @@ def get_data() -> dict:
     return data
 
 def get_user_count() -> int:
-    """TODO"""
+    
     return get_data().get('user_count')
 
 def get_channel_count() -> int:
-    """TODO"""
+    
     return get_data().get('channel_count')
 
 def get_message_count() -> int:
-    """TODO"""
+    
     return get_data().get('message_count')
 
 def get_dm_count() -> int:
-    """TODO"""
+    
     return get_data().get('dm_count')
 
 def get_owner_count() -> int:
-    """TODO"""
+    
     return get_data().get('owner_count')
 
 def get_user_index(u_id: int) -> int:
@@ -745,7 +745,7 @@ def update_message(message_id: int, channel_id = None, dm_id = None, message = N
     save(data)
 
 def store_notification(notification: dict, u_id: int) -> None:
-    """TODO"""
+    
     data = get_data()
     user_idx = get_user_index(u_id)
 
@@ -802,6 +802,7 @@ def set_react(message_id: int, auth_user_id: int, to_react: str, channel_id = No
             data['dms'][dm_idx]['messages'][message_idx]['reacts'][0]['u_ids'].remove(auth_user_id)
     
     save(data)
+
 """
 def store_user_stats(auth_user_id : int, stats: dict) -> None:
     data = get_data()
@@ -811,8 +812,8 @@ def store_user_stats(auth_user_id : int, stats: dict) -> None:
     save(data)
 """
 
-#i could combine these into one function but i think its easier to understand if i separate
 def update_user_stats_channels(auth_user_id: int, change: str) -> None:
+    # could combine these into one function but i think its easier to understand if i separate
     data = get_data()
     idx = get_user_index(auth_user_id)
     if change == 'add':
