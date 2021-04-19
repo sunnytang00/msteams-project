@@ -155,7 +155,8 @@ def channel_leave_v1(auth_user_id, channel_id):
     if not user_is_channel_member(channel_id, auth_user_id):
         raise AccessError(f'user with {auth_user_id} is not member of channel')
     
-    remove_from_owner_members(channel_id, auth_user_id)
+    if user_is_channel_owner(channel_id,auth_user_id):
+        remove_from_owner_members(channel_id, auth_user_id)
     remove_from_all_members(channel_id, auth_user_id)
     update_user_stats_channels(auth_user_id, 'remove')
     return {}
