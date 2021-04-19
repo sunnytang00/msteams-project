@@ -1,11 +1,11 @@
 import pytest
-from src.base.message import message_sendlater_v1
-from src.base.channel import channel_messages_v1
-from src.base.auth import auth_login_v1, auth_register_v1
-from src.base.other import clear_v1
-from src.base.error import InputError, AccessError
+from src.message import message_sendlater_v1
+from src.channel import channel_messages_v1
+from src.auth import auth_login_v1, auth_register_v1
+from src.other import clear_v1
+from src.error import InputError, AccessError
 from tests.helper import helper, clear
-from src.base.channels import channels_create_v1
+from src.channels import channels_create_v1
 import time
 @clear
 def test_valid_input(helper):
