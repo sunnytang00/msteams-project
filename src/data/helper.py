@@ -1,6 +1,6 @@
 from src.config import data_path
 import json
-
+from datetime import timezone, datetime
 """ 
 Dummy Data for Database
 
@@ -98,7 +98,7 @@ data = {
     'channel_count': 1,
     'dm_count': 1,
     'owner_count': 1,
-    'valid_msg_ids': [1]
+    'valid_msg_ids': [1],
 }
 """
 
@@ -124,7 +124,8 @@ def clear_data() -> None:
         'message_count': 0,
         'dm_count': 0,
         'owner_count' : 0,
-        'valid_msg_ids' : []
+        'valid_msg_ids' : [],
+        'dreams_messages_sent' : []
     }
 
     save(cleared_data)
@@ -684,4 +685,67 @@ def set_react(message_id: int, auth_user_id: int, to_react: str, channel_id = No
         if to_react == 'unreact':
             data['dms'][dm_idx]['messages'][message_idx]['reacts'][0]['u_ids'].remove(auth_user_id)
     
+    save(data)
+"""
+def store_user_stats(auth_user_id : int, stats: dict) -> None:
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    data['users'][idx]
+    data['user_statistics'].append(stats)
+    save(data)
+"""
+
+#i could combine these into one function but i think its easier to understand if i separate
+def update_user_stats_channels(auth_user_id: int, change: str) -> None:
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    if change == 'add':
+        data['users'][idx]['user_stats']['channels_joined'][0]['num_channels_joined'] += 1
+        timenow = datetime.utcnow()
+        timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+        data['users'][idx]['user_stats']['channels_joined'][0]['time_stamp'].append(timestamp)
+
+    if change == 'remove':
+        data['users'][idx]['user_stats']['channels_joined'][0]['num_channels_joined'] -= 1
+        timenow = datetime.utcnow()
+        timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+        data['users'][idx]['user_stats']['channels_joined'][0]['time_stamp'].append(timestamp)
+
+    save(data)
+
+def update_user_stats_dms(auth_user_id: int, change: str):
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    if change == 'add':
+        data['users'][idx]['user_stats']['dms_joined'][0]['num_dms_joined'] += 1
+        timenow = datetime.utcnow()
+        timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+        data['users'][idx]['user_stats']['dms_joined'][0]['time_stamp'].append(timestamp)
+
+    if change == 'remove':
+        data['users'][idx]['user_stats']['dms_joined'][0]['num_dms_joined'] -= 1
+        timenow = datetime.utcnow()
+        timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+        data['users'][idx]['user_stats']['dms_joined'][0]['time_stamp'].append(timestamp)
+
+    save(data)
+
+def update_user_stats_messages(auth_user_id: int):
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    data['users'][idx]['user_stats']['messages_sent'][0]['num_messages_sent'] += 1
+    timenow = datetime.utcnow()
+    timestamp = int(timenow.replace(tzinfo=timezone.utc).timestamp())
+    data['users'][idx]['user_stats']['messages_sent'][0]['time_stamp'].append(timestamp)
+    save(data)
+
+def get_user_stats(auth_user_id: int) -> dict:
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    return data['users'][idx]['user_stats']
+
+def store_involvement_rate(auth_user_id: int, involvement_rate) -> None:
+    data = get_data()
+    idx = get_user_index(auth_user_id)
+    data['users'][idx]['user_stats']['involvement_rate'] = involvement_rate
     save(data)
