@@ -1,6 +1,7 @@
 from src.config import data_path
 import json
 from datetime import timezone, datetime
+
 """ 
 Dummy Data for Database
 
