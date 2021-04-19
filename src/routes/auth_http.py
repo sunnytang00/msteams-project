@@ -32,7 +32,7 @@ def register_http():
     return dumps({
         'token': token,
         'auth_user_id': auth_user_id
-    }), 201
+    }), 200
 
 @auth_blueprint.route("/auth/login/v2", methods=['POST'])
 def login_http():

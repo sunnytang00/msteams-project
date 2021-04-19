@@ -13,7 +13,7 @@ def channels_list():
     channels = channels_list_v1(auth_user_id)
     return dumps({
         'channels': channels['channels']
-    }), 201
+    }), 200
 
 @channels_blueprint.route("/channels/listall/v2", methods=['GET'])
 def channels_list_all():
@@ -22,7 +22,7 @@ def channels_list_all():
     channels = channels_listall_v1(auth_user_id)
     return dumps({
         'channels': channels['channels']
-    }), 201
+    }), 200
 
 @channels_blueprint.route("/channels/create/v2", methods=['POST'])
 def channels_create():
@@ -37,4 +37,4 @@ def channels_create():
 
     return dumps({
         'channel_id' : channel_id
-    }), 201
+    }), 200

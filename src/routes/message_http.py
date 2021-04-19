@@ -87,7 +87,7 @@ def message_share():
 
     return dumps({
         'shared_message_id' : msgs_id['shared_message_id']
-    }), 201
+    }), 200
 
 @message_blueprint.route("/message/senddm/v1", methods=['POST'])
 def message_senddm():

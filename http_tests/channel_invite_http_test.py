@@ -23,7 +23,7 @@ def test_valid_input(helper):
         'u_id': invitee_id
 
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     url2 = urlencode({"token": invitee_token})
     channels = requests.get(url + 'channels/list/v2?' + url2).json()

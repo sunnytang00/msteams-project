@@ -42,7 +42,7 @@ def test_share_dm(helper):
         'channel_id': channel_id,
         'dm_id': dm_id
     })
-    assert message_info.status_code == 201
+    assert message_info.status_code == 200
 
     shared_message_id = message_info.json().get('shared_message_id')
     assert shared_message_id == 2
@@ -67,7 +67,7 @@ def test_share_dm(helper):
         'channel_id': channel_id,
         'dm_id': dm_id
     })
-    assert message_info.status_code == 201
+    assert message_info.status_code == 200
 
     shared_message_id = message_info.json().get('shared_message_id')
     assert shared_message_id == 3

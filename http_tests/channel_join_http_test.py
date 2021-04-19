@@ -18,7 +18,7 @@ def test_valid_input(helper):
         'token': token2,
         'channel_id': ch_id
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     channels = requests.get(url + 'channels/list/v2?token=' + token2).json()
 
@@ -73,7 +73,7 @@ def test_global_owner_access_private(helper):
         'token': token1,
         'channel_id': ch_id
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     channels = requests.get(url + 'channels/list/v2?token=' + token1).json()
 
