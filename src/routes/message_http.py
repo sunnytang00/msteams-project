@@ -1,9 +1,11 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
+
 from src.other import clear_v1
-from src.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1, message_share_v1
+from src.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1, message_share_v1, message_react_v1, message_unreact_v1
 from src.helper import token_to_auth_user_id
+
 message_blueprint = Blueprint('message_blueprint', __name__)
 
 @message_blueprint.route("/message/send/v2", methods=['POST'])
@@ -65,9 +67,10 @@ def message_remove():
     message_id = data.get('message_id')
     auth_user_id = token_to_auth_user_id(token)
 
-    ret = message_remove_v1(auth_user_id, message_id)
+    message_remove_v1(auth_user_id, message_id)
 
-    return dumps(ret)
+    return dumps({
+    })
 
 
 
@@ -104,3 +107,32 @@ def message_senddm():
     return dumps({
         'message_id' : message_id
     })
+"""
+@message_blueprint.route("/message/react/v1", methods=['POST'])
+def message_react():
+    data = request.get_json()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+
+    message_id = data.get('message_id')
+    react_id = data.get('react_id')
+    message_react_v1(auth_user_id, message_id, react_id)
+
+    return dumps ({
+    })
+
+@message_blueprint.route("/message/unreact/v1", methods=['POST'])
+def message_unreact():
+    data = request.get_json()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+
+    message_id = data.get('message_id')
+    react_id = data.get('react_id')
+    message_unreact_v1(auth_user_id, message_id, react_id)
+
+    return dumps ({
+    })
+"""
