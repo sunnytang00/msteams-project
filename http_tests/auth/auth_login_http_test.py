@@ -4,9 +4,9 @@ from src.config import url
 from http_tests.helper import clear
 
 @clear
-def test_login_basic_http():
+def test_login_basic_http(helper):
     ### register
-    response = helper.register_user(1)
+    response = helper.register_user(value=1, email='harrypotter@gmail1.com', password='dumbledore1')
 
     status_code = response.status_code
     assert status_code == 200
