@@ -17,7 +17,7 @@ def test_invalid_img_url(helper):
     x_end = 3
     y_end = 3
     response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
-        "token": token,
+        "token": token1,
         "img_url": img_url,
         "x_start": x_start,
         "y_start": y_start,
@@ -37,7 +37,7 @@ def test_wrong_dimension(helper):
     x_end = 10000
     y_end = 10000
     response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
-        "token": token,
+        "token": token1,
         "img_url": img_url,
         "x_start": x_start,
         "y_start": y_start,
@@ -56,7 +56,7 @@ def test_img_not_jpg(helper):
     x_end = 5
     y_end = 5
     response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
-        "token": token,
+        "token": token1,
         "img_url": img_url,
         "x_start": x_start,
         "y_start": y_start,

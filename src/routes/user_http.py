@@ -1,7 +1,8 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.user import user_profile_v1, user_profile_setemail_v1, user_profile_setname_v1, user_profile_sethandle_v1, user_stats_v1
+from src.user import user_profile_v1, user_profile_setemail_v1, user_profile_setname_v1, \
+                    user_profile_sethandle_v1, user_stats_v1, user_profile_uploadphoto_v1
 from src.helper import token_to_auth_user_id
 
 user_blueprint = Blueprint('user_blueprint', __name__)
@@ -78,3 +79,18 @@ def user_stats():
     return dumps({
         'user_stats' : user_stats
     })
+
+@user_blueprint.route("/user/profile/uploadphoto/v1", methods=['POST'])
+def user_profile_uploadphoto():
+    data = request.get_json()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    img_url = data.get('img_url')
+    x_start = data.get('x_start')
+    y_start = data.get('y_start')
+    x_end = data.get('x_end')
+    y_end = data.get('y_end')
+
+    user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, y_end)
+    return dumps({}), 200
