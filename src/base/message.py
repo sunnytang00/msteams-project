@@ -4,13 +4,14 @@ This module demonstrates the sending, removal, editting and sharing of messages 
 """
 
 import time
+import threading
 from src.base.error import InputError, AccessError
 from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, \
     remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, \
     user_is_dm_owner, format_share_message, get_message, tagged_handlestrs,\
     get_user_from_handlestr, create_notification
 from src.data.helper import store_message_channel, store_message_dm, get_message_count, store_notification, update_active_msg_ids
-from src.base.helper import create_message, is_pinned, check_valid_message, get_react_uids
+from src.base.helper import create_message, is_pinned, check_valid_message, get_react_uids, new_message_id
 from src.data.helper import get_valid_msg_ids, set_pin, set_react
 def message_send_v1(auth_user_id, channel_id, message):
     """Send a message from authorised_user to the channel specified by channel_id.
@@ -320,3 +321,46 @@ def message_unreact_v1(auth_user_id, message_id, react_id):
         if auth_user_id not in get_react_uids(message_id,):
             raise InputError(f'user with id {auth_user_id} has no active reacts for message id {message_id} in channel')
         set_react(message_id, auth_user_id, 'unreact', dm_id=dm_id)
+
+def sendlater(*args, **kwargs):
+    auth_user_id = kwargs.get('auth_user_id')
+    channel_id = kwargs.get('channel_id')
+    message = kwargs.get('message')
+    handlestrs = tagged_handlestrs(message)
+    for handlestr in handlestrs['handle_strs']:
+        user = get_user_from_handlestr(handlestr)
+        if user and user_is_channel_member(channel_id, user.get('u_id')):
+            notification = create_notification(channel_id=channel_id, dm_id=-1, u_id=user.get('u_id'), tagged=True, msgs = message)
+            store_notification(notification, user.get('u_id'))
+
+    message = create_message(auth_user_id, message, channel_id=channel_id)
+    message_id = message.get('message_id')
+    update_active_msg_ids(message_id, 'add')
+
+    store_message_channel(message, channel_id)
+
+
+def message_sendlater_v1(auth_user_id, channel_id, message, time_sent):
+    if not get_current_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not get_channel(channel_id):
+        raise InputError(f'Channel ID {channel_id} is not a valid channel')
+
+    if not user_is_channel_member(channel_id, auth_user_id):
+        raise AccessError('the authorised user is not a member of the DM they are trying to post to')
+
+    if len(message) > 1000:
+        raise InputError('messages is too long')
+
+    if time_sent < int(time.time()):
+        raise InputError('Time sent is a time in the past')
+
+    length = time_sent - int(time.time())
+    kwargs = {'auth_user_id': auth_user_id, 'channel_id': channel_id, 'message': message}
+    t = threading.Timer(length, sendlater, kwargs = kwargs)
+    t.start()
+
+    message_id = new_message_id()
+
+    return {'message id': new_message_id}
