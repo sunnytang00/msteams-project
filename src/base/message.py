@@ -9,7 +9,7 @@ from src.base.error import InputError, AccessError
 from src.base.helper import user_is_channel_member, get_channel, get_current_user, user_is_dm_member, \
     remove_message, user_is_Dream_owner, user_is_channel_owner, get_message_ch_id_or_dm_id, edit_message, \
     user_is_dm_owner, format_share_message, get_message, tagged_handlestrs,\
-    get_user_from_handlestr, create_notification
+    get_user_from_handlestr, create_notification, get_dm
 from src.data.helper import store_message_channel, store_message_dm, get_message_count, store_notification, update_active_msg_ids
 from src.base.helper import create_message, is_pinned, check_valid_message, get_react_uids, new_message_id
 from src.data.helper import get_valid_msg_ids, set_pin, set_react
@@ -363,7 +363,7 @@ def message_sendlater_v1(auth_user_id, channel_id, message, time_sent):
 
     message_id = new_message_id()
 
-    return {'message id': new_message_id}
+    return {'message_id': message_id}
 
 def sendlaterdm(*args, **kwargs):
     auth_user_id = kwargs.get('auth_user_id')
@@ -382,5 +382,27 @@ def sendlaterdm(*args, **kwargs):
     update_active_msg_ids(msg_id, 'add')
     store_message_dm(msg, dm_id)
 
-def message_sendlaterdm_v1(auth_user_id, channel_id, message, time_sent):
-    pass
+def message_sendlaterdm_v1(auth_user_id, dm_id, message, time_sent):
+    if not get_current_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    if not get_dm(dm_id):
+        raise InputError(f'DM ID {dm_id} is not a valid DM')
+
+    if not user_is_dm_member(dm_id,auth_user_id):
+        raise AccessError('the authorised user is not a member of the DM they are trying to post to')
+
+    if len(message) > 1000:
+        raise InputError('messages is too long')
+
+    if time_sent < int(time.time()):
+        raise InputError('Time sent is a time in the past')
+
+    length = time_sent - int(time.time())
+    kwargs = {'auth_user_id': auth_user_id, 'dm_id': dm_id, 'message': message}
+    t = threading.Timer(length, sendlaterdm, kwargs = kwargs)
+    t.start()
+
+    message_id = new_message_id()
+
+    return {'message_id': message_id}

@@ -1,6 +1,6 @@
 import pytest
 from src.base.message import message_sendlaterdm_v1
-from src.base.dm import dm_messages_v1
+from src.base.dm import dm_messages_v1, dm_create_v1
 from src.base.auth import auth_login_v1, auth_register_v1
 from src.base.other import clear_v1
 from src.base.error import InputError, AccessError
@@ -13,13 +13,14 @@ def test_valid_input(helper):
     auth_user_id = helper.register_user(1)
     dm_id = dm_create_v1(auth_user_id, []).get('dm_id')
     msg = "1234"
-    time_sent = int(time.time()) + 2
-    message_sendlaterdm_v1(auth_user_id, dm_id, msg, time_sent)
+    time_sent = int(time.time()) + 1
+    message_id = message_sendlaterdm_v1(auth_user_id, dm_id, msg, time_sent)
     time.sleep(3)
     
     msgs = dm_messages_v1(auth_user_id, dm_id, 0)
-    print(msgs.get('messages'))
-    assert len(msgs.get('messages')) == 1 and msgs.get('messages')[0].get('message') == "1234"
+
+    assert len(msgs.get('messages')) == 1 and msgs.get('messages')[0].get('message') == "1234" and \
+        message_id.get('message_id') == msgs.get('messages')[0].get('message_id')
 
 @clear
 def test_invalid_dm(helper):

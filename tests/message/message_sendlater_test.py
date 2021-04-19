@@ -12,13 +12,14 @@ def test_valid_input(helper):
     auth_user_id = helper.register_user(1)
     ch_id = helper.create_channel(1, auth_user_id)
     msg = "1234"
-    time_sent = int(time.time()) + 2
-    message_sendlater_v1(auth_user_id, ch_id, msg, time_sent)
-    time.sleep(3)
+    time_sent = int(time.time()) + 1
+    message_id = message_sendlater_v1(auth_user_id, ch_id, msg, time_sent)
+    time.sleep(2)
     
     msgs = channel_messages_v1(auth_user_id, ch_id, 0)
-    print(msgs.get('messages'))
-    assert len(msgs.get('messages')) == 1 and msgs.get('messages')[0].get('message') == "1234"
+
+    assert len(msgs.get('messages')) == 1 and msgs.get('messages')[0].get('message') == "1234" and \
+        message_id.get('message_id') == msgs.get('messages')[0].get('message_id')
 
 @clear
 def test_invalid_channel(helper):
