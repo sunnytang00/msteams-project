@@ -16,7 +16,8 @@ data = {
             'password': password_1_1324&#!$,
             'permission_id': 1,
             'notifications' : [],
-            'session_list': [123e4567-e89b-12d3-a456-426614174000]
+            'session_list': [123e4567-e89b-12d3-a456-426614174000],
+            'profile_img_url': http//localhost:8080/static/phototest.jpg
         },
         { 
             'u_id': 2,                                              
@@ -27,7 +28,8 @@ data = {
             'password': password_2_1324&#!$,
             'permission_id': 2,
             'notifications' : []
-            'session_list': []
+            'session_list': [],
+            'profile_img_url': http//localhost:8080/static/phototest.jpg
         },
     ],
     'channels': [           
