@@ -4,7 +4,7 @@ This module demonstrates user registration and login authentication as specified
 """
 
 from src.base.error import InputError
-from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, get_user_by_email
+from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, get_user_by_email, create_user_stats
 from src.data.helper import get_users, store_user, get_user_count, get_owner_count, update_owner_count
 import re
 
@@ -84,7 +84,7 @@ def auth_register_v1(email, password, name_first, name_last):
         update_owner_count(owner_count)
     else:
         permission_id = 2
-
+    user_stats = create_user_stats()
     user = { 
         'u_id': auth_user_id,
         'email': email,
@@ -95,7 +95,8 @@ def auth_register_v1(email, password, name_first, name_last):
         'permission_id': permission_id,
         'removed': False,
         'session_list': [],
-        'notifications': []
+        'notifications': [],
+        'user_stats' : user_stats
     }
 
     # register user

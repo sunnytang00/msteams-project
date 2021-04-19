@@ -6,8 +6,8 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 import time
 from src.base.error import InputError, AccessError
 from src.base.helper import get_user, get_channel, user_is_channel_member,\
-     user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members, get_current_user, create_notification
-from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members, store_notification
+     user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members, get_current_user, create_notification, get_react_uids
+from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members, store_notification, update_user_stats_channels
 
 def channel_invite_v1(auth_user_id, channel_id, u_id):
     """Invites a user (with user id u_id) to join a channel with ID channel_id. Once invited, the user is added to the channel immediately
@@ -39,6 +39,7 @@ def channel_invite_v1(auth_user_id, channel_id, u_id):
 
     user = get_user(u_id)
     append_channel_all_members(channel_id, user)
+    update_user_stats_channels(u_id, 'add')
     
     notification = create_notification(channel_id=channel_id, dm_id=-1, u_id=auth_user_id, added=True)
     store_notification(notification, u_id)
@@ -109,6 +110,13 @@ def channel_messages_v1(auth_user_id, channel_id, start):
     channel = get_channel(channel_id)
     # check if start is valid
     messages = channel['messages']
+    for message in messages:
+        message_id = message.get('message_id')
+        if auth_user_id in get_react_uids(message_id):
+            message['reacts'][0]['is_this_user_reacted'] = True
+        if auth_user_id not in get_react_uids(message_id):
+            message['reacts'][0]['is_this_user_reacted'] = False
+
     if start > len(messages):
         raise InputError(f'Start {start} is greater than the total number of messages in the channel')
     limit = 50
@@ -149,6 +157,7 @@ def channel_leave_v1(auth_user_id, channel_id):
     
     remove_from_owner_members(channel_id, auth_user_id)
     remove_from_all_members(channel_id, auth_user_id)
+    update_user_stats_channels(auth_user_id, 'remove')
     return {}
 
 def channel_join_v1(auth_user_id, channel_id):
@@ -184,6 +193,7 @@ def channel_join_v1(auth_user_id, channel_id):
     
     user = get_user(auth_user_id)
     append_channel_all_members(channel_id, user)
+    update_user_stats_channels(auth_user_id, 'add')
 
     return {}
 
@@ -221,6 +231,7 @@ def channel_addowner_v1(auth_user_id, channel_id, u_id):
     append_channel_owner_members(channel_id, user)
     if not user_is_channel_member(channel_id, u_id):
         append_channel_all_members(channel_id, user)
+        update_user_stats_channels(auth_user_id, 'add')
 
     return {}
 

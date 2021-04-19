@@ -5,8 +5,8 @@ As specified by the COMP1531 Major Project specification.
 """
 
 from src.base.error import InputError, AccessError
-from src.base.helper import create_dm_name, get_current_user, get_dm, user_is_dm_member, get_user, create_notification
-from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users, store_notification
+from src.base.helper import create_dm_name, get_current_user, get_dm, user_is_dm_member, get_user, create_notification, get_react_uids
+from src.data.helper import get_dm_count, store_dm, get_dms, update_dm_list, get_users, update_dm_users, store_notification, update_user_stats_dms
 
 def dm_create_v1(auth_user_id, u_ids):
     """Create a DM.
@@ -44,6 +44,9 @@ def dm_create_v1(auth_user_id, u_ids):
         'messages': []
     }
     store_dm(dm)
+    update_user_stats_dms(auth_user_id, 'add')
+    for u_id in u_ids:
+        update_user_stats_dms(u_id, 'add')
 
     return {
         'dm_id': dm_id,
@@ -151,6 +154,13 @@ def dm_messages_v1(auth_user_id, dm_id, start):
     if end == -1 and not len(msgs) == 0:
         messages.append(msgs[-1])
 
+    for message in messages:
+        message_id = message.get('message_id')
+        if auth_user_id in get_react_uids(message_id):
+            message['reacts'][0]['is_this_user_reacted'] = True
+        if auth_user_id not in get_react_uids(message_id):
+            message['reacts'][0]['is_this_user_reacted'] = False
+
     return {
         'messages': messages,
         'start': start,
@@ -176,6 +186,7 @@ def dm_leave_v1(u_id, dm_id):
     dm_users = get_dm(dm_id).get('u_ids')
     dm_users.remove(u_id)
     update_dm_users(dm_users, dm_id)
+    update_user_stats_dms(u_id, 'remove')
 
 
 def dm_invite_v1(auth_user_id, dm_id, u_id):
@@ -206,6 +217,7 @@ def dm_invite_v1(auth_user_id, dm_id, u_id):
 
     notification = create_notification(channel_id=-1, dm_id=dm_id, u_id=auth_user_id, added=True)
     store_notification(notification, u_id)
+    update_user_stats_dms(u_id, 'add')
 
 
 def dm_remove_v1(auth_user_id, dm_id):
@@ -227,8 +239,13 @@ def dm_remove_v1(auth_user_id, dm_id):
 
     dm_list = get_dms()
     dm = get_dm(dm_id)
+    dm_users = get_dm(dm_id).get('u_ids')
+    for u_id in dm_users:
+        update_user_stats_dms(u_id, 'remove')
     dm_list.remove(dm)
     update_dm_list(dm_list)
+    #update_user_stats_dms(auth_user_id, 'remove')
+
 
 
 def Func_for_sort_msg(msgs):

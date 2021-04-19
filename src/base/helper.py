@@ -691,3 +691,23 @@ def check_valid_message(message_id: int) -> str:
             if message.get('message_id') == message_id:
                 return True
     return False
+
+def create_user_stats() -> dict:
+    stats = {
+        'channels_joined' : [{
+                            'num_channels_joined' : 0,
+                            'time_stamp' : []
+                            }],
+        'dms_joined' : [{
+                        'num_dms_joined' : 0,
+                        'time_stamp' : []
+                        }],
+        'messages_sent' : [{
+                            'num_messages_sent' : 0,
+                            'time_stamp' : []
+                            }],
+        'involvement_rate' : 0
+    }
+
+    return stats
+

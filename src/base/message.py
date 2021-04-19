@@ -12,7 +12,7 @@ from src.base.helper import user_is_channel_member, get_channel, get_current_use
     get_user_from_handlestr, create_notification, get_dm
 from src.data.helper import store_message_channel, store_message_dm, get_message_count, store_notification, update_active_msg_ids
 from src.base.helper import create_message, is_pinned, check_valid_message, get_react_uids, new_message_id
-from src.data.helper import get_valid_msg_ids, set_pin, set_react
+from src.data.helper import get_valid_msg_ids, set_pin, set_react, update_user_stats_messages
 def message_send_v1(auth_user_id, channel_id, message):
     """Send a message from authorised_user to the channel specified by channel_id.
     Note: Each message should have it's own unique ID. I.E. No messages should share
@@ -49,6 +49,7 @@ def message_send_v1(auth_user_id, channel_id, message):
     update_active_msg_ids(message_id, 'add')
 
     store_message_channel(message, channel_id)
+    update_user_stats_messages(auth_user_id)
     
     return {
         'message_id': message.get('message_id')
@@ -88,7 +89,6 @@ def message_remove_v1(auth_user_id, message_id):
 
         remove_message(message_id, dm_id=dm_id)
         update_active_msg_ids(message_id, 'remove')
-
 
     return {}
 
@@ -164,6 +164,7 @@ def message_senddm_v1(auth_user_id, dm_id, message):
     msg = create_message(auth_user_id, message, dm_id=dm_id)
     store_message_dm(msg, dm_id)
     update_active_msg_ids(msg_id, 'add')
+    update_user_stats_messages(auth_user_id)
 
     return {
         'message_id' : msg_id
