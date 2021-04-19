@@ -313,7 +313,6 @@ def store_session_id(u_id: int, session_id: int) -> None:
 
     save(data)
 
-
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
     

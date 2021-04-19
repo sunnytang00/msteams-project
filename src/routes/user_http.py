@@ -54,7 +54,7 @@ def user_profile_setemail():
     return dumps({
     })
 
-@user_blueprint.route("/user/profile/sethandle/v2", methods=['PUT'])
+@user_blueprint.route("/user/profile/sethandle/v1", methods=['PUT'])
 def user_profile_sethandle():
 
     data = request.get_json()
