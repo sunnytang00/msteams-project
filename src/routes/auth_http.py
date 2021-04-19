@@ -11,7 +11,7 @@ from src.helper import token_to_auth_user_id
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 @auth_blueprint.route("/auth/register/v2", methods=['POST'])
-def register_http():
+def register():
     
     data = request.get_json()
 
@@ -36,7 +36,7 @@ def register_http():
     }), 200
 
 @auth_blueprint.route("/auth/login/v2", methods=['POST'])
-def login_http():
+def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
