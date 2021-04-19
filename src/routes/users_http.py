@@ -1,9 +1,9 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.other import clear_v1
-from src.base.users import users_all_v1
-from src.base.helper import token_to_auth_user_id
+from src.other import clear_v1
+from src.users import users_all_v1
+from src.helper import token_to_auth_user_id
 
 users_blueprint = Blueprint('users_blueprint', __name__)
 

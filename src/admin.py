@@ -1,5 +1,5 @@
-from src.base.error import InputError, AccessError
-from src.base.helper import get_user, user_is_Dream_owner, remove_user, get_current_user
+from src.error import InputError, AccessError
+from src.helper import get_user, user_is_Dream_owner, remove_user, get_current_user
 from src.data.helper import update_permission_id, get_owner_count, update_owner_count, update_removed_flag
 
 def admin_userpermission_change_v1(auth_user_id, u_id, permission_id):

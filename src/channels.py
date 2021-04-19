@@ -4,8 +4,8 @@ This module demonstrates creation of channels and ability of showing list of cha
 as specified by the COMP1531 Major Project specification.
 """
 
-from src.base.error import InputError, AccessError
-from src.base.helper import get_user, get_channel, user_is_channel_member, valid_channel_name, get_current_user
+from src.error import InputError, AccessError
+from src.helper import get_user, get_channel, user_is_channel_member, valid_channel_name, get_current_user
 from src.data.helper import get_channels, store_channel, get_channel_count, update_user_stats_channels
 
 def channels_list_v1(auth_user_id):

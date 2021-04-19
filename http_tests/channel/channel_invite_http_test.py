@@ -2,7 +2,7 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.helper import token_to_auth_user_id
+from src.helper import token_to_auth_user_id
 from urllib.parse import urlencode
 
 @clear 
@@ -23,7 +23,7 @@ def test_valid_input(helper):
         'u_id': invitee_id
 
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     url2 = urlencode({"token": invitee_token})
     channels = requests.get(url + 'channels/list/v2?' + url2).json()

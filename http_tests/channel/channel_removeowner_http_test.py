@@ -30,7 +30,7 @@ def test_valid_input(helper):
         'channel_id' : ch_id,
         'u_id': creator_id
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 
@@ -145,7 +145,7 @@ def test_auth_user_global_owner(helper):
         'channel_id' : ch_id,
         'u_id': u_id
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     url2 = urlencode({"token": token2, "channel_id": ch_id})
 

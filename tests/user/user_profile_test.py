@@ -1,9 +1,9 @@
 import pytest
-from src.base.auth import auth_register_v1
-from src.base.user import user_profile_v1
-from src.base.other import clear_v1
-from src.base.error import InputError
-from src.base.admin import admin_user_remove_v1
+from src.auth import auth_register_v1
+from src.user import user_profile_v1
+from src.other import clear_v1
+from src.error import InputError
+from src.admin import admin_user_remove_v1
 from tests.helper import helper, clear
 
 @clear

@@ -14,7 +14,7 @@ def test_channels_create_basic(helper):
         'name': 'channel_test1',
         'is_public': True
     })
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     # reading data from response
     data = response.json()

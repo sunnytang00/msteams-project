@@ -1,5 +1,5 @@
 """TODO"""
-from src.base.helper import get_notifications
+from src.helper import get_notifications
 
 def notifactions_get_v1(auth_user_id):
     """TODO"""

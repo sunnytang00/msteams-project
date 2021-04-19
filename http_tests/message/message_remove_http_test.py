@@ -10,7 +10,7 @@ def test_basic(helper):
     #creating 1st user.
     response = helper.register_user(1)
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     data = response.json()
     token_0 = data.get('token')
@@ -18,7 +18,7 @@ def test_basic(helper):
     #creating 2nd user.
     response = helper.register_user(2)
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     data = response.json()
     auth_user_id_1 = data.get('auth_user_id')
@@ -26,7 +26,7 @@ def test_basic(helper):
     #creating 3rd user.
     response = helper.register_user(3)
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     data = response.json()
     auth_user_id_2 = data.get('auth_user_id')
@@ -34,7 +34,7 @@ def test_basic(helper):
     #creating channel.
     response = helper.create_channel(1, token_0)
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     data = response.json()
     channel_id = data['channel_id']
@@ -46,7 +46,7 @@ def test_basic(helper):
         'u_id': auth_user_id_1,
     })
 
-    assert response.status_code == 201
+    assert response.status_code == 200
     
     response = requests.post(url + "/channel/invite/v2", json = {
         'token': token_0,
@@ -54,7 +54,7 @@ def test_basic(helper):
         'u_id': auth_user_id_2,
     })
     
-    assert response.status_code == 201
+    assert response.status_code == 200
 
 
     #Create a message.
