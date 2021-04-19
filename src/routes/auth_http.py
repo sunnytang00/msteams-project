@@ -57,6 +57,7 @@ def login():
 
 @auth_blueprint.route("/auth/logout/v1", methods=['POST'])
 def logout():
+    """Logout a user by deleting their session_id from their session_list"""
     data = request.get_json()
     token = data.get('token')
     try:
