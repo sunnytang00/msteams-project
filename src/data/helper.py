@@ -150,23 +150,18 @@ def get_data() -> dict:
     return data
 
 def get_user_count() -> int:
-    
     return get_data().get('user_count')
 
 def get_channel_count() -> int:
-    
     return get_data().get('channel_count')
 
 def get_message_count() -> int:
-    
     return get_data().get('message_count')
 
 def get_dm_count() -> int:
-    
     return get_data().get('dm_count')
 
 def get_owner_count() -> int:
-    
     return get_data().get('owner_count')
 
 def get_user_index(u_id: int) -> int:
@@ -176,8 +171,8 @@ def get_user_index(u_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    # TODO: dont loop over data this is wrong fix
-    for idx in range(len(data)-1):
+    users = get_users()
+    for idx in range(len(users)-1):
         if data['users'][idx]['u_id'] == u_id:
             return idx
     return -1
@@ -190,7 +185,8 @@ def get_channel_index(channel_id: int) -> int:
     """
 
     data = get_data()
-    for idx in range(len(data)-1):
+    channels = get_channels()
+    for idx in range(len(channels)-1):
         if data['channels'][idx]['channel_id'] == channel_id:
             return idx
     return -1
@@ -209,7 +205,6 @@ def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
                 if channel['messages'][idx].get('message_id') == message_id:
                     return idx
 
-    # TODO fix this
     elif dm_idx:
         for idx in range(len(data)-1):
             if data['dms'][dm_idx]['messages'][idx].get('message_id') == message_id:
