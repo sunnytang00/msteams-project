@@ -3,7 +3,6 @@ from json import loads
 from src.config import url
 from http_tests.helper import clear
 
-# TODO: BROKEN TEST... Come back to later when finished iter-1 work...
 @clear
 def test_login_basic_http():
     ### register
