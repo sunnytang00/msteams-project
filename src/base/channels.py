@@ -6,7 +6,7 @@ as specified by the COMP1531 Major Project specification.
 
 from src.base.error import InputError, AccessError
 from src.base.helper import get_user, get_channel, user_is_channel_member, valid_channel_name, get_current_user
-from src.data.helper import get_channels, store_channel, get_channel_count
+from src.data.helper import get_channels, store_channel, get_channel_count, update_user_stats_channels
 
 def channels_list_v1(auth_user_id):
     """ Shows the list of channels and the associated details that authorised user is part of
@@ -102,6 +102,7 @@ def channels_create_v1(auth_user_id, name, is_public):
         'standup': {'active': False, 'time_finish': None, 'buffer': []}
     }
     store_channel(channel)
+    update_user_stats_channels(auth_user_id, 'add')
 
     return {
         'channel_id': channel_id,
