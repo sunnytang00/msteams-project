@@ -4,7 +4,7 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.channel import channel_messages_v1
+
 @clear
 def test_pin_message():
     user = requests.post(url + 'auth/register/v2', json = {
@@ -91,7 +91,7 @@ def test_messageid_invalid():
     assert response.status_code == 400
 
 @clear
-def test_messageid_invalid():
+def test_userid_invalid():
     user = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
         'password' : 'dumbledore',
