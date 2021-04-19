@@ -2,7 +2,7 @@ import sys
 from json import dumps
 from flask import Flask, request, Blueprint
 from src.base.other import clear_v1
-from src.base.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1, message_share_v1
+from src.base.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1, message_share_v1, message_pin_v1
 from src.base.helper import token_to_auth_user_id
 message_blueprint = Blueprint('message_blueprint', __name__)
 
@@ -104,3 +104,17 @@ def message_senddm():
     return dumps({
         'message_id' : message_id
     })
+
+@message_blueprint.route("/message/pin/v1", methods=['PUT'])
+def message_pin():
+    data = request.get_jason()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    message_id = data.get('message_id')
+
+    message_pin_v1(auth_user_id, message_id)
+
+    return dumps({
+    })
+
