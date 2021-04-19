@@ -18,7 +18,6 @@ def test_valid_input(helper):
 
     url_profile = urlencode({'token': token1, 'u_id': u_id})
     handle_str = requests.get(url + "user/profile/v2?" + url_profile).json().get('user').get('handle_str')
-    print(handle_str)
     response = requests.post(url + "standup/start/v1", json ={
         'token': token1,
         'channel_id': ch_id,

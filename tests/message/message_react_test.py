@@ -13,6 +13,7 @@ valid_react_id = 1
 invalid_react_id = 2
 @clear
 def test_react_single_message_channel(helper):
+    start_index = 0
     auth_user_id1 = helper.register_user(1)
     auth_user_id2 = helper.register_user(2)
     assert auth_user_id1 == 1
@@ -40,8 +41,20 @@ def test_react_single_message_channel(helper):
 
     assert get_react_uids(message_id2) == [1,2]
 
+    channel_msg1 = channel_messages_v1(auth_user_id1, channel_id, start_index)
+    channel_msg2 = channel_messages_v1(auth_user_id2, channel_id, start_index)
+    #need to go thru dicts and lists inside dicts and lists maybe theres an easier way?
+    assert channel_msg1.get('messages')[start_index].get('reacts')[0].get('is_this_user_reacted') == True
+
+    message_unreact_v1(auth_user_id1, message_id2, valid_react_id)
+    assert get_react_uids(message_id2) == [2]
+    channel_msg1 = channel_messages_v1(auth_user_id1, channel_id, start_index)
+    assert channel_msg1.get('messages')[start_index].get('reacts')[0].get('is_this_user_reacted') == False
+    assert channel_msg2.get('messages')[start_index].get('reacts')[0].get('is_this_user_reacted') == True
+
 @clear
 def test_react_single_message_dm(helper):
+    start_index = 0
     auth_user_id1 = helper.register_user(1)
     auth_user_id2 = helper.register_user(2)
     assert auth_user_id1 == 1
@@ -67,6 +80,17 @@ def test_react_single_message_dm(helper):
     message_react_v1(auth_user_id2, message_id2, valid_react_id)
 
     assert get_react_uids(message_id2) == [1,2]
+
+    dm_msg1 = dm_messages_v1(auth_user_id1, dm_id, start_index)
+    dm_msg2 = dm_messages_v1(auth_user_id2, dm_id, start_index)
+    #need to go thru dicts and lists inside dicts and lists maybe theres an easier way?
+    assert dm_msg1.get('messages')[start_index].get('reacts')[0].get('is_this_user_reacted') == True
+
+    message_unreact_v1(auth_user_id1, message_id2, valid_react_id)
+    assert get_react_uids(message_id2) == [2]
+    dm_msg1 = dm_messages_v1(auth_user_id1, dm_id, start_index)
+    assert dm_msg1.get('messages')[start_index].get('reacts')[0].get('is_this_user_reacted') == False
+    assert dm_msg2.get('messages')[start_index].get('reacts')[0].get('is_this_user_reacted') == True
 
 @clear
 def test_invalid_react_unreact_id(helper):
