@@ -6,7 +6,6 @@ from src.helper import token_to_auth_user_id
 
 user_blueprint = Blueprint('user_blueprint', __name__)
 
-#TODO ALL AUTHUSERIDS MUST BE CHANGED
 @user_blueprint.route("/user/profile/v2", methods=['GET'])
 def user_profile():
     #token

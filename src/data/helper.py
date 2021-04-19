@@ -218,7 +218,8 @@ def get_dm_index(dm_id: int) -> int:
         Returns index on all conditions
     """
     data = get_data()
-    for idx in range(len(data)-1):
+    dms = get_dms()
+    for idx in range(len(dms)-1):
         if data['dms'][idx]['dm_id'] == dm_id:
             return idx
     return -1
