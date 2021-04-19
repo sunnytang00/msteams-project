@@ -4,49 +4,63 @@ from src.config import url
 from http_tests.helper import clear, helper
 from urllib.parse import urlencode
 from src.config import photo_path
-'''
+
 @clear
 def test_invalid_img_url(helper):
-    auth_user_id = helper.register_user(1)
-    url = photo_path + 'phototest1'
+    user1 = helper.register_user(1)
+    token1 = user1.json().get('token')
+    assert token1
+
+    img_url = photo_path + 'phototest1'
     x_start = 0
     y_start = 0
     x_end = 3
     y_end = 3
-    with pytest.raises(InputError) as e:
-        user_profile_uploadphoto_v1(auth_user_id, url, x_start, y_start, x_end, y_end)
-        assert "img_url returns an HTTP status other than 200." in str(e)
+    response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
+        "token": token,
+        "img_url": img_url,
+        "x_start": x_start,
+        "y_start": y_start,
+        "x_end": x_end,
+        "y_end": y_end
+    })
+    assert response.status_code == 400
+
 @clear
 def test_wrong_dimension(helper):
-    auth_user_id = helper.register_user(1)
-    url = photo_path + 'phototest1.png'
+    user1 = helper.register_user(1)
+    token1 = user1.json().get('token')
+    assert token1
+    img_url = photo_path + 'phototest1.png'
     x_start = 0
     y_start = 0
     x_end = 10000
     y_end = 10000
-    with pytest.raises(InputError) as e:
-        user_profile_uploadphoto_v1(auth_user_id, url, x_start, y_start, x_end, y_end)
-        assert "any of x_start, y_start, x_end, y_end are not within the dimensions of the image at the URLs." in str(e)
+    response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
+        "token": token,
+        "img_url": img_url,
+        "x_start": x_start,
+        "y_start": y_start,
+        "x_end": x_end,
+        "y_end": y_end
+    })
+    assert response.status_code == 400
 @clear
 def test_img_not_jpg(helper):
-    auth_user_id = helper.register_user(1)
-    url = photo_path + 'phototest2.png'
+    user1 = helper.register_user(1)
+    token1 = user1.json().get('token')
+    assert token1
+    img_url = photo_path + 'phototest2.png'
     x_start = 0
     y_start = 0
     x_end = 5
     y_end = 5
-    with pytest.raises(InputError) as e:
-        user_profile_uploadphoto_v1(auth_user_id, url, x_start, y_start, x_end, y_end)
-        assert "Image uploaded is not a JPG." in str(e)
-
-def test_invalid_token(helper):
-    auth_user_id = 10
-    url = photo_path + 'phototest1.png'
-    x_start = 0
-    y_start = 0
-    x_end = 1000
-    y_end = 1000
-    with pytest.raises(AccessError) as e:
-        user_profile_uploadphoto_v1(auth_user_id, url, x_start, y_start, x_end, y_end)
-        assert f'token {auth_user_id} does not refer to a valid token' in str(e)
-'''
+    response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
+        "token": token,
+        "img_url": img_url,
+        "x_start": x_start,
+        "y_start": y_start,
+        "x_end": x_end,
+        "y_end": y_end
+    })
+    assert response.status_code == 400
