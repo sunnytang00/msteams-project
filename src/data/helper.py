@@ -197,7 +197,7 @@ def get_channel_index(channel_id: int) -> int:
 def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
     """Get the index of the user in users list
 
-    Return Value:get
+    Return Value:
         Returns index on all conditions
     """
     data = get_data()
@@ -216,14 +216,27 @@ def get_message_index(message_id: int, channel_idx=None, dm_idx=None) -> int:
     return -1
 
 def get_dm_index(dm_id: int) -> int:
-    """Get the index of the user in users list
+    """Get the index of a dm in dms
 
-    Return Value:get
+    Return Value:
         Returns index on all conditions
     """
     data = get_data()
     for idx in range(len(data)-1):
         if data['dms'][idx]['dm_id'] == dm_id:
+            return idx
+    return -1
+
+def get_session_id_index(u_id_idx: int, session_id: str) -> int:
+    """Get the index of the user's session_id in session_list
+
+    Return Value:
+        Returns index on all conditions
+    """
+    data = get_data()
+    user = data['users'][u_id_idx]
+    for idx in range(len(user['session_list'])):
+        if user['session_list'][idx] == session_id:
             return idx
     return -1
 
@@ -302,12 +315,12 @@ def store_user(user: dict) -> None:
 
     save(data)
 
-def store_session_id(u_id: int, session_id: int) -> None:
+def store_session_id(u_id: int, session_id: str) -> None:
     """Update the user's session id
     
     Arguments:
         u_id (int) - The user's id
-        session_id (int) - The user's session id
+        session_id (str) - The user's session id
 
     Return Value:
         Returns None on all conditions
@@ -319,6 +332,29 @@ def store_session_id(u_id: int, session_id: int) -> None:
     data['users'][idx]['session_list'].append(session_id)
 
     save(data)
+
+def remove_session_id(u_id: int, session_id: str) -> bool:
+    """remove the user's session id
+    
+    Arguments:
+        u_id (int) - The user's id
+        session_id (str) - The user's session id
+
+    Return Value:
+        Returns None on all conditions
+    """
+
+    data = get_data()
+    u_id_idx = get_user_index(u_id)
+    session_idx = get_session_id_index(u_id_idx, session_id) 
+    if session_idx == -1:
+        # didn't find session_id
+        return False
+
+    del data['users'][u_id_idx]['session_list'][session_idx]
+
+    save(data)
+    return True
 
 def update_name_first(u_id: int, name_first: str) -> None:
     """Update the user's first name
@@ -534,6 +570,7 @@ def update_owner_count(owner_count : int) -> None:
     data = get_data()
     data['owner_count'] = owner_count
     save(data)
+
 def update_user_count(user_count: int) -> None:
     """ update the count of user 
 
@@ -545,6 +582,7 @@ def update_user_count(user_count: int) -> None:
     data = get_data()
     data['owner_count'] = user_count
     save(data)
+
 def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     """ update the removed flag of user 
 
@@ -559,6 +597,7 @@ def update_removed_flag(auth_user_id : int, flag: bool) -> None:
     idx = get_user_index(auth_user_id)
     data['users'][idx]['removed'] = flag
     save(data)
+
 def update_user_all_channel_message(auth_user_id : int, ch_id: dict, message: str) -> None:
     """ update the contents of msg sent by a user in channel
 

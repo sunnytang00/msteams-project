@@ -33,5 +33,3 @@ def test_invalid_email(helper):
 
     assert response.status_code == 400
 
-    # data = response.json()
-    # data looks like this: {'code': 400, 'name': 'System Error', 'message': '<p>Email harrypotter_is_cool is not a valid email</p>'}

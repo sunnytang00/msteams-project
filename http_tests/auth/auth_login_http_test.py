@@ -1,18 +1,12 @@
 import requests
 from json import loads
 from src.config import url
-from http_tests.helper import clear
+from http_tests.helper import clear, helper
 
-# TODO: BROKEN TEST... Come back to later when finished iter-1 work...
 @clear
-def test_login_basic_http():
+def test_login_basic_http(helper):
     ### register
-    response = requests.post(url + 'auth/register/v2', json = {
-        'email' : 'harrypotter@gmail1.com',
-        'password' : 'dumbledore1',
-        'name_first' : 'harry1',
-        'name_last' : 'potter1'
-    })
+    response = helper.register_user(value=1, email='harrypotter@gmail1.com', password='dumbledore1')
 
     status_code = response.status_code
     assert status_code == 200
