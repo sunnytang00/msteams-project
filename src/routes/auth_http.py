@@ -5,14 +5,15 @@ from src.auth import auth_register_v1
 from src.auth import auth_login_v1
 
 from src.routes.helper import sha256_hash, get_new_session_id, encode_token, decode_token
-from src.data.helper import store_session_id, remove_session_id
-from src.helper import token_to_auth_user_id
+from src.data.helper import store_session_id, remove_session_id, get_reset_code, update_password
+from src.helper import token_to_auth_user_id, edit_reset_code, valid_password, get_user_by_reset_code
+
+from src.passwordreset.password_reset import SendEmail
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 @auth_blueprint.route("/auth/register/v2", methods=['POST'])
 def register():
-    
     data = request.get_json()
 
     email = data.get('email')
@@ -77,3 +78,44 @@ def logout():
     return dumps({
         'is_success': is_success
     }), 200
+
+# Password reset routes
+@auth_blueprint.route("/auth/passwordreset/request/v1", methods=['POST'])
+def password_reset_request():
+    data = request.get_json()
+    email = data.get('email')
+
+    reset_code = SendEmail.generate_reset_code(length=8)
+
+    subject = "Password reset instructions"
+    body = (f"Hello {email},\n"
+            "Forgot your password?\n"
+            "We received a request to reset the password for your Dreams account.\n"
+            f"Your reset code: {reset_code}\n\n"
+            "Dreams Customer Service")
+
+    # send email
+    SendEmail.send_email(subject=subject, body=body, recipient=email)
+    edit_reset_code(email, reset_code) # store reset code
+
+    return dumps({}), 200
+
+@auth_blueprint.route("/auth/passwordreset/reset/v1", methods=['POST'])
+def password_reset():
+    data = request.get_json()
+    reset_code = data.get('reset_code')
+    new_password = data.get('new_password')
+
+    user = get_user_by_reset_code(reset_code)
+
+    if not user:
+        # reset_code is not a valid reset code
+        return dumps({}), 400
+
+    if not valid_password(new_password):
+        return dumps({}), 400
+
+    edit_reset_code(user.get('email')) # remove used reset code
+    update_password(user.get('u_id'), new_password)
+
+    return dumps({}), 200
