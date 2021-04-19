@@ -83,7 +83,7 @@ def test_messageid_invalid():
     message_id = message_info.get('message_id')
     assert message_id == 1
 
-    requests.post(url + 'message/pin/v1', json = {
+    response = requests.post(url + 'message/pin/v1', json = {
         'auth_user_id' : auth_user_id,
         'message_id' : 4,
     })
@@ -126,7 +126,7 @@ def test_userid_invalid():
     channel_id = channel_info.get('channel_id')
     assert channel_id == 1
 
-    channel1 = requests.post(url + 'channels/create/v2', json = {
+    requests.post(url + 'channels/create/v2', json = {
         'token': token1,
         'name': 'channel_test2',
         'is_public': True
@@ -138,7 +138,7 @@ def test_userid_invalid():
 
     message = requests.post(url + 'message/send/v2', json = {
         'token' : token,
-        'channel_id' : channel_id,
+        'channel_id' : channel_id1,
         'message' : 'pin me papi'
 
     })
@@ -147,7 +147,7 @@ def test_userid_invalid():
     message_id = message_info.get('message_id')
     assert message_id == 1
 
-    requests.post(url + 'message/pin/v1', json = {
+    response = requests.post(url + 'message/pin/v1', json = {
         'auth_user_id' : auth_user_id1,
         'message_id' : message_id,
     })
