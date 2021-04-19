@@ -1,9 +1,9 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.other import clear_v1
-from src.base.channels import channels_create_v1, channels_listall_v1, channels_list_v1
-from src.base.helper import token_to_auth_user_id
+from src.other import clear_v1
+from src.channels import channels_create_v1, channels_listall_v1, channels_list_v1
+from src.helper import token_to_auth_user_id
 channels_blueprint = Blueprint('channels_blueprint', __name__)
 
 @channels_blueprint.route("/channels/list/v2", methods=['GET'])

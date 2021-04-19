@@ -1,10 +1,10 @@
 import sys
 from json import dumps
 from flask import Flask, request, Blueprint
-from src.base.channel import channel_details_v1, channel_invite_v1, channel_join_v1, channel_addowner_v1, channel_removeowner_v1,\
+from src.channel import channel_details_v1, channel_invite_v1, channel_join_v1, channel_addowner_v1, channel_removeowner_v1,\
                              channel_leave_v1, channel_messages_v1
-from src.base.helper import token_to_auth_user_id
-from src.base.other import clear_v1
+from src.helper import token_to_auth_user_id
+from src.other import clear_v1
 
 channel_blueprint = Blueprint('channel_blueprint', __name__)
 

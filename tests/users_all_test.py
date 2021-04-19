@@ -1,11 +1,11 @@
 import pytest
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
-from src.base.error import InputError
+from src.auth import auth_register_v1
+from src.other import clear_v1
+from src.error import InputError
 from tests.helper import helper, clear
-from src.base.users import users_all_v1
-from src.base.helper import get_handle_str 
-from src.base.error import AccessError
+from src.users import users_all_v1
+from src.helper import get_handle_str 
+from src.error import AccessError
 
 # TODO update these tests so it can handle dynamically changing session lists
 

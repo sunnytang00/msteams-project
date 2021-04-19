@@ -4,8 +4,8 @@ This module demonstrates the inviting, listing and joining of a channel as speci
 """
 
 import time
-from src.base.error import InputError, AccessError
-from src.base.helper import get_user, get_channel, user_is_channel_member,\
+from src.error import InputError, AccessError
+from src.helper import get_user, get_channel, user_is_channel_member,\
      user_is_Dream_owner, user_is_channel_owner, remove_from_owner_members, remove_from_all_members, get_current_user, create_notification, get_react_uids
 from src.data.helper import get_channels, append_channel_all_members, append_channel_owner_members, store_notification
 

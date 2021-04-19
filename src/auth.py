@@ -3,8 +3,8 @@
 This module demonstrates user registration and login authentication as specified by the COMP1531 Major Project specification.
 """
 
-from src.base.error import InputError
-from src.base.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, get_user_by_email
+from src.error import InputError
+from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, get_handle_str, get_user_by_email
 from src.data.helper import get_users, store_user, get_user_count, get_owner_count, update_owner_count
 import re
 

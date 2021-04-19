@@ -1,10 +1,10 @@
 import pytest
-from src.base.auth import auth_register_v1
-from src.base.other import clear_v1
-from src.base.error import InputError
+from src.auth import auth_register_v1
+from src.other import clear_v1
+from src.error import InputError
 from tests.helper import helper, clear
-from src.base.user import user_profile_v1, user_profile_sethandle_v1, user_profile_setname_v1
-from src.base.helper import get_handle_str
+from src.user import user_profile_v1, user_profile_sethandle_v1, user_profile_setname_v1
+from src.helper import get_handle_str
 
 @clear
 def test_single_user():
