@@ -140,6 +140,19 @@ def message_sendlaterdm():
         'message_id' : message_id
     }), 200
 
+@message_blueprint.route("/message/unpin/v1", methods=['POST'])
+def message_unpin():
+    data = request.get_jason()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    message_id = data.get('message_id')
+
+    message_unpin_v1(auth_user_id, message_id)
+
+    return dumps({
+    })
+
 """
 @message_blueprint.route("/message/react/v1", methods=['POST'])
 def message_react():
