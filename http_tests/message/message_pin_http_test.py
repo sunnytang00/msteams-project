@@ -4,6 +4,8 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
+from http_tests.helper import clear, helper
+from urllib.parse import urlencode
 
 @clear
 def test_pin_message():
@@ -46,7 +48,11 @@ def test_pin_message():
         'message_id' : message_id,
     })
 
-    assert message_info.get('is_pinned') == True
+    url_messages = urlencode({"token": token, "channel_id" : channel_id,  "start": 0})
+    messages_json = requests.get(url + "/channel/messages/v2?" + url_messages)
+    messages = messages_json.json()
+    
+    assert messages[0].get('is_pinned') == True
 
 @clear
 def test_messageid_invalid():
