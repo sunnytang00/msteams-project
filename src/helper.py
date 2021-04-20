@@ -313,22 +313,6 @@ def get_user_from_handlestr(handlestr: str) -> dict:
             return user
     return None
 
-def same_name_user_exist(name_first: str, name_last: str) -> str:
-    """Check if there is user with same name already exists on the database
-    
-    Arguments:
-        name_first (str): First name of user
-        name_last (str): Last name of user
-
-    Returns:
-        True: if exists
-        False: if not exists
-    """
-    for user in get_users():
-        if name_first == user['name_first'] and name_last == user['name_last']:
-            return True
-    return False
-
 def user_is_Dream_owner(u_id: int) -> bool:
     """Check if there is user with u_id is owner of Dream
     
@@ -513,7 +497,8 @@ def get_user_by_email(email: str) -> dict:
             return user
     return {}        
 
-def get_user_by_reset_code(reset_code: str) -> dict:
+def get_user_by_reset_code(reset_code: str) -> dict: # pragma: no cover
+    # this function is used exclusivley in http routes
     for user in get_current_users():
         if user['reset_code'] == reset_code:
             return user
@@ -704,7 +689,8 @@ def create_user_stats() -> dict:
 
     return stats
 
-def edit_reset_code(email: str, reset_code = None) -> None:
+def edit_reset_code(email: str, reset_code = None) -> None: # pragma: no cover
+    # this function is used exclusivley in http routes
     """Reset/remove or store an email address based on optional parameter reset_code"""
     user = get_user_by_email(email)
     u_id = user.get('u_id')

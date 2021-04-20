@@ -14,3 +14,5 @@ omit =
     src/base/helper.py
     src/data/helper.py
     tests/helper.py
+    src/passwordreset/config_parser.py
+    src/passwordreset/password_reset.py
