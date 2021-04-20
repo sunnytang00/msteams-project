@@ -50,8 +50,9 @@ def test_unpin_pinned_message():
     url_messages = urlencode({"token": token, "channel_id" : channel_id,  "start": 0})
     messages_json = requests.get(url + "/channel/messages/v2?" + url_messages)
     messages = messages_json.json()
+    message = messages.get('messages')
 
-    assert messages[0].get('is_pinned') == True
+    assert message[0].get('is_pinned') == True
 
     requests.post(url + 'message/unpin/v1', json = {
         'auth_user_id' : auth_user_id,
@@ -60,9 +61,10 @@ def test_unpin_pinned_message():
 
     url_messages = urlencode({"token": token, "channel_id" : channel_id,  "start": 0})
     messages_json = requests.get(url + "/channel/messages/v2?" + url_messages)
-    messages = messages.json()
+    messages = messages_json.json()
+    message = messages.get('messages')
 
-    assert messages[0].get('is_pinned') == False
+    assert message[0].get('is_pinned') == False
 
 @clear
 def test_unpin_unpinned_message():
