@@ -6,7 +6,7 @@ from src.helper import token_to_auth_user_id
 from urllib.parse import urlencode
 
 @clear
-def test_unreact_route(helper):
+def test_react_route(helper):
     #Creating user 1
     user_1 = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter@gmail.com',
@@ -48,7 +48,8 @@ def test_unreact_route(helper):
     response = requests.post(url + "/channel/invite/v2", json = {
         'token': token_1,
         'channel_id': channel_id,
-        'u_id': auth_user_id_2,
+        'u_id': auth_user_id_2
+
     })
     assert response.status_code == 200
 
@@ -56,7 +57,8 @@ def test_unreact_route(helper):
     message = requests.post(url + 'message/send/v2', json = {
         'token' : token_1,
         'channel_id' : channel_id,
-        'message' : "Writing tests is so fun !!!",
+        'message' : "Writing tests is so fun !!!"
+
     })
     message_id = message.json().get('message_id')
 
@@ -64,10 +66,11 @@ def test_unreact_route(helper):
 
     #Asking for messages in the data
     url2 = urlencode({"token": token_1, "channel_id" : channel_id,  "start": 0})
-    response = requests.get(url + "channel/messages/v2?"+ url2)
-    messages = response.json().get('messages')
-
+    response = requests.get(url + "/channel/messages/v2?" + url2)
+    
     assert response.status_code == 200
+
+    messages = response.json().get('messages')
 
     #React to message
     response = requests.post(url + "message/react/v1", json = {
@@ -76,20 +79,4 @@ def test_unreact_route(helper):
         'react_id': messages[0].get('reacts')[0].get('react_id'),
     })
     #Check if the user reacted to the message.
-    print(messages[0])
     assert messages[0].get('reacts')[0].get('is_this_user_reacted') == True
-
-    #Asking for messages in the data
-    response = requests.get(url + "channel/messages/v2?", url2)
-    assert response.status_code == 200
-
-    messages = response.json().get('messages')
-
-
-    response = request.post(url + "message/unreact/v1", json = {
-        'token': token_2,
-        'message_id': message_id,
-        'react_id': messages[0].get('reacts')[1].get('react_id'),
-    })
-    #Check if the user unreacted the same message.
-    assert messages[0].get('reacts')[1].get('is_this_user_reacted') == False
