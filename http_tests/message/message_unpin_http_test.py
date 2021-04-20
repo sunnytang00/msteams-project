@@ -4,7 +4,7 @@ import requests
 from json import loads
 from src.config import url
 from http_tests.helper import clear, helper
-from src.base.channel import channel_messages_v1
+from urllib.parse import urlencode
 
 @clear
 def test_unpin_pinned_message():
@@ -42,27 +42,27 @@ def test_unpin_pinned_message():
 
     assert message_id == 1
 
-    requests.put(url + 'message/pin/v1', json = {
+    requests.post(url + 'message/pin/v1', json = {
         'auth_user_id' : auth_user_id,
         'message_id' : message_id,
     })
 
-    ret = route channel_messages(..)
-    ret1 = ret.json()
-    print(ret1)
+    url_messages = urlencode({"token": token, "channel_id" : channel_id,  "start": 0})
+    messages_json = requests.get(url + "/channel/messages/v2?" + url_messages)
+    messages = messages_json.json()
 
-    assert 1 == 2
+    assert messages[0].get('is_pinned') == True
 
-    assert ret1[0].get('is_pinned') == True
-
-    assert message_info.get('is_pinned') == True
-
-    requests.put(url + 'message/unpin/v1', json = {
+    requests.post(url + 'message/unpin/v1', json = {
         'auth_user_id' : auth_user_id,
         'message_id' : message_id,
     })
 
-    assert message_info.get('is_pinned') == False
+    url_messages = urlencode({"token": token, "channel_id" : channel_id,  "start": 0})
+    messages_json = requests.get(url + "/channel/messages/v2?" + url_messages)
+    messages = messages.json()
+
+    assert messages[0].get('is_pinned') == False
 
 @clear
 def test_unpin_unpinned_message():
@@ -100,7 +100,7 @@ def test_unpin_unpinned_message():
 
     assert message_id == 1
 
-    response = requests.put(url + 'message/unpin/v1', json = {
+    response = requests.post(url + 'message/unpin/v1', json = {
         'auth_user_id' : auth_user_id,
         'message_id' : message_id,
     })
