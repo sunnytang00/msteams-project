@@ -110,7 +110,7 @@ def user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, 
         if response.status_code != 200:
             raise InputError("img_url returns an HTTP status other than 200.")
     except requests.exceptions.ConnectionError:
-        r.status_code = "Connection refused"
+        response.status_code = "Connection refused"
 
     img_info = imgspy.info(img_url)
     if img_info.get('type') != 'jpg':
