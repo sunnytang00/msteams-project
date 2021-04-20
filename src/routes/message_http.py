@@ -4,7 +4,7 @@ from flask import Flask, request, Blueprint
 
 from src.other import clear_v1
 from src.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1,\
-     message_share_v1, message_react_v1, message_unreact_v1, message_sendlater_v1, message_sendlaterdm_v1
+     message_share_v1, message_react_v1, message_unreact_v1, message_sendlater_v1, message_sendlaterdm_v1, message_pin_v1, message_unpin_v1
 from src.helper import token_to_auth_user_id
 
 message_blueprint = Blueprint('message_blueprint', __name__)
