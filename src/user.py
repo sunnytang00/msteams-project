@@ -105,9 +105,12 @@ def user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, 
     if not get_current_user(auth_user_id):
         raise AccessError(f'token {auth_user_id} does not refer to a valid token')
 
-    response = requests.get(img_url)
-    if response.status_code != 200:
-        raise InputError("img_url returns an HTTP status other than 200.")
+    try:
+        response = requests.get(img_url)
+        if response.status_code != 200:
+            raise InputError("img_url returns an HTTP status other than 200.")
+    except requests.exceptions.ConnectionError:
+        r.status_code = "Connection refused"
 
     img_info = imgspy.info(img_url)
     if img_info.get('type') != 'jpg':
