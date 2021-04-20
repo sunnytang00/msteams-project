@@ -5,6 +5,7 @@ from flask import Flask, request, Blueprint
 from src.other import clear_v1
 from src.message import message_send_v1, message_remove_v1, message_edit_v1, message_senddm_v1,\
      message_share_v1, message_react_v1, message_unreact_v1, message_sendlater_v1, message_sendlaterdm_v1
+     message_pin_v1, message_unpin_v1
 from src.helper import token_to_auth_user_id
 
 message_blueprint = Blueprint('message_blueprint', __name__)
@@ -139,6 +140,20 @@ def message_sendlaterdm():
     return dumps ({
         'message_id' : message_id
     }), 200
+
+@message_blueprint.route("/message/unpin/v1", methods=['POST'])
+def message_unpin():
+    data = request.get_jason()
+
+    token = data.get('token')
+    auth_user_id = token_to_auth_user_id(token)
+    message_id = data.get('message_id')
+
+    message_unpin_v1(auth_user_id, message_id)
+
+    return dumps({
+    })
+
 
 """
 @message_blueprint.route("/message/react/v1", methods=['POST'])
