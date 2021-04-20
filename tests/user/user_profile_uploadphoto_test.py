@@ -6,7 +6,7 @@ from src.error import InputError, AccessError
 from src.admin import admin_user_remove_v1
 from tests.helper import helper, clear
 from src.config import photo_path
-"""
+
 @clear
 def test_invalid_img_url(helper):
     auth_user_id = helper.register_user(1)
@@ -51,4 +51,3 @@ def test_invalid_token(helper):
     with pytest.raises(AccessError) as e:
         user_profile_uploadphoto_v1(auth_user_id, url, x_start, y_start, x_end, y_end)
         assert f'token {auth_user_id} does not refer to a valid token' in str(e)
-"""
