@@ -43,13 +43,15 @@ def test_basic_invite(helper):
                                         'name_first': 'Harrrrry', 
                                         'name_last': 'Pottttter', 
                                         'handle_str': 'harrrrrypottttter', 
-                                        'permission_id': 1},
+                                        'permission_id': 1,
+                                        'profile_img_url': ''},
                                         {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
                                         'handle_str': 'marcoslowery', 
-                                        'permission_id': 2}]
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}]
 
     requests.post(url + 'dm/invite/v1', json = {
         'token' : token,
@@ -71,19 +73,22 @@ def test_basic_invite(helper):
                                         'name_first': 'Harrrrry', 
                                         'name_last': 'Pottttter', 
                                         'handle_str': 'harrrrrypottttter', 
-                                        'permission_id': 1},
+                                        'permission_id': 1,
+                                        'profile_img_url': ''},
                                         {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
                                         'handle_str': 'marcoslowery', 
-                                        'permission_id': 2}, 
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}, 
                                         {'u_id': 3, 
                                         'email': 'cadifinch@gmail.com', 
                                         'name_first': 'Cadi', 
                                         'name_last': 'Finch', 
                                         'handle_str': 'cadifinch', 
-                                        'permission_id': 2}]
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}]
 
 @clear
 def test_input_error(helper):
@@ -122,13 +127,15 @@ def test_input_error(helper):
                                         'name_first': 'Harrrrry', 
                                         'name_last': 'Pottttter', 
                                         'handle_str': 'harrrrrypottttter', 
-                                        'permission_id': 1},
+                                        'permission_id': 1,
+                                        'profile_img_url': ''},
                                         {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
                                         'handle_str': 'marcoslowery', 
-                                        'permission_id': 2}]
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}]
 
     response = requests.post(url + 'dm/invite/v1', json = {
         'token' : token,
@@ -172,13 +179,15 @@ def test_input_error2(helper):
                                         'name_first': 'Harrrrry', 
                                         'name_last': 'Pottttter', 
                                         'handle_str': 'harrrrrypottttter', 
-                                        'permission_id': 1},
+                                        'permission_id': 1,
+                                        'profile_img_url': ''},
                                         {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
                                         'handle_str': 'marcoslowery', 
-                                        'permission_id': 2}]
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}]
 
     response = requests.post(url + 'dm/invite/v1', json = {
         'token' : token,
@@ -226,13 +235,15 @@ def test_access_error(helper):
                                         'name_first': 'Harrrrry', 
                                         'name_last': 'Pottttter', 
                                         'handle_str': 'harrrrrypottttter', 
-                                        'permission_id': 1},
+                                        'permission_id': 1,
+                                        'profile_img_url': ''},
                                         {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
                                         'handle_str': 'marcoslowery', 
-                                        'permission_id': 2}]
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}]
 
     response = requests.post(url + 'dm/invite/v1', json = {
         'token' : token3,

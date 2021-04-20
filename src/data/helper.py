@@ -16,7 +16,8 @@ data = {
             'password': password_1_1324&#!$,
             'permission_id': 1,
             'notifications' : [],
-            'session_list': [123e4567-e89b-12d3-a456-426614174000]
+            'session_list': [123e4567-e89b-12d3-a456-426614174000],
+            'profile_img_url': http//localhost:8080/static/phototest.jpg
         },
         { 
             'u_id': 2,                                              
@@ -27,7 +28,8 @@ data = {
             'password': password_2_1324&#!$,
             'permission_id': 2,
             'notifications' : []
-            'session_list': []
+            'session_list': [],
+            'profile_img_url': http//localhost:8080/static/phototest.jpg
         },
     ],
     'channels': [           
@@ -437,6 +439,23 @@ def update_handle_str(u_id: int, handle_str: str) -> None:
     data['users'][idx]['handle_str'] = handle_str 
 
     save(data)
+
+def update_profile_img_url(u_id: int, url: str) -> None:
+    """Update the user's img_url (the photo displayed)
+    
+    Arguments:
+        u_id (int) - The user's id
+        url (str) - url being used for accessing the photo
+    Return Value:
+        Returns None if updated user's url successfully
+    """
+    data = get_data()
+    idx = get_user_index(u_id)
+
+    data['users'][idx]['profile_img_url'] = url
+
+    save(data)
+
 def store_channel(channel: dict) -> bool:
     """Store the data of channel on data storage
 

@@ -50,19 +50,22 @@ def test_basic(helper):
                                         'name_first': 'Harrrrry', 
                                         'name_last': 'Pottttter', 
                                         'handle_str': 'harrrrrypottttter', 
-                                        'permission_id': 1},
+                                        'permission_id': 1,
+                                        'profile_img_url': ''},
                                         {'u_id': 2, 
                                         'email': 'marcoslowery@gmail.com', 
                                         'name_first': 'Marcos', 
                                         'name_last': 'Lowery', 
                                         'handle_str': 'marcoslowery', 
-                                        'permission_id': 2}, 
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}, 
                                         {'u_id': 3, 
                                         'email': 'cadifinch@gmail.com', 
                                         'name_first': 'Cadi', 
                                         'name_last': 'Finch', 
                                         'handle_str': 'cadifinch', 
-                                        'permission_id': 2}]
+                                        'permission_id': 2,
+                                        'profile_img_url': ''}]
 
 @clear
 def test_input_error(helper):
