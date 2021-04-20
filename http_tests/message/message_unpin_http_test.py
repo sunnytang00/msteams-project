@@ -43,7 +43,7 @@ def test_unpin_pinned_message():
     assert message_id == 1
 
     requests.post(url + 'message/pin/v1', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'message_id' : message_id,
     })
 
@@ -55,7 +55,7 @@ def test_unpin_pinned_message():
     assert message[0].get('is_pinned') == True
 
     requests.post(url + 'message/unpin/v1', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,
         'message_id' : message_id,
     })
 
@@ -103,7 +103,7 @@ def test_unpin_unpinned_message():
     assert message_id == 1
 
     response = requests.post(url + 'message/unpin/v1', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,        
         'message_id' : message_id,
     })
 
@@ -145,12 +145,12 @@ def test_messageid_invalid():
     assert message_id == 1
 
     requests.post(url + 'message/pin/v1', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,        
         'message_id' : message_id,
     })
 
     response = requests.post(url + 'message/unpin/v1', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,        
         'message_id' : 4,
     })
 
@@ -170,15 +170,15 @@ def test_userid_invalid():
     token = user_info.get('token')
     assert auth_user_id == 1
 
-    user = requests.post(url + 'auth/register/v2', json = {
+    user1 = requests.post(url + 'auth/register/v2', json = {
         'email' : 'harrypotter1@gmail.com',
         'password' : 'dumbledoree',
         'name_first' : 'harryy',
         'name_last' : 'potterr'
     })
 
-    user_info1 =  user.json()
-    auth_user_id1 = user_info.get('auth_user_id')
+    user_info1 =  user1.json()
+    auth_user_id1 = user_info1.get('auth_user_id')
     token1 = user_info1.get('token')
     assert auth_user_id1 == 2
 
@@ -192,13 +192,13 @@ def test_userid_invalid():
     channel_id = channel_info.get('channel_id')
     assert channel_id == 1
 
-    requests.post(url + 'channels/create/v2', json = {
+    channel1 = requests.post(url + 'channels/create/v2', json = {
         'token': token1,
         'name': 'channel_test2',
         'is_public': True
     })
 
-    channel_info1 = channel.json()
+    channel_info1 = channel1.json()
     channel_id1 = channel_info1.get('channel_id')
     assert channel_id1 == 2
 
@@ -214,12 +214,12 @@ def test_userid_invalid():
     assert message_id == 1
 
     requests.post(url + 'message/pin/v1', json = {
-        'auth_user_id' : auth_user_id,
+        'token' : token,        
         'message_id' : message_id,
     })
 
     response = requests.post(url + 'message/unpin/v1', json = {
-        'auth_user_id' : auth_user_id1,
+        'token' : token1,        
         'message_id' : message_id,
     })
 
