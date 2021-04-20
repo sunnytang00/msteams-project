@@ -1,10 +1,17 @@
-
+"""TODO"""
+import requests
+import urllib.request
+import imgspy
+from PIL import Image
+from src.config import photo_path, photo_storage_path
 from src.helper import get_user
 from src.helper import valid_email, valid_password, valid_first_name, valid_last_name, email_exists, \
                             get_handle_str, handle_str_exists, get_current_user
-from src.error import InputError
+from src.error import InputError, AccessError
 from src.data.helper import get_users, update_name_first, update_name_last, update_email, update_handle_str, get_user_stats, get_channels, get_dms, get_valid_msg_ids
-from src.data.helper import get_channels, get_dms, get_message_count, store_involvement_rate
+from src.data.helper import get_channels, get_dms, get_message_count, store_involvement_rate, update_profile_img_url
+
+
 
 def user_profile_v1(auth_user_id, u_id):
     
@@ -16,7 +23,7 @@ def user_profile_v1(auth_user_id, u_id):
     name_first = user.get('name_first')
     name_last = user.get('name_last')
     handle_str = user.get('handle_str')
-
+    profile_img_url = user.get('profile_img_url')
     if not get_current_user(u_id):
         name_first = 'Removed'
         name_last = 'user'
@@ -28,6 +35,7 @@ def user_profile_v1(auth_user_id, u_id):
             'name_first': name_first,
             'name_last': name_last,
             'handle_str': handle_str,
+            'profile_img_url': profile_img_url
         },
     }
 
@@ -91,3 +99,45 @@ def user_stats_v1(auth_user_id):
     store_involvement_rate(auth_user_id, involvement_rate)
     user_stats = get_user_stats(auth_user_id)
     return user_stats
+
+def user_profile_uploadphoto_v1(auth_user_id, img_url, x_start, y_start, x_end, y_end):
+    if not get_current_user(auth_user_id):
+        raise AccessError(f'token {auth_user_id} does not refer to a valid token')
+
+    response = requests.get(img_url)
+    if response.status_code != 200:
+        raise InputError("img_url returns an HTTP status other than 200.")
+
+    img_info = imgspy.info(img_url)
+    if img_info.get('type') != 'jpg':
+        raise InputError("Image uploaded is not a JPG.")
+
+    img_width = img_info.get('width')
+    img_height = img_info.get('height')
+
+    wrong_dimension = False
+
+    if x_start < 0 or x_start > x_end or x_end > img_width:
+        wrong_dimension = True
+    if y_start < 0 or y_start > y_end or y_end > img_height:
+        wrong_dimension = True
+
+    if wrong_dimension:
+        raise InputError("any of x_start, y_start, x_end, y_end are not within the dimensions of the image at the URLs.")
+
+    user = get_current_user(auth_user_id)
+    handle_str = user.get('handle_str')
+
+    user_photo_path = photo_storage_path + handle_str + '.jpg'
+
+    urllib.request.urlretrieve(img_url, user_photo_path)
+
+    photo = Image.open(user_photo_path)
+    cropped_photo = photo.crop((x_start, y_start, x_end, y_end))
+    cropped_photo.save(user_photo_path)
+
+    url = photo_path + handle_str + '.jpg'
+
+    update_profile_img_url(auth_user_id, url)
+
+    

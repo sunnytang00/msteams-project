@@ -27,7 +27,8 @@ def test_single_user():
                 'email': email,
                 'name_first': name_first,
                 'name_last': name_last,
-                'handle_str': handle_str
+                'handle_str': handle_str,
+                'profile_img_url': ''
                 }
 
     assert user_profile_v1(auth_user_id, u_id).get('user') == expected
