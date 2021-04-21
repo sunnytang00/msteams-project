@@ -1,0 +1,1712 @@
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.2.3, py-1.10.0, pluggy-0.13.1 -- /usr/bin/python3
+cachedir: .pytest_cache
+hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/tmp_amd/kamen/export/kamen/3/cs1531/automark/tempstore/.hypothesis/examples')
+rootdir: /tmp_amd/kamen/export/kamen/3/cs1531/automark/tempstore, configfile: pytest.ini
+plugins: forked-1.3.0, xdist-2.2.1, hypothesis-6.1.1, timeout-1.4.2
+collecting ... collected 135 items
+
+http_tests/echo_http_test.py::test_echo FAILED                           [  0%]
+http_tests/admin/admin_user_remove_http_test.py::test_valid_input PASSED [  1%]
+http_tests/admin/admin_user_remove_http_test.py::test_invalid_u_id PASSED [  2%]
+http_tests/admin/admin_user_remove_http_test.py::test_the_only_owner PASSED [  2%]
+http_tests/admin/admin_user_remove_http_test.py::test_auth_user_not_Dream_owner PASSED [  3%]
+http_tests/admin/admin_user_remove_http_test.py::test_remove_only_member_of_channel FAILED [  4%]
+http_tests/admin/admin_userpermission_change_http_test.py::test_valid_input PASSED [  5%]
+http_tests/admin/admin_userpermission_change_http_test.py::test_invalid_u_id PASSED [  5%]
+http_tests/admin/admin_userpermission_change_http_test.py::test_invalid_permission_id PASSED [  6%]
+http_tests/admin/admin_userpermission_change_http_test.py::test_auth_user_not_Dream_owner PASSED [  7%]
+http_tests/auth/auth_login_http_test.py::test_login_basic_http PASSED    [  8%]
+http_tests/auth/auth_logout_test.py::test_basic_logout FAILED            [  8%]
+http_tests/auth/auth_logout_test.py::test_invalid_token_logout FAILED    [  9%]
+http_tests/auth/auth_passwordreset_request_test.py::test_send_email PASSED [ 10%]
+http_tests/auth/auth_passwordreset_request_test.py::test_full_passwordreset PASSED [ 11%]
+http_tests/auth/auth_register_http_test.py::test_register_single FAILED  [ 11%]
+http_tests/auth/auth_register_http_test.py::test_invalid_email PASSED    [ 12%]
+http_tests/channel/channel_addowner_http_test.py::test_valid_input PASSED [ 13%]
+http_tests/channel/channel_addowner_http_test.py::test_invalid_channel_id PASSED [ 14%]
+http_tests/channel/channel_addowner_http_test.py::test_u_id_already_owner PASSED [ 14%]
+http_tests/channel/channel_addowner_http_test.py::test_auth_user_no_access PASSED [ 15%]
+http_tests/channel/channel_addowner_http_test.py::test_global_owner PASSED [ 16%]
+http_tests/channel/channel_details_http_test.py::test_valid_input PASSED [ 17%]
+http_tests/channel/channel_details_http_test.py::test_invalid_channel PASSED [ 17%]
+http_tests/channel/channel_details_http_test.py::test_user_not_authorised PASSED [ 18%]
+http_tests/channel/channel_invite_http_test.py::test_valid_input PASSED  [ 19%]
+http_tests/channel/channel_invite_http_test.py::test_invalid_channel_id PASSED [ 20%]
+http_tests/channel/channel_invite_http_test.py::test_invalid_u_id PASSED [ 20%]
+http_tests/channel/channel_invite_http_test.py::test_auth_user_not_member FAILED [ 21%]
+http_tests/channel/channel_join_http_test.py::test_valid_input PASSED    [ 22%]
+http_tests/channel/channel_join_http_test.py::test_invalid_channel PASSED [ 22%]
+http_tests/channel/channel_join_http_test.py::test_non_global_owner_access_private PASSED [ 23%]
+http_tests/channel/channel_join_http_test.py::test_global_owner_access_private PASSED [ 24%]
+http_tests/channel/channel_leave_http_test.py::test_valid_input FAILED   [ 25%]
+http_tests/channel/channel_leave_http_test.py::test_invalid_channel_id PASSED [ 25%]
+http_tests/channel/channel_leave_http_test.py::test_auth_user_not_member PASSED [ 26%]
+http_tests/channel/channel_messages_http_test.py::test_time_created PASSED [ 27%]
+http_tests/channel/channel_messages_http_test.py::test_pagination PASSED [ 28%]
+http_tests/channel/channel_messages_http_test.py::test_invalid_channel_id PASSED [ 28%]
+http_tests/channel/channel_messages_http_test.py::test_invalid_start PASSED [ 29%]
+http_tests/channel/channel_messages_http_test.py::test_user_not_member PASSED [ 30%]
+http_tests/channel/channel_removeowner_http_test.py::test_valid_input PASSED [ 31%]
+http_tests/channel/channel_removeowner_http_test.py::test_invalid_channel_id PASSED [ 31%]
+http_tests/channel/channel_removeowner_http_test.py::test_user_the_only_owner PASSED [ 32%]
+http_tests/channel/channel_removeowner_http_test.py::test_auth_user_not_owner PASSED [ 33%]
+http_tests/channel/channel_removeowner_http_test.py::test_auth_user_no_access PASSED [ 34%]
+http_tests/channel/channel_removeowner_http_test.py::test_auth_user_global_owner PASSED [ 34%]
+http_tests/channels/channels_create_http_test.py::test_channels_create_basic FAILED [ 35%]
+http_tests/channels/channels_create_http_test.py::test_name_too_long PASSED [ 36%]
+http_tests/channels/channels_list_http_test.py::test_valid_input PASSED  [ 37%]
+http_tests/channels/channels_list_http_test.py::test_multiple_member_exists PASSED [ 37%]
+http_tests/channels/channels_list_http_test.py::test_no_channel_exists PASSED [ 38%]
+http_tests/channels/channels_listall_http_test.py::test_valid_input PASSED [ 39%]
+http_tests/channels/channels_listall_http_test.py::test_private_channel_exists FAILED [ 40%]
+http_tests/dm/dm_create_http_test.py::test_basic FAILED                  [ 40%]
+http_tests/dm/dm_create_http_test.py::test_input_error PASSED            [ 41%]
+http_tests/dm/dm_details_http_test.py::test_basic FAILED                 [ 42%]
+http_tests/dm/dm_details_http_test.py::test_input_error FAILED           [ 42%]
+http_tests/dm/dm_details_http_test.py::test_access_error FAILED          [ 43%]
+http_tests/dm/dm_invite_http_test.py::test_basic_invite FAILED           [ 44%]
+http_tests/dm/dm_invite_http_test.py::test_input_error FAILED            [ 45%]
+http_tests/dm/dm_invite_http_test.py::test_input_error2 FAILED           [ 45%]
+http_tests/dm/dm_invite_http_test.py::test_access_error FAILED           [ 46%]
+http_tests/dm/dm_leave_http_test.py::test_basic_leave FAILED             [ 47%]
+http_tests/dm/dm_leave_http_test.py::test_input_error PASSED             [ 48%]
+http_tests/dm/dm_leave_http_test.py::test_access_error PASSED            [ 48%]
+http_tests/dm/dm_list_http_test.py::test_basic FAILED                    [ 49%]
+http_tests/dm/dm_message_http_test.py::test_no_msg_in_dm PASSED          [ 50%]
+http_tests/dm/dm_message_http_test.py::test_invalid_dm_id PASSED         [ 51%]
+http_tests/dm/dm_message_http_test.py::test_invalid_start PASSED         [ 51%]
+http_tests/dm/dm_message_http_test.py::test_auth_user_not_member PASSED  [ 52%]
+http_tests/dm/dm_message_http_test.py::test_few_msgs_in_dm FAILED        [ 53%]
+http_tests/dm/dm_message_http_test.py::test_many_msgs_in_dm PASSED       [ 54%]
+http_tests/dm/dm_remove_http_test.py::test_basic PASSED                  [ 54%]
+http_tests/dm/dm_remove_http_test.py::test_input_error PASSED            [ 55%]
+http_tests/dm/dm_remove_http_test.py::test_access_error PASSED           [ 56%]
+http_tests/echo_http_test.py::test_echo FAILED                           [ 56%]
+http_tests/message/message_edit_http_test.py::test_sendmessage_basic FAILED [ 57%]
+http_tests/message/message_edit_http_test.py::test_over1000 FAILED       [ 57%]
+http_tests/message/message_edit_http_test.py::test_not_auth_user FAILED  [ 58%]
+http_tests/message/message_pin_http_test.py::test_pin_message FAILED     [ 59%]
+http_tests/message/message_pin_http_test.py::test_messageid_invalid FAILED [ 60%]
+http_tests/message/message_pin_http_test.py::test_userid_invalid FAILED  [ 60%]
+http_tests/message/message_remove_http_test.py::test_basic PASSED        [ 61%]
+http_tests/message/message_send_http_test.py::test_sendmessage_basic FAILED [ 62%]
+http_tests/message/message_send_http_test.py::test_input_error FAILED    [ 62%]
+http_tests/message/message_send_http_test.py::test_access_error FAILED   [ 63%]
+http_tests/message/message_senddm_http_test.py::test_basic FAILED        [ 64%]
+http_tests/message/message_senddm_http_test.py::test_input_error PASSED  [ 65%]
+http_tests/message/message_senddm_http_test.py::test_access_error PASSED [ 65%]
+http_tests/message/message_sendlater_http_test.py::test_valid_input PASSED [ 66%]
+http_tests/message/message_sendlater_http_test.py::test_invalid_channel PASSED [ 67%]
+http_tests/message/message_sendlater_http_test.py::test_msg_too_long PASSED [ 68%]
+http_tests/message/message_sendlater_http_test.py::test_past_time PASSED [ 68%]
+http_tests/message/message_sendlater_http_test.py::test_not_member_of_channel PASSED [ 69%]
+http_tests/message/message_sendlaterdm_http_test.py::test_valid_input PASSED [ 70%]
+http_tests/message/message_sendlaterdm_http_test.py::test_invalid_DM PASSED [ 71%]
+http_tests/message/message_sendlaterdm_http_test.py::test_msg_too_long PASSED [ 71%]
+http_tests/message/message_sendlaterdm_http_test.py::test_past_time PASSED [ 72%]
+http_tests/message/message_sendlaterdm_http_test.py::test_not_member_of_DM PASSED [ 73%]
+http_tests/message/message_share_http_test.py::test_user_is_not_member FAILED [ 74%]
+http_tests/message/message_unpin_http_test.py::test_unpin_pinned_message FAILED [ 74%]
+http_tests/message/message_unpin_http_test.py::test_unpin_unpinned_message FAILED [ 75%]
+http_tests/message/message_unpin_http_test.py::test_messageid_invalid FAILED [ 76%]
+http_tests/message/message_unpin_http_test.py::test_userid_invalid FAILED [ 77%]
+http_tests/notifications_get_http_test.py::test_invite_user_into_channel PASSED [ 77%]
+http_tests/notifications_get_http_test.py::test_empty_notifications PASSED [ 78%]
+http_tests/standup/standup_active_http_test.py::test_valid_input PASSED  [ 79%]
+http_tests/standup/standup_active_http_test.py::test_no_standup_active PASSED [ 80%]
+http_tests/standup/standup_active_http_test.py::test_invalid_channel PASSED [ 80%]
+http_tests/standup/standup_send_http_test.py::test_invalid_channel PASSED [ 81%]
+http_tests/standup/standup_send_http_test.py::test_msg_too_long PASSED   [ 82%]
+http_tests/standup/standup_send_http_test.py::test_standup_inactive PASSED [ 82%]
+http_tests/standup/standup_send_http_test.py::test_not_member_of_channel FAILED [ 83%]
+http_tests/standup/standup_start_http_test.py::test_valid_input PASSED   [ 84%]
+http_tests/standup/standup_start_http_test.py::test_invalid_channel PASSED [ 85%]
+http_tests/standup/standup_start_http_test.py::test_standup_already_started PASSED [ 85%]
+http_tests/standup/standup_start_http_test.py::test_not_member_in_channel PASSED [ 86%]
+http_tests/user/user_profile_http_test.py::test_setprofile_basic FAILED  [ 87%]
+http_tests/user/user_profile_http_test.py::test_input_error PASSED       [ 88%]
+http_tests/user/user_profile_setemail_http_test.py::test_setemail_basic FAILED [ 88%]
+http_tests/user/user_profile_setemail_http_test.py::test_input_error PASSED [ 89%]
+http_tests/user/user_profile_setemail_http_test.py::test_input_error2 PASSED [ 90%]
+http_tests/user/user_profile_sethandle_test.py::test_sethandle_basic FAILED [ 91%]
+http_tests/user/user_profile_sethandle_test.py::test_tooshort PASSED     [ 91%]
+http_tests/user/user_profile_sethandle_test.py::test_inuse PASSED        [ 92%]
+http_tests/user/user_profile_setname_http_test.py::test_setname_basic FAILED [ 93%]
+http_tests/user/user_profile_setname_http_test.py::test_inputerror1 PASSED [ 94%]
+http_tests/user/user_profile_setname_http_test.py::test_inputerror2 PASSED [ 94%]
+http_tests/user/user_profile_uploadphoto_http_test.py::test_invalid_img_url FAILED [ 95%]
+http_tests/user/user_profile_uploadphoto_http_test.py::test_wrong_dimension FAILED [ 96%]
+http_tests/user/user_profile_uploadphoto_http_test.py::test_img_not_jpg FAILED [ 97%]
+http_tests/user/user_stats_http_test.py::test_user_stats_basic FAILED    [ 97%]
+http_tests/users_all_http_test.py::test_one_user PASSED                  [ 98%]
+http_tests/users_all_http_test.py::test_multiple_users PASSED            [ 99%]
+
+=================================== FAILURES ===================================
+__________________________________ test_echo ___________________________________
+
+    def test_echo():
+        '''
+        A simple test to check echo
+        '''
+        resp = requests.get(config.url + 'echo', params={'data': 'hello'})
+>       assert json.loads(resp.text) == {'data': 'hello'}
+
+http_tests/echo_http_test.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+/usr/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7f106fff3550>
+s = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n'
+idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/usr/lib/python3.7/json/decoder.py:355: JSONDecodeError
+______________________ test_remove_only_member_of_channel ______________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_remove_only_member_of_channel(helper):
+        user1 = helper.register_user(1)
+        user2 = helper.register_user(2)
+    
+        token1 = user1.json().get('token')
+        token2 = user2.json().get('token')
+        assert token1 and token2
+        u_id = user2.json().get('auth_user_id')
+    
+        ch_id = helper.create_channel(2, token2, 'big fish', True).json().get('channel_id')
+    
+        response = requests.delete(url + "admin/user/remove/v1", json ={
+            'token': token1,
+            'u_id': u_id
+        })
+        assert response.status_code == 200
+    
+        requests.post(url + "/channel/join/v2", json = {
+            'token': token1,
+            'channel_id': ch_id
+        })
+    
+        url2 = urlencode({"token": token1, "channel_id": ch_id})
+    
+        channel = requests.get(url + 'channel/details/v2?' + url2).json()
+>       assert u_id not in [user['u_id'] for user in channel['owner_members']] \
+                and u_id not in [user['u_id'] for user in channel['all_members']]
+E       assert (7 not in [7, 6])
+
+http_tests/admin/admin_user_remove_http_test.py:98: AssertionError
+______________________________ test_basic_logout _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_basic_logout(helper):
+        ### register
+        response = helper.register_user(value=1, email='harrypotter@gmail1.com', password='dumbledore1')
+    
+        status_code = response.status_code
+        assert status_code == 200
+    
+        register_data = response.json()
+        registered_auth_user_id = register_data.get('auth_user_id')
+        register_token = register_data.get('token')
+    
+        ### login user
+        response = requests.post(url + 'auth/login/v2', json = {
+            'email' : 'harrypotter@gmail1.com',
+            'password' : 'dumbledore1'
+        })
+        status_code = response.status_code
+        assert status_code == 200
+    
+        login_data = response.json()
+        expected_auth_user_id = login_data.get('auth_user_id')
+        expected_token = login_data.get('token')
+    
+        assert registered_auth_user_id == expected_auth_user_id
+        assert expected_token != register_token #to show a new token has been generated
+    
+>       assert token_to_auth_user_id(expected_token) # valid token before deleting
+
+http_tests/auth/auth_logout_test.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/helper.py:476: in token_to_auth_user_id
+    session_id = decode_token(token)
+src/routes/helper.py:18: in decode_token
+    return jwt.decode(payload, SECRET, algorithms='HS256').get('session_id')
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jwt.py:113: in decode
+    decoded = self.decode_complete(jwt, key, algorithms, options, **kwargs)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jwt.py:88: in decode_complete
+    **kwargs,
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jws.py:149: in decode_complete
+    self._verify_signature(signing_input, header, signature, key, algorithms)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <jwt.api_jws.PyJWS object at 0x7f106f310828>
+signing_input = b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJnaWQiOjE4LCJsb2dpbl90aW1lIjoxNjE4OTMzNTE0LCJzYWx0IjoiZjRhZmQ5MTctZGJkYi00Njk3LTk4ODYtNjMwNTM4NjBkOWMyIn0'
+header = {'alg': 'HS256', 'typ': 'JWT'}
+signature = b'[J\xd2\x1a}\x03k\x02\xa3\x8e\xd9\xe8\xb5\x0f\xb6\xb4^\xd2\xca\xb9\xad\xa5\xb6\x9fG\xb6\x02\xc6D\x06\xab6'
+key = b'FRI09BECHO', algorithms = 'HS256'
+
+    def _verify_signature(
+        self,
+        signing_input,
+        header,
+        signature,
+        key="",
+        algorithms=None,
+    ):
+    
+        alg = header.get("alg")
+    
+        if algorithms is not None and alg not in algorithms:
+            raise InvalidAlgorithmError("The specified alg value is not allowed")
+    
+        try:
+            alg_obj = self._algorithms[alg]
+            key = alg_obj.prepare_key(key)
+    
+            if not alg_obj.verify(signing_input, key, signature):
+>               raise InvalidSignatureError("Signature verification failed")
+E               jwt.exceptions.InvalidSignatureError: Signature verification failed
+
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jws.py:236: InvalidSignatureError
+__________________________ test_invalid_token_logout ___________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_invalid_token_logout(helper):
+        # a valid token that doesn't belong to any user
+        token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uX2lkIjoiZTY0MDNhMjQtZmRmZi00NmVkLWJmMDItZmM5YmEyYzI4NGY3In0.0zHxygE5F86T8jSVTfkfM4GhAs_zVBvDPQGco50eDFs'
+    
+        response = requests.post(url + '/auth/logout/v1', json = {
+            'token': token
+        })
+>       assert response.status_code == 200
+E       assert 403 == 200
+E         +403
+E         -200
+
+http_tests/auth/auth_logout_test.py:54: AssertionError
+_____________________________ test_register_single _____________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_register_single(helper):
+        response = helper.register_user(1)
+    
+        assert response.status_code == 200
+    
+        data = response.json()
+        token = data.get('token')
+    
+>       auth_user_id = token_to_auth_user_id(token) # if this returns None it means token is invalid
+
+http_tests/auth/auth_register_http_test.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/helper.py:476: in token_to_auth_user_id
+    session_id = decode_token(token)
+src/routes/helper.py:18: in decode_token
+    return jwt.decode(payload, SECRET, algorithms='HS256').get('session_id')
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jwt.py:113: in decode
+    decoded = self.decode_complete(jwt, key, algorithms, options, **kwargs)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jwt.py:88: in decode_complete
+    **kwargs,
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jws.py:149: in decode_complete
+    self._verify_signature(signing_input, header, signature, key, algorithms)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <jwt.api_jws.PyJWS object at 0x7f106f310828>
+signing_input = b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJnaWQiOjIxLCJsb2dpbl90aW1lIjoxNjE4OTMzNTI0LCJzYWx0IjoiODUzNWViYjYtZjQyNC00OTEwLWI2ZDAtMDE4ZDZlNTY0MDM0In0'
+header = {'alg': 'HS256', 'typ': 'JWT'}
+signature = b'\x86s*/<\xdc\xf3\x149\x81\x15\xe9c1\xc6\x0f\xb8n\x18\x06\x84\xb8\x8c\xbf\xca\xdf3\r\xa9\x9ew;'
+key = b'FRI09BECHO', algorithms = 'HS256'
+
+    def _verify_signature(
+        self,
+        signing_input,
+        header,
+        signature,
+        key="",
+        algorithms=None,
+    ):
+    
+        alg = header.get("alg")
+    
+        if algorithms is not None and alg not in algorithms:
+            raise InvalidAlgorithmError("The specified alg value is not allowed")
+    
+        try:
+            alg_obj = self._algorithms[alg]
+            key = alg_obj.prepare_key(key)
+    
+            if not alg_obj.verify(signing_input, key, signature):
+>               raise InvalidSignatureError("Signature verification failed")
+E               jwt.exceptions.InvalidSignatureError: Signature verification failed
+
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/jwt/api_jws.py:236: InvalidSignatureError
+__________________________ test_auth_user_not_member ___________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_auth_user_not_member(helper):
+        user1 = helper.register_user(1)
+        user2 = helper.register_user(2)
+    
+        invitor_token = user2.json().get('token')
+        invitee_token = user1.json().get('token')
+        invitee_id = user1.json().get('auth_user_id')
+        assert invitor_token
+        assert invitee_token
+    
+        ch_id = helper.create_channel(2,invitee_token, 'big fish!', True).json().get('channel_id')
+        response = requests.post(url + "/channel/invite/v2", json = {
+            'token': invitor_token,
+            'channel_id': ch_id,
+            'u_id': invitee_id
+        })
+>       assert response.status_code == 403
+E       assert 400 == 403
+E         +400
+E         -403
+
+http_tests/channel/channel_invite_http_test.py:87: AssertionError
+_______________________________ test_valid_input _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_valid_input(helper):
+        user1 = helper.register_user(1)
+        user2 = helper.register_user(2)
+    
+        token1 = user1.json().get('token')
+        token2 = user2.json().get('token')
+        assert token1 and token2
+    
+        creator_id = user1.json().get('auth_user_id')
+        u_id = user2.json().get('auth_user_id')
+    
+        ch_id = helper.create_channel(1,token1, 'big fish!', True).json().get('channel_id')
+        requests.post(url + "/channel/addowner/v1", json = {
+            'token': token1,
+            'channel_id' : ch_id,
+            'u_id': u_id
+        })
+    
+        response = requests.post(url + "/channel/leave/v1", json = {
+            'token': token1,
+            'channel_id' : ch_id
+        })
+        assert response.status_code == 200
+    
+        url2 = urlencode({"token": token2, "channel_id": ch_id})
+    
+        channel = requests.get(url + 'channel/details/v2?' + url2).json()
+    
+>       assert creator_id not in [user['u_id'] for user in channel['owner_members']] \
+               and creator_id not in [user['u_id'] for user in channel['all_members']]
+E       assert (65 not in [65, 66])
+
+http_tests/channel/channel_leave_http_test.py:36: AssertionError
+__________________________ test_channels_create_basic __________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_channels_create_basic(helper):
+        ##register a user first
+        token = helper.register_user(1).json().get('token')
+        assert token
+    
+        response = requests.post(url + 'channels/create/v2', json = {
+            'token': token,
+            'name': 'channel_test1',
+            'is_public': True
+        })
+        assert response.status_code == 200
+    
+        # reading data from response
+        data = response.json()
+        channel_id = data.get('channel_id')
+    
+>       assert channel_id == 1
+E       assert 102 == 1
+E         +102
+E         -1
+
+http_tests/channels/channels_create_http_test.py:23: AssertionError
+_________________________ test_private_channel_exists __________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_private_channel_exists(helper):
+        token1 = helper.register_user(1).json().get('token')
+        token2 = helper.register_user(2).json().get('token')
+    
+        assert token1
+        assert token2
+    
+        r1 = helper.create_channel(1, token1) # r for response
+        r2 = helper.create_channel(value=2, token=token1, is_public=False)
+    
+        ch1_id = r1.json().get('channel_id')
+        ch2_id = r2.json().get('channel_id')
+    
+        channels = requests.get(url + 'channels/listall/v2?token=' + token2).json()
+    
+        ch_ids = [channel['channel_id'] for channel in channels['channels']]
+>       assert ch1_id in ch_ids and ch2_id not in ch_ids
+E       assert (118 in [118, 119] and 119 not in [118, 119])
+
+http_tests/channels/channels_listall_http_test.py:37: AssertionError
+__________________________________ test_basic __________________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    
+    def test_basic(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        u_id = data.get('auth_user_id')
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2, u_id3]
+        })
+    
+        dm_info = dm.json()
+>       assert dm_info.get('dm_id') == 1
+E       assert 123 == 1
+E         +123
+E         -1
+
+http_tests/dm/dm_create_http_test.py:30: AssertionError
+__________________________________ test_basic __________________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_basic(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        token2 = data2.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+>       assert u_id2 == 2
+E       assert 127 == 2
+E         +127
+E         -2
+
+http_tests/dm/dm_details_http_test.py:25: AssertionError
+_______________________________ test_input_error _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_input_error(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        token2 = data2.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+>       assert u_id2 == 2
+E       assert 130 == 2
+E         +130
+E         -2
+
+http_tests/dm/dm_details_http_test.py:85: AssertionError
+______________________________ test_access_error _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_access_error(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        token3 = data3.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+>       assert u_id2 == 2
+E       assert 133 == 2
+E         +133
+E         -2
+
+http_tests/dm/dm_details_http_test.py:118: AssertionError
+______________________________ test_basic_invite _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_basic_invite(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2]
+        })
+    
+        dm_info = dm.json()
+>       assert dm_info.get('dm_id') == 1
+E       assert 138 == 1
+E         +138
+E         -1
+
+http_tests/dm/dm_invite_http_test.py:31: AssertionError
+_______________________________ test_input_error _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_input_error(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2]
+        })
+    
+        dm_info = dm.json()
+>       assert dm_info.get('dm_id') == 1
+E       assert 142 == 1
+E         +142
+E         -1
+
+http_tests/dm/dm_invite_http_test.py:115: AssertionError
+______________________________ test_input_error2 _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_input_error2(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+    
+        data = response.json()
+        data2 = response2.json()
+    
+        token = data.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2]
+        })
+    
+        dm_info = dm.json()
+>       assert dm_info.get('dm_id') == 1
+E       assert 145 == 1
+E         +145
+E         -1
+
+http_tests/dm/dm_invite_http_test.py:167: AssertionError
+______________________________ test_access_error _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_access_error(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        token3 = data3.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2]
+        })
+    
+        dm_info = dm.json()
+>       assert dm_info.get('dm_id') == 1
+E       assert 149 == 1
+E         +149
+E         -1
+
+http_tests/dm/dm_invite_http_test.py:223: AssertionError
+_______________________________ test_basic_leave _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    
+    def test_basic_leave(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        token2 = data2.get('token')
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2, u_id3]
+        })
+    
+        dm_info = dm.json()
+        dm_id = dm_info.get('dm_id')
+>       assert dm_id == 1
+E       assert 153 == 1
+E         +153
+E         -1
+
+http_tests/dm/dm_leave_http_test.py:33: AssertionError
+__________________________________ test_basic __________________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    
+    def test_basic(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2]
+        })
+    
+        requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id3]
+        })
+    
+        queryString = urllib.parse.urlencode({
+            'token' : token
+        })
+    
+        dm = requests.get(url + f'dm/list/v1?{queryString}')
+        dm_info = dm.json()
+    
+>       assert dm_info.get('dms') == [{'dm_id': 1,
+                                        'name': 'harrrrrypottttter, marcoslowery'},
+                                        {'dm_id': 2,
+                                        'name': 'cadifinch, harrrrrypottttter'}]
+E       AssertionError: assert [{'dm_id': 165, 'name': 'harrrrrypottttter, marcoslowery'},\n {'dm_id': 166, 'name': 'cadifinch, harrrrrypottttter'}] == [{'dm_id': 1, 'name': 'harrrrrypottttter, marcoslowery'},\n {'dm_id': 2, 'name': 'cadifinch, harrrrrypottttter'}]
+E         At index 0 diff: {'dm_id': 165, 'name': 'harrrrrypottttter, marcoslowery'} != {'dm_id': 1, 'name': 'harrrrrypottttter, marcoslowery'}
+E         Full diff:
+E           [
+E         -  {'dm_id': 1, 'name': 'harrrrrypottttter, marcoslowery'},
+E         +  {'dm_id': 165, 'name': 'harrrrrypottttter, marcoslowery'},
+E         ?             ++
+E         -  {'dm_id': 2, 'name': 'cadifinch, harrrrrypottttter'},
+E         ?            ^
+E         +  {'dm_id': 166, 'name': 'cadifinch, harrrrrypottttter'},
+E         ?            ^^^
+E           ]
+
+http_tests/dm/dm_list_http_test.py:41: AssertionError
+_____________________________ test_few_msgs_in_dm ______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_few_msgs_in_dm(helper):
+        user1 = helper.register_user(1)
+    
+        token1 = user1.json().get('token')
+        assert token1
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token1,
+            'u_ids' : []
+        })
+        dm_id = dm.json().get('dm_id')
+    
+        msgs = ['1', '2', '3', '4', '5']
+    
+        for msg in msgs:
+            requests.post(url + 'message/senddm/v1', json = {
+                'token': token1,
+                'dm_id': dm_id,
+                'message': msg
+            })
+    
+        url2 = urlencode({"token": token1, "dm_id": dm_id, "start": 0})
+    
+        response = requests.get(url + "/dm/messages/v1?" + url2)
+        assert response.status_code == 200
+    
+        messages = response.json()
+    
+>       assert messages['messages'][0]['message_id'] == 5 and messages['end'] == -1
+E       assert (181 == 5
+E         +181
+E         -5)
+
+http_tests/dm/dm_message_http_test.py:120: AssertionError
+__________________________________ test_echo ___________________________________
+
+    def test_echo():
+        '''
+        A simple test to check echo
+        '''
+        resp = requests.get(config.url + 'echo', params={'data': 'hello'})
+>       assert json.loads(resp.text) == {'data': 'hello'}
+
+http_tests/echo_http_test.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.7/json/__init__.py:348: in loads
+    return _default_decoder.decode(s)
+/usr/lib/python3.7/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7f106fff3550>
+s = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n'
+idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/usr/lib/python3.7/json/decoder.py:355: JSONDecodeError
+____________________________ test_sendmessage_basic ____________________________
+
+    @clear
+    def test_sendmessage_basic():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 248 == 1
+E         +248
+E         -1
+
+http_tests/message/message_edit_http_test.py:18: AssertionError
+________________________________ test_over1000 _________________________________
+
+    @clear
+    def test_over1000():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 249 == 1
+E         +249
+E         -1
+
+http_tests/message/message_edit_http_test.py:74: AssertionError
+______________________________ test_not_auth_user ______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_not_auth_user(helper):
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 250 == 1
+E         +250
+E         -1
+
+http_tests/message/message_edit_http_test.py:128: AssertionError
+_______________________________ test_pin_message _______________________________
+
+    @clear
+    def test_pin_message():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 251 == 1
+E         +251
+E         -1
+
+http_tests/message/message_pin_http_test.py:22: AssertionError
+____________________________ test_messageid_invalid ____________________________
+
+    @clear
+    def test_messageid_invalid():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 252 == 1
+E         +252
+E         -1
+
+http_tests/message/message_pin_http_test.py:70: AssertionError
+_____________________________ test_userid_invalid ______________________________
+
+    @clear
+    def test_userid_invalid():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 253 == 1
+E         +253
+E         -1
+
+http_tests/message/message_pin_http_test.py:112: AssertionError
+____________________________ test_sendmessage_basic ____________________________
+
+    @clear
+    def test_sendmessage_basic():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 259 == 1
+E         +259
+E         -1
+
+http_tests/message/message_send_http_test.py:18: AssertionError
+_______________________________ test_input_error _______________________________
+
+    @clear
+    def test_input_error():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 260 == 1
+E         +260
+E         -1
+
+http_tests/message/message_send_http_test.py:53: AssertionError
+______________________________ test_access_error _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_access_error(helper):
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 261 == 1
+E         +261
+E         -1
+
+http_tests/message/message_send_http_test.py:86: AssertionError
+__________________________________ test_basic __________________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    
+    def test_basic(helper):
+    
+        response = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data = response.json()
+        data2 = response2.json()
+        data3 = response3.json()
+    
+        token = data.get('token')
+    
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm = requests.post(url + 'dm/create/v1', json = {
+            'token' : token,
+            'u_ids' : [u_id2, u_id3]
+        })
+    
+        dm_info = dm.json()
+        dm_id = dm_info.get('dm_id')
+    
+        msg_senddm = requests.post(url + 'message/senddm/v1', json = {
+            'token' : token,
+            'dm_id' : dm_id,
+            'message' : 'i hope this works'
+        })
+    
+        msg_dm_info = msg_senddm.json()
+>       assert msg_dm_info.get('message_id') == 1
+E       assert 266 == 1
+E         +266
+E         -1
+
+http_tests/message/message_senddm_http_test.py:39: AssertionError
+___________________________ test_user_is_not_member ____________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_user_is_not_member(helper):
+        user1 = helper.register_user(1)
+        user2 = helper.register_user(2)
+        token1 = user1.json().get('token')
+        token2 = user2.json().get('token')
+        assert token1 and token2
+    
+        dm = requests.post(url + "/dm/create/v1", json = {
+            'token': token1,
+            'u_ids': []
+        })
+        dm_id = dm.json().get('dm_id')
+>       assert dm_id == 1
+E       assert 299 == 1
+E         +299
+E         -1
+
+http_tests/message/message_share_http_test.py:95: AssertionError
+__________________________ test_unpin_pinned_message ___________________________
+
+    @clear
+    def test_unpin_pinned_message():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 300 == 1
+E         +300
+E         -1
+
+http_tests/message/message_unpin_http_test.py:21: AssertionError
+_________________________ test_unpin_unpinned_message __________________________
+
+    @clear
+    def test_unpin_unpinned_message():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 301 == 1
+E         +301
+E         -1
+
+http_tests/message/message_unpin_http_test.py:81: AssertionError
+____________________________ test_messageid_invalid ____________________________
+
+    @clear
+    def test_messageid_invalid():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 302 == 1
+E         +302
+E         -1
+
+http_tests/message/message_unpin_http_test.py:124: AssertionError
+_____________________________ test_userid_invalid ______________________________
+
+    @clear
+    def test_userid_invalid():
+        user = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        user_info =  user.json()
+        auth_user_id = user_info.get('auth_user_id')
+        token = user_info.get('token')
+>       assert auth_user_id == 1
+E       assert 303 == 1
+E         +303
+E         -1
+
+http_tests/message/message_unpin_http_test.py:171: AssertionError
+__________________________ test_not_member_of_channel __________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_not_member_of_channel(helper):
+        user1 = helper.register_user(1)
+        user2 = helper.register_user(2)
+    
+        token1 = user1.json().get('token')
+        token2 = user2.json().get('token')
+        assert token1 and token2
+    
+        ch_id = helper.create_channel(2, token2, 'big fish', True).json().get('channel_id')
+    
+        msg = "1234"
+    
+        response = requests.post(url + "standup/send/v1", json = {
+            "token": token1,
+            "channel_id": ch_id,
+            "message" : msg
+        })
+>       assert response.status_code == 403
+E       assert 400 == 403
+E         +400
+E         -403
+
+http_tests/standup/standup_send_http_test.py:79: AssertionError
+____________________________ test_setprofile_basic _____________________________
+
+    @clear
+    
+    def test_setprofile_basic():
+        response = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        data = response.json()
+        token = data.get('token')
+    
+        u_id = 1
+    
+        queryString = urllib.parse.urlencode({
+            'token' : token,
+            'u_id' : u_id
+        })
+        user = requests.get(url + f'user/profile/v2?{queryString}')
+    
+>       data = user.json()
+
+http_tests/user/user_profile_http_test.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/requests/models.py:900: in json
+    return complexjson.loads(self.text, **kwargs)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/__init__.py:525: in loads
+    return _default_decoder.decode(s)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:370: in decode
+    obj, end = self.raw_decode(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <simplejson.decoder.JSONDecoder object at 0x7f106f5fe2e8>
+s = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>400 Bad Request</title>\n<h1>Bad Request</h1>\n<p>1 is not a valid ID</p>\n'
+idx = 0, _w = <built-in method match of re.Pattern object at 0x7f10709fe9f0>
+_PY3 = True
+
+    def raw_decode(self, s, idx=0, _w=WHITESPACE.match, _PY3=PY3):
+        """Decode a JSON document from ``s`` (a ``str`` or ``unicode``
+        beginning with a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+        Optionally, ``idx`` can be used to specify an offset in ``s`` where
+        the JSON document begins.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        if idx < 0:
+            # Ensure that raw_decode bails on negative indexes, the regex
+            # would otherwise mask this behavior. #98
+            raise JSONDecodeError('Expecting value', s, idx)
+        if _PY3 and not isinstance(s, str):
+            raise TypeError("Input string must be text, not bytes")
+        # strip UTF-8 bom
+        if len(s) > idx:
+            ord0 = ord(s[idx])
+            if ord0 == 0xfeff:
+                idx += 1
+            elif ord0 == 0xef and s[idx:idx + 3] == '\xef\xbb\xbf':
+                idx += 3
+>       return self.scan_once(s, idx=_w(s, idx).end())
+E       simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:400: JSONDecodeError
+_____________________________ test_setemail_basic ______________________________
+
+    @clear
+    
+    def test_setemail_basic():
+        response = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        data = response.json()
+        token = data.get('token')
+    
+        requests.put(url + 'user/profile/setemail/v2', json = {
+            'token' : token,
+            'email' : 'albusdumbledore@gmail.com',
+        })
+    
+        u_id = 1
+    
+        queryString = urllib.parse.urlencode({
+            'token' : token,
+            'u_id' : u_id
+        })
+        user = requests.get(url + f'user/profile/v2?{queryString}')
+    
+>       data = user.json()
+
+http_tests/user/user_profile_setemail_http_test.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/requests/models.py:900: in json
+    return complexjson.loads(self.text, **kwargs)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/__init__.py:525: in loads
+    return _default_decoder.decode(s)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:370: in decode
+    obj, end = self.raw_decode(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <simplejson.decoder.JSONDecoder object at 0x7f106f5fe2e8>
+s = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>400 Bad Request</title>\n<h1>Bad Request</h1>\n<p>1 is not a valid ID</p>\n'
+idx = 0, _w = <built-in method match of re.Pattern object at 0x7f10709fe9f0>
+_PY3 = True
+
+    def raw_decode(self, s, idx=0, _w=WHITESPACE.match, _PY3=PY3):
+        """Decode a JSON document from ``s`` (a ``str`` or ``unicode``
+        beginning with a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+        Optionally, ``idx`` can be used to specify an offset in ``s`` where
+        the JSON document begins.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        if idx < 0:
+            # Ensure that raw_decode bails on negative indexes, the regex
+            # would otherwise mask this behavior. #98
+            raise JSONDecodeError('Expecting value', s, idx)
+        if _PY3 and not isinstance(s, str):
+            raise TypeError("Input string must be text, not bytes")
+        # strip UTF-8 bom
+        if len(s) > idx:
+            ord0 = ord(s[idx])
+            if ord0 == 0xfeff:
+                idx += 1
+            elif ord0 == 0xef and s[idx:idx + 3] == '\xef\xbb\xbf':
+                idx += 3
+>       return self.scan_once(s, idx=_w(s, idx).end())
+E       simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:400: JSONDecodeError
+_____________________________ test_sethandle_basic _____________________________
+
+    @clear
+    
+    def test_sethandle_basic():
+        response = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        data = response.json()
+        token = data.get('token')
+    
+        requests.put(url + 'user/profile/sethandle/v1', json = {
+            'token' : token,
+            'handle_str' : 'teststring',
+        })
+    
+        u_id = 1
+    
+        queryString = urllib.parse.urlencode({
+            'token' : token,
+            'u_id' : u_id
+        })
+        user = requests.get(url + f'user/profile/v2?{queryString}')
+    
+>       data = user.json()
+
+http_tests/user/user_profile_sethandle_test.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/requests/models.py:900: in json
+    return complexjson.loads(self.text, **kwargs)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/__init__.py:525: in loads
+    return _default_decoder.decode(s)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:370: in decode
+    obj, end = self.raw_decode(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <simplejson.decoder.JSONDecoder object at 0x7f106f5fe2e8>
+s = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>400 Bad Request</title>\n<h1>Bad Request</h1>\n<p>1 is not a valid ID</p>\n'
+idx = 0, _w = <built-in method match of re.Pattern object at 0x7f10709fe9f0>
+_PY3 = True
+
+    def raw_decode(self, s, idx=0, _w=WHITESPACE.match, _PY3=PY3):
+        """Decode a JSON document from ``s`` (a ``str`` or ``unicode``
+        beginning with a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+        Optionally, ``idx`` can be used to specify an offset in ``s`` where
+        the JSON document begins.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        if idx < 0:
+            # Ensure that raw_decode bails on negative indexes, the regex
+            # would otherwise mask this behavior. #98
+            raise JSONDecodeError('Expecting value', s, idx)
+        if _PY3 and not isinstance(s, str):
+            raise TypeError("Input string must be text, not bytes")
+        # strip UTF-8 bom
+        if len(s) > idx:
+            ord0 = ord(s[idx])
+            if ord0 == 0xfeff:
+                idx += 1
+            elif ord0 == 0xef and s[idx:idx + 3] == '\xef\xbb\xbf':
+                idx += 3
+>       return self.scan_once(s, idx=_w(s, idx).end())
+E       simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:400: JSONDecodeError
+______________________________ test_setname_basic ______________________________
+
+    @clear
+    
+    def test_setname_basic():
+        response = requests.post(url + 'auth/register/v2', json = {
+            'email' : 'harrypotter@gmail.com',
+            'password' : 'dumbledore',
+            'name_first' : 'harry',
+            'name_last' : 'potter'
+        })
+    
+        data = response.json()
+        token = data.get('token')
+    
+        requests.put(url + 'user/profile/setname/v2', json = {
+            'token' : token,
+            'name_first' : 'albus',
+            'name_last' : 'dumbledore'
+        })
+    
+        u_id = 1
+    
+        queryString = urllib.parse.urlencode({
+            'token' : token,
+            'u_id' : u_id
+        })
+        user = requests.get(url + f'user/profile/v2?{queryString}')
+    
+>       data = user.json()
+
+http_tests/user/user_profile_setname_http_test.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/requests/models.py:900: in json
+    return complexjson.loads(self.text, **kwargs)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/__init__.py:525: in loads
+    return _default_decoder.decode(s)
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:370: in decode
+    obj, end = self.raw_decode(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <simplejson.decoder.JSONDecoder object at 0x7f106f5fe2e8>
+s = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>400 Bad Request</title>\n<h1>Bad Request</h1>\n<p>1 is not a valid ID</p>\n'
+idx = 0, _w = <built-in method match of re.Pattern object at 0x7f10709fe9f0>
+_PY3 = True
+
+    def raw_decode(self, s, idx=0, _w=WHITESPACE.match, _PY3=PY3):
+        """Decode a JSON document from ``s`` (a ``str`` or ``unicode``
+        beginning with a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+        Optionally, ``idx`` can be used to specify an offset in ``s`` where
+        the JSON document begins.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        if idx < 0:
+            # Ensure that raw_decode bails on negative indexes, the regex
+            # would otherwise mask this behavior. #98
+            raise JSONDecodeError('Expecting value', s, idx)
+        if _PY3 and not isinstance(s, str):
+            raise TypeError("Input string must be text, not bytes")
+        # strip UTF-8 bom
+        if len(s) > idx:
+            ord0 = ord(s[idx])
+            if ord0 == 0xfeff:
+                idx += 1
+            elif ord0 == 0xef and s[idx:idx + 3] == '\xef\xbb\xbf':
+                idx += 3
+>       return self.scan_once(s, idx=_w(s, idx).end())
+E       simplejson.errors.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/import/kamen/3/cs1531/.local/lib/python3.7/site-packages/simplejson/decoder.py:400: JSONDecodeError
+_____________________________ test_invalid_img_url _____________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_invalid_img_url(helper):
+        user1 = helper.register_user(1)
+        token1 = user1.json().get('token')
+        assert token1
+    
+        img_url = photo_path + 'phototest1'
+        x_start = 0
+        y_start = 0
+        x_end = 3
+        y_end = 3
+        response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
+            "token": token1,
+            "img_url": img_url,
+            "x_start": x_start,
+            "y_start": y_start,
+            "x_end": x_end,
+            "y_end": y_end
+        })
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+http_tests/user/user_profile_uploadphoto_http_test.py:27: AssertionError
+_____________________________ test_wrong_dimension _____________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_wrong_dimension(helper):
+        user1 = helper.register_user(1)
+        token1 = user1.json().get('token')
+        assert token1
+        img_url = photo_path + 'phototest1.png'
+        x_start = 0
+        y_start = 0
+        x_end = 10000
+        y_end = 10000
+        response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
+            "token": token1,
+            "img_url": img_url,
+            "x_start": x_start,
+            "y_start": y_start,
+            "x_end": x_end,
+            "y_end": y_end
+        })
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+http_tests/user/user_profile_uploadphoto_http_test.py:47: AssertionError
+_______________________________ test_img_not_jpg _______________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    def test_img_not_jpg(helper):
+        user1 = helper.register_user(1)
+        token1 = user1.json().get('token')
+        assert token1
+        img_url = photo_path + 'phototest2.png'
+        x_start = 0
+        y_start = 0
+        x_end = 5
+        y_end = 5
+        response = requests.post(url + "/user/profile/uploadphoto/v1", json = {
+            "token": token1,
+            "img_url": img_url,
+            "x_start": x_start,
+            "y_start": y_start,
+            "x_end": x_end,
+            "y_end": y_end
+        })
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+http_tests/user/user_profile_uploadphoto_http_test.py:66: AssertionError
+____________________________ test_user_stats_basic _____________________________
+
+helper = <class 'http_tests.helper.Helper'>
+
+    @clear
+    
+    def test_user_stats_basic(helper):
+        response1 = helper.register_user(1)
+        response2 = helper.register_user(2)
+        response3 = helper.register_user(3)
+    
+        data1 = response1.json()
+        token1 = data1.get('token')
+        data2 = response2.json()
+        token2 = data2.get('token')
+        data3 = response3.json()
+        token3 = data3.get('token')
+    
+        requests.post(url + 'channels/create/v2', json = {
+            'token': token1,
+            'name': 'channel_test1',
+            'is_public': True
+        })
+    
+        requests.post(url + 'channels/create/v2', json = {
+            'token': token2,
+            'name': 'testing123',
+            'is_public': True
+        })
+    
+        u_id2 = data2.get('auth_user_id')
+        u_id3 = data3.get('auth_user_id')
+    
+        dm1 = requests.post(url + 'dm/create/v1', json = {
+            'token' : token1,
+            'u_ids' : [u_id2]
+        })
+    
+        dm2 = requests.post(url + 'dm/create/v1', json = {
+            'token' : token2,
+            'u_ids' : [u_id3]
+        })
+    
+        dm_info1 = dm1.json()
+>       assert dm_info1.get('dm_id') == 1
+E       assert 352 == 1
+E         +352
+E         -1
+
+http_tests/user/user_stats_http_test.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED http_tests/echo_http_test.py::test_echo - json.decoder.JSONDecodeError...
+FAILED http_tests/admin/admin_user_remove_http_test.py::test_remove_only_member_of_channel
+FAILED http_tests/auth/auth_logout_test.py::test_basic_logout - jwt.exception...
+FAILED http_tests/auth/auth_logout_test.py::test_invalid_token_logout - asser...
+FAILED http_tests/auth/auth_register_http_test.py::test_register_single - jwt...
+FAILED http_tests/channel/channel_invite_http_test.py::test_auth_user_not_member
+FAILED http_tests/channel/channel_leave_http_test.py::test_valid_input - asse...
+FAILED http_tests/channels/channels_create_http_test.py::test_channels_create_basic
+FAILED http_tests/channels/channels_listall_http_test.py::test_private_channel_exists
+FAILED http_tests/dm/dm_create_http_test.py::test_basic - assert 123 == 1
+FAILED http_tests/dm/dm_details_http_test.py::test_basic - assert 127 == 2
+FAILED http_tests/dm/dm_details_http_test.py::test_input_error - assert 130 == 2
+FAILED http_tests/dm/dm_details_http_test.py::test_access_error - assert 133 ...
+FAILED http_tests/dm/dm_invite_http_test.py::test_basic_invite - assert 138 == 1
+FAILED http_tests/dm/dm_invite_http_test.py::test_input_error - assert 142 == 1
+FAILED http_tests/dm/dm_invite_http_test.py::test_input_error2 - assert 145 == 1
+FAILED http_tests/dm/dm_invite_http_test.py::test_access_error - assert 149 == 1
+FAILED http_tests/dm/dm_leave_http_test.py::test_basic_leave - assert 153 == 1
+FAILED http_tests/dm/dm_list_http_test.py::test_basic - AssertionError: asser...
+FAILED http_tests/dm/dm_message_http_test.py::test_few_msgs_in_dm - assert (1...
+FAILED http_tests/echo_http_test.py::test_echo - json.decoder.JSONDecodeError...
+FAILED http_tests/message/message_edit_http_test.py::test_sendmessage_basic
+FAILED http_tests/message/message_edit_http_test.py::test_over1000 - assert 2...
+FAILED http_tests/message/message_edit_http_test.py::test_not_auth_user - ass...
+FAILED http_tests/message/message_pin_http_test.py::test_pin_message - assert...
+FAILED http_tests/message/message_pin_http_test.py::test_messageid_invalid - ...
+FAILED http_tests/message/message_pin_http_test.py::test_userid_invalid - ass...
+FAILED http_tests/message/message_send_http_test.py::test_sendmessage_basic
+FAILED http_tests/message/message_send_http_test.py::test_input_error - asser...
+FAILED http_tests/message/message_send_http_test.py::test_access_error - asse...
+FAILED http_tests/message/message_senddm_http_test.py::test_basic - assert 26...
+FAILED http_tests/message/message_share_http_test.py::test_user_is_not_member
+FAILED http_tests/message/message_unpin_http_test.py::test_unpin_pinned_message
+FAILED http_tests/message/message_unpin_http_test.py::test_unpin_unpinned_message
+FAILED http_tests/message/message_unpin_http_test.py::test_messageid_invalid
+FAILED http_tests/message/message_unpin_http_test.py::test_userid_invalid - a...
+FAILED http_tests/standup/standup_send_http_test.py::test_not_member_of_channel
+FAILED http_tests/user/user_profile_http_test.py::test_setprofile_basic - sim...
+FAILED http_tests/user/user_profile_setemail_http_test.py::test_setemail_basic
+FAILED http_tests/user/user_profile_sethandle_test.py::test_sethandle_basic
+FAILED http_tests/user/user_profile_setname_http_test.py::test_setname_basic
+FAILED http_tests/user/user_profile_uploadphoto_http_test.py::test_invalid_img_url
+FAILED http_tests/user/user_profile_uploadphoto_http_test.py::test_wrong_dimension
+FAILED http_tests/user/user_profile_uploadphoto_http_test.py::test_img_not_jpg
+FAILED http_tests/user/user_stats_http_test.py::test_user_stats_basic - asser...
+======================== 45 failed, 90 passed in 23.14s ========================
